@@ -79,6 +79,10 @@ public class LottoAnalysisHomeController {
 
     }
 
+    /**
+     * Event handler to handle all mouse events pertaining to the main GUI dashboard
+     * and not the side pane
+     */
     EventHandler<MouseEvent> event = e -> {
 
         Button b = (Button) e.getSource();
