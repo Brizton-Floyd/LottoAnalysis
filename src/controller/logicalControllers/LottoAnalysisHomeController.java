@@ -8,6 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Class: This class is responsible for handling all events that are contained in the Lotto Analysis Home View file. This
+ * class will invoke all events that allow the overall application to work accordingly. (i.e. calling other controllers via
+ * event handlers etc..
+ */
 public class LottoAnalysisHomeController {
 
 
@@ -33,6 +38,10 @@ public class LottoAnalysisHomeController {
         HandleEventsAndActions();
     }
 
+
+    /**
+     *
+     */
     private void HandleEventsAndActions() {
         btn_lottoModalCloser.setOnAction(e -> {
             if (mainController.lottoInfoAndGamesController.isGamePanelOpen()) {

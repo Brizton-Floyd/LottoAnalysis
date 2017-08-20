@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by briztonfloyd on 8/19/17.
+ * Class: The LottoInfoGamesController is responsible for handling input accordingly that is entered via the lotto info
+ * and games view. This class will process information for a lottery game in a given state. It will aid in
+ * retrieving all relevant information for the game the user wants to play. This controller will interact with the lotto
+ * game update launcher controller that will ensure all data in the application is up to date.
  */
 public class LottoInfoAndGamesController {
 
@@ -70,6 +73,7 @@ public class LottoInfoAndGamesController {
         }
     }
 
+
     /**
      * This method will return a boolean indicating the game info panel is open
      * @return
@@ -77,6 +81,7 @@ public class LottoInfoAndGamesController {
     public boolean isGamePanelOpen() {
         return isGamePaneOpen;
     }
+
     public void closePanel() {
         game_pane.setVisible(false);
     }
