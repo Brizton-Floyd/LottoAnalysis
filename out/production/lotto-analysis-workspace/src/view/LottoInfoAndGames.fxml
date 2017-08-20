@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="game_pane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #515b51; -fx-border-radius: 0.5em;" visible="false" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.LottoInfoAndGamesController">
+    <children>
+        <MenuBar fx:id="menuBar" layoutX="50.0" layoutY="24.0" style="-fx-background-color: ;" stylesheets="@../styles/menu_bar.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu fx:id="menu1" mnemonicParsing="false" text="Games">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Fantasy Five" />
+                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Powerball" />
+                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Mega Millions" />
+                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Super Lotto Plus" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Daily Pick 4" />
+                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Daily Pick 3" />
+                    </items>
+                </Menu>
+                <Menu fx:id="menu21" mnemonicParsing="false" text="Lotto Updater">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Launch Lotto Updater" />
+                    </items>
+                </Menu>
+            </menus>
+            <styleClass>
+                <String fx:value="context-menu" />
+                <String fx:value="menu-item" />
+            </styleClass>
+        </MenuBar>
+    </children>
+</AnchorPane>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="main_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+            prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.MainController">
+   <children>
+      <AnchorPane prefHeight="700.0" prefWidth="1400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <fx:include fx:id="lottoAnalysisHome" source="LottoAnalysisHome.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+      <fx:include fx:id="lottoInfoAndGames" source="LottoInfoAndGames.fxml" AnchorPane.bottomAnchor="5.0"
+                  AnchorPane.leftAnchor="80.0"  AnchorPane.rightAnchor="1028" AnchorPane.topAnchor="400.0" />
+   </children>
+</AnchorPane>
