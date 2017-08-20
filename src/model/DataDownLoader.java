@@ -9,9 +9,6 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-/**
- * Created by briztonfloyd on 8/19/17.
- */
 public class DataDownLoader extends Task<Void> {
 
     // Url field
