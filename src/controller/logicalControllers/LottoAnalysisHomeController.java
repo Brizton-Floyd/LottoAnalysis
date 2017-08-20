@@ -37,11 +37,7 @@ public class LottoAnalysisHomeController {
 
         HandleEventsAndActions();
     }
-
-
-    /**
-     *
-     */
+    
     private void HandleEventsAndActions() {
         btn_lottoModalCloser.setOnAction(e -> {
             if (mainController.lottoInfoAndGamesController.isGamePanelOpen()) {
