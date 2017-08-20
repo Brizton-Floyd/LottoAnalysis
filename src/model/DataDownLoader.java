@@ -9,6 +9,11 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Class will be responsible for performing extensive work that requires additonal time to run
+ * this will allow the UI to remain responsive
+ */
+
 public class DataDownLoader extends Task<Void> {
 
     // Url field
