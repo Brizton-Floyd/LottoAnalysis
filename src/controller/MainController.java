@@ -2,6 +2,7 @@ package controller;
 
 
 import controller.logicalControllers.LottoAnalysisHomeController;
+import controller.logicalControllers.LottoDashboardController;
 import controller.logicalControllers.LottoInfoAndGamesController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,11 +23,15 @@ public class MainController {
     @FXML
     public LottoInfoAndGamesController lottoInfoAndGamesController;
 
+    @FXML
+    public LottoDashboardController lottoDashboardController;
+
 
 
     @FXML public void initialize(){
         lottoAnalysisHomeController.init(this);
         lottoInfoAndGamesController.init(this);
+        lottoDashboardController.init(this);
     }
 
 }

@@ -13,13 +13,13 @@
             <menus>
                 <Menu fx:id="menu1" mnemonicParsing="false" text="Games">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Fantasy Five" />
-                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Powerball" />
-                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Mega Millions" />
-                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Super Lotto Plus" />
+                        <MenuItem mnemonicParsing="false" onAction="#getAppropriateGameData" text="Fantasy Five" />
+                        <MenuItem mnemonicParsing="false" onAction="#getAppropriateGameData" text="Powerball" />
+                        <MenuItem mnemonicParsing="false" onAction="#getAppropriateGameData" text="Mega Millions" />
+                        <MenuItem mnemonicParsing="false" onAction="#getAppropriateGameData" text="Super Lotto Plus" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Daily Pick 4" />
-                        <MenuItem mnemonicParsing="false" onAction="#initMenuItems" text="Daily Pick 3" />
+                        <MenuItem mnemonicParsing="false" onAction="#getAppropriateGameData" text="Daily Pick 4" />
+                        <MenuItem mnemonicParsing="false" onAction="#getAppropriateGameData" text="Daily Pick 3" />
                     </items>
                 </Menu>
                 <Menu fx:id="menu21" mnemonicParsing="false" text="Lotto Updater">
