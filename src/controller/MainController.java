@@ -4,9 +4,7 @@ package controller;
 import controller.logicalControllers.LottoAnalysisHomeController;
 import controller.logicalControllers.LottoDashboardController;
 import controller.logicalControllers.LottoInfoAndGamesController;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * This class will allow all controllers in the application to communicate with one another. Whenever a new controller
@@ -17,21 +15,18 @@ import javafx.scene.layout.AnchorPane;
  */
 public class MainController {
 
-    @FXML
-    public LottoAnalysisHomeController lottoAnalysisHomeController;
 
-    @FXML
+    public LottoAnalysisHomeController lottoAnalysisHomeController;
     public LottoInfoAndGamesController lottoInfoAndGamesController;
 
-    @FXML
     public LottoDashboardController lottoDashboardController;
 
-
-
-    @FXML public void initialize(){
+    @FXML
+    public void initialize() {
         lottoAnalysisHomeController.init(this);
         lottoInfoAndGamesController.init(this);
         lottoDashboardController.init(this);
+
     }
 
 }
