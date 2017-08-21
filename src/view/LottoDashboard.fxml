@@ -68,5 +68,23 @@
             </JFXButton>
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="infoPane1" layoutX="658.0" layoutY="75.0" prefHeight="271.0" prefWidth="362.0" style="-fx-border-color: #10000C;" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="642.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="76.0">
+         <children>
+            <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label alignment="TOP_LEFT" prefHeight="271.0" prefWidth="608.0" text="This is some dummy Text until a full description can be given to the user about the application . This section will be useful to lottery players that are brand new to the application therefore giving them a better understanding on how to use the application " textFill="#dac6ac" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="645.0" layoutY="36.0" text="Current Jackpots" textFill="#dac6ac">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

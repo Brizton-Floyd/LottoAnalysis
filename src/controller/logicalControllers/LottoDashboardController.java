@@ -25,11 +25,13 @@ public class LottoDashboardController {
         setTextStyleForAllLabels();
         learnMoreButton.setOnAction( event ->  {
 
+            learnMoreButton.setDisable(true);
             infoPane.setVisible(true);
             btn_close.visibleProperty().setValue(true);
         });
 
         btn_close.setOnAction(event -> {
+            learnMoreButton.setDisable(false);
             infoPane.setVisible(false);
             btn_close.setVisible(false);
         });
