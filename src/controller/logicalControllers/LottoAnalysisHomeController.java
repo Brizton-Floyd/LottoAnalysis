@@ -2,11 +2,8 @@ package controller.logicalControllers;
 
 import com.jfoenix.controls.JFXButton;
 import controller.MainController;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 /**
  * Class: This class is responsible for handling all events that are contained in the Lotto Analysis Home View file. This
@@ -30,27 +27,30 @@ public class LottoAnalysisHomeController {
 
         this.mainController = mainController;
 
-        lbl_game_help.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
-        lbl_game_hover.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
-        lbl_search.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
-
         HandleEventsAndActions();
+        stylingAndVisibilityEvents();
     }
-    
+
+    /**
+     * Events to handle UI Actions
+     */
     private void HandleEventsAndActions() {
         btn_lottoModalCloser.setOnAction(e -> {
+
             if (mainController.lottoInfoAndGamesController.isGamePanelOpen()) {
                 mainController.lottoInfoAndGamesController.closePanel();
                 btn_lottoModalCloser.setVisible(false);
                 btn_game.setDisable(false);
             }
+
         });
 
         btn_game.setOnAction(e -> {
 
             btn_lottoModalCloser.setVisible(true);
-            mainController.lottoInfoAndGamesController.controlAppearanceOfGamePanel(e);
+            mainController.lottoInfoAndGamesController.makeGamePanelAppear(e);
             btn_game.setDisable(true);
+
         });
 
 
@@ -59,9 +59,19 @@ public class LottoAnalysisHomeController {
             // Still needs to be implemented
         });
         btn_search.setOnAction(event -> {
-
+            // Still needs to be implemented
         });
 
+    }
+
+    /**
+     * Events to handle styling and visibility of UI Elements
+     */
+    private void stylingAndVisibilityEvents() {
+
+        lbl_game_help.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
+        lbl_game_hover.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
+        lbl_search.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
 
         btn_lottoDashboard.setOnMouseExited(e -> {btn_lottoDashboard.setStyle("-fx-font-size: 13px;");});
         btn_lottoDashboard.setOnMouseEntered(e -> {btn_lottoDashboard.setStyle("-fx-font-size: 15px;" +
@@ -90,7 +100,6 @@ public class LottoAnalysisHomeController {
         btn_game.setOnMouseExited(e -> lbl_game_hover.setVisible(false));
         help_button.setOnMouseEntered(e -> lbl_game_help.setVisible(true));
         help_button.setOnMouseExited(e -> lbl_game_help.setVisible(false));
-
     }
 
 }

@@ -38,7 +38,7 @@ public class LottoInfoAndGamesController {
         loadMenuItems();
     }
 
-    public void controlAppearanceOfGamePanel(ActionEvent e) {
+    public void makeGamePanelAppear(ActionEvent e) {
 
         if(e.getSource() instanceof Button){
 
@@ -51,10 +51,15 @@ public class LottoInfoAndGamesController {
         }
     }
 
+    /**
+     * Once a game is selected from the drop down menu this event will trigger the retrieval of correct lotto information
+     * for the selected gane
+     * @param event
+     */
     @FXML
-    private void initMenuItems(ActionEvent event) {
+    private void getAppropriateGameData(ActionEvent event) {
 
-        // Get the even source and cast to appropriate object type
+        // Get the event source and cast to appropriate object type
         MenuItem item = (MenuItem)event.getSource();
 
         boolean containsGame = (itemList.contains(item.getText()));
@@ -64,6 +69,9 @@ public class LottoInfoAndGamesController {
 
     }
 
+    /**
+     * Method will be responsible for importing games into drop down list based on state user chooses to play in
+     */
     private void loadMenuItems() {
         ObservableList<Menu> menus = menuBar.getMenus();
         for(Menu menu : menus){
