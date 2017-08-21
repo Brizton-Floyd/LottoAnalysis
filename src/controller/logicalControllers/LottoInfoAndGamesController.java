@@ -9,6 +9,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class LottoInfoAndGamesController {
     }
 
     public void makeGamePanelAppear(ActionEvent e) {
+
 
         if(e.getSource() instanceof Button){
 
