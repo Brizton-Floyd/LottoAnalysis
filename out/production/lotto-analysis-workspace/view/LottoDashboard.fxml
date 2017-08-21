@@ -1,6 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="childPane" prefHeight="700.0" prefWidth="1014.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.LottoDashboardController" />
+<AnchorPane fx:id="pane" prefHeight="700.0" prefWidth="1014.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.LottoDashboardController">
+   <children>
+      <AnchorPane layoutX="36.0" layoutY="85.0" prefHeight="271.0" prefWidth="608.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="75.0">
+         <children>
+            <Label layoutX="5.0" text="Introduction" textFill="#dac6ac">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
+            <Label layoutX="32.0" layoutY="65.0" text="Welcome to Lotto Analysis" textFill="#dac6ac">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
+            <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <FontAwesomeIconView fill="#efa747" glyphName="XING" layoutX="41.0" layoutY="224.71428680419922" size="100" wrappingWidth="108.25260925292969" AnchorPane.topAnchor="139.0" />
+            <Label layoutX="144.0" layoutY="128.0" text="Want to know more about the application ? Click below" textFill="#dac6ac">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
+            <JFXButton fx:id="learnMoreButton" layoutX="224.0" layoutY="196.0" prefHeight="42.0" prefWidth="269.0" style="-fx-background-color: #EFA747; -fx-background-radius: 5em;" text="Click to learn more" textFill="#515b51">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <Label layoutX="22.0" layoutY="35.0" text="Lotto Dashboard" textFill="#dac6ac">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="infoPane" layoutX="22.0" layoutY="391.0" prefHeight="271.0" prefWidth="608.0" style="-fx-border-color: #10000C;" visible="false">
+         <children>
+            <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label alignment="TOP_LEFT" prefHeight="271.0" prefWidth="608.0" text="This is some dummy Text until a full description can be given to the user about the application . This section will be useful to lottery players that are brand new to the application therefore giving them a better understanding on how to use the application " textFill="#dac6ac" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="40.0" />
+               </padding>
+            </Label>
+            <JFXButton fx:id="btn_close" text="X" textFill="#efa747" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

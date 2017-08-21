@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import controller.MainController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Class: This class is responsible for handling all events that are contained in the Lotto Analysis Home View file. This
@@ -22,6 +23,9 @@ public class LottoAnalysisHomeController {
     @FXML
     private Label lbl_game_hover, lbl_game_help, lbl_search;
 
+    @FXML
+    private AnchorPane mainPane;
+
 
     public void init(MainController mainController) {
 
@@ -35,6 +39,11 @@ public class LottoAnalysisHomeController {
      * Events to handle UI Actions
      */
     private void HandleEventsAndActions() {
+
+        btn_lottoDashboard.setOnAction( event ->  {
+            mainController.lottoDashboardController.showPane();
+        });
+
         btn_lottoModalCloser.setOnAction(e -> {
 
             if (mainController.lottoInfoAndGamesController.isGamePanelOpen()) {
@@ -101,5 +110,6 @@ public class LottoAnalysisHomeController {
         help_button.setOnMouseEntered(e -> lbl_game_help.setVisible(true));
         help_button.setOnMouseExited(e -> lbl_game_help.setVisible(false));
     }
+
 
 }
