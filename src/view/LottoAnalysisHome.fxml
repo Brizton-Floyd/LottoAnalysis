@@ -19,22 +19,22 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btn_charAnalysis" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="107.0" layoutY="156.0" prefHeight="52.0" prefWidth="268.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Chart Analysis" textAlignment="CENTER" textFill="#dac6ac">
+            <JFXButton fx:id="btn_charAnalysis" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="107.0" layoutY="160.0" prefHeight="52.0" prefWidth="268.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Chart Analysis" textAlignment="CENTER" textFill="#dac6ac">
                <graphic>
                   <MaterialDesignIconView fill="#dac6ac" glyphName="CHART_LINE" size="15" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btn_compLottoAnalysis" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="107.0" layoutY="194.0" prefHeight="52.0" prefWidth="265.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Compressed Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
+            <JFXButton fx:id="btn_compLottoAnalysis" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="107.0" layoutY="203.0" prefHeight="52.0" prefWidth="265.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Compressed Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
                <graphic>
                   <MaterialDesignIconView fill="#dac6ac" glyphName="RAY_START_END" size="15" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btn_neutral" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="109.0" layoutY="236.0" prefHeight="52.0" prefWidth="262.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Neutral Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
+            <JFXButton fx:id="btn_neutral" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="109.0" layoutY="246.0" prefHeight="52.0" prefWidth="262.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Neutral Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
                <graphic>
                   <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_NEUTRAL" size="15" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btn_lengthy" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="106.0" layoutY="278.0" prefHeight="52.0" prefWidth="259.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Lengthy Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
+            <JFXButton fx:id="btn_lengthy" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="106.0" layoutY="294.0" prefHeight="52.0" prefWidth="259.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Lengthy Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
                <graphic>
                   <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_UP" size="15" />
                </graphic>

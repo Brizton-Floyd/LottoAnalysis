@@ -34,7 +34,6 @@ public class LottoAnalysisHomeController {
         lbl_game_hover.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
         lbl_search.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
 
-
         HandleEventsAndActions();
     }
     
@@ -64,16 +63,26 @@ public class LottoAnalysisHomeController {
         });
 
 
-        btn_lottoDashboard.setOnMouseExited(event);
-        btn_lottoDashboard.setOnMouseEntered(event);
-        btn_charAnalysis.setOnMouseEntered(event);
-        btn_charAnalysis.setOnMouseExited(event);
-        btn_compLottoAnalysis.setOnMouseExited(event);
-        btn_compLottoAnalysis.setOnMouseEntered(event);
-        btn_neutral.setOnMouseEntered(event);
-        btn_neutral.setOnMouseExited(event);
-        btn_lengthy.setOnMouseEntered(event);
-        btn_lengthy.setOnMouseExited(event);
+        btn_lottoDashboard.setOnMouseExited(e -> {btn_lottoDashboard.setStyle("-fx-font-size: 13px;");});
+        btn_lottoDashboard.setOnMouseEntered(e -> {btn_lottoDashboard.setStyle("-fx-font-size: 15px;" +
+                "-fx-background-color: #515B51;" +
+                "-fx-text-fill: #EFA747;");});
+        btn_charAnalysis.setOnMouseExited(e -> {btn_charAnalysis.setStyle("-fx-font-size: 13px;");});
+        btn_charAnalysis.setOnMouseEntered(e -> {btn_charAnalysis.setStyle("-fx-font-size: 15px;" +
+                "-fx-background-color: #515B51;" +
+                "-fx-text-fill: #EFA747;");});
+        btn_compLottoAnalysis.setOnMouseExited(e -> {btn_compLottoAnalysis.setStyle("-fx-font-size: 13px;");});
+        btn_compLottoAnalysis.setOnMouseEntered(e -> {btn_compLottoAnalysis.setStyle("-fx-font-size: 15px;" +
+                "-fx-background-color: #515B51;" +
+                "-fx-text-fill: #EFA747;");});
+        btn_neutral.setOnMouseExited(e -> {btn_neutral.setStyle("-fx-font-size: 13px;");});
+        btn_neutral.setOnMouseEntered(e -> {btn_neutral.setStyle("-fx-font-size: 15px;" +
+                "-fx-background-color: #515B51;" +
+                "-fx-text-fill: #EFA747;");});
+        btn_lengthy.setOnMouseExited(e -> {btn_lengthy.setStyle("-fx-font-size: 13px;");});
+        btn_lengthy.setOnMouseEntered(e -> {btn_lengthy.setStyle("-fx-font-size: 15px;" +
+                "-fx-background-color: #515B51;" +
+                "-fx-text-fill: #EFA747;");});
 
         btn_search.setOnMouseEntered(e -> lbl_search.setVisible(true));
         btn_search.setOnMouseExited(e -> lbl_search.setVisible(false));
@@ -84,22 +93,4 @@ public class LottoAnalysisHomeController {
 
     }
 
-    /**
-     * Event handler to handle all mouse events pertaining to the main GUI dashboard
-     * and not the side pane
-     */
-    EventHandler<MouseEvent> event = e -> {
-
-        Button b = (Button) e.getSource();
-
-        String type = e.getEventType().toString();
-        if (type.equals("MOUSE_ENTERED")) {
-            b.setOnMouseEntered(event1 -> b.setStyle("-fx-font-size: 15px;" +
-                    "-fx-background-color: #515B51;" +
-                    "-fx-text-fill: #EFA747;"));
-
-        } else {
-            b.setOnMouseExited(event1 -> b.setStyle("-fx-font-size: 13px;"));
-        }
-    };
 }
