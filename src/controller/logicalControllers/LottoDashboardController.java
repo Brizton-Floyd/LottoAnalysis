@@ -15,7 +15,7 @@ public class LottoDashboardController {
     private MainController mainController;
 
     @FXML
-    private AnchorPane pane, infoPane;
+    private AnchorPane pane, infoPane,predictedNumbersPane;
 
     @FXML
     private JFXButton learnMoreButton,btn_close;
@@ -23,14 +23,17 @@ public class LottoDashboardController {
     public void init(MainController mainController) {
 
         setTextStyleForAllLabels();
+
         learnMoreButton.setOnAction( event ->  {
 
+            predictedNumbersPane.setVisible(false);
             learnMoreButton.setDisable(true);
             infoPane.setVisible(true);
             btn_close.visibleProperty().setValue(true);
         });
 
         btn_close.setOnAction(event -> {
+            predictedNumbersPane.setVisible(true);
             learnMoreButton.setDisable(false);
             infoPane.setVisible(false);
             btn_close.setVisible(false);

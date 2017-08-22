@@ -86,5 +86,18 @@
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
+      <AnchorPane fx:id="predictedNumbersPane" layoutX="22.0" layoutY="391.0" prefHeight="271.0" prefWidth="608.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;">
+         <children>
+            <Label layoutX="5.0" layoutY="-43.0" text="Predicted Numbers For Todays Drawing" textFill="#dac6ac">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
+            <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
