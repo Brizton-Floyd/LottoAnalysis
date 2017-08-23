@@ -18,7 +18,6 @@ public class MainController {
 
     public LottoAnalysisHomeController lottoAnalysisHomeController;
     public LottoInfoAndGamesController lottoInfoAndGamesController;
-
     public LottoDashboardController lottoDashboardController;
 
     @FXML
