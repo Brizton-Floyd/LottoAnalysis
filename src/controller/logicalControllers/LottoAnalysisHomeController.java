@@ -66,9 +66,12 @@ public class LottoAnalysisHomeController {
         help_button.setOnAction(e -> {
 
             // Still needs to be implemented
+
         });
         btn_search.setOnAction(event -> {
+
             // Still needs to be implemented
+            
         });
 
     }
