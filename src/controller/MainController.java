@@ -25,7 +25,6 @@ public class MainController {
         lottoAnalysisHomeController.init(this);
         lottoInfoAndGamesController.init(this);
         lottoDashboardController.init(this);
-
     }
 
 }

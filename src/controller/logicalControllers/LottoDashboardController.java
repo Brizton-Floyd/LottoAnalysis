@@ -20,6 +20,9 @@ public class LottoDashboardController {
     @FXML
     private JFXButton learnMoreButton,btn_close;
 
+    @FXML
+    private Label lottoDashboard, predictedNumbersLabel;
+
     public void init(MainController mainController) {
 
         setTextStyleForAllLabels();
@@ -40,6 +43,20 @@ public class LottoDashboardController {
         });
     }
 
+    public void setGameLabels(String gameName){
+
+        if(gameName.equals("Super Lotto Plus")){
+
+            this.lottoDashboard.setText(gameName + " Dashboard");
+
+        }else{
+
+            this.lottoDashboard.setText(gameName + " Lotto Dashboard");
+
+        }
+
+        this.predictedNumbersLabel.setText("Predicted Numbers For " + gameName);
+    }
     public void showPane() {
         pane.setVisible(true);
     }
