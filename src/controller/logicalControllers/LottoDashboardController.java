@@ -4,13 +4,16 @@ package controller.logicalControllers;
 import com.jfoenix.controls.JFXButton;
 import controller.MainController;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class LottoDashboardController {
+public class LottoDashboardController implements Initializable {
 
     private MainController mainController;
 
@@ -25,37 +28,51 @@ public class LottoDashboardController {
 
     public void init(MainController mainController) {
 
+        this.mainController = mainController;
+
         setTextStyleForAllLabels();
 
+
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         learnMoreButton.setOnAction( event ->  {
 
             predictedNumbersPane.setVisible(false);
             learnMoreButton.setDisable(true);
             infoPane.setVisible(true);
             btn_close.visibleProperty().setValue(true);
+
         });
 
         btn_close.setOnAction(event -> {
+
+
             predictedNumbersPane.setVisible(true);
             learnMoreButton.setDisable(false);
             infoPane.setVisible(false);
             btn_close.setVisible(false);
+
         });
     }
 
     public void setGameLabels(String gameName){
 
-        if(gameName.equals("Super Lotto Plus")){
+        if(!gameName.equalsIgnoreCase("update database")){
 
-            this.lottoDashboard.setText(gameName + " Dashboard");
+            if(gameName.equals("Super Lotto Plus")){
 
-        }else{
+                this.lottoDashboard.setText(gameName + " Dashboard");
 
-            this.lottoDashboard.setText(gameName + " Lotto Dashboard");
+            }else{
 
+                this.lottoDashboard.setText(gameName + " Lotto Dashboard");
+
+            }
+
+            this.predictedNumbersLabel.setText("Predicted Numbers For " + gameName);
         }
 
-        this.predictedNumbersLabel.setText("Predicted Numbers For " + gameName);
     }
     public void showPane() {
         pane.setVisible(true);
@@ -73,6 +90,7 @@ public class LottoDashboardController {
             }
         }
     }
+
 
 }
 

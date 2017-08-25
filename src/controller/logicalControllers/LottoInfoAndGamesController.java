@@ -2,14 +2,14 @@ package controller.logicalControllers;
 
 import controller.MainController;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
+import javafx.scene.layout.VBox;
+import model.DataDownLoader;
+import model.LotteryUrlPaths;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,13 @@ public class LottoInfoAndGamesController {
     private MenuBar menuBar;
     @FXML
     private AnchorPane game_pane;
+    @FXML
+    private Label lotteryUpdateLabel;
+
+    @FXML
+    private ProgressBar updateProgressBar;
+    @FXML
+    private VBox progressAndLabelVbox;
 
     public void init(MainController mainController) {
 
@@ -55,7 +62,7 @@ public class LottoInfoAndGamesController {
 
     /**
      * Once a game is selected from the drop down menu this event will trigger the retrieval of correct lotto information
-     * for the selected gane
+     * for the selected game
      * @param event
      */
     @FXML
@@ -67,7 +74,31 @@ public class LottoInfoAndGamesController {
 
         boolean containsGame = (itemList.contains(item.getText()));
         if (containsGame) {
+
+            if(item.getText().equalsIgnoreCase("update database")){
+                 downloadFilesFromInternet();
+            }
         }
+
+    }
+
+    /**
+     * Method will be responsible for downloading historical data from the internet for lottery games on seperate
+     * thread
+     */
+    private void downloadFilesFromInternet() {
+
+        LotteryUrlPaths paths = new LotteryUrlPaths();
+
+        Task<Void> task = new DataDownLoader(paths.getPathFiles(), mainController);
+        updateProgressBar.progressProperty().bind(task.progressProperty());
+        lotteryUpdateLabel.textProperty().bind(task.messageProperty());
+        lotteryUpdateLabel.setVisible(true);
+
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
 
     }
 
@@ -94,5 +125,23 @@ public class LottoInfoAndGamesController {
 
     public void closePanel() {
         game_pane.setVisible(false);
+    }
+
+    public void unbindData() {
+        updateProgressBar.progressProperty().unbind();
+        lotteryUpdateLabel.textProperty().unbind();
+        lotteryUpdateLabel.setText("All files updated successfully");
+    }
+
+    public void hideProgressBarAndLabeVbox() {
+
+        progressAndLabelVbox.setVisible(false);
+        lotteryUpdateLabel.setVisible(false);
+
+    }
+
+    public void makeVboxVisible() {
+        progressAndLabelVbox.setVisible(true);
+        lotteryUpdateLabel.setVisible(true);
     }
 }
