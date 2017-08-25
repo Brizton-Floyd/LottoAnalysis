@@ -48,6 +48,7 @@ public class LottoAnalysisHomeController {
 
             if (mainController.lottoInfoAndGamesController.isGamePanelOpen()) {
                 mainController.lottoInfoAndGamesController.closePanel();
+                mainController.lottoInfoAndGamesController.hideProgressBarAndLabeVbox();
                 btn_lottoModalCloser.setVisible(false);
                 btn_game.setDisable(false);
             }

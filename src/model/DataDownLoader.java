@@ -1,13 +1,17 @@
 package model;
 
+import controller.MainController;
 import javafx.concurrent.Task;
+import javafx.scene.control.Label;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 /**
  * Class will be responsible for performing extensive work that requires additonal time to run
@@ -17,34 +21,49 @@ import java.nio.file.Paths;
 public class DataDownLoader extends Task<Void> {
 
     // Url field
-    private String url;
+    private Map<String, String> filePathsAndLotteryNames;
+    private MainController controller;
 
-    public DataDownLoader(String url) {
-        this.url = url;
+    public DataDownLoader(Map<String, String> data, MainController controller) {
+        filePathsAndLotteryNames = data;
+        this.controller = controller;
     }
 
     @Override
     protected Void call() throws Exception {
 
-        String ext = url.substring(url.lastIndexOf("."), url.length());
+        updateMessage("Establishing Internet Connection");
 
-        // Open url connection
-        URLConnection connection = new URL(url).openConnection();
+        int n;
+        long nread = 0L;
+        long fileLength = 0L;
+        byte[] buf = new byte[8192];
 
-        // establish how long our file will be
-        long fileLength = connection.getContentLength();
+        for( Map.Entry<String, String> data : filePathsAndLotteryNames.entrySet() ) {
 
-        // use try block as it will automatically close all streams
-        try (InputStream is = connection.getInputStream(); OutputStream os = Files.newOutputStream(Paths.get("" + ext))) {
+            URLConnection connection = new URL(data.getValue()).openConnection();
+            fileLength += connection.getContentLength();
+        }
 
-            long nread = 0L;
-            byte[] buf = new byte[8192];
-            int n;
+        controller.lottoInfoAndGamesController.makeVboxVisible();
 
-            while ((n = is.read(buf)) > 0) {
-                os.write(buf, 0, n);
-                nread += n;
-                updateProgress(nread, fileLength);
+        for(Map.Entry<String, String> data : filePathsAndLotteryNames.entrySet()) {
+
+            // update lotto status label
+            updateMessage("Updating " + data.getKey() + " Lotto Files");
+
+            // Open url connection
+            URLConnection connection = new URL(data.getValue()).openConnection();
+
+            // use try block as it will automatically close all streams
+            try (InputStream is = connection.getInputStream();
+                                    OutputStream os = Files.newOutputStream(Paths.get(data.getKey() + ".txt"))) {
+
+                while ((n = is.read(buf)) > 0) {
+                    os.write(buf, 0, n);
+                    nread += n;
+                    updateProgress(nread, fileLength);
+                }
             }
         }
 
@@ -58,6 +77,6 @@ public class DataDownLoader extends Task<Void> {
 
     @Override
     protected void succeeded() {
-
+        controller.lottoInfoAndGamesController.unbindData();
     }
 }
