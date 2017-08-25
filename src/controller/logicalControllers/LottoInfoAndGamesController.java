@@ -63,10 +63,10 @@ public class LottoInfoAndGamesController {
 
         // Get the event source and cast to appropriate object type
         MenuItem item = (MenuItem)event.getSource();
+        mainController.lottoDashboardController.setGameLabels(item.getText());
 
         boolean containsGame = (itemList.contains(item.getText()));
         if (containsGame) {
-
         }
 
     }
