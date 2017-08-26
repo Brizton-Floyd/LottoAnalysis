@@ -10,7 +10,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import model.DataDownLoader;
 import model.LotteryUrlPaths;
+import utils.FileTweaker;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class LottoInfoAndGamesController {
 
     private List<String> itemList = new ArrayList<String>();
     private MainController mainController;
-    private  boolean isGamePaneOpen = false;
+    private boolean isGamePaneOpen = false;
 
     @FXML
     private MenuBar menuBar;
@@ -49,11 +51,11 @@ public class LottoInfoAndGamesController {
     public void makeGamePanelAppear(ActionEvent e) {
 
 
-        if(e.getSource() instanceof Button){
+        if (e.getSource() instanceof Button) {
 
-            Button button = (Button)e.getSource();
+            Button button = (Button) e.getSource();
 
-            if(button.getId().equals("btn_game")){
+            if (button.getId().equals("btn_game")) {
                 game_pane.setVisible(true);
                 isGamePaneOpen = true;
             }
@@ -63,23 +65,23 @@ public class LottoInfoAndGamesController {
     /**
      * Once a game is selected from the drop down menu this event will trigger the retrieval of correct lotto information
      * for the selected game
+     *
      * @param event
      */
     @FXML
     private void getAppropriateGameData(ActionEvent event) {
 
         // Get the event source and cast to appropriate object type
-        MenuItem item = (MenuItem)event.getSource();
+        MenuItem item = (MenuItem) event.getSource();
         mainController.lottoDashboardController.setGameLabels(item.getText());
 
         boolean containsGame = (itemList.contains(item.getText()));
         if (containsGame) {
 
-            if(item.getText().equalsIgnoreCase("update database")){
-                 downloadFilesFromInternet();
+            if (item.getText().equalsIgnoreCase("update database")) {
+                downloadFilesFromInternet();
             }
         }
-
     }
 
     /**
@@ -107,8 +109,8 @@ public class LottoInfoAndGamesController {
      */
     private void loadMenuItems() {
         ObservableList<Menu> menus = menuBar.getMenus();
-        for(Menu menu : menus){
-            for(MenuItem item : menu.getItems()){
+        for (Menu menu : menus) {
+            for (MenuItem item : menu.getItems()) {
                 itemList.add(item.getText());
             }
         }
@@ -117,6 +119,7 @@ public class LottoInfoAndGamesController {
 
     /**
      * This method will return a boolean indicating the game info panel is open
+     *
      * @return
      */
     public boolean isGamePanelOpen() {

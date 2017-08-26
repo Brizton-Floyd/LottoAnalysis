@@ -22,10 +22,10 @@ public class LotteryUrlPaths {
 
     private void setPaths() {
         lottoFilesPaths.put("Fantasy Five", FANTASY_FIVE_PATH);
-        lottoFilesPaths.put("Powerball", POWERBALL );
+        lottoFilesPaths.put("PowerBall", POWERBALL );
         lottoFilesPaths.put("Mega Millions",MEGA_MILLIONS);
-        lottoFilesPaths.put("Daily Pick 4", PICK_4);
-        lottoFilesPaths.put("Daily Pick 3", PICK_3);
+        lottoFilesPaths.put("Daily Pick4", PICK_4);
+        lottoFilesPaths.put("Daily Pick3", PICK_3);
     }
 
     public Map<String, String> getPathFiles() {
