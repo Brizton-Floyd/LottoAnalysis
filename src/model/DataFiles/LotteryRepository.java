@@ -242,7 +242,6 @@ public class LotteryRepository extends Task<Void> {
                     PreparedStatement pstmt = connection.prepareStatement(DaoConstants.FIVE_DIGIT_LOTTERY_GAME_QUERY)){
 
             pstmt.setInt(1, id);
-
             rs = pstmt.executeQuery();
 
             while(rs.next()){
@@ -274,6 +273,7 @@ public class LotteryRepository extends Task<Void> {
             while (rs.next()){
                 id = rs.getInt("game_id");
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
