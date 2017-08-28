@@ -9,12 +9,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import model.DataDownLoader;
+import model.DataFiles.LotteryRepository;
+import model.FiveDigitLotteryGame;
+import model.LotteryGame;
 import model.LotteryUrlPaths;
-import utils.FileTweaker;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.util.LinkedList;
 import java.util.List;
+
 
 /**
  * Class: The LottoInfoGamesController is responsible for handling input accordingly that is entered via the lotto info
@@ -25,16 +28,19 @@ import java.util.List;
 public class LottoInfoAndGamesController {
 
 
-    private List<String> itemList = new ArrayList<String>();
+    private List<String> itemList = new LinkedList<>();
     private MainController mainController;
     private boolean isGamePaneOpen = false;
+    private LotteryRepository repository;
+    private LotteryGame lotteryGame;
+
 
     @FXML
     private MenuBar menuBar;
     @FXML
     private AnchorPane game_pane;
     @FXML
-    private Label lotteryUpdateLabel;
+    public Label lotteryUpdateLabel;
 
     @FXML
     private ProgressBar updateProgressBar;
@@ -45,9 +51,41 @@ public class LottoInfoAndGamesController {
 
         this.mainController = mainController;
 
+        //addGamesToDatabase();
         loadMenuItems();
     }
 
+
+    public LotteryGame getLotteryGame() {
+        return lotteryGame;
+    }
+
+    private void addGamesToDatabase() {
+
+        repository = new LotteryRepository(mainController);
+        if (repository.isDbConnected()) {
+
+            ObservableList<Menu> menus = menuBar.getMenus();
+
+            // Establish Connection
+            Connection conn = repository.getConnection();
+
+            for (int i = 0; i < menus.size(); i++) {
+
+                for (MenuItem item : menus.get(i).getItems()) {
+                    if (item instanceof SeparatorMenuItem || item.getText().equalsIgnoreCase("update database")) {
+                        continue;
+                    }
+                    repository.update(item, item.getText());
+                    //repository.insert(item);
+                }
+            }
+
+        }
+
+        repository.closeConnection();
+
+    }
     public void makeGamePanelAppear(ActionEvent e) {
 
 
@@ -71,15 +109,22 @@ public class LottoInfoAndGamesController {
     @FXML
     private void getAppropriateGameData(ActionEvent event) {
 
+        LotteryGame game = null;
+
         // Get the event source and cast to appropriate object type
         MenuItem item = (MenuItem) event.getSource();
         mainController.lottoDashboardController.setGameLabels(item.getText());
 
-        boolean containsGame = (itemList.contains(item.getText()));
+        String gameName = item.getText();
+        boolean containsGame = (itemList.contains(gameName));
         if (containsGame) {
 
             if (item.getText().equalsIgnoreCase("update database")) {
                 downloadFilesFromInternet();
+            }
+            else if(gameName.contains("Fantasy")){
+                game = new FiveDigitLotteryGame(gameName);
+                this.lotteryGame = game.loadGameData();
             }
         }
     }
@@ -97,7 +142,6 @@ public class LottoInfoAndGamesController {
         lotteryUpdateLabel.textProperty().bind(task.messageProperty());
         lotteryUpdateLabel.setVisible(true);
 
-
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
@@ -108,12 +152,33 @@ public class LottoInfoAndGamesController {
      * Method will be responsible for importing games into drop down list based on state user chooses to play in
      */
     private void loadMenuItems() {
-        ObservableList<Menu> menus = menuBar.getMenus();
-        for (Menu menu : menus) {
+
+        repository = new LotteryRepository(mainController);
+
+        List<String> menus = repository.selectAllGames();
+        for (String menu : menus) {
+            itemList.add(menu);
+        }
+
+        itemList.add("Update Database");
+        setMenuItemText(itemList);
+
+    }
+
+    private void setMenuItemText(List<String> itemList) {
+
+        int count = 0;
+
+        for (Menu menu : menuBar.getMenus()) {
             for (MenuItem item : menu.getItems()) {
-                itemList.add(item.getText());
+
+                if (!(item instanceof SeparatorMenuItem) && !item.getText().equalsIgnoreCase("update database")) {
+                    item.setText(itemList.get(count));
+                    count++;
+                }
             }
         }
+
     }
 
 

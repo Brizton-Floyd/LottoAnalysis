@@ -70,7 +70,7 @@ public class LottoDashboardController implements Initializable {
 
             }
 
-            this.predictedNumbersLabel.setText("Predicted Numbers For " + gameName);
+            this.predictedNumbersLabel.setText("Predicted Numbers For" + gameName.split(":")[1]);
         }
 
     }

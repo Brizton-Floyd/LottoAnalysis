@@ -39,7 +39,7 @@
       <Label fx:id="lotteryUpdateLabel" text="Updating..." textFill="#dac6ac" visible="false" AnchorPane.topAnchor="50.0" />
       <VBox fx:id="progressAndLabelVbox" layoutX="69.0" layoutY="56.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
          <children>
-            <ProgressBar fx:id="updateProgressBar" prefHeight="20.0" prefWidth="300.0" progress="0.0" stylesheets="@../styles/progress_bar.css" />
+            <ProgressBar fx:id="updateProgressBar" prefHeight="20.0" prefWidth="375.0" progress="0.0" stylesheets="@../styles/progress_bar.css" />
          </children>
       </VBox>
     </children>

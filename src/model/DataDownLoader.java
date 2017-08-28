@@ -2,6 +2,7 @@ package model;
 
 import controller.MainController;
 import javafx.concurrent.Task;
+import model.DataFiles.LotteryRepository;
 import utils.FileTweaker;
 
 import java.io.BufferedReader;
@@ -38,7 +39,7 @@ public class DataDownLoader extends Task<Void> {
     protected Void call() throws Exception {
 
         System.out.print(Thread.currentThread().getName());
-
+        updateMessage("Establishing Internet Connection...");
 
         int n;
         long nread = 0L;
@@ -50,8 +51,6 @@ public class DataDownLoader extends Task<Void> {
             URLConnection connection = new URL(data.getValue()).openConnection();
             fileLength += connection.getContentLength();
         }
-
-        updateMessage("Establishing Internet Connection");
 
         controller.lottoInfoAndGamesController.makeVboxVisible();
 
@@ -72,6 +71,7 @@ public class DataDownLoader extends Task<Void> {
                     nread += n;
                     updateProgress(nread, fileLength);
                 }
+
                 // Remove the unwanted file heading at the top of the txt files
                 updateMessage("Removing Unwanted Header From " + data.getKey() + " File");
                 FileTweaker.overWriteFile(data.getKey());
@@ -88,8 +88,16 @@ public class DataDownLoader extends Task<Void> {
 
     @Override
     protected void succeeded() {
-        //System.out.print(Thread.currentThread().getName());
+
         controller.lottoInfoAndGamesController.unbindData();
 
+        Task repository = new LotteryRepository(controller);
+        if(((LotteryRepository)repository).isDbConnected()){
+
+            controller.lottoInfoAndGamesController.lotteryUpdateLabel.textProperty().bind(repository.messageProperty());
+            Thread thread = new Thread(repository);
+            thread.setDaemon(true);
+            thread.start();
+        }
     }
 }
