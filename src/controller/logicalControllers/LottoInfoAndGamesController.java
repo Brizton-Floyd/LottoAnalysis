@@ -1,6 +1,7 @@
 package controller.logicalControllers;
 
 import controller.MainController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -125,6 +126,27 @@ public class LottoInfoAndGamesController {
             else if(gameName.contains("Fantasy")){
                 game = new FiveDigitLotteryGame(gameName);
                 this.lotteryGame = game.loadGameData();
+                //FXCollections.observableArrayList(lotteryGame);
+            }
+            else if(gameName.contains("Powerball")){
+
+                System.out.print("yes");
+            }
+            else if(gameName.contains("Mega")){
+                System.out.print("yes");
+
+            }
+            else if(gameName.contains("Pick 3")){
+                System.out.print("yes");
+
+            }
+            else if(gameName.contains("Pick 4")){
+                System.out.print("yes");
+
+            }
+            else if(gameName.contains("Super")){
+                System.out.print("yes");
+
             }
         }
     }

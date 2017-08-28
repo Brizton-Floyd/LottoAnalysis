@@ -19,7 +19,8 @@ public class DaoConstants {
 
     public static final String SELECT_ALL_GAMES = "SELECT * From game";
 
-    public static final String FIVE_DIGIT_LOTTERY_GAME_QUERY = "SELECT * FROM fantasy_five_results where game_id = ?";
+    public static final String FIVE_DIGIT_LOTTERY_GAME_QUERY = "SELECT * FROM fantasy_five_results where game_id = ?" +
+            " ORDER BY draw_id desc";
 
     private static final String INSERT_HISTORICAL_POWERBALL =
             "INSERT OR IGNORE INTO powerball_results (draw_number, draw_date, position_one, position_two, position_three, position_four," +
