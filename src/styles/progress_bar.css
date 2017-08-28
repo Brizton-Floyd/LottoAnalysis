@@ -5,7 +5,7 @@
 .progress-bar .bar {
     -fx-background-color: #DAC6AC;
 
-        red; /* this line is the background color of the bar */
+      /* this line is the background color of the bar */
     -fx-background-insets: 0, 1, 2;
     -fx-padding: 0.416667em; /* 5 */
 }

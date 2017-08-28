@@ -16,55 +16,45 @@ public class FileTweaker {
 
     public static void overWriteFile(String game) throws IOException {
 
-        // System.out.print(Thread.currentThread().getName());
-
         LotteryUrlPaths paths = new LotteryUrlPaths();
         lottoNames = new ArrayList<>(paths.getPathFiles().keySet());
 
         int lineSkipCount = 1;
 
-       // for (int i = 0; i < lottoNames.size(); i++) {
+        String inputFileName = game + ".txt";
+        String outPutFileName = game + "Ver2" + ".txt";
 
-            String inputFileName = game + ".txt";
-            String outPutFileName = game + "Ver2" + ".txt";
+        try {
 
-            try {
+            File inputFile = new File(inputFileName);
+            File outPutFile = new File(outPutFileName);
 
-                File inputFile = new File(inputFileName);
-                File outPutFile = new File(outPutFileName);
+            try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
+                 BufferedWriter bw = new BufferedWriter(new FileWriter(outPutFile))) {
 
-                try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
-                     BufferedWriter bw = new BufferedWriter(new FileWriter(outPutFile))) {
+                String line = null;
+                while ((line = br.readLine()) != null) {
 
-                    String line = null;
-                    while ((line = br.readLine()) != null) {
-
-                        if (lineSkipCount < 6) {
-                            lineSkipCount++;
-                            continue;
-                        }
-
-                        bw.write(line );
-                        bw.newLine();
+                    if (lineSkipCount < 6) {
+                        lineSkipCount++;
+                        continue;
                     }
-                   // lineSkipCount = 1;
-                }
 
-
-                if(inputFile.delete()){
-                    if(!outPutFile.renameTo(inputFile)){
-                        throw new IOException("Could not rename " + outPutFileName + " to " + inputFileName);
-                    }
+                    bw.write(line);
+                    bw.newLine();
                 }
-                else {
-                    throw new IOException("Could not delete original input file " + inputFileName);
-                }
-            }catch (Exception e){
-                e.printStackTrace();
             }
 
-        //}
-
+            if (inputFile.delete()) {
+                if (!outPutFile.renameTo(inputFile)) {
+                    throw new IOException("Could not rename " + outPutFileName + " to " + inputFileName);
+                }
+            } else {
+                throw new IOException("Could not delete original input file " + inputFileName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

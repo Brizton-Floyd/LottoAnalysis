@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -13,8 +14,8 @@ public class LotteryUrlPaths {
     private final String MEGA_MILLIONS = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=mega-millions&Order=Yes";
     private final String PICK_4 = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=daily-4&Order=Yes";
     private final String PICK_3 = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=daily-3&Order=Yes";
-
-    private Map<String, String> lottoFilesPaths = new HashMap<>();
+    private final String SUPER_LOTTO_PLUS = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=superlotto-plus&Order=Yes";
+    private Map<String, String> lottoFilesPaths = new LinkedHashMap<>();
 
     public LotteryUrlPaths() {
         setPaths();
@@ -24,6 +25,7 @@ public class LotteryUrlPaths {
         lottoFilesPaths.put("Fantasy Five", FANTASY_FIVE_PATH);
         lottoFilesPaths.put("PowerBall", POWERBALL );
         lottoFilesPaths.put("Mega Millions",MEGA_MILLIONS);
+        lottoFilesPaths.put("Super Lotto Plus", SUPER_LOTTO_PLUS);
         lottoFilesPaths.put("Daily Pick4", PICK_4);
         lottoFilesPaths.put("Daily Pick3", PICK_3);
     }
