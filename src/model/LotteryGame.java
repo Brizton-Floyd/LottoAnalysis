@@ -1,6 +1,7 @@
 package model;
 
 
+import javafx.collections.ObservableList;
 import model.DataFiles.LotteryRepository;
 
 import java.util.List;
@@ -9,14 +10,14 @@ public abstract class LotteryGame {
 
     protected int lottoId;
     protected String gameName;
-    protected List<Drawing> drawingData;
+    protected ObservableList<Drawing> drawingData;
 
     protected LotteryRepository repository = new LotteryRepository(null);
 
     public LotteryGame() {
 
     }
-    public LotteryGame(int lottoId, String gameName, List<Drawing> drawingData){
+    public LotteryGame(int lottoId, String gameName, ObservableList<Drawing> drawingData){
 
         this.lottoId = lottoId;
         this.gameName = gameName;
@@ -43,7 +44,7 @@ public abstract class LotteryGame {
         return drawingData;
     }
 
-    public void setDrawingData( List<Drawing> drawingData) {
+    public void setDrawingData( ObservableList<Drawing> drawingData) {
         this.drawingData = drawingData;
     }
 

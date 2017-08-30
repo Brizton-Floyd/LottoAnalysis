@@ -1,6 +1,7 @@
 package model.DataFiles;
 
 import controller.MainController;
+import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.scene.control.MenuItem;
 import model.Drawing;
@@ -67,26 +68,44 @@ public class LotteryRepository extends Task<Void> {
         ResultSet rs;
         File file = null;
 
-        try(Connection connection = SqlConnection.Connector();
-                PreparedStatement pstmt = connection.prepareStatement(DaoConstants.SELECT_ALL_GAMES)){
+
+        List<String> queries = DaoConstants.getDeleteQueries();
+
+        for (int i = 0; i < queries.size(); i++) {
+
+            if (!isDbConnected()) {
+
+                connection = SqlConnection.Connector();
+            }
+
+            String query = queries.get(i);
+
+            PreparedStatement pstmt = connection.prepareStatement(query);
+
+            pstmt.executeUpdate();
+
+        }
+
+        try (Connection connection = SqlConnection.Connector();
+             PreparedStatement pstmt = connection.prepareStatement(DaoConstants.SELECT_ALL_GAMES)) {
 
             rs = pstmt.executeQuery();
 
-            while (rs.next()){
-
+            while (rs.next()) {
+                
                 allGameIds.add(rs.getInt("game_id"));
             }
 
             String line;
-            for(int i = 0; i < allGameFiles.size(); i++){
+            for (int i = 0; i < allGameFiles.size(); i++) {
 
                 updateMessage("Saving " + allGameFiles.get(i) + " Information To Database");
 
-                file  = new File(allGameFiles.get(i) + ".txt");
+                file = new File(allGameFiles.get(i) + ".txt");
 
-                try(BufferedReader br = new BufferedReader(new FileReader(file))){
+                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
-                    while((line = br.readLine()) != null){
+                    while ((line = br.readLine()) != null) {
 
                         String[] drawString = line.split("\\s+");
 
@@ -94,13 +113,13 @@ public class LotteryRepository extends Task<Void> {
                         String date = drawString[1] + " " + drawString[2] + " " + drawString[3] + " " + drawString[4];
                         String[] positionNumbers = new String[drawString.length - 5];
 
-                        for( int k = 0; k < positionNumbers.length; k++ ){
+                        for (int k = 0; k < positionNumbers.length; k++) {
 
-                            positionNumbers[k] = (drawString[k + 5].length() == 1) ? "0"+drawString[k+5]:
-                                                                                        drawString[k+5];
+                            positionNumbers[k] = (drawString[k + 5].length() == 1) ? "0" + drawString[k + 5] :
+                                    drawString[k + 5];
                         }
 
-                        updateTableIfNeeded(drawNum,date,positionNumbers,allGameIds.get(i));
+                        updateTableIfNeeded(drawNum, date, positionNumbers, allGameIds.get(i));
                     }
                 }
             }
@@ -119,7 +138,7 @@ public class LotteryRepository extends Task<Void> {
 
         Object data = new LotteryUrlPaths();
 
-        for(String file : ((LotteryUrlPaths)data).getPathFiles().keySet() ){
+        for (String file : ((LotteryUrlPaths) data).getPathFiles().keySet()) {
 
             File file1 = new File(file + ".txt");
             file1.delete();
@@ -130,48 +149,48 @@ public class LotteryRepository extends Task<Void> {
 
         String query = DaoConstants.getLottoQueryString().get(gameId);
 
-        try(Connection con = SqlConnection.Connector();
-                PreparedStatement pstmt = con.prepareStatement(query)){
+        try (Connection con = SqlConnection.Connector();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
 
-            switch (positionNumbers.length){
+            switch (positionNumbers.length) {
 
                 case 3:
-                    pstmt.setString(1, drawNum);
+                    pstmt.setInt(1, Integer.parseInt(drawNum));
                     pstmt.setString(2, date);
                     pstmt.setString(3, positionNumbers[0]);
                     pstmt.setString(4, positionNumbers[1]);
                     pstmt.setString(5, positionNumbers[2]);
-                    pstmt.setInt(6,gameId);
+                    pstmt.setInt(6, gameId);
                     break;
                 case 4:
-                    pstmt.setString(1, drawNum);
+                    pstmt.setInt(1, Integer.parseInt(drawNum));
                     pstmt.setString(2, date);
                     pstmt.setString(3, positionNumbers[0]);
                     pstmt.setString(4, positionNumbers[1]);
                     pstmt.setString(5, positionNumbers[2]);
-                    pstmt.setString(6,positionNumbers[3]);
-                    pstmt.setInt(7,gameId);
+                    pstmt.setString(6, positionNumbers[3]);
+                    pstmt.setInt(7, gameId);
                     break;
                 case 5:
-                    pstmt.setString(1, drawNum);
+                    pstmt.setInt(1, Integer.parseInt(drawNum));
                     pstmt.setString(2, date);
                     pstmt.setString(3, positionNumbers[0]);
                     pstmt.setString(4, positionNumbers[1]);
                     pstmt.setString(5, positionNumbers[2]);
-                    pstmt.setString(6,positionNumbers[3]);
-                    pstmt.setString(7,positionNumbers[4]);
-                    pstmt.setInt(8,gameId);
+                    pstmt.setString(6, positionNumbers[3]);
+                    pstmt.setString(7, positionNumbers[4]);
+                    pstmt.setInt(8, gameId);
                     break;
                 case 6:
-                    pstmt.setString(1, drawNum);
+                    pstmt.setInt(1, Integer.parseInt(drawNum));
                     pstmt.setString(2, date);
                     pstmt.setString(3, positionNumbers[0]);
                     pstmt.setString(4, positionNumbers[1]);
                     pstmt.setString(5, positionNumbers[2]);
-                    pstmt.setString(6,positionNumbers[3]);
-                    pstmt.setString(7,positionNumbers[4]);
-                    pstmt.setString(8,positionNumbers[5]);
-                    pstmt.setInt(9,gameId);
+                    pstmt.setString(6, positionNumbers[3]);
+                    pstmt.setString(7, positionNumbers[4]);
+                    pstmt.setString(8, positionNumbers[5]);
+                    pstmt.setInt(9, gameId);
                     break;
                 default:
                     break;
@@ -188,7 +207,7 @@ public class LotteryRepository extends Task<Void> {
 
     public void insert(MenuItem gameItem) {
 
-        try(PreparedStatement pstmt = connection.prepareStatement(DaoConstants.INSERT_GAME_QUERY)){
+        try (PreparedStatement pstmt = connection.prepareStatement(DaoConstants.INSERT_GAME_QUERY)) {
 
             pstmt.setString(1, gameItem.getText());
             pstmt.executeUpdate();
@@ -199,7 +218,7 @@ public class LotteryRepository extends Task<Void> {
     }
 
     public void update(MenuItem item, String game) {
-        try(PreparedStatement pstmt = connection.prepareStatement(DaoConstants.UPDATE_GAME_GAME)){
+        try (PreparedStatement pstmt = connection.prepareStatement(DaoConstants.UPDATE_GAME_GAME)) {
 
             pstmt.setString(1, "CA: " + item.getText());
             pstmt.setString(2, game);
@@ -215,11 +234,11 @@ public class LotteryRepository extends Task<Void> {
         ResultSet rs;
         List<String> games = new LinkedList<>();
 
-        try(PreparedStatement pstmt = connection.prepareStatement(DaoConstants.SELECT_ALL_GAMES)){
+        try (PreparedStatement pstmt = connection.prepareStatement(DaoConstants.SELECT_ALL_GAMES)) {
 
             rs = pstmt.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 games.add(rs.getString("game_name"));
             }
 
@@ -238,39 +257,39 @@ public class LotteryRepository extends Task<Void> {
 
         Drawing drawing = null;
 
-        try( Connection connection = SqlConnection.Connector();
-                    PreparedStatement pstmt = connection.prepareStatement(DaoConstants.FIVE_DIGIT_LOTTERY_GAME_QUERY)){
+        try (Connection connection = SqlConnection.Connector();
+             PreparedStatement pstmt = connection.prepareStatement(DaoConstants.FIVE_DIGIT_LOTTERY_GAME_QUERY)) {
 
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
 
-                 drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
-                            rs.getString("position_one"), rs.getString("position_two"),
-                            rs.getString("position_three"), rs.getString("position_four"),
-                            rs.getString("position_five"));
-                    drawData.add(drawing);
+                drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
+                        rs.getString("position_one"), rs.getString("position_two"),
+                        rs.getString("position_three"), rs.getString("position_four"),
+                        rs.getString("position_five"));
+                drawData.add(drawing);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
-        return new FiveDigitLotteryGame(id,"Fantasy Five",drawData);
+
+        return new FiveDigitLotteryGame(id, "Fantasy Five", FXCollections.observableArrayList(drawData));
     }
 
     public int retrieveGameId(String gameName) {
 
-        int id = 0 ;
-        try(Connection connection = SqlConnection.Connector();
-                    PreparedStatement statement = connection.prepareStatement(DaoConstants.GAME_ID_QUERY )){
+        int id = 0;
+        try (Connection connection = SqlConnection.Connector();
+             PreparedStatement statement = connection.prepareStatement(DaoConstants.GAME_ID_QUERY)) {
 
             statement.setString(1, gameName);
 
             ResultSet rs = statement.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 id = rs.getInt("game_id");
             }
 

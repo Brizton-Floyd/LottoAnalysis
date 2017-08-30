@@ -1,21 +1,23 @@
 package model;
 
 
+import javafx.collections.ObservableList;
+
 import java.util.List;
 
 public class FiveDigitLotteryGame extends LotteryGame{
 
 
+    public FiveDigitLotteryGame() {
+
+    }
+
     public FiveDigitLotteryGame(String game) {
 
         this(0,game,null);
     }
-    public FiveDigitLotteryGame(int lottoId, String gameName, List<Drawing> drawingData) {
+    public FiveDigitLotteryGame(int lottoId, String gameName, ObservableList<Drawing> drawingData) {
         super(lottoId, gameName, drawingData);
-    }
-
-    public FiveDigitLotteryGame() {
-
     }
 
     @Override

@@ -1,6 +1,8 @@
 package model.DataFiles;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,6 +11,7 @@ import java.util.Map;
 public class DaoConstants {
 
     public static Map<Integer,String> lotto_query;
+    public static List<String> deleteQueries;
 
     public static final String GAME_ID_QUERY = "SELECT game_id FROM game WHERE game_name = ?";
 
@@ -18,6 +21,14 @@ public class DaoConstants {
                                                   "WHERE game_name = ?";
 
     public static final String SELECT_ALL_GAMES = "SELECT * From game";
+
+    public static final String DELETE_FANTASY_FIVE = "DELETE From fantasy_five_results";
+    public static final String DELETE_POWERBALL = "DELETE From powerball_results";
+    public static final String DELETE_MEGA_MILLION = "DELETE From mega_million_results";
+    public static final String DELETE_SUPER_LOTTO = "DELETE From super_lotto_results";
+    public static final String DELETE_PICK4 = "DELETE From pick4_results";
+    public static final String DELETE_PICK3 = "DELETE From pick3_results";
+
 
     public static final String FIVE_DIGIT_LOTTERY_GAME_QUERY = "SELECT * FROM fantasy_five_results where game_id = ?" +
             " ORDER BY draw_id desc";
@@ -46,6 +57,21 @@ public class DaoConstants {
             "INSERT OR IGNORE INTO pick3_results (draw_number, draw_date, position_one, position_two, position_three, game_id) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
 
+
+    public static List<String> getDeleteQueries() {
+
+        if(deleteQueries == null)
+            deleteQueries = new ArrayList<>();
+
+        deleteQueries.add(DELETE_FANTASY_FIVE);
+        deleteQueries.add(DELETE_MEGA_MILLION);
+        deleteQueries.add(DELETE_PICK3);
+        deleteQueries.add(DELETE_POWERBALL);
+        deleteQueries.add(DELETE_SUPER_LOTTO);
+        deleteQueries.add(DELETE_PICK4);
+
+        return deleteQueries;
+    }
 
     public static Map<Integer, String> getLottoQueryString(){
 
