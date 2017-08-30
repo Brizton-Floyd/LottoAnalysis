@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import model.LotteryGame;
 
 import java.net.URL;
 import java.util.List;
@@ -91,6 +92,8 @@ public class LottoDashboardController implements Initializable {
         }
     }
 
-
+    // This method will set up the table view with model data
+    public void setUpTableView(LotteryGame lotteryGame) {
+    }
 }
 

@@ -90,6 +90,7 @@ public class LottoInfoAndGamesController {
     public void makeGamePanelAppear(ActionEvent e) {
 
 
+
         if (e.getSource() instanceof Button) {
 
             Button button = (Button) e.getSource();
@@ -126,7 +127,7 @@ public class LottoInfoAndGamesController {
             else if(gameName.contains("Fantasy")){
                 game = new FiveDigitLotteryGame(gameName);
                 this.lotteryGame = game.loadGameData();
-                //FXCollections.observableArrayList(lotteryGame);
+                mainController.lottoDashboardController.setUpTableView(lotteryGame);
             }
             else if(gameName.contains("Powerball")){
 

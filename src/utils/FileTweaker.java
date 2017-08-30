@@ -23,6 +23,7 @@ public class FileTweaker {
 
         String inputFileName = game + ".txt";
         String outPutFileName = game + "Ver2" + ".txt";
+        int count = 0;
 
         try {
 
@@ -33,15 +34,32 @@ public class FileTweaker {
                  BufferedWriter bw = new BufferedWriter(new FileWriter(outPutFile))) {
 
                 String line = null;
-                while ((line = br.readLine()) != null) {
+                if(!inputFileName.equals("Daily Pick3.txt")) {
+                    while ((line = br.readLine()) != null) {
 
-                    if (lineSkipCount < 6) {
-                        lineSkipCount++;
-                        continue;
+                        if (lineSkipCount < 6) {
+                            lineSkipCount++;
+                            continue;
+                        }
+
+                        bw.write(line);
+                        bw.newLine();
                     }
+                }else{
 
-                    bw.write(line);
-                    bw.newLine();
+                    while ((line = br.readLine()) != null) {
+
+                        if (lineSkipCount < 6) {
+                            lineSkipCount++;
+                            continue;
+                        }
+
+                        if(count % 2 == 0) {
+                            bw.write(line);
+                            bw.newLine();
+                        }
+                        count++;
+                    }
                 }
             }
 
