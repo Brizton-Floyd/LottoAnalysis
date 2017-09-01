@@ -32,7 +32,6 @@ public class LottoDashboardController implements Initializable {
 
         setTextStyleForAllLabels();
 
-
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
