@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Drawing;
+import model.FiveDigitLotteryGame;
 import model.LotteryGame;
 
 import java.net.URL;
@@ -43,8 +44,17 @@ public class LottoDashboardController implements Initializable {
         this.mainController = mainController;
 
         setTextStyleForAllLabels();
+        loadDefaultGameForView();
+    }
 
+    private void loadDefaultGameForView() {
 
+        String gameName = mainController.lottoInfoAndGamesController.getDefaultGameName();
+        LotteryGame lotteryGame = new FiveDigitLotteryGame(gameName);
+        LotteryGame newGame = lotteryGame.loadGameData();
+        predictedNumbersLabel.setText("Historical draw table for: " + newGame.getGameName());
+        lottoDashboard.setText(gameName + "Lotto Dashboard");
+        setUpTableView(newGame);
     }
 
     @Override
@@ -141,23 +151,18 @@ public class LottoDashboardController implements Initializable {
         for (int i = 0; i < tableColumnName.size(); i++) {
             tableColumns[i] = new TableColumn<>(tableColumnName.get(i));
             tableColumns[i].setSortable(false);
-//            tableColumns[i].setMinWidth(columnWidths);
-//            tableColumns[i].setMaxWidth(columnWidths);
             if(i == tableColumnName.size() - 1){
                 double size = tableColumns[i].getWidth();
-                tableColumns[i].setMaxWidth(size - 12);
-                tableColumns[i].setMinWidth(size - 12);
-
+                tableColumns[i].setPrefWidth(size + 1);
             }
-
             drawNumberTable.getColumns().add(tableColumns[i]);
         }
-
 
         setUpCellValueFactories(tableColumns, Drawing.drawSize);
 
         drawNumberTable.scrollTo(lotteryGame.getDrawingData().size() - 1);
         drawNumberTable.setItems(lotteryGame.getDrawingData());
+
     }
 
     private void setUpCellValueFactories(TableColumn[] tableColumns, int drawSize) {
