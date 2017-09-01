@@ -2,6 +2,7 @@ package model;
 
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class Drawing {
     private SimpleStringProperty posOne, posTwo, posThree, posFour, posFive, bonusNumber;
     private SimpleStringProperty drawSum;
     private SimpleStringProperty oddEvenRatio;
+    private Map<String,String> monthNumbers = new HashMap<>();
     public static int drawSize;
 
     public static int getDrawSize() {
@@ -24,12 +26,33 @@ public class Drawing {
 
     public Drawing(int drawNumber, String drawDate, String... numbers) {
 
+        loadHashMap();
         this.drawNumber = new SimpleStringProperty("" + drawNumber);
-        this.drawDate = new SimpleStringProperty(drawDate);
+        String[] pp = drawDate.split("\\s");
+
+        this.drawDate = new SimpleStringProperty(String.format("%1s / %2s / %3s",monthNumbers.get(pp[1]),pp[2].substring(0,2),pp[3]));
         drawSize = numbers.length;
+
 
         initializeNumberPositions(numbers);
         loadData(numbers);
+    }
+
+    private void loadHashMap() {
+        monthNumbers.put("Jan","01");
+        monthNumbers.put("Feb","02");
+        monthNumbers.put("Mar","03");
+        monthNumbers.put("Apr","04");
+        monthNumbers.put("May","05");
+        monthNumbers.put("Jun","06");
+        monthNumbers.put("Jul","07");
+        monthNumbers.put("Aug","08");
+        monthNumbers.put("Sep","09");
+        monthNumbers.put("Oct","10");
+        monthNumbers.put("Nov","11");
+        monthNumbers.put("Dec","12");
+
+
     }
 
     private void initializeNumberPositions(String[] numbers) {
@@ -66,7 +89,6 @@ public class Drawing {
         int sum = 0;
         int oddCount = 0;
         int evenCount = 0;
-
 
         int count = 1;
         for (String number : numbers) {

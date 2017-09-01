@@ -3,8 +3,6 @@ package model;
 
 import javafx.collections.ObservableList;
 
-import java.util.List;
-
 public class FiveDigitLotteryGame extends LotteryGame{
 
 
@@ -28,7 +26,7 @@ public class FiveDigitLotteryGame extends LotteryGame{
     @Override
     public LotteryGame loadGameData() {
         lottoId = repository.retrieveGameId(gameName);
-        return repository.loadFiveDigitLottoData(lottoId);
+        return repository.loadLotteryData(lottoId,5);
     }
 
 

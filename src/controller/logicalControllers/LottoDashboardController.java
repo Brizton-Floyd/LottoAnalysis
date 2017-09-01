@@ -2,9 +2,12 @@ package controller.logicalControllers;
 
 
 import com.jfoenix.controls.JFXButton;
+import com.sun.javafx.scene.control.skin.TableViewSkin;
 import controller.MainController;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -12,11 +15,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Drawing;
 import model.FiveDigitLotteryGame;
 import model.LotteryGame;
 
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -70,12 +75,21 @@ public class LottoDashboardController implements Initializable {
 
         btn_close.setOnAction(event -> {
 
-
             predictedNumbersPane.setVisible(true);
             learnMoreButton.setDisable(false);
             infoPane.setVisible(false);
             btn_close.setVisible(false);
 
+        });
+
+        // this is a hack to make the tableview stop scrolling horizontally
+        drawNumberTable.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                if (event.getDeltaX() != 0) {
+                    event.consume();
+                }
+            }
         });
     }
 
@@ -139,7 +153,12 @@ public class LottoDashboardController implements Initializable {
 
         for (int i = 0; i < Drawing.drawSize; i++) {
 
-            tableColumnName.add("Pos " + (i + 1));
+            if(Drawing.drawSize > 5 && i == Drawing.drawSize - 1)
+                tableColumnName.add("Bonus ");
+
+            else
+                tableColumnName.add("Pos " + (i + 1));
+
         }
 
         tableColumnName.add("Sum");
@@ -148,18 +167,21 @@ public class LottoDashboardController implements Initializable {
         double width = predictedNumbersPane.getWidth();
         double columnWidths = width / tableColumnName.size();
 
+        drawNumberTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         for (int i = 0; i < tableColumnName.size(); i++) {
             tableColumns[i] = new TableColumn<>(tableColumnName.get(i));
+            if(i == 1)
+                tableColumns[i].setMaxWidth( 1f * Integer.MAX_VALUE * 100);
+            else
+                tableColumns[i].setMaxWidth( 1f * Integer.MAX_VALUE * 50);
+
             tableColumns[i].setSortable(false);
-            if(i == tableColumnName.size() - 1){
-                double size = tableColumns[i].getWidth();
-                tableColumns[i].setPrefWidth(size + 1);
-            }
             drawNumberTable.getColumns().add(tableColumns[i]);
         }
 
-        setUpCellValueFactories(tableColumns, Drawing.drawSize);
+        double sum = 0;
 
+        setUpCellValueFactories(tableColumns, Drawing.drawSize);
         drawNumberTable.scrollTo(lotteryGame.getDrawingData().size() - 1);
         drawNumberTable.setItems(lotteryGame.getDrawingData());
 
@@ -209,5 +231,6 @@ public class LottoDashboardController implements Initializable {
 
         }
     }
+
 }
 

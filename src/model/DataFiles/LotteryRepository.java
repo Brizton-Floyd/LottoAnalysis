@@ -4,10 +4,7 @@ import controller.MainController;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.scene.control.MenuItem;
-import model.Drawing;
-import model.FiveDigitLotteryGame;
-import model.LotteryGame;
-import model.LotteryUrlPaths;
+import model.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -249,26 +246,48 @@ public class LotteryRepository extends Task<Void> {
         return games;
     }
 
-    public LotteryGame loadFiveDigitLottoData(int id) {
+    public LotteryGame loadLotteryData(int id, int numPositions) {
 
         ResultSet rs;
-
         List<Drawing> drawData = new LinkedList<>();
-
         Drawing drawing = null;
+        LotteryGame game = null;
 
         try (Connection connection = SqlConnection.Connector();
-             PreparedStatement pstmt = connection.prepareStatement(DaoConstants.FIVE_DIGIT_LOTTERY_GAME_QUERY)) {
+             PreparedStatement pstmt = connection.prepareStatement(DaoConstants.getLottoTablesQueryPaths().get(id))) {
 
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
 
-                drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
-                        rs.getString("position_one"), rs.getString("position_two"),
-                        rs.getString("position_three"), rs.getString("position_four"),
-                        rs.getString("position_five"));
+                switch (numPositions){
+
+                    case 3:
+                        drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
+                                rs.getString("position_one"), rs.getString("position_two"),
+                                rs.getString("position_three"));
+                        break;
+                    case 4:
+                        drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
+                                rs.getString("position_one"), rs.getString("position_two"),
+                                rs.getString("position_three"), rs.getString("position_four"));
+                        break;
+                    case 5:
+                        drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
+                                rs.getString("position_one"), rs.getString("position_two"),
+                                rs.getString("position_three"), rs.getString("position_four"),
+                                rs.getString("position_five"));
+                        break;
+                    case 6:
+                        drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
+                                rs.getString("position_one"), rs.getString("position_two"),
+                                rs.getString("position_three"), rs.getString("position_four"),
+                                rs.getString("position_five"),rs.getString("bonus_number"));
+                        break;
+
+                }
+
                 drawData.add(drawing);
             }
 
@@ -276,7 +295,12 @@ public class LotteryRepository extends Task<Void> {
             e.printStackTrace();
         }
 
-        return new FiveDigitLotteryGame(id, "Fantasy Five", FXCollections.observableArrayList(drawData));
+        if(numPositions == 5)
+            return new FiveDigitLotteryGame(id, "Fantasy Five", FXCollections.observableArrayList(drawData));
+        else if(numPositions == 6)
+            return new SixDigitLotteryGame(id,"PowerBall",FXCollections.observableArrayList(drawData));
+
+        return null;
     }
 
     public int retrieveGameId(String gameName) {
