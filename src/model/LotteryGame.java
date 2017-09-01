@@ -40,11 +40,11 @@ public abstract class LotteryGame {
         this.gameName = gameName;
     }
 
-    public List<Drawing> getDrawingData() {
+    public ObservableList<Drawing> getDrawingData() {
         return drawingData;
     }
 
-    public void setDrawingData( ObservableList<Drawing> drawingData) {
+    public void setDrawingData(ObservableList<Drawing> drawingData) {
         this.drawingData = drawingData;
     }
 
