@@ -9,11 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import model.DataDownLoader;
+import model.*;
 import model.DataFiles.LotteryRepository;
-import model.FiveDigitLotteryGame;
-import model.LotteryGame;
-import model.LotteryUrlPaths;
 
 import java.sql.Connection;
 import java.util.LinkedList;
@@ -129,7 +126,9 @@ public class LottoInfoAndGamesController {
             }
             else if(gameName.contains("Powerball")){
 
-                System.out.print("yes");
+                game = new SixDigitLotteryGame(gameName);
+                this.lotteryGame = game.loadGameData();
+                mainController.lottoDashboardController.setUpTableView(lotteryGame);
             }
             else if(gameName.contains("Mega")){
                 System.out.print("yes");

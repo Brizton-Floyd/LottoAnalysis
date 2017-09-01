@@ -64,6 +64,7 @@
 
 .table-row-cell:selected {
     -fx-background-color: #10000C;
+    -fx-text-fill: #efa747;
     -fx-background-insets: 0;
     -fx-background-radius: 1;
 }
