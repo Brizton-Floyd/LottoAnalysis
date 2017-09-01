@@ -89,8 +89,6 @@ public class LottoInfoAndGamesController {
     }
     public void makeGamePanelAppear(ActionEvent e) {
 
-
-
         if (e.getSource() instanceof Button) {
 
             Button button = (Button) e.getSource();
@@ -234,5 +232,10 @@ public class LottoInfoAndGamesController {
     public void makeVboxVisible() {
         progressAndLabelVbox.setVisible(true);
         lotteryUpdateLabel.setVisible(true);
+    }
+
+    public String getDefaultGameName(){
+
+        return "CA: Fantasy Five";
     }
 }
