@@ -27,7 +27,21 @@ public class SixDigitLotteryGame extends LotteryGame {
     @Override
     public LotteryGame loadGameData() {
         lottoId = repository.retrieveGameId(gameName);
-        return repository.loadLotteryData(lottoId,6);
+        final String databaseName;
+
+        switch (lottoId){
+            case 2:
+                databaseName = "powerball_results";
+                return repository.loadLotteryData(lottoId,databaseName,6);
+            case 3:
+                databaseName = "mega_million_results";
+                return repository.loadLotteryData(lottoId, databaseName, 6);
+            case 4:
+                databaseName = "super_lotto_results";
+                return repository.loadLotteryData(lottoId, databaseName, 6);
+
+        }
+        return null;
 
     }
 }

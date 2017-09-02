@@ -131,20 +131,24 @@ public class LottoInfoAndGamesController {
                 mainController.lottoDashboardController.setUpTableView(lotteryGame);
             }
             else if(gameName.contains("Mega")){
-                System.out.print("yes");
-
+                game = new SixDigitLotteryGame(gameName);
+                this.lotteryGame = game.loadGameData();
+                mainController.lottoDashboardController.setUpTableView(lotteryGame);
             }
             else if(gameName.contains("Pick 3")){
-                System.out.print("yes");
-
+                game = new PickThreeLotteryGame(gameName);
+                this.lotteryGame = game.loadGameData();
+                mainController.lottoDashboardController.setUpTableView(lotteryGame);
             }
             else if(gameName.contains("Pick 4")){
-                System.out.print("yes");
-
+                game = new PickFourLotteryGame(gameName);
+                this.lotteryGame = game.loadGameData();
+                mainController.lottoDashboardController.setUpTableView(lotteryGame);
             }
             else if(gameName.contains("Super")){
-                System.out.print("yes");
-
+                game = new SixDigitLotteryGame(gameName);
+                this.lotteryGame = game.loadGameData();
+                mainController.lottoDashboardController.setUpTableView(lotteryGame);
             }
         }
     }

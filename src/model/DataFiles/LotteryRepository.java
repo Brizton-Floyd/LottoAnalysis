@@ -27,8 +27,6 @@ public class LotteryRepository extends Task<Void> {
         connection = SqlConnection.Connector();
         if (connection == null) {
             System.exit(1);
-        } else {
-            System.out.print("Connected");
         }
     }
 
@@ -246,17 +244,27 @@ public class LotteryRepository extends Task<Void> {
         return games;
     }
 
-    public LotteryGame loadLotteryData(int id, int numPositions) {
+    public LotteryGame loadLotteryData(int id, String databaseName, int numPositions) {
 
         ResultSet rs;
         List<Drawing> drawData = new LinkedList<>();
         Drawing drawing = null;
         LotteryGame game = null;
 
-        try (Connection connection = SqlConnection.Connector();
-             PreparedStatement pstmt = connection.prepareStatement(DaoConstants.getLottoTablesQueryPaths().get(id))) {
+        try (Connection connection = SqlConnection.Connector()) {
 
+            String[] query = new String[DaoConstants.LOAD_DATA_FOR_GAME_QUERY.split("[?]").length + 2];
+            query[0] = DaoConstants.LOAD_DATA_FOR_GAME_QUERY.split("[?]")[0];
+            query[1] = databaseName;
+            query[2] = DaoConstants.LOAD_DATA_FOR_GAME_QUERY.split("[?]")[1];
+            query[3] = "?";
+            query[4] = DaoConstants.LOAD_DATA_FOR_GAME_QUERY.split("[?]")[2];
+
+            String queryString = query[0] + query[1] + query[2] + query[3] + query[4];
+
+            PreparedStatement pstmt = connection.prepareStatement(queryString);
             pstmt.setInt(1, id);
+
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -299,6 +307,10 @@ public class LotteryRepository extends Task<Void> {
             return new FiveDigitLotteryGame(id, "Fantasy Five", FXCollections.observableArrayList(drawData));
         else if(numPositions == 6)
             return new SixDigitLotteryGame(id,"PowerBall",FXCollections.observableArrayList(drawData));
+        else if (numPositions == 4)
+            return new PickFourLotteryGame(id,"Daily Pick 4", FXCollections.observableArrayList(drawData));
+        else if (numPositions == 3)
+            return new PickThreeLotteryGame(id, "Daily Pick 3", FXCollections.observableArrayList(drawData));
 
         return null;
     }

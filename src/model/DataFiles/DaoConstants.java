@@ -12,7 +12,6 @@ public class DaoConstants {
 
     public static Map<Integer,String> lotto_query;
     public static List<String> deleteQueries;
-    public static Map<Integer, String> lottoTablesQueryPaths;
 
     public static final String GAME_ID_QUERY = "SELECT game_id FROM game WHERE game_name = ?";
 
@@ -32,9 +31,7 @@ public class DaoConstants {
 
     public static final String FIND_CERTAIN_GAME_QUERY = "SELECT game_id FROM game Where game_id = ?";
 
-    public static final String FIVE_DIGIT_LOTTERY_GAME_QUERY = "SELECT * FROM fantasy_five_results where game_id = ?" +
-            " ORDER BY draw_id desc";
-    public static final String SIX_DIGIT_LOTTERY_GAME_QUERY = "SELECT * FROM powerball_results where game_id = ?" +
+    public static final String LOAD_DATA_FOR_GAME_QUERY = "SELECT * FROM ? where game_id = ?" +
             " ORDER BY draw_id desc";
 
     private static final String INSERT_HISTORICAL_POWERBALL =
@@ -93,15 +90,5 @@ public class DaoConstants {
         lotto_query.put(5,INSERT_HISTORICAL_PICK_4);
         lotto_query.put(6,INSERT_HISTORICAL_PICK_3);
 
-    }
-
-    public static Map<Integer, String> getLottoTablesQueryPaths() {
-        if(lottoTablesQueryPaths == null)
-            lottoTablesQueryPaths = new LinkedHashMap<>();
-
-        lottoTablesQueryPaths.put(1,FIVE_DIGIT_LOTTERY_GAME_QUERY);
-        lottoTablesQueryPaths.put(2, SIX_DIGIT_LOTTERY_GAME_QUERY);
-
-        return lottoTablesQueryPaths;
     }
 }
