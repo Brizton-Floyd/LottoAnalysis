@@ -26,7 +26,7 @@ public class FiveDigitLotteryGame extends LotteryGame{
     @Override
     public LotteryGame loadGameData() {
         lottoId = repository.retrieveGameId(gameName);
-        return repository.loadLotteryData(lottoId,5);
+        return repository.loadLotteryData(lottoId,"fantasy_five_results",5);
     }
 
 

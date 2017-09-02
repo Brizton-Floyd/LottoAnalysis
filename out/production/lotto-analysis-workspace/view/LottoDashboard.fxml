@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="pane" prefHeight="700.0" prefWidth="1014.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.LottoDashboardController">
    <children>
-      <AnchorPane layoutX="36.0" layoutY="85.0" prefHeight="271.0" prefWidth="608.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="75.0">
+      <AnchorPane layoutX="36.0" layoutY="85.0" prefHeight="271.0" prefWidth="608.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="386.0" AnchorPane.topAnchor="75.0">
          <children>
-            <Label layoutX="5.0" text="Introduction" textFill="#dac6ac">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-            </Label>
-            <Label layoutX="32.0" layoutY="65.0" text="Welcome to Lotto Analysis" textFill="#dac6ac">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-            </Label>
             <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-            <FontAwesomeIconView fill="#efa747" glyphName="XING" layoutX="41.0" layoutY="224.71428680419922" size="100" wrappingWidth="108.25260925292969" AnchorPane.topAnchor="139.0" />
-            <Label layoutX="144.0" layoutY="128.0" text="Want to know more about the application ? Click below" textFill="#dac6ac">
+            <Label layoutX="15.0" layoutY="13.0" prefHeight="59.0" prefWidth="584.0" text="Based on the research conducted by Lotto-Analysis, the best group of numbers to look into for the next draw are listed below in the bar chart. The bar chart will tell you how many times each of the numbers represented in the group have hit in the current draw position" textFill="#dac6ac" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="12.0" />
                </font>
                <padding>
                   <Insets top="10.0" />
                </padding>
             </Label>
-            <JFXButton fx:id="learnMoreButton" layoutX="224.0" layoutY="196.0" prefHeight="42.0" prefWidth="269.0" style="-fx-background-color: #EFA747; -fx-background-radius: 5em;" text="Click to learn more" textFill="#515b51">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </JFXButton>
+            <Pane layoutX="3.0" layoutY="73.0" prefHeight="197.0" prefWidth="598.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="72.0">
+               <children>
+                  <HBox layoutX="-17.0" layoutY="-5.0" prefHeight="174.0" prefWidth="616.0">
+                     <children>
+                        <BarChart fx:id="barChart" maxHeight="174.0" maxWidth="603.0" prefHeight="174.0" prefWidth="524.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                           <padding>
+                              <Insets bottom="-20.0" left="-5.0" right="40.0" top="-10.0" />
+                           </padding>
+                        </BarChart>
+                        <ChoiceBox fx:id="choiceBox" prefWidth="150.0" style="-fx-focus-color: transparent;" stylesheets="@../styles/choice_box.css" />
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
          </children>
       </AnchorPane>
       <Label fx:id="lottoDashboard" layoutX="22.0" layoutY="35.0" text="Lotto Dashboard" textFill="#dac6ac">
