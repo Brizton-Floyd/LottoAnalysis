@@ -304,35 +304,39 @@ public class LotteryRepository extends Task<Void> {
         }
 
         if(numPositions == 5)
-            return new FiveDigitLotteryGame(id, "Fantasy Five", FXCollections.observableArrayList(drawData));
+            return new FiveDigitLotteryGame(id, FXCollections.observableArrayList(drawData));
         else if(numPositions == 6)
-            return new SixDigitLotteryGame(id,"PowerBall",FXCollections.observableArrayList(drawData));
+            return new SixDigitLotteryGame(id,FXCollections.observableArrayList(drawData));
         else if (numPositions == 4)
-            return new PickFourLotteryGame(id,"Daily Pick 4", FXCollections.observableArrayList(drawData));
+            return new PickFourLotteryGame(id, FXCollections.observableArrayList(drawData));
         else if (numPositions == 3)
-            return new PickThreeLotteryGame(id, "Daily Pick 3", FXCollections.observableArrayList(drawData));
+            return new PickThreeLotteryGame(id,  FXCollections.observableArrayList(drawData));
 
         return null;
     }
 
-    public int retrieveGameId(String gameName) {
+    public Object[] retrieveGameId(String gameName) {
 
-        int id = 0;
+        Object[] data = null;
         try (Connection connection = SqlConnection.Connector();
              PreparedStatement statement = connection.prepareStatement(DaoConstants.GAME_ID_QUERY)) {
 
             statement.setString(1, gameName);
 
             ResultSet rs = statement.executeQuery();
+            data = new Object[3];
 
             while (rs.next()) {
-                id = rs.getInt("game_id");
+
+                data[0] = rs.getInt("game_id");
+                data[1] = rs.getInt("min_number");
+                data[2] = rs.getInt("max_number");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return id;
+        return data;
     }
 }

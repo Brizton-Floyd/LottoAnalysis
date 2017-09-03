@@ -2,8 +2,9 @@ package model;
 
 
 import javafx.collections.ObservableList;
+import utils.FileTweaker;
 
-public class FiveDigitLotteryGame extends LotteryGame{
+public class FiveDigitLotteryGame extends LotteryGame {
 
 
     public FiveDigitLotteryGame() {
@@ -12,10 +13,11 @@ public class FiveDigitLotteryGame extends LotteryGame{
 
     public FiveDigitLotteryGame(String game) {
 
-        this(0,game,null);
+        setGameName(game);
     }
-    public FiveDigitLotteryGame(int lottoId, String gameName, ObservableList<Drawing> drawingData) {
-        super(lottoId, gameName, drawingData);
+
+    public FiveDigitLotteryGame(int lottoId, ObservableList<Drawing> drawingData) {
+        super(lottoId, drawingData);
     }
 
     @Override
@@ -25,8 +27,15 @@ public class FiveDigitLotteryGame extends LotteryGame{
 
     @Override
     public LotteryGame loadGameData() {
-        lottoId = repository.retrieveGameId(gameName);
-        return repository.loadLotteryData(lottoId,"fantasy_five_results",5);
+        Object[] data = repository.retrieveGameId(getGameName());
+        lottoId = (int)data[0];
+        String gameName = FileTweaker.trimStateAbrrFromGameName(getGameName());
+
+        LotteryGame game = repository.loadLotteryData(lottoId, "fantasy_five_results", 5);
+        game.setMinNumber((int) data[1]);
+        game.setMaxNumber((int) data[2]);
+        game.setGameName(gameName);
+        return game;
     }
 
 

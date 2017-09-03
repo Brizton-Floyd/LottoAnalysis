@@ -18,7 +18,7 @@
       <AnchorPane layoutX="36.0" layoutY="85.0" prefHeight="271.0" prefWidth="608.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="386.0" AnchorPane.topAnchor="75.0">
          <children>
             <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-            <Label layoutX="15.0" layoutY="13.0" prefHeight="59.0" prefWidth="584.0" text="Based on the research conducted by Lotto-Analysis, the best group of numbers to look into for the next draw are listed below in the bar chart. The bar chart will tell you how many times each of the numbers represented in the group have hit in the current draw position" textFill="#dac6ac" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
+            <Label layoutX="15.0" layoutY="13.0" prefHeight="59.0" prefWidth="584.0" text="Based on the research conducted by Lotto-Analysis, the best group of delta numbers to look into for the next draw are listed below in the bar chart. The bar chart will tell you how many times each of the numbers represented in the group have hit in the current draw position" textFill="#dac6ac" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -74,14 +74,6 @@
       <AnchorPane fx:id="infoPane1" layoutX="658.0" layoutY="75.0" prefHeight="271.0" prefWidth="362.0" style="-fx-border-color: #10000C;" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="642.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="76.0">
          <children>
             <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-            <Label alignment="TOP_LEFT" prefHeight="271.0" prefWidth="608.0" text="This is some dummy Text until a full description can be given to the user about the application . This section will be useful to lottery players that are brand new to the application therefore giving them a better understanding on how to use the application " textFill="#dac6ac" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
-               </padding>
-            </Label>
          </children>
       </AnchorPane>
       <Label layoutX="645.0" layoutY="36.0" text="Current Jackpots" textFill="#dac6ac">

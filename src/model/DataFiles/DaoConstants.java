@@ -13,7 +13,9 @@ public class DaoConstants {
     public static Map<Integer,String> lotto_query;
     public static List<String> deleteQueries;
 
-    public static final String GAME_ID_QUERY = "SELECT game_id FROM game WHERE game_name = ?";
+    public static final String GAME_ID_QUERY = "SELECT g.game_id, gg.min_number, gg.max_number FROM game g " +
+                                                    "INNER JOIN game_min_max gg ON gg.game_id = g.game_id " +
+                                                "WHERE game_name = ?";
 
     public static final String INSERT_GAME_QUERY = "INSERT INTO game(game_name) VALUES(?)";
 

@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * class will hold all the constants that contain the url to file on the internet
+ * class will hold all the constants that contain the url to the lottery game files on the internet
  */
 public class LotteryUrlPaths {
 

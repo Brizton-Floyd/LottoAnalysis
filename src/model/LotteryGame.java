@@ -10,6 +10,9 @@ public abstract class LotteryGame {
 
     protected int lottoId;
     protected String gameName;
+    protected int minNumber;
+    protected int maxNumber;
+
     protected ObservableList<Drawing> drawingData;
 
     protected LotteryRepository repository = new LotteryRepository(null);
@@ -17,11 +20,26 @@ public abstract class LotteryGame {
     public LotteryGame() {
 
     }
-    public LotteryGame(int lottoId, String gameName, ObservableList<Drawing> drawingData){
+    public LotteryGame(int lottoId, ObservableList<Drawing> drawingData){
 
         this.lottoId = lottoId;
-        this.gameName = gameName;
         this.drawingData = drawingData;
+    }
+
+    public int getMinNumber() {
+        return minNumber;
+    }
+
+    public void setMinNumber(int minNumber) {
+        this.minNumber = minNumber;
+    }
+
+    public int getMaxNumber() {
+        return maxNumber;
+    }
+
+    public void setMaxNumber(int maxNumber) {
+        this.maxNumber = maxNumber;
     }
 
     public int getLottoId() {
