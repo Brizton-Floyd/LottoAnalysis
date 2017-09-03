@@ -1,6 +1,9 @@
 package model;
 
 import javafx.collections.ObservableList;
+import utils.FileTweaker;
+
+import java.util.Arrays;
 
 /**
  * Created by briztonfloyd on 8/31/17.
@@ -13,10 +16,10 @@ public class SixDigitLotteryGame extends LotteryGame {
 
     public SixDigitLotteryGame(String game) {
 
-        this(0,game,null);
+        setGameName(game);
     }
-    public SixDigitLotteryGame(int lottoId, String gameName, ObservableList<Drawing> drawingData) {
-        super(lottoId, gameName, drawingData);
+    public SixDigitLotteryGame(int lottoId,  ObservableList<Drawing> drawingData) {
+        super(lottoId, drawingData);
     }
 
     @Override
@@ -26,19 +29,36 @@ public class SixDigitLotteryGame extends LotteryGame {
 
     @Override
     public LotteryGame loadGameData() {
-        lottoId = repository.retrieveGameId(gameName);
+        Object[] data = repository.retrieveGameId(gameName);
+        lottoId = (int) data[0];
+
+        String twekedGameName = FileTweaker.trimStateAbrrFromGameName(gameName);
+
+        LotteryGame game;
         final String databaseName;
 
         switch (lottoId){
             case 2:
                 databaseName = "powerball_results";
-                return repository.loadLotteryData(lottoId,databaseName,6);
+                game = repository.loadLotteryData(lottoId,databaseName,6);
+                game.setMinNumber((int) data[1]);
+                game.setMaxNumber((int) data[2]);
+                game.setGameName(twekedGameName);
+                return game;
             case 3:
                 databaseName = "mega_million_results";
-                return repository.loadLotteryData(lottoId, databaseName, 6);
+                game = repository.loadLotteryData(lottoId,databaseName,6);
+                game.setMinNumber((int) data[1]);
+                game.setMaxNumber((int) data[2]);
+                game.setGameName(twekedGameName);
+                return game;
             case 4:
                 databaseName = "super_lotto_results";
-                return repository.loadLotteryData(lottoId, databaseName, 6);
+                game = repository.loadLotteryData(lottoId,databaseName,6);
+                game.setMinNumber((int) data[1]);
+                game.setMaxNumber((int) data[2]);
+                game.setGameName(twekedGameName);
+                return game;
 
         }
         return null;

@@ -3,8 +3,6 @@ package controller.logicalControllers;
 import com.jfoenix.controls.JFXButton;
 import controller.MainController;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -21,6 +19,8 @@ import javafx.util.Callback;
 import model.Drawing;
 import model.FiveDigitLotteryGame;
 import model.LotteryGame;
+import utils.NumberPatternAnalyzer;
+
 import java.net.URL;
 import java.util.*;
 
@@ -30,7 +30,7 @@ public class LottoDashboardController implements Initializable {
     private LotteryGame lotteryGame;
 
     @FXML
-    private AnchorPane pane, infoPane, predictedNumbersPane;
+    private AnchorPane pane, infoPane, infoPane1, predictedNumbersPane;
 
     @FXML
     private JFXButton btn_close;
@@ -54,51 +54,53 @@ public class LottoDashboardController implements Initializable {
         setTextStyleForAllLabels();
         loadDefaultGameForView();
         loadChoicesIntoChoiceBox();
+
     }
 
     private void loadChoicesIntoChoiceBox() {
-
 
         // Retrive how many positions are currently in the lotto game and then add choices to choicebox
         int count = 0;
         List<String> choiceBoxItems = new LinkedList<>();
 
+
         List<TableColumn> columns = new ArrayList<>(drawNumberTable.getColumns());
-        for(TableColumn column : columns){
+        for (TableColumn column : columns) {
             String columnName = column.getText();
-            if(columnName.contains("Pos") || columnName.contains("Bonus")){
-                if(count < 5)
+            if (columnName.contains("Pos") || columnName.contains("Bonus")) {
+                if (count < 5)
                     choiceBoxItems.add("Position " + (++count));
                 else
                     choiceBoxItems.add("Bonus Position");
             }
         }
+
         // Create two dimensional array and load all numbers into correct positions
         int[][] positionalNumbers = new int[count][drawNumberTable.getItems().size()];
-        loadUpPostionalNumbers(positionalNumbers, lotteryGame.getDrawingData());
+        loadUpPositionalNumbers(positionalNumbers, lotteryGame.getDrawingData());
 
+        int[][] deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
 
         choiceBox.setItems(FXCollections.observableArrayList(choiceBoxItems));
         choiceBox.getSelectionModel().selectFirst();
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
 
-            int number = (int)newValue;
-            switch (number){
+            int number = (int) newValue;
+            switch (number) {
                 case 0:
-                    System.out.print("pos 1");
-
+                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[0]);
                     break;
                 case 1:
-                    System.out.print("pos 2");
+                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[1]);
                     break;
                 case 2:
-                    System.out.print("pos 3");
+                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[2]);
                     break;
                 case 3:
-                    System.out.print("pos 4");
+                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[3]);
                     break;
                 case 4:
-                    System.out.print("pos 5");
+                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[4]);
                     break;
                 case 5:
                     System.out.print("Bonus Number");
@@ -108,29 +110,27 @@ public class LottoDashboardController implements Initializable {
 
     }
 
-    private void loadUpPostionalNumbers(int[][] positionalNumbers, ObservableList<Drawing> drawingData) {
 
-        for(int i = 0; i < drawingData.size(); i++){
+    private void loadUpPositionalNumbers(int[][] positionalNumbers, ObservableList<Drawing> drawingData) {
 
-            if(positionalNumbers.length == 3) {
+        for (int i = 0; i < drawingData.size(); i++) {
+
+            if (positionalNumbers.length == 3) {
                 positionalNumbers[0][i] = Integer.parseInt(drawingData.get(i).posOneProperty().get());
                 positionalNumbers[1][i] = Integer.parseInt(drawingData.get(i).posTwoProperty().get());
                 positionalNumbers[2][i] = Integer.parseInt(drawingData.get(i).posThreeProperty().get());
-            }
-            else if(positionalNumbers.length == 4) {
+            } else if (positionalNumbers.length == 4) {
                 positionalNumbers[0][i] = Integer.parseInt(drawingData.get(i).posOneProperty().get());
                 positionalNumbers[1][i] = Integer.parseInt(drawingData.get(i).posTwoProperty().get());
                 positionalNumbers[2][i] = Integer.parseInt(drawingData.get(i).posThreeProperty().get());
                 positionalNumbers[3][i] = Integer.parseInt(drawingData.get(i).posFourProperty().get());
-            }
-            else if(positionalNumbers.length == 5) {
+            } else if (positionalNumbers.length == 5) {
                 positionalNumbers[0][i] = Integer.parseInt(drawingData.get(i).posOneProperty().get());
                 positionalNumbers[1][i] = Integer.parseInt(drawingData.get(i).posTwoProperty().get());
                 positionalNumbers[2][i] = Integer.parseInt(drawingData.get(i).posThreeProperty().get());
                 positionalNumbers[3][i] = Integer.parseInt(drawingData.get(i).posFourProperty().get());
                 positionalNumbers[4][i] = Integer.parseInt(drawingData.get(i).posFiveProperty().get());
-            }
-            else if(positionalNumbers.length == 6) {
+            } else if (positionalNumbers.length == 6) {
                 positionalNumbers[0][i] = Integer.parseInt(drawingData.get(i).posOneProperty().get());
                 positionalNumbers[1][i] = Integer.parseInt(drawingData.get(i).posTwoProperty().get());
                 positionalNumbers[2][i] = Integer.parseInt(drawingData.get(i).posThreeProperty().get());
@@ -144,16 +144,6 @@ public class LottoDashboardController implements Initializable {
         }
     }
 
-    private void loadDefaultGameForView() {
-
-        choiceBox.getItems().clear();
-
-        String gameName = mainController.lottoInfoAndGamesController.getDefaultGameName();
-        this.lotteryGame = new FiveDigitLotteryGame(gameName);
-        predictedNumbersLabel.setText("Historical draw table for: " + lotteryGame.loadGameData().getGameName());
-        lottoDashboard.setText(gameName + "Lotto Dashboard");
-        setUpTableView(lotteryGame.loadGameData());
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -176,7 +166,6 @@ public class LottoDashboardController implements Initializable {
             }
         });
     }
-
     public void setGameLabels(String gameName) {
 
         if (!gameName.equalsIgnoreCase("update database")) {
@@ -195,27 +184,13 @@ public class LottoDashboardController implements Initializable {
         }
 
     }
-
     public void showPane() {
         pane.setVisible(true);
     }
-
     public void hidePane() {
         pane.setVisible(false);
     }
 
-    private void setTextStyleForAllLabels() {
-
-        List<Node> children = pane.getChildren();
-        for (Node node : children) {
-            if (node instanceof Label) {
-                Label label = (Label) node;
-                label.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
-            }
-        }
-    }
-
-    // This method will set up the table view with model data
     public void setUpTableView(LotteryGame lotteryGame) {
 
         choiceBox.getItems().clear();
@@ -355,6 +330,28 @@ public class LottoDashboardController implements Initializable {
 
         }
     }
+    private void setTextStyleForAllLabels() {
+
+        List<Node> children = pane.getChildren();
+        for (Node node : children) {
+            if (node instanceof Label) {
+                Label label = (Label) node;
+                label.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
+            }
+        }
+    }
+    private void loadDefaultGameForView() {
+
+        choiceBox.getItems().clear();
+
+        String gameName = mainController.lottoInfoAndGamesController.getDefaultGameName();
+        this.lotteryGame = new FiveDigitLotteryGame(gameName);
+        predictedNumbersLabel.setText("Historical draw table for: " + lotteryGame.loadGameData().getGameName());
+        lottoDashboard.setText(gameName + "Lotto Dashboard");
+        setUpTableView(lotteryGame.loadGameData());
+    }
+
+
 
 }
 

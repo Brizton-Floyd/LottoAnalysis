@@ -74,5 +74,16 @@ public class FileTweaker {
             e.printStackTrace();
         }
     }
+
+    public static String trimStateAbrrFromGameName(String gameName) {
+
+        String[] nameString = gameName.split("\\s");
+        String gameRealName = "";
+        for(int i = 1; i < nameString.length; i++){
+            gameRealName += nameString[i];
+        }
+
+        return gameRealName;
+    }
 }
 
