@@ -31,7 +31,7 @@ public class PickThreeLotteryGame extends LotteryGame {
         lottoId = (int) data[0];
         String gameName = FileTweaker.trimStateAbrrFromGameName(getGameName());
 
-        LotteryGame game = repository.loadLotteryData(lottoId, "pick3_results", 4);
+        LotteryGame game = repository.loadLotteryData(lottoId, "pick3_results", 3);
         game.setMinNumber((int) data[1]);
         game.setMaxNumber((int) data[2]);
         game.setGameName(gameName);
