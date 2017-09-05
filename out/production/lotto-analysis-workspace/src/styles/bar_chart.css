@@ -1,0 +1,60 @@
+.axis-label {
+   -fx-text-fill: #dac6ac;
+
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+.chart-legend-item-symbol{
+    -fx-opacity:0.0;
+}
+
+.text-id {
+ -fx-font-smoothing-type: lcd;
+ -fx-fill: white;
+ -fx-font-size: 9pt;
+}
+.chart-legend {
+   -fx-background-color:  transparent;
+
+}
+.chart-title{
+-fx-text-fill: #dac6ac;
+}
+
+.chart-legend-item-symbol{
+   -fx-background-radius: 0;
+}
+.chart-legend-item{
+    -fx-text-fill: white;
+}
+
+ .label .chart-legend-item{
+     -fx-text-fill: #191970;
+
+ }
+
+.data0.chart-bar {
+    -fx-bar-fill: #10000C;
+}
+
+.data1.chart-bar {
+    -fx-bar-fill: #8C7547;
+}
+.data2.chart-bar {
+    -fx-bar-fill: #EFA747;
+}
+.data3.chart-bar {
+    -fx-bar-fill: #DAC6AC;
+}
+.data4.chart-bar {
+    -fx-bar-fill: #22bad9;
+}
+*/
+
+.chart-title{
+
+   -fx-text-fill: #dac6ac;
+   -fx-font-size: 12pt;
+}

@@ -10,15 +10,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import model.Drawing;
 import model.FiveDigitLotteryGame;
 import model.LotteryGame;
+import model.chartImplementations.BarChartExt;
 import utils.NumberPatternAnalyzer;
 
 import java.net.URL;
@@ -28,6 +34,7 @@ public class LottoDashboardController implements Initializable {
 
     private MainController mainController;
     private LotteryGame lotteryGame;
+    int[][] positionalNumbers = null;
 
     @FXML
     private AnchorPane pane, infoPane, infoPane1, predictedNumbersPane;
@@ -45,24 +52,32 @@ public class LottoDashboardController implements Initializable {
     private BarChart barChart;
 
     @FXML
+    private HBox hBox;
+
     private ChoiceBox choiceBox;
+    private BarChartExt<String, String> bc;
 
     public void init(MainController mainController) {
 
+        choiceBox = new ChoiceBox();
+        choiceBox.setStyle("-fx-focus-color: transparent;");
+        bc = new BarChartExt<>(new CategoryAxis(), new NumberAxis());
+        hBox.getChildren().addAll(bc, choiceBox);
+
         this.mainController = mainController;
 
+        styleChart();
         setTextStyleForAllLabels();
         loadDefaultGameForView();
         loadChoicesIntoChoiceBox();
+
 
     }
 
     private void loadChoicesIntoChoiceBox() {
 
-        // Retrive how many positions are currently in the lotto game and then add choices to choicebox
         int count = 0;
         List<String> choiceBoxItems = new LinkedList<>();
-
 
         List<TableColumn> columns = new ArrayList<>(drawNumberTable.getColumns());
         for (TableColumn column : columns) {
@@ -75,8 +90,7 @@ public class LottoDashboardController implements Initializable {
             }
         }
 
-        // Create two dimensional array and load all numbers into correct positions
-        int[][] positionalNumbers = new int[count][drawNumberTable.getItems().size()];
+        positionalNumbers = new int[count][drawNumberTable.getItems().size()];
         loadUpPositionalNumbers(positionalNumbers, lotteryGame.getDrawingData());
 
         int[][] deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
@@ -85,32 +99,126 @@ public class LottoDashboardController implements Initializable {
         choiceBox.getSelectionModel().selectFirst();
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
 
+            final Object[] data;
             int number = (int) newValue;
+            Map<Integer[], Object[]> chartData = null;
+
             switch (number) {
                 case 0:
-                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[0]);
+                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[0]);
+                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[0], positionalNumbers.length,
+                            (int) data[1], (int) data[2], lotteryGame);
+
                     break;
                 case 1:
-                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[1]);
+                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[1]);
+                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[1], positionalNumbers.length,
+                            (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 2:
-                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[2]);
+                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[2]);
+                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[2], positionalNumbers.length,
+                            (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 3:
-                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[3]);
+                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[3]);
+                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[3], positionalNumbers.length,
+                            (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 4:
-                    NumberPatternAnalyzer.findDeltaNumberGroupLikelyToHit(deltaNumberForLastDraw[4]);
+                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[4]);
+                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[4], positionalNumbers.length,
+                            (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 5:
                     System.out.print("Bonus Number");
                     break;
             }
+
+            // Plot data on bar chart
+            if (number < 5)
+                setUpChart(number + 1, chartData);
+
         });
 
     }
 
 
+    /**
+     * Method will be used to set up the bar chart with the appropriate data
+     *
+     * @param position
+     */
+    private void setUpChart(int position, Map<Integer[], Object[]> chartData) {
+
+        final String austria = "Austria";
+        final String brazil = "Brazil";
+        final String france = "France";
+        final String italy = "Italy";
+        final String usa = "USA";
+
+        bc.getData().clear();
+
+        //524 width
+        // 174 height
+        // Top: -10, Right: 40, Bottom: -20, Left: -5
+
+
+        bc.setTitle(String.format("Best Group For Position %1s", position));
+        bc.getXAxis().setLabel("Position Candidate Numbers");
+        bc.getYAxis().setLabel("Hits in Pos " + position);
+        bc.setAnimated(false);
+        bc.legendVisibleProperty().setValue(true);
+        bc.prefHeight(Region.USE_COMPUTED_SIZE);
+        bc.prefWidth(Region.USE_COMPUTED_SIZE);
+
+        if (chartData != null) {
+
+            int length = 0;
+//            for (Map.Entry<Integer[], Object[]> data : chartData.entrySet()) {
+//                length = data.getKey().length;
+//                break;
+            // }
+
+            XYChart.Series[] series = new XYChart.Series[1];
+            StringBuilder builder = new StringBuilder();
+            builder.append("[ ");
+            for (Map.Entry<Integer[], Object[]> data : chartData.entrySet()) {
+                int[] numbers = Arrays.stream(data.getKey()).mapToInt(i -> i).toArray();
+                HashMap<Integer, Integer> numberhits = (HashMap<Integer, Integer>) data.getValue()[2];
+                series[0] = new XYChart.Series<Number, Number>();
+                //series[0].setName(Arrays.toString(numbers));
+                for (int i = 0; i < numbers.length; i++) {
+
+                    //series[i].setName("Lotto Num: " + numbers[i]);
+                    if (numberhits.containsKey(numbers[i])) {
+                        builder.append(numbers[i] + ",");
+                        series[0].getData().add(new XYChart.Data<>(numbers[i] + "", numberhits.get(numbers[i])));
+                    }
+                }
+                int index = builder.lastIndexOf(",");
+                builder.setCharAt(index,' ');
+                builder.append("]");
+                series[0].setName(builder.toString());
+                bc.getData().add(series[0]);
+
+            }
+        }
+
+    }
+
+    private void styleChart() {
+
+        bc.getStylesheets().addAll("/styles/bar_chart.css");
+
+    }
+
+    /**
+     * Loader that injects values into perspective draw positions from a Lotterygame object.
+     *
+     * @param positionalNumbers
+     * @param drawingData
+     */
     private void loadUpPositionalNumbers(int[][] positionalNumbers, ObservableList<Drawing> drawingData) {
 
         for (int i = 0; i < drawingData.size(); i++) {
@@ -144,7 +252,6 @@ public class LottoDashboardController implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -166,6 +273,7 @@ public class LottoDashboardController implements Initializable {
             }
         });
     }
+
     public void setGameLabels(String gameName) {
 
         if (!gameName.equalsIgnoreCase("update database")) {
@@ -184,15 +292,24 @@ public class LottoDashboardController implements Initializable {
         }
 
     }
+
     public void showPane() {
         pane.setVisible(true);
     }
+
     public void hidePane() {
         pane.setVisible(false);
     }
 
+    /**
+     * Method will take in any lottery game and and set up the number draw tableview. Method also calls the necessary methods
+     * to aid in populating the choicebox in the lotto dashboard section.
+     *
+     * @param lotteryGame
+     */
     public void setUpTableView(LotteryGame lotteryGame) {
 
+        positionalNumbers = null;
         choiceBox.getItems().clear();
         drawNumberTable.getItems().clear();
         drawNumberTable.getColumns().clear();
@@ -330,6 +447,7 @@ public class LottoDashboardController implements Initializable {
 
         }
     }
+
     private void setTextStyleForAllLabels() {
 
         List<Node> children = pane.getChildren();
@@ -340,7 +458,9 @@ public class LottoDashboardController implements Initializable {
             }
         }
     }
+
     private void loadDefaultGameForView() {
+
 
         choiceBox.getItems().clear();
 
@@ -351,7 +471,8 @@ public class LottoDashboardController implements Initializable {
         setUpTableView(lotteryGame.loadGameData());
     }
 
-
-
+    public LotteryGame getLotteryGame() {
+        return lotteryGame;
+    }
 }
 
