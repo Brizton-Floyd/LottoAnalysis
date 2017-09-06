@@ -2,6 +2,7 @@ package controller.logicalControllers;
 
 import com.jfoenix.controls.JFXButton;
 import controller.MainController;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,10 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ScrollEvent;
@@ -20,9 +18,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import model.Drawing;
 import model.FiveDigitLotteryGame;
+import model.GameInstructions;
 import model.LotteryGame;
 import model.chartImplementations.BarChartExt;
 import utils.NumberPatternAnalyzer;
@@ -43,7 +43,7 @@ public class LottoDashboardController implements Initializable {
     private JFXButton btn_close;
 
     @FXML
-    private Label lottoDashboard, predictedNumbersLabel;
+    private Label lottoDashboard, predictedNumbersLabel,dashBoardHelpLabel;
 
     @FXML
     private TableView<Drawing> drawNumberTable;
@@ -54,8 +54,11 @@ public class LottoDashboardController implements Initializable {
     @FXML
     private HBox hBox;
 
+    @FXML
+    FontAwesomeIconView helpIconLottoDashboard;
+
     private ChoiceBox choiceBox;
-    private BarChartExt<String, String> bc;
+    private BarChartExt<Number, Number> bc;
 
     public void init(MainController mainController) {
 
@@ -105,27 +108,32 @@ public class LottoDashboardController implements Initializable {
 
             switch (number) {
                 case 0:
+                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[0]);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[0]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[0], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
 
                     break;
                 case 1:
+                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[1]);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[1]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[1], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 2:
+                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[2]);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[2]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[2], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 3:
+                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[3]);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[3]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[3], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 4:
+                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[4]);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[4]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[4], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
@@ -151,34 +159,14 @@ public class LottoDashboardController implements Initializable {
      */
     private void setUpChart(int position, Map<Integer[], Object[]> chartData) {
 
-        final String austria = "Austria";
-        final String brazil = "Brazil";
-        final String france = "France";
-        final String italy = "Italy";
-        final String usa = "USA";
-
         bc.getData().clear();
-
-        //524 width
-        // 174 height
-        // Top: -10, Right: 40, Bottom: -20, Left: -5
-
 
         bc.setTitle(String.format("Best Group For Position %1s", position));
         bc.getXAxis().setLabel("Position Candidate Numbers");
         bc.getYAxis().setLabel("Hits in Pos " + position);
         bc.setAnimated(false);
-        bc.legendVisibleProperty().setValue(true);
-        bc.prefHeight(Region.USE_COMPUTED_SIZE);
-        bc.prefWidth(Region.USE_COMPUTED_SIZE);
 
         if (chartData != null) {
-
-            int length = 0;
-//            for (Map.Entry<Integer[], Object[]> data : chartData.entrySet()) {
-//                length = data.getKey().length;
-//                break;
-            // }
 
             XYChart.Series[] series = new XYChart.Series[1];
             StringBuilder builder = new StringBuilder();
@@ -187,18 +175,15 @@ public class LottoDashboardController implements Initializable {
                 int[] numbers = Arrays.stream(data.getKey()).mapToInt(i -> i).toArray();
                 HashMap<Integer, Integer> numberhits = (HashMap<Integer, Integer>) data.getValue()[2];
                 series[0] = new XYChart.Series<Number, Number>();
-                //series[0].setName(Arrays.toString(numbers));
                 for (int i = 0; i < numbers.length; i++) {
 
-                    //series[i].setName("Lotto Num: " + numbers[i]);
                     if (numberhits.containsKey(numbers[i])) {
-                        builder.append(numbers[i] + ",");
+                        builder.append(numbers[i] + " , ");
                         series[0].getData().add(new XYChart.Data<>(numbers[i] + "", numberhits.get(numbers[i])));
                     }
                 }
                 int index = builder.lastIndexOf(",");
-                builder.setCharAt(index,' ');
-                builder.append("]");
+                builder.setCharAt(index,']');
                 series[0].setName(builder.toString());
                 bc.getData().add(series[0]);
 
@@ -271,6 +256,22 @@ public class LottoDashboardController implements Initializable {
                     event.consume();
                 }
             }
+        });
+
+        helpIconLottoDashboard.setOnMouseEntered( e -> {
+
+            dashBoardHelpLabel.setText(GameInstructions.LOTTO_DASHBOARD_INSTRUCTION_FIRST_PANE);
+            dashBoardHelpLabel.setVisible(true);
+            helpIconLottoDashboard.fillProperty().setValue(Paint.valueOf("#EFA747"));
+            hBox.setVisible(false);
+
+        });
+
+        helpIconLottoDashboard.setOnMouseExited( e -> {
+
+            dashBoardHelpLabel.setVisible(false);
+            helpIconLottoDashboard.fillProperty().setValue(Paint.valueOf("#DAC6AC"));
+            hBox.setVisible(true);
         });
     }
 
@@ -466,7 +467,24 @@ public class LottoDashboardController implements Initializable {
 
         String gameName = mainController.lottoInfoAndGamesController.getDefaultGameName();
         this.lotteryGame = new FiveDigitLotteryGame(gameName);
-        predictedNumbersLabel.setText("Historical draw table for: " + lotteryGame.loadGameData().getGameName());
+        String name = lotteryGame.loadGameData().getGameName();
+        String newName = "";
+        for(int i = 0; i < name.length(); i++){
+
+            if( Character.isUpperCase(name.charAt(i)) && i == 0)
+
+                newName = Character.toString(name.charAt(i));
+
+            else if(Character.isUpperCase(name.charAt(i)) && i > 0){
+                newName += " " + Character.toString(name.charAt(i));
+            }
+            else{
+                newName += Character.toString(name.charAt(i));
+            }
+
+        }
+
+        predictedNumbersLabel.setText("Historical draw table for: " + newName);
         lottoDashboard.setText(gameName + "Lotto Dashboard");
         setUpTableView(lotteryGame.loadGameData());
     }

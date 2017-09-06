@@ -310,4 +310,60 @@ public class NumberPatternAnalyzer {
 
         return new Object[]{avgRounded,minVal,maxVal,data};
     }
+
+    public static void findElementValuesForMatrix(int[] positionalNumber) {
+
+        // Map will hold matrix directions
+        Map<Integer[],Map<String,Integer[]>> matrixDirectionValue = new HashMap<>();
+
+        Map<Integer,Map<Integer,Integer>> companionNumbersForElementOne = new HashMap<>();
+
+        for(int i = 0; i < positionalNumber.length; i++){
+
+            String val = Integer.toString(positionalNumber[i]);
+            if(val.length() >= 2){
+                int val2 = Integer.parseInt(Character.toString(val.charAt(1)));
+                if(!companionNumbersForElementOne.containsKey(val2)){
+                    Map<Integer,Integer> data = new HashMap<>();
+                    data.put(Integer.parseInt(Character.toString(val.charAt(0))),1);
+                    companionNumbersForElementOne.put(val2,data);
+                }
+                else{
+                    Map<Integer,Integer> dataTwo = companionNumbersForElementOne.get(val2);
+                    if(!dataTwo.containsKey(Integer.parseInt(Character.toString(val.charAt(0))))){
+                        dataTwo.put(Integer.parseInt(Character.toString(val.charAt(0))), 1);
+                    }
+                    else{
+
+                        int val3 = dataTwo.get(Integer.parseInt(Character.toString(val.charAt(0))));
+                        dataTwo.put(Integer.parseInt(Character.toString(val.charAt(0))), ++val3);
+                        companionNumbersForElementOne.put(val2,dataTwo);
+                    }
+                }
+            }
+            else{
+
+                int val2 = Integer.parseInt(Character.toString(val.charAt(0)));
+                if(!companionNumbersForElementOne.containsKey(val2)){
+                    Map<Integer,Integer> data = new HashMap<>();
+                    data.put(0,1);
+                    companionNumbersForElementOne.put(val2,data);
+                }
+                else{
+                    Map<Integer,Integer> dataTwo = companionNumbersForElementOne.get(val2);
+
+                    if(!dataTwo.containsKey(0)){
+                        dataTwo.put(0, 1);
+
+                    }
+                    else{
+                        int val3 = dataTwo.get(0);
+                        dataTwo.put(0, ++val3);
+                        companionNumbersForElementOne.put(val2, dataTwo);
+                    }
+
+                }
+            }
+        }
+    }
 }

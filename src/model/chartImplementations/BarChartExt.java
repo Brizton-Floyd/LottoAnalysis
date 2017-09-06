@@ -4,9 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
+import javafx.scene.text.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +40,7 @@ public class BarChartExt<X, Y> extends BarChart<X, Y> {
             Data<X, Y> item = series.getData().get(j);
 
             Text text = new Text(item.getYValue().toString());
+            text.setFont(Font.font("",FontWeight.BOLD,9));
             text.setStyle("-fx-font-size: 10pt;");
 
             TextFlow textFlow = new TextFlow(text);
@@ -91,7 +90,7 @@ public class BarChartExt<X, Y> extends BarChart<X, Y> {
                 textFlow.resize(bar.getBoundsInParent().getWidth(), 200);
                 textFlow.relocate(bar.getBoundsInParent().getMinX(), bar.getBoundsInParent().getMinY() + 10);
             } else {
-                ((Text) textFlow.getChildren().get(0)).setFill(Color.GRAY);
+                ((Text) textFlow.getChildren().get(0)).setFill(Color.valueOf("#EFA747"));
                 textFlow.resize(bar.getBoundsInParent().getWidth(), 200);
                 textFlow.relocate(bar.getBoundsInParent().getMinX(), bar.getBoundsInParent().getMinY() - 20);
             }

@@ -51,7 +51,7 @@
                         <FontAwesomeIconView fill="#dac6ac" glyphName="NAVICON" size="15" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="help_button" alignment="BASELINE_LEFT" contentDisplay="CENTER" ellipsisString="." focusTraversable="false" layoutX="16.0" layoutY="635.0" prefHeight="29.0" prefWidth="30.0" text="Lotto Dashboard" textAlignment="CENTER" textFill="#dac6ac">
+                  <JFXButton fx:id="help_button" alignment="BASELINE_LEFT" contentDisplay="GRAPHIC_ONLY" ellipsisString="." focusTraversable="false" layoutX="16.0" layoutY="635.0" prefHeight="29.0" prefWidth="30.0" text="Lotto Dashboard" textAlignment="CENTER" textFill="#dac6ac">
                      <graphic>
                         <FontAwesomeIconView fill="#dac6ac" glyphName="QUESTION" size="15" />
                      </graphic>
