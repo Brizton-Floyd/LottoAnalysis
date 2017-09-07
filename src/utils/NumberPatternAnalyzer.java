@@ -1,7 +1,6 @@
 package utils;
 
 import model.LotteryGame;
-import model.LotteryUrlPaths;
 
 import java.util.*;
 
@@ -36,7 +35,7 @@ public class NumberPatternAnalyzer {
         boolean flag = true;
         for (int i = minVal; i <= maxVal; ) {
 
-            if ( length >= 5 && count % 4 == 0 && flag) {
+            if (length >= 5 && count % 4 == 0 && flag) {
 
                 range = new Integer[4];
                 while (count < 4) {
@@ -44,13 +43,12 @@ public class NumberPatternAnalyzer {
                     ++count;
                 }
 
-                if(i > maxVal) {
+                if (i > maxVal) {
                     i -= count;
                     count = 0;
                     flag = false;
                 }
-            }
-            else{
+            } else {
 
                 range = new Integer[4];
                 while (count < 4) {
@@ -58,7 +56,7 @@ public class NumberPatternAnalyzer {
                     ++count;
                 }
 
-                if(i > maxVal) {
+                if (i > maxVal) {
                     i -= count;
                     count = 0;
                     flag = false;
@@ -66,7 +64,7 @@ public class NumberPatternAnalyzer {
 
             }
 
-            if(!flag){
+            if (!flag) {
 
                 range = new Integer[Math.abs(i - maxVal) + 1];
                 while (count < range.length) {
@@ -76,7 +74,7 @@ public class NumberPatternAnalyzer {
 
             }
 
-            gameRanges.put(range, new Object[]{0, 0, new HashMap<Integer, Integer>(),0});
+            gameRanges.put(range, new Object[]{0, 0, new HashMap<Integer, Integer>(), 0});
             count = 0;
 
         }
@@ -107,22 +105,22 @@ public class NumberPatternAnalyzer {
         int lastDigitNum = positionVals[positionVals.length - 1];
         List<Integer> lastDigitPrecedingNumbers = new LinkedList<>();
 
-        for(int i = 0; i < positionVals.length; i++){
+        for (int i = 0; i < positionVals.length; i++) {
 
-            if(positionVals[i] == lastDigitNum && i < positionVals.length - 1){
+            if (positionVals[i] == lastDigitNum && i < positionVals.length - 1) {
                 int nextNumAfterLastDigitNum = positionVals[i + 1];
                 lastDigitPrecedingNumbers.add(nextNumAfterLastDigitNum);
             }
         }
 
-        for(Map.Entry<Integer[],Object[]> pp : gameRanges.entrySet()){
+        for (Map.Entry<Integer[], Object[]> pp : gameRanges.entrySet()) {
 
             List<Integer> nums = Arrays.asList(pp.getKey());
             Object[] allData = pp.getValue();
 
-            for(int i = 0; i < lastDigitPrecedingNumbers.size(); i++){
+            for (int i = 0; i < lastDigitPrecedingNumbers.size(); i++) {
 
-                if(nums.contains(lastDigitPrecedingNumbers.get(i))) {
+                if (nums.contains(lastDigitPrecedingNumbers.get(i))) {
                     allData[3] = (int) allData[3] + 1;
                     gameRanges.put(pp.getKey(), allData);
                 }
@@ -131,17 +129,17 @@ public class NumberPatternAnalyzer {
 
         List<Integer> largestVals = new ArrayList<>();
         Map<Integer[], Object[]> values = new HashMap<>();
-        for(Map.Entry<Integer[],Object[]> pp : gameRanges.entrySet()){
+        for (Map.Entry<Integer[], Object[]> pp : gameRanges.entrySet()) {
             Object[] vals = pp.getValue();
-            largestVals.add((int)vals[3]);
+            largestVals.add((int) vals[3]);
             Collections.sort(largestVals);
         }
 
 
-        for(Map.Entry<Integer[],Object[]> pp : gameRanges.entrySet()){
+        for (Map.Entry<Integer[], Object[]> pp : gameRanges.entrySet()) {
             Object[] allData = pp.getValue();
-            if((int)allData[3] == largestVals.get(largestVals.size()-1)){
-                values.put(pp.getKey(),allData);
+            if ((int) allData[3] == largestVals.get(largestVals.size() - 1)) {
+                values.put(pp.getKey(), allData);
                 break;
             }
         }
@@ -152,6 +150,7 @@ public class NumberPatternAnalyzer {
     /**
      * Method will take in a two dimensional array and convert each number in each position to its corresponding delta
      * number sets. It will then return a two dimensional array containing delta number values for each position.
+     *
      * @param positionalNumbers
      * @return
      */
@@ -220,7 +219,7 @@ public class NumberPatternAnalyzer {
         int count = 0;
         for (int val : values) {
 
-            if(count == 0) {
+            if (count == 0) {
                 count++;
                 continue;
             }
@@ -273,96 +272,293 @@ public class NumberPatternAnalyzer {
                 p.put("Below", belowValues);
 
             }
-            count=0;
+            count = 0;
         }
 
         int minVal = 1;
         int maxVal = 0;
         List<Integer> list = new ArrayList<>();
         Iterator<Integer> d = data.keySet().iterator();
-        while (d.hasNext()){
+        while (d.hasNext()) {
             Map<String, Integer[]> r = data.get(d.next());
             Map<String, Integer[]> rr = r;
-            for(Map.Entry<String, Integer[]> dd : r.entrySet()){
+            for (Map.Entry<String, Integer[]> dd : r.entrySet()) {
                 int[] ddd = Arrays.stream(dd.getValue()).mapToInt(i -> i).toArray();
                 list.add(ddd[0]);
                 Collections.sort(list);
             }
 
             int num = list.get(list.size() - 1);
-            for(Map.Entry<String, Integer[]> dd : rr.entrySet()){
+            for (Map.Entry<String, Integer[]> dd : rr.entrySet()) {
                 int[] ddd = Arrays.stream(dd.getValue()).mapToInt(i -> i).toArray();
-                if(ddd[0] == num && dd.getKey().equals("Above")){
+                if (ddd[0] == num && dd.getKey().equals("Above")) {
 
                     minVal = avgRounded + 1;
 
-                }
-                else if(ddd[0] == num && dd.getKey().equals("Below")){
+                } else if (ddd[0] == num && dd.getKey().equals("Below")) {
                     minVal = 1;
                     maxVal = avgRounded - 1;
-                }
-                else if(ddd[0] == num && dd.getKey().equals("Equal")){
+                } else if (ddd[0] == num && dd.getKey().equals("Equal")) {
                     minVal = avgRounded;
                     maxVal = avgRounded;
                 }
             }
         }
 
-        return new Object[]{avgRounded,minVal,maxVal,data};
+        return new Object[]{avgRounded, minVal, maxVal, data};
     }
 
     public static void findElementValuesForMatrix(int[] positionalNumber) {
 
         // Map will hold matrix directions
-        Map<Integer[],Map<String,Integer[]>> matrixDirectionValue = new HashMap<>();
+        Map<Integer[], Map<String, Integer[]>> matrixDirectionValue = new LinkedHashMap<>();
+        loadDataIntoMap(matrixDirectionValue);
 
-        Map<Integer,Map<Integer,Integer>> companionNumbersForElementOne = new HashMap<>();
+        Map<Integer, Map<Integer, Integer>> companionNumbersForElementOne = new HashMap<>();
 
-        for(int i = 0; i < positionalNumber.length; i++){
+        for (int i = 0; i < positionalNumber.length; i++) {
 
             String val = Integer.toString(positionalNumber[i]);
-            if(val.length() >= 2){
+            if (val.length() >= 2) {
                 int val2 = Integer.parseInt(Character.toString(val.charAt(1)));
-                if(!companionNumbersForElementOne.containsKey(val2)){
-                    Map<Integer,Integer> data = new HashMap<>();
-                    data.put(Integer.parseInt(Character.toString(val.charAt(0))),1);
-                    companionNumbersForElementOne.put(val2,data);
-                }
-                else{
-                    Map<Integer,Integer> dataTwo = companionNumbersForElementOne.get(val2);
-                    if(!dataTwo.containsKey(Integer.parseInt(Character.toString(val.charAt(0))))){
+                if (!companionNumbersForElementOne.containsKey(val2)) {
+                    Map<Integer, Integer> data = new HashMap<>();
+                    data.put(Integer.parseInt(Character.toString(val.charAt(0))), 1);
+                    companionNumbersForElementOne.put(val2, data);
+                } else {
+                    Map<Integer, Integer> dataTwo = companionNumbersForElementOne.get(val2);
+                    if (!dataTwo.containsKey(Integer.parseInt(Character.toString(val.charAt(0))))) {
                         dataTwo.put(Integer.parseInt(Character.toString(val.charAt(0))), 1);
-                    }
-                    else{
+                    } else {
 
                         int val3 = dataTwo.get(Integer.parseInt(Character.toString(val.charAt(0))));
                         dataTwo.put(Integer.parseInt(Character.toString(val.charAt(0))), ++val3);
-                        companionNumbersForElementOne.put(val2,dataTwo);
+                        companionNumbersForElementOne.put(val2, dataTwo);
                     }
                 }
-            }
-            else{
+            } else {
 
                 int val2 = Integer.parseInt(Character.toString(val.charAt(0)));
-                if(!companionNumbersForElementOne.containsKey(val2)){
-                    Map<Integer,Integer> data = new HashMap<>();
-                    data.put(0,1);
-                    companionNumbersForElementOne.put(val2,data);
-                }
-                else{
-                    Map<Integer,Integer> dataTwo = companionNumbersForElementOne.get(val2);
+                if (!companionNumbersForElementOne.containsKey(val2)) {
+                    Map<Integer, Integer> data = new HashMap<>();
+                    data.put(0, 1);
+                    companionNumbersForElementOne.put(val2, data);
+                } else {
+                    Map<Integer, Integer> dataTwo = companionNumbersForElementOne.get(val2);
 
-                    if(!dataTwo.containsKey(0)){
+                    if (!dataTwo.containsKey(0)) {
                         dataTwo.put(0, 1);
 
-                    }
-                    else{
+                    } else {
                         int val3 = dataTwo.get(0);
                         dataTwo.put(0, ++val3);
                         companionNumbersForElementOne.put(val2, dataTwo);
                     }
 
                 }
+            }
+        }
+        // Determine which row is likely to come up in the next drawing
+
+        Integer[][] valuesArrays = new Integer[][]{{0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9}};
+
+        for (int i = 0; i < positionalNumber.length; i++) {
+
+            String numInStringFormat = Integer.toString(positionalNumber[positionalNumber.length - 1]);
+            int num;
+
+            if (numInStringFormat.length() > 1)
+                num = Integer.parseInt(Character.toString(numInStringFormat.charAt(1)));
+            else
+                num = Integer.parseInt(Character.toString(numInStringFormat.charAt(0)));
+
+            int secNum = 0;
+            if (Integer.toString(positionalNumber[i]).length() > 1) {
+                secNum = Integer.parseInt(String.valueOf(Integer.toString(positionalNumber[i]).charAt(1)));
+            } else {
+                secNum = Integer.parseInt(String.valueOf(Integer.toString(positionalNumber[i]).charAt(0)));
+            }
+
+            if (secNum == num) {
+
+                for (Map.Entry<Integer[], Map<String, Integer[]>> dd : matrixDirectionValue.entrySet()) {
+
+                    Map<String, Integer[]> matrixMap = dd.getValue();
+                    Integer[] key = dd.getKey();
+
+                    if (!Arrays.asList(key).contains(num))
+                        continue;
+
+                    if (i < positionalNumber.length - 1) {
+
+
+                        String val = Integer.toString(positionalNumber[i + 1]);
+                        if (val.length() > 1) {
+                            num = Integer.parseInt(Character.toString(val.charAt(1)));
+                        } else {
+                            num = Integer.parseInt(Character.toString(val.charAt(0)));
+                        }
+
+                        if (Arrays.equals(key, valuesArrays[1])) {
+                            rowTwoAlgorithm(matrixDirectionValue, num, matrixMap, key);
+                            break;
+                        } else if (Arrays.equals(key, valuesArrays[0])) {
+
+                            rowOneAlgorithm(matrixDirectionValue, num, matrixMap, key);
+                            break;
+                        } else if (Arrays.equals(key, valuesArrays[2])) {
+
+                            rowThreeAlgorithm(matrixDirectionValue, num, matrixMap, key);
+                            break;
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void rowThreeAlgorithm(Map<Integer[], Map<String, Integer[]>> matrixDirectionValue, int num, Map<String, Integer[]> matrixMap, Integer[] key) {
+        if (num >= key[0] && num <= key[key.length - 1]) {
+            Integer[] sameData = matrixMap.get("Equal");
+            sameData[0]++;
+            sameData[1] = 0;
+            matrixMap.put("Equal", sameData);
+            matrixDirectionValue.put(key, matrixMap);
+
+            incrementGamesOutForMatrix(matrixMap, "Equal");
+
+        } else if (num < key[0] && num >= 4) {
+            Integer[] downData = matrixMap.get("UpOne");
+            downData[0]++;
+            downData[1] = 0;
+            matrixMap.put("UpOne", downData);
+            matrixDirectionValue.put(key, matrixMap);
+
+            incrementGamesOutForMatrix(matrixMap, "UpOne");
+        } else if (num < 4) {
+            Integer[] upData = matrixMap.get("UpTwo");
+            upData[0]++;
+            upData[1] = 0;
+            matrixMap.put("UpTwo", upData);
+            matrixDirectionValue.put(key, matrixMap);
+
+            incrementGamesOutForMatrix(matrixMap, "UpTwo");
+        }
+    }
+
+    private static void rowOneAlgorithm(Map<Integer[], Map<String, Integer[]>> matrixDirectionValue, int num, Map<String, Integer[]> matrixMap, Integer[] key) {
+        if (num >= key[0] && num <= key[key.length - 1]) {
+            Integer[] sameData = matrixMap.get("Equal");
+            sameData[0]++;
+            sameData[1] = 0;
+            matrixMap.put("Equal", sameData);
+            matrixDirectionValue.put(key, matrixMap);
+
+            incrementGamesOutForMatrix(matrixMap, "Equal");
+
+        } else if (num > key[key.length - 1] && num <= 7) {
+            Integer[] downData = matrixMap.get("DownOne");
+            downData[0]++;
+            downData[1] = 0;
+            matrixMap.put("DownOne", downData);
+            matrixDirectionValue.put(key, matrixMap);
+
+            incrementGamesOutForMatrix(matrixMap, "DownOne");
+        } else if (num > 7 && num <= 9) {
+            Integer[] upData = matrixMap.get("DownTwo");
+            upData[0]++;
+            upData[1] = 0;
+            matrixMap.put("DownTwo", upData);
+            matrixDirectionValue.put(key, matrixMap);
+
+            incrementGamesOutForMatrix(matrixMap, "DownTwo");
+        }
+    }
+
+    private static void rowTwoAlgorithm(Map<Integer[], Map<String, Integer[]>> matrixDirectionValue, int num, Map<String, Integer[]> matrixMap, Integer[] key) {
+        if (num >= key[0] && num <= key[key.length - 1]) {
+            Integer[] sameData = matrixMap.get("Equal");
+            sameData[0]++;
+            sameData[1] = 0;
+            matrixMap.put("Equal", sameData);
+            matrixDirectionValue.put(key, matrixMap);
+
+            incrementGamesOutForMatrix(matrixMap, "Equal");
+        } else if (num > key[key.length - 1]) {
+            Integer[] downData = matrixMap.get("Down");
+            downData[0]++;
+            downData[1] = 0;
+            matrixMap.put("Down", downData);
+            matrixDirectionValue.put(key, matrixMap);
+
+            incrementGamesOutForMatrix(matrixMap, "Down");
+        } else if (num < key[0]) {
+            Integer[] upData = matrixMap.get("Up");
+            upData[0]++;
+            upData[1] = 0;
+            matrixMap.put("Up", upData);
+            matrixDirectionValue.put(key, matrixMap);
+
+            incrementGamesOutForMatrix(matrixMap, "Up");
+        }
+    }
+
+    private static void incrementGamesOutForMatrix(Map<String, Integer[]> data, String direction) {
+
+        for (Map.Entry<String, Integer[]> d : data.entrySet()) {
+
+            String key = d.getKey();
+
+            if (!d.getKey().equals(direction)) {
+                Integer[] vals = d.getValue();
+                vals[1]++;
+                data.put(key, vals);
+            }
+        }
+
+    }
+
+    private static void loadDataIntoMap(Map<Integer[], Map<String, Integer[]>> data) {
+
+        Integer[][] directions = new Integer[][]{
+
+                {0, 1, 2, 3},
+                {4, 5, 6, 7},
+                {8, 9}
+
+        };
+
+        String[] rowOneData = {"Equal", "DownOne", "DownTwo"};
+        String[] rowTwoData = {"Up", "Equal", "Down"};
+        String[] rowThreeData = {"Equal", "UpOne", "UpTwo"};
+
+        String[][] stringDirection = new String[][]{
+
+                rowOneData,
+                rowTwoData,
+                rowThreeData
+        };
+
+        data.put(directions[0], new LinkedHashMap<>());
+        data.put(directions[1], new LinkedHashMap<>());
+        data.put(directions[2], new LinkedHashMap<>());
+
+        int count = 0;
+
+        for (Map.Entry<Integer[], Map<String, Integer[]>> dd : data.entrySet()) {
+
+            Map<String, Integer[]> d = dd.getValue();
+
+            for (int i = count; i < directions.length; i++) {
+
+                for (int k = 0; k < stringDirection[i].length; k++) {
+
+                    d.put(stringDirection[i][k], new Integer[]{0, 0});
+                }
+                data.put(directions[i], d);
+                count++;
+                break;
             }
         }
     }
