@@ -25,6 +25,7 @@ import model.FiveDigitLotteryGame;
 import model.GameInstructions;
 import model.LotteryGame;
 import model.chartImplementations.BarChartExt;
+import utils.LottoBetSlipAnalyzer;
 import utils.NumberPatternAnalyzer;
 
 import java.net.URL;
@@ -108,32 +109,32 @@ public class LottoDashboardController implements Initializable {
 
             switch (number) {
                 case 0:
-                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[0]);
+                    LottoBetSlipAnalyzer analyzerPosOne = new LottoBetSlipAnalyzer(lotteryGame, 2);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[0]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[0], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
 
                     break;
                 case 1:
-                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[1]);
+                    LottoBetSlipAnalyzer analyzerPosTwo = new LottoBetSlipAnalyzer(lotteryGame, 3);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[1]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[1], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 2:
-                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[2]);
+                    LottoBetSlipAnalyzer analyzerPosThree = new LottoBetSlipAnalyzer(lotteryGame, 4);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[2]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[2], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 3:
-                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[3]);
+                    LottoBetSlipAnalyzer analyzerPosFour = new LottoBetSlipAnalyzer(lotteryGame, 5);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[3]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[3], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 4:
-                    NumberPatternAnalyzer.findElementValuesForMatrix(positionalNumbers[4]);
+                    LottoBetSlipAnalyzer analyzerPosFive = new LottoBetSlipAnalyzer(lotteryGame, 6);
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[4]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[4], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
