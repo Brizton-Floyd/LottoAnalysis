@@ -10,6 +10,8 @@ import java.util.*;
  */
 public class NumberPatternAnalyzer {
 
+    private static List<Integer>[] gamesOut = new List[]{new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>()};
+
     /**
      * Method will analyze each lottery draw position and return a map containing arrays as the keys that hold ranges
      * for the chosen game. And a values array that tracks total hits, games out, and map that
@@ -308,7 +310,7 @@ public class NumberPatternAnalyzer {
         return new Object[]{avgRounded, minVal, maxVal, data};
     }
 
-    public static void findElementValuesForMatrix(int[] positionalNumber) {
+    public static Map<Integer,Object[]> findElementValuesForMatrix(int[] positionalNumber) {
 
         // Map will hold matrix directions
         Map<Integer[], Map<String, Integer[]>> matrixDirectionValue = new LinkedHashMap<>();
@@ -416,11 +418,63 @@ public class NumberPatternAnalyzer {
                 }
             }
         }
+
+        return analyzeNumberDataAndReturnBestRowAndElementZeroDigit(matrixDirectionValue,positionalNumber);
+    }
+
+    private static Map<Integer,Object[]> analyzeNumberDataAndReturnBestRowAndElementZeroDigit
+            (Map<Integer[], Map<String, Integer[]>> matrixDirectionValue, int[] positionalNumbers) {
+
+
+        int lastDigit;
+        String num = Integer.toString(positionalNumbers[positionalNumbers.length - 1]);
+        if(num.length() > 1)
+            lastDigit = Integer.parseInt(Character.toString(num.charAt(1)));
+
+        else
+            lastDigit = Integer.parseInt(Character.toString(num.charAt(0)));
+
+        int count = 0;
+        for(Map.Entry<Integer[], Map<String,Integer[]>> dd : matrixDirectionValue.entrySet()){
+            Map<String,Integer[]> data = dd.getValue();
+
+            for(Map.Entry<String, Integer[]> ddd : data.entrySet()){
+
+                if(!Arrays.asList(dd.getKey()).contains(lastDigit))
+                    break;
+
+                Integer[] integers = ddd.getValue();
+                integers[2] = (integers[2] / integers[0]) + 2;
+
+                for(int i = 0; i < gamesOut[count].size(); i++){
+
+                    if(gamesOut[count].size() != integers[0]){
+                        i--;
+                        count++;
+                        continue;
+                    }
+                    if(gamesOut[count].get(i) > integers[2])
+                        integers[3]++;
+                    else if (gamesOut[count].get(i) < integers[2])
+                        integers[4]++;
+                    else
+                        integers[5]++;
+
+                }
+                count=0;
+            }
+        }
+
+
+        return null;
     }
 
     private static void rowThreeAlgorithm(Map<Integer[], Map<String, Integer[]>> matrixDirectionValue, int num, Map<String, Integer[]> matrixMap, Integer[] key) {
         if (num >= key[0] && num <= key[key.length - 1]) {
+
             Integer[] sameData = matrixMap.get("Equal");
+            gamesOut[0].add(sameData[1]);
+            sameData[2] += sameData[1];
             sameData[0]++;
             sameData[1] = 0;
             matrixMap.put("Equal", sameData);
@@ -430,6 +484,8 @@ public class NumberPatternAnalyzer {
 
         } else if (num < key[0] && num >= 4) {
             Integer[] downData = matrixMap.get("UpOne");
+            gamesOut[1].add(downData[1]);
+            downData[2] += downData[1];
             downData[0]++;
             downData[1] = 0;
             matrixMap.put("UpOne", downData);
@@ -438,6 +494,8 @@ public class NumberPatternAnalyzer {
             incrementGamesOutForMatrix(matrixMap, "UpOne");
         } else if (num < 4) {
             Integer[] upData = matrixMap.get("UpTwo");
+            gamesOut[2].add(upData[1]);
+            upData[2] += upData[1];
             upData[0]++;
             upData[1] = 0;
             matrixMap.put("UpTwo", upData);
@@ -450,6 +508,8 @@ public class NumberPatternAnalyzer {
     private static void rowOneAlgorithm(Map<Integer[], Map<String, Integer[]>> matrixDirectionValue, int num, Map<String, Integer[]> matrixMap, Integer[] key) {
         if (num >= key[0] && num <= key[key.length - 1]) {
             Integer[] sameData = matrixMap.get("Equal");
+            gamesOut[0].add(sameData[1]);
+            sameData[2] += sameData[1];
             sameData[0]++;
             sameData[1] = 0;
             matrixMap.put("Equal", sameData);
@@ -459,6 +519,8 @@ public class NumberPatternAnalyzer {
 
         } else if (num > key[key.length - 1] && num <= 7) {
             Integer[] downData = matrixMap.get("DownOne");
+            gamesOut[1].add(downData[1]);
+            downData[2] += downData[1];
             downData[0]++;
             downData[1] = 0;
             matrixMap.put("DownOne", downData);
@@ -467,6 +529,8 @@ public class NumberPatternAnalyzer {
             incrementGamesOutForMatrix(matrixMap, "DownOne");
         } else if (num > 7 && num <= 9) {
             Integer[] upData = matrixMap.get("DownTwo");
+            gamesOut[2].add(upData[1]);
+            upData[2] += upData[1];
             upData[0]++;
             upData[1] = 0;
             matrixMap.put("DownTwo", upData);
@@ -479,6 +543,8 @@ public class NumberPatternAnalyzer {
     private static void rowTwoAlgorithm(Map<Integer[], Map<String, Integer[]>> matrixDirectionValue, int num, Map<String, Integer[]> matrixMap, Integer[] key) {
         if (num >= key[0] && num <= key[key.length - 1]) {
             Integer[] sameData = matrixMap.get("Equal");
+            gamesOut[0].add(sameData[1]);
+            sameData[2] += sameData[1];
             sameData[0]++;
             sameData[1] = 0;
             matrixMap.put("Equal", sameData);
@@ -487,6 +553,8 @@ public class NumberPatternAnalyzer {
             incrementGamesOutForMatrix(matrixMap, "Equal");
         } else if (num > key[key.length - 1]) {
             Integer[] downData = matrixMap.get("Down");
+            gamesOut[1].add(downData[1]);
+            downData[2] += downData[1];
             downData[0]++;
             downData[1] = 0;
             matrixMap.put("Down", downData);
@@ -495,6 +563,8 @@ public class NumberPatternAnalyzer {
             incrementGamesOutForMatrix(matrixMap, "Down");
         } else if (num < key[0]) {
             Integer[] upData = matrixMap.get("Up");
+            gamesOut[2].add(upData[1]);
+            upData[2] += upData[1];
             upData[0]++;
             upData[1] = 0;
             matrixMap.put("Up", upData);
@@ -504,7 +574,7 @@ public class NumberPatternAnalyzer {
         }
     }
 
-    private static void incrementGamesOutForMatrix(Map<String, Integer[]> data, String direction) {
+    public static void incrementGamesOutForMatrix(Map<String, Integer[]> data, String direction) {
 
         for (Map.Entry<String, Integer[]> d : data.entrySet()) {
 
@@ -554,7 +624,7 @@ public class NumberPatternAnalyzer {
 
                 for (int k = 0; k < stringDirection[i].length; k++) {
 
-                    d.put(stringDirection[i][k], new Integer[]{0, 0});
+                    d.put(stringDirection[i][k], new Integer[]{0, 0, 0, 0, 0, 0});
                 }
                 data.put(directions[i], d);
                 count++;
