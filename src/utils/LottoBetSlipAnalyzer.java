@@ -16,15 +16,172 @@ public class LottoBetSlipAnalyzer {
     private int indexInDrawingData;
     private double positionalAverage = 0.0;
     private List<Integer> numbersInPosition;
+    private List<Object> allInformationForRowAndPosition;
+
     private Map<Double, Map<String, Integer[]>> positionalAverageHitsTracker;
 
     public LottoBetSlipAnalyzer(LotteryGame lotteryGame, int indexInDrawingData) {
 
+        allInformationForRowAndPosition = new ArrayList<>();
+
         this.indexInDrawingData = indexInDrawingData;
         setUpRowsAndColumns(lotteryGame);
         findPositionalAverage(lotteryGame);
-        analyzeBetSlip(rowsAndColumns, numbersInPosition);
+        int[] rowToPlay = analyzeBetSlip(rowsAndColumns, numbersInPosition);
+        finalizeDataForDisplay(rowToPlay, numbersInPosition );
+        determineGamesOutForNumbersAndLastPositionNumbersHitIn(lotteryGame);
     }
+
+    /**
+     * Method will return a list of objects containing all the information about the selected row in order to make
+     * an informed decision of which numbers to play for the next draw.
+     * @return
+     */
+    public List<Object> getAllInformationForRowAndPosition() {
+        return allInformationForRowAndPosition;
+    }
+
+    /**
+     * Method will return a suggestion of the best numbers to play for the given draw position. The return object will
+     * contain a map with a detail count of how many ties the given digit has hit in the given draw position. The result
+     * set will also contain a games out counter for each digit and the last position the number was drawn in
+     * @return
+     */
+    public Map<Double, Map<String, Integer[]>> getPositionalAverageHitsTracker() {
+        return positionalAverageHitsTracker;
+    }
+    private void determineGamesOutForNumbersAndLastPositionNumbersHitIn(LotteryGame lotteryGame) {
+
+        Set<Integer> allKeyvals = ((Map<Integer,Integer>)allInformationForRowAndPosition.get(0)).keySet();
+
+        GamesOutPositionTracker tracker = new GamesOutPositionTracker(allKeyvals, lotteryGame);
+
+        Map<Integer, Object[]> data = tracker.getAnalysisForCurrentRow();
+
+        //determineLastElementValueToPlay();
+        allInformationForRowAndPosition.add(data);
+    }
+
+    private void determineLastElementValueToPlay() {
+        int number = numbersInPosition.get(numbersInPosition.size() - 1);
+        Map<Integer,Map<Integer,Integer[]>> values = new TreeMap<>();
+        List<Integer> elementValues = new LinkedList<>();
+        int elementValue;
+
+        for(int num : numbersInPosition){
+
+            if(Integer.toString(num).length() > 1)
+                num = Integer.parseInt(Character.toString(Integer.toString(num).charAt(1)));
+
+            elementValues.add(num);
+        }
+
+
+        boolean isGreaterThanOne = (Integer.toString(number).length() > 1);
+        if(isGreaterThanOne)
+            elementValue = Integer.parseInt(Character.toString(Integer.toString(number).charAt(1)));
+        else
+            elementValue = number;
+
+        values.put(elementValue, new TreeMap<>());
+
+        for(int i = 0; i < elementValues.size(); i++){
+
+            if( i < elementValues.size() - 1 && elementValues.get(i) == elementValue){
+                Map<Integer, Integer[]> data = values.get(elementValue);
+                if(!data.containsKey(elementValues.get(i + 1))){
+                    data.put(elementValues.get(i +1), new Integer[]{1,0});
+                }
+                else {
+                    Integer[] val = data.get(elementValues.get(i +1));
+                    val[0]++;
+                    val[1] = 0;
+                    incrementgamesOut(data, elementValues.get(i +1));
+                }
+            }
+        }
+    }
+
+    private void incrementgamesOut(Map<Integer, Integer[]> data, Integer integer) {
+
+        for(Map.Entry<Integer,Integer[]> d : data.entrySet()){
+
+            if(d.getKey() != integer){
+                Integer[] dd = d.getValue();
+                dd[1]++;
+            }
+        }
+    }
+
+    private void finalizeDataForDisplay(int[] rowToPlay, List<Integer> numbersInPosition) {
+
+        double average = 0;
+
+        for(double avg : positionalAverageHitsTracker.keySet()){
+            average = avg;
+        }
+
+        String direction = "";
+        List<Integer> counts = new ArrayList<>();
+        for(Map.Entry<Double, Map<String, Integer[]>> rangeHits : positionalAverageHitsTracker.entrySet()){
+            Map<String, Integer[]> directs = rangeHits.getValue();
+            for(Map.Entry<String, Integer[]> r : directs.entrySet()){
+                Integer[] hits = r.getValue();
+                counts.add(hits[0]);
+                Collections.sort(counts);
+            }
+
+            for(Map.Entry<String, Integer[]> uu : directs.entrySet()){
+                if(uu.getValue()[0] == counts.get(counts.size() - 1)){
+                    direction = uu.getKey();
+                    break;
+                }
+            }
+        }
+
+        List<Integer> numbers = new ArrayList<>();
+        for(int i = 0; i < rowToPlay.length; i++){
+
+            if(direction.equals("Up")){
+                if(rowToPlay[i] > average) {
+                    numbers.add(rowToPlay[i]);
+                    Collections.sort(numbers);
+                }
+            }
+            else if(direction.equals("Less")){
+                if(rowToPlay[i] < average) {
+                    numbers.add(rowToPlay[i]);
+                    Collections.sort(numbers);
+                }
+            }
+            else if(direction.equals("Equals")){
+                if(rowToPlay[i] == average) {
+                    numbers.add(rowToPlay[i]);
+                    break;
+                }
+            }
+        }
+
+        int index = 0;
+        int[] modifiedRowOfNumbers = new int[numbers.size()];
+        Map<Integer,Integer> numberAndHitTracker = new TreeMap<>();
+
+        for(int n : numbers){
+            numberAndHitTracker.put(n, 0);
+            modifiedRowOfNumbers[index++] = n;
+        }
+
+        for(int num : numbersInPosition){
+            if(numberAndHitTracker.containsKey(num)){
+                int n = numberAndHitTracker.get(num);
+                n++;
+                numberAndHitTracker.put(num, n);
+            }
+        }
+
+        allInformationForRowAndPosition.add(numberAndHitTracker);
+    }
+
 
     /**
      * This method will determine which row the user should play for the next drawing for the given lotto position
@@ -32,7 +189,7 @@ public class LottoBetSlipAnalyzer {
      * @param rowsAndColumns
      * @param numbersInPosition
      */
-    private void analyzeBetSlip(int[][] rowsAndColumns, List<Integer> numbersInPosition) {
+    private int[] analyzeBetSlip(int[][] rowsAndColumns, List<Integer> numbersInPosition) {
 
         Map<Integer[], Map<String, Integer[]>> directionAnalysis = new HashMap<>();
         int[][] beginningAndEndValuesForRows = new int[rowsAndColumns.length][2];
@@ -60,7 +217,8 @@ public class LottoBetSlipAnalyzer {
                                 newRow = Arrays.stream(rowsAndColumns[i]).boxed().toArray(Integer[]::new);
 
                             check = false;
-                            determineRowNextNumFallsIn(locationInMatrix, newRow, nextNum, directionAnalysis, beginningAndEndValuesForRows);
+                            determineRowNextNumFallsIn(locationInMatrix, newRow, nextNum, directionAnalysis,
+                                                                                beginningAndEndValuesForRows);
                             break;
 
                         } else {
@@ -74,12 +232,101 @@ public class LottoBetSlipAnalyzer {
             count = 0;
             locationInMatrix = 0;
         }
+
+        // get total hits for each row and sort from least to greatest
+        int[] rowToPlayForNextDraw = null;
+        List<Integer> hitCounter = new ArrayList<>();
+
+        for(Map.Entry<Integer[], Map<String, Integer[]>> dd : directionAnalysis.entrySet()){
+            Map<String, Integer[]> directions = dd.getValue();
+            for (Iterator<String> it = directions.keySet().iterator(); it.hasNext(); ) {
+                Integer[] d = directions.get(it.next());
+                hitCounter.add(d[0]);
+                Collections.sort(hitCounter);
+            }
+
+            // determine which row is equal the greatest hits in the list
+            for(Map.Entry<String, Integer[]> values : directions.entrySet()){
+
+                if(hitCounter.get(hitCounter.size() -1 ) == values.getValue()[0]){
+                    String direction = values.getKey();
+                    if(direction.equals("Equal")){
+                        rowToPlayForNextDraw = Arrays.stream(dd.getKey()).mapToInt(Integer::intValue).toArray();
+                    }else {
+
+                        int[] arr = Arrays.stream(dd.getKey()).mapToInt(Integer::intValue).toArray();
+                        List allArray = Arrays.asList(rowsAndColumns);
+                        int index = 0;
+
+                        for(Object p : allArray){
+                            int[] pp = (int[])p;
+                            if(Arrays.equals(pp,arr)){
+                                index = allArray.indexOf(pp);
+                                break;
+                            }
+                        }
+
+                        int directionIndicator = directionMapper(direction);
+                        boolean lessThanZero = (directionIndicator < 0);
+                        if(lessThanZero){
+                            directionIndicator *= -1;
+                            rowToPlayForNextDraw = rowsAndColumns[index + directionIndicator];
+
+                        }else{
+                            rowToPlayForNextDraw = rowsAndColumns[index - directionIndicator];
+                        }
+
+
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return rowToPlayForNextDraw;
+    }
+
+    private int directionMapper(String direction) {
+
+        switch (direction){
+
+            case "Up 1":
+                return 1;
+            case "Up 2":
+                return 2;
+            case "Up 3":
+                return 3;
+            case "Up 4":
+                return 4;
+            case "Up 5":
+                return 5;
+            case "Up 6":
+                return 6;
+            case "Up 7":
+                return 7;
+            case "Down 1":
+                return -1;
+            case "Down 2":
+                return -2;
+            case "Down 3":
+                return -3;
+            case "Down 4":
+                return -4;
+            case "Down 5":
+                return -5;
+            case "Down 6":
+                return -6;
+            case "Down 7":
+                return -7;
+
+        }
+        return 0;
     }
 
     /**
      * This method will populate a map with the direction the next draw number tends to fall after the current number is
      * drawn
-     *
      * @param location
      * @param arrayVals
      * @param nextNum
@@ -189,11 +436,14 @@ public class LottoBetSlipAnalyzer {
                 numbersInPosition.add(Integer.parseInt(drawing.getPosFour()));
             else if (indexInDrawingData == 6)
                 numbersInPosition.add(Integer.parseInt(drawing.getPosFive()));
+            else if (indexInDrawingData == 7)
+                numbersInPosition.add(Integer.parseInt(drawing.getBonusNumber()));
+
         }
         for (int num : numbersInPosition)
             sum += num;
 
-        positionalAverage = (sum / numbersInPosition.size()) + 4;
+        positionalAverage = (lotteryGame.getMaxNumber() == 9) ? (sum / numbersInPosition.size()) : (sum / numbersInPosition.size()) + 4;
 
         trackAboveBelowAndEqualToAverageHits(positionalAverage);
     }
@@ -257,28 +507,63 @@ public class LottoBetSlipAnalyzer {
      */
     private void setUpRowsAndColumns(LotteryGame lotteryGame) {
 
+        int lowNum;
+        int maxNum;
         // get the min and max numbers
-        int lowNum = lotteryGame.getMinNumber();
-        int maxNum = lotteryGame.getMaxNumber();
+        if(indexInDrawingData < 7) {
+            lowNum = lotteryGame.getMinNumber();
+            maxNum = lotteryGame.getMaxNumber();
+        }
+        else{
+            if(lotteryGame.getGameName().toLowerCase().equals("powerball")){
+                lowNum = 1;
+                maxNum = 26;
+            }
+            else if(lotteryGame.getGameName().toLowerCase().equals("mega millions")){
+                lowNum = 1;
+                maxNum = 15;
+            }
+            else{
+                lowNum = 1;
+                maxNum = 27;
+            }
+        }
+        int divisor;
+        int numberOfRowsNeeded;
+        int remainderRowIfNeeded;
+        int trueAmountOfRowsNeeded;
+        int slots;
+        int remainingSlots;
 
-        int numberOfRowsNeeded = maxNum / 9;
-        int remainderRowIfNeeded = (maxNum - (numberOfRowsNeeded * 9)) > 0 ? 1 : 0;
-        int trueAmountOfRowsNeeded = numberOfRowsNeeded + remainderRowIfNeeded;
+        if(maxNum == 9){
 
-        int slots = (maxNum - (numberOfRowsNeeded * 9));
-        int remainingSlots = maxNum - slots;
+            divisor = 5;
+            numberOfRowsNeeded = maxNum / divisor;
+            remainderRowIfNeeded = (maxNum - (numberOfRowsNeeded * divisor)) > 0 ? 1 : 0;
+            trueAmountOfRowsNeeded = numberOfRowsNeeded + remainderRowIfNeeded;
+            slots = (maxNum - (numberOfRowsNeeded * divisor));
+            remainingSlots = maxNum - slots;
+
+        }else{
+            divisor = 15;
+            numberOfRowsNeeded = maxNum / divisor;
+            remainderRowIfNeeded = (maxNum - (numberOfRowsNeeded * divisor)) > 0 ? 1 : 0;
+            trueAmountOfRowsNeeded = numberOfRowsNeeded + remainderRowIfNeeded;
+            slots = (maxNum - (numberOfRowsNeeded * divisor));
+            remainingSlots = maxNum - slots;
+        }
 
         rowsAndColumns = new int[trueAmountOfRowsNeeded][];
         int count = 0;
         for (int i = lowNum; i <= maxNum; ) {
 
             int[] columnSize;
-            if ((numberOfRowsNeeded * 9) == maxNum) {
+            if ((numberOfRowsNeeded * divisor) == maxNum) {
 
-                columnSize = new int[9];
+                columnSize = new int[divisor];
                 rowsAndColumns[count] = columnSize;
             } else if (i <= remainingSlots) {
-                columnSize = new int[9];
+                columnSize = new int[divisor];
                 rowsAndColumns[count] = columnSize;
             } else {
                 columnSize = new int[slots];

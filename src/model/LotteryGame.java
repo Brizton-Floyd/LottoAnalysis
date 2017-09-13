@@ -12,6 +12,7 @@ public abstract class LotteryGame {
     protected String gameName;
     protected int minNumber;
     protected int maxNumber;
+    protected int positionNumbersAllowed;
 
     protected ObservableList<Drawing> drawingData;
 
@@ -26,6 +27,13 @@ public abstract class LotteryGame {
         this.drawingData = drawingData;
     }
 
+    public void setPositionNumbersAllowed(int positionNumbersAllowed) {
+        this.positionNumbersAllowed = positionNumbersAllowed;
+    }
+
+    public int getPositionNumbersAllowed() {
+        return positionNumbersAllowed;
+    }
     public int getMinNumber() {
         return minNumber;
     }

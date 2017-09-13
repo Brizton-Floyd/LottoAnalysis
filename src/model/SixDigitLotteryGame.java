@@ -41,6 +41,7 @@ public class SixDigitLotteryGame extends LotteryGame {
             case 2:
                 databaseName = "powerball_results";
                 game = repository.loadLotteryData(lottoId,databaseName,6);
+                game.setPositionNumbersAllowed(6);
                 game.setMinNumber((int) data[1]);
                 game.setMaxNumber((int) data[2]);
                 game.setGameName(twekedGameName);
@@ -48,6 +49,7 @@ public class SixDigitLotteryGame extends LotteryGame {
             case 3:
                 databaseName = "mega_million_results";
                 game = repository.loadLotteryData(lottoId,databaseName,6);
+                game.setPositionNumbersAllowed(6);
                 game.setMinNumber((int) data[1]);
                 game.setMaxNumber((int) data[2]);
                 game.setGameName(twekedGameName);
@@ -55,6 +57,7 @@ public class SixDigitLotteryGame extends LotteryGame {
             case 4:
                 databaseName = "super_lotto_results";
                 game = repository.loadLotteryData(lottoId,databaseName,6);
+                game.setPositionNumbersAllowed(6);
                 game.setMinNumber((int) data[1]);
                 game.setMaxNumber((int) data[2]);
                 game.setGameName(twekedGameName);
