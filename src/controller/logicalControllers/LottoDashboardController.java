@@ -140,6 +140,7 @@ public class LottoDashboardController implements Initializable {
                             (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 5:
+                    LottoBetSlipAnalyzer analyzerBonus = new LottoBetSlipAnalyzer(lotteryGame, 7);
                     System.out.print("Bonus Number");
                     break;
             }

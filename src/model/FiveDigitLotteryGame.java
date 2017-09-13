@@ -32,6 +32,7 @@ public class FiveDigitLotteryGame extends LotteryGame {
         String gameName = FileTweaker.trimStateAbrrFromGameName(getGameName());
 
         LotteryGame game = repository.loadLotteryData(lottoId, "fantasy_five_results", 5);
+        game.setPositionNumbersAllowed(5);
         game.setMinNumber((int) data[1]);
         game.setMaxNumber((int) data[2]);
         game.setGameName(gameName);
