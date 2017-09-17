@@ -40,8 +40,8 @@ public class BarChartExt<X, Y> extends BarChart<X, Y> {
             Data<X, Y> item = series.getData().get(j);
 
             Text text = new Text(item.getYValue().toString());
-            text.setFont(Font.font("",FontWeight.BOLD,9));
-            text.setStyle("-fx-font-size: 10pt;");
+            text.setFont(Font.font("",FontWeight.BOLD,6.5));
+            text.setStyle("-fx-font-size: 6pt;");
 
             TextFlow textFlow = new TextFlow(text);
             textFlow.setTextAlignment(TextAlignment.CENTER);
@@ -90,7 +90,7 @@ public class BarChartExt<X, Y> extends BarChart<X, Y> {
                 textFlow.resize(bar.getBoundsInParent().getWidth(), 200);
                 textFlow.relocate(bar.getBoundsInParent().getMinX(), bar.getBoundsInParent().getMinY() + 10);
             } else {
-                ((Text) textFlow.getChildren().get(0)).setFill(Color.valueOf("#EFA747"));
+                ((Text) textFlow.getChildren().get(0)).setFill(Color.valueOf("#FFC0CB"));
                 textFlow.resize(bar.getBoundsInParent().getWidth(), 200);
                 textFlow.relocate(bar.getBoundsInParent().getMinX(), bar.getBoundsInParent().getMinY() - 20);
             }

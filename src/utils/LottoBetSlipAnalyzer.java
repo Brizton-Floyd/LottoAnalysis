@@ -1,5 +1,6 @@
 package utils;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import model.Drawing;
 import model.LotteryGame;
 
@@ -17,6 +18,7 @@ public class LottoBetSlipAnalyzer {
     private double positionalAverage = 0.0;
     private List<Integer> numbersInPosition;
     private List<Object> allInformationForRowAndPosition;
+    private Map<Integer[], Map<String, Integer[]>> rowDirections;
 
     private Map<Double, Map<String, Integer[]>> positionalAverageHitsTracker;
 
@@ -25,11 +27,146 @@ public class LottoBetSlipAnalyzer {
         allInformationForRowAndPosition = new ArrayList<>();
 
         this.indexInDrawingData = indexInDrawingData;
-        setUpRowsAndColumns(lotteryGame);
+        rowsAndColumns = setUpRowsAndColumns(lotteryGame.getGameName());
+        //setUpRowsAndColumns(lotteryGame);
         findPositionalAverage(lotteryGame);
         int[] rowToPlay = analyzeBetSlip(rowsAndColumns, numbersInPosition);
-        finalizeDataForDisplay(rowToPlay, numbersInPosition );
+        analyzeRemainderDueToHit(rowToPlay,numbersInPosition);
+        //finalizeDataForDisplay(rowToPlay, numbersInPosition );
         determineGamesOutForNumbersAndLastPositionNumbersHitIn(lotteryGame);
+
+    }
+
+    private void analyzeRemainderDueToHit(int[] rowToPlay, List<Integer> numbersInPosition) {
+        List<Integer> numbersInRow = new ArrayList<>();
+        Map<Integer, Object[]> remainderAndNumbers = new TreeMap<>();
+        Map<Integer,Boolean> numberFlags = new TreeMap<>();
+
+        for(int num : rowToPlay){
+            numbersInRow.add(num);
+            numberFlags.put(num,false);
+        }
+
+        for(int num : numbersInPosition){
+
+            if(numbersInRow.contains(num)){
+
+                boolean result = numberFlags.get(num);
+                result = true;
+                numberFlags.put(num, result);
+
+                int remainder = num % 3;
+
+                if(!remainderAndNumbers.containsKey(remainder)){
+
+                    Map<Integer, Integer[]> data = new TreeMap<>();
+                    remainderAndNumbers.put(remainder, new Object[]{new TreeMap<Integer,Integer[]>(), 0,0});
+
+                    if(!data.containsKey(num)){
+                        data.put(num, new Integer[]{1, 0});
+                        incrementgamesOut(data, num);
+
+                        Object[] objects = remainderAndNumbers.get(remainder);
+                        objects[0] = data;
+                        objects[1] = (int)objects[1] + 1;
+                        objects[2] = 0;
+                        remainderAndNumbers.put(remainder, objects );
+                    }
+                    else{
+                        Object[] objects = remainderAndNumbers.get(remainder);
+                        Map<Integer, Integer[]> innerHashmap = (Map<Integer, Integer[]>)objects[0];
+                        Integer[] vals = innerHashmap.get(num);
+                        vals[0]++;
+                        vals[1] = 0;
+                        incrementgamesOut(innerHashmap, num);
+                    }
+
+                    incrementMultipleGamesOut(remainderAndNumbers, remainder);
+
+                }
+                else{
+
+                    Object[] objects = remainderAndNumbers.get(remainder);
+                    objects[1] = (int)objects[1]+1;
+                    objects[2] = 0;
+
+                    Map<Integer, Integer[]> data = (Map<Integer, Integer[]>)objects[0];
+
+                    if(!data.containsKey(num)){
+                        data.put(num, new Integer[]{1,0});
+                        incrementgamesOut(data, num);
+                        objects[0] = data;
+                        remainderAndNumbers.put(remainder, objects);
+                    }else{
+                        Integer[] gameInfo = data.get(num);
+                        gameInfo[0]++;
+                        gameInfo[1] = 0;
+                        incrementgamesOut(data, num);
+                        data.put(num, gameInfo);
+                        objects[0] = data;
+                        remainderAndNumbers.put(remainder, objects);
+                    }
+
+                    incrementMultipleGamesOut(remainderAndNumbers, remainder);
+                }
+            }
+        }
+
+        for(Map.Entry<Integer, Boolean> d : numberFlags.entrySet()){
+            boolean val = d.getValue();
+            if(!val){
+                int num = d.getKey();
+                int remainder = num % 3;
+                if(remainderAndNumbers.containsKey(remainder)){
+                    Object[] data = remainderAndNumbers.get(remainder);
+                    Map<Integer, Integer[]> numbers = (Map<Integer, Integer[]>)data[0];
+                    if(!numbers.containsKey(num)){
+                        numbers.put(num, new Integer[]{0,0});
+                    }
+                }
+            }
+        }
+        allInformationForRowAndPosition.add(rowToPlay);
+        allInformationForRowAndPosition.add(remainderAndNumbers);
+    }
+
+    private void incrementMultipleGamesOut(Map<Integer, Object[]> remainderAndNumbers, int remainder) {
+
+        for(Map.Entry<Integer,Object[]> dd : remainderAndNumbers.entrySet()){
+
+            if(dd.getKey() != remainder) {
+                Object[] data = dd.getValue();
+                data[2] = (int)data[2] + 1;
+            }
+
+        }
+    }
+
+    private int[][] setUpRowsAndColumns(String gameName) {
+
+        Map<String, Integer[][]> gamePayslipFormation = new HashMap<>();
+
+        Integer[][] payslipSetUp = {{1,5,9,13,17,21,25,29,33,37}, {2,6,10,14,18,22,26,30,34,38},
+                                    {3,7,11,15,19,23,27,31,35,39},{4,8,12,16,20,24,28,32,36}};
+
+        if(!gamePayslipFormation.containsKey(gameName)){
+
+            if(gameName.equals("FantasyFive"))
+                gamePayslipFormation.put(gameName, payslipSetUp);
+        }
+
+        int[][] data = new int[gamePayslipFormation.get(gameName).length][];
+
+        for(int i = 0; i < gamePayslipFormation.get(gameName).length; i++){
+
+            data[i] = new int[gamePayslipFormation.get(gameName)[i].length];
+
+            for(int k = 0; k < gamePayslipFormation.get(gameName)[i].length; k++){
+                data[i][k] = gamePayslipFormation.get(gameName)[i][k];
+            }
+        }
+
+        return data;
     }
 
     /**
@@ -52,7 +189,11 @@ public class LottoBetSlipAnalyzer {
     }
     private void determineGamesOutForNumbersAndLastPositionNumbersHitIn(LotteryGame lotteryGame) {
 
-        Set<Integer> allKeyvals = ((Map<Integer,Integer>)allInformationForRowAndPosition.get(0)).keySet();
+        Set<Integer> allKeyvals = new TreeSet<>();
+
+        int[] datas  = (int[]) allInformationForRowAndPosition.get(0);
+        for(int a : datas)
+            allKeyvals.add(a);
 
         GamesOutPositionTracker tracker = new GamesOutPositionTracker(allKeyvals, lotteryGame);
 
@@ -60,6 +201,9 @@ public class LottoBetSlipAnalyzer {
 
         //determineLastElementValueToPlay();
         allInformationForRowAndPosition.add(data);
+        allInformationForRowAndPosition.add(rowDirections);
+        allInformationForRowAndPosition.add(rowsAndColumns);
+        allInformationForRowAndPosition.add(positionalAverageHitsTracker);
     }
 
     private void determineLastElementValueToPlay() {
@@ -233,6 +377,8 @@ public class LottoBetSlipAnalyzer {
             locationInMatrix = 0;
         }
 
+        rowDirections = directionAnalysis;
+
         // get total hits for each row and sort from least to greatest
         int[] rowToPlayForNextDraw = null;
         List<Integer> hitCounter = new ArrayList<>();
@@ -284,7 +430,48 @@ public class LottoBetSlipAnalyzer {
             }
         }
 
+        // Determine what sum is due to hit for the given row
         return rowToPlayForNextDraw;
+    }
+
+    private void determineSumLikelyToHit(int[] rowToPlayForNextDraw) {
+
+        List<Integer> rowNumbers = new ArrayList<>();
+        Map<Integer,Integer[]> columnSums = new HashMap<>();
+        int sum;
+        for(int num : rowToPlayForNextDraw){
+            if(Integer.toString(num).length() > 1){
+                int elementZero =  Integer.parseInt(Character.toString(Integer.toString(num).charAt(0)));
+                int elementOne = Integer.parseInt(Character.toString(Integer.toString(num).charAt(1)));
+                sum = elementOne + elementZero;
+
+            }else{
+                sum = num;
+            }
+
+            columnSums.put(sum, new Integer[]{0,0});
+            rowNumbers.add(num);
+        }
+
+        for(int num : numbersInPosition){
+            if(rowNumbers.contains(num)){
+
+                if(Integer.toString(num).length() > 1){
+                    int elementZero =  Integer.parseInt(Character.toString(Integer.toString(num).charAt(0)));
+                    int elementOne = Integer.parseInt(Character.toString(Integer.toString(num).charAt(1)));
+                    sum = elementOne + elementZero;
+
+                }else{
+                    sum = num;
+                }
+
+                Integer[] vals = columnSums.get(sum);
+                vals[0]++;
+                vals[1] = 0;
+                incrementgamesOut(columnSums, sum);
+            }
+        }
+
     }
 
     private int directionMapper(String direction) {
