@@ -27,8 +27,8 @@ public class LottoBetSlipAnalyzer {
         allInformationForRowAndPosition = new ArrayList<>();
 
         this.indexInDrawingData = indexInDrawingData;
-        rowsAndColumns = setUpRowsAndColumns(lotteryGame.getGameName());
-        //setUpRowsAndColumns(lotteryGame);
+        //rowsAndColumns = setUpRowsAndColumns(lotteryGame.getGameName());
+        setUpRowsAndColumns(lotteryGame);
         findPositionalAverage(lotteryGame);
         int[] rowToPlay = analyzeBetSlip(rowsAndColumns, numbersInPosition);
         analyzeRemainderDueToHit(rowToPlay,numbersInPosition);
@@ -732,7 +732,7 @@ public class LottoBetSlipAnalyzer {
             remainingSlots = maxNum - slots;
 
         }else{
-            divisor = 15;
+            divisor = (int)Math.ceil(maxNum / 2.0);
             numberOfRowsNeeded = maxNum / divisor;
             remainderRowIfNeeded = (maxNum - (numberOfRowsNeeded * divisor)) > 0 ? 1 : 0;
             trueAmountOfRowsNeeded = numberOfRowsNeeded + remainderRowIfNeeded;

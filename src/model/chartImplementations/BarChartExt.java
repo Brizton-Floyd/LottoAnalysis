@@ -40,8 +40,8 @@ public class BarChartExt<X, Y> extends BarChart<X, Y> {
             Data<X, Y> item = series.getData().get(j);
 
             Text text = new Text(item.getYValue().toString());
-            text.setFont(Font.font("",FontWeight.BOLD,6.5));
-            text.setStyle("-fx-font-size: 6pt;");
+            text.setFont(Font.font("",FontWeight.BOLD,9));
+            //text.setStyle("-fx-font-size: 5pt;");
 
             TextFlow textFlow = new TextFlow(text);
             textFlow.setTextAlignment(TextAlignment.CENTER);
@@ -88,11 +88,17 @@ public class BarChartExt<X, Y> extends BarChart<X, Y> {
             if (bar.getBoundsInParent().getHeight() > 30) {
                 ((Text) textFlow.getChildren().get(0)).setFill(Color.WHITE);
                 textFlow.resize(bar.getBoundsInParent().getWidth(), 200);
-                textFlow.relocate(bar.getBoundsInParent().getMinX(), bar.getBoundsInParent().getMinY() + 10);
+                textFlow.relocate(bar.getBoundsInParent().getMinX() + 5, bar.getBoundsInParent().getMinY() + -5);
             } else {
+                int len = ((Text)textFlow.getChildren().get(0)).getText().length();
+
                 ((Text) textFlow.getChildren().get(0)).setFill(Color.valueOf("#FFC0CB"));
                 textFlow.resize(bar.getBoundsInParent().getWidth(), 200);
-                textFlow.relocate(bar.getBoundsInParent().getMinX(), bar.getBoundsInParent().getMinY() - 20);
+                if(len == 3)
+                    textFlow.relocate(bar.getBoundsInParent().getMinX(), bar.getBoundsInParent().getMinY() - 35);
+                else
+                    textFlow.relocate(bar.getBoundsInParent().getMinX(), bar.getBoundsInParent().getMinY() - 25);
+
             }
 
 
