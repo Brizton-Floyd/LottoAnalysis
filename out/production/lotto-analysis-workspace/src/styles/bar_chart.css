@@ -58,3 +58,11 @@
    -fx-text-fill: #dac6ac;
    -fx-font-size: 12pt;
 }
+
+.chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: transparent;
+}

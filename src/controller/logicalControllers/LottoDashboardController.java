@@ -11,21 +11,27 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.chart.*;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
 import model.Drawing;
 import model.FiveDigitLotteryGame;
 import model.GameInstructions;
 import model.LotteryGame;
 import model.chartImplementations.BarChartExt;
+import utils.GamesOutViewAnalyzer;
 import utils.LottoBetSlipAnalyzer;
 import utils.NumberPatternAnalyzer;
 
@@ -63,23 +69,33 @@ public class LottoDashboardController implements Initializable {
     FontAwesomeIconView helpIconLottoDashboard;
 
     private ChoiceBox choiceBox;
-    private BarChartExt<Number, Number> bc;
+    private BarChartExt<String, Number> bc;
 
     public void init(MainController mainController) {
 
         choiceBox = new ChoiceBox();
         choiceBox.setStyle("-fx-focus-color: transparent;");
-        bc = new BarChartExt<>(new CategoryAxis(), new NumberAxis());
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.tickLabelFontProperty().set(Font.font(8));
+        //xAxis.setTickLabelRotation(20);
+        xAxis.setStyle("-fx-tick-label-fill: #dac6ac");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.tickLabelFontProperty().set(Font.font(8));
+        yAxis.setStyle("-fx-tick-label-fill: #dac6ac");
+        yAxis.setAutoRanging(true);
+
+        bc = new BarChartExt<>(xAxis, yAxis);
         hBox.getChildren().addAll(bc, choiceBox);
-        vBox.setPadding(new Insets(20, 0,0,0));
-        hBox.setPadding(new Insets(0,0,-18,0));
+        vBox.setPadding(new Insets(20, 0, 50, 0));
+        hBox.setPadding(new Insets(0, 0, -18, 0));
         this.mainController = mainController;
+
 
         styleChart();
         setTextStyleForAllLabels();
         loadDefaultGameForView();
         loadChoicesIntoChoiceBox();
-
 
     }
 
@@ -87,10 +103,11 @@ public class LottoDashboardController implements Initializable {
         return universalCount;
     }
 
-    private static void setCount(int val){
+    private static void setCount(int val) {
 
         universalCount = val;
     }
+
     private void loadChoicesIntoChoiceBox() {
 
         int count = 0;
@@ -111,7 +128,11 @@ public class LottoDashboardController implements Initializable {
         positionalNumbers = new int[count][drawNumberTable.getItems().size()];
         loadUpPositionalNumbers(positionalNumbers, lotteryGame.getDrawingData());
 
-        int[][] deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
+        //int[][] deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
+
+        GamesOutViewAnalyzer gamesOutViewAnalyzer = new GamesOutViewAnalyzer(positionalNumbers, lotteryGame);
+        Map<String, Map<String, Integer[]>> res = gamesOutViewAnalyzer.analyzeWinningNumberDistrubution();
+        setUpInfoPanel(res);
 
         choiceBox.setItems(FXCollections.observableArrayList(choiceBoxItems));
         choiceBox.getSelectionModel().selectFirst();
@@ -128,6 +149,7 @@ public class LottoDashboardController implements Initializable {
                     LottoBetSlipAnalyzer analyzerPosOne = new LottoBetSlipAnalyzer(lotteryGame, 2);
                     rowInformation = analyzerPosOne.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
+
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[0]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[0], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
@@ -137,6 +159,7 @@ public class LottoDashboardController implements Initializable {
                     LottoBetSlipAnalyzer analyzerPosTwo = new LottoBetSlipAnalyzer(lotteryGame, 3);
                     rowInformation = analyzerPosTwo.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
+
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[1]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[1], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
@@ -145,6 +168,7 @@ public class LottoDashboardController implements Initializable {
                     LottoBetSlipAnalyzer analyzerPosThree = new LottoBetSlipAnalyzer(lotteryGame, 4);
                     rowInformation = analyzerPosThree.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
+
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[2]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[2], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
@@ -153,6 +177,7 @@ public class LottoDashboardController implements Initializable {
                     LottoBetSlipAnalyzer analyzerPosFour = new LottoBetSlipAnalyzer(lotteryGame, 5);
                     rowInformation = analyzerPosFour.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
+
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[3]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[3], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
@@ -161,6 +186,7 @@ public class LottoDashboardController implements Initializable {
                     LottoBetSlipAnalyzer analyzerPosFive = new LottoBetSlipAnalyzer(lotteryGame, 6);
                     rowInformation = analyzerPosFive.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
+
                     data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[4]);
                     chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[4], positionalNumbers.length,
                             (int) data[1], (int) data[2], lotteryGame);
@@ -174,14 +200,83 @@ public class LottoDashboardController implements Initializable {
             // Plot data on bar chart
             if (number < 5) {
                 int size = vBox.getChildren().size();
-                if(size > 1)
+                if (size > 1)
                     vBox.getChildren().remove(1);
+
                 setUpChart(number + 1, chartDataTwo);
             }
 
         });
-
     }
+
+    private void setUpInfoPanel(Map<String, Map<String, Integer[]>> data) {
+
+        ScrollPane pane = new ScrollPane();
+        //pane.setPrefSize(300,300);
+        AnchorPane.setTopAnchor(pane, 5.0);
+        AnchorPane.setLeftAnchor(pane, 0.0);
+        AnchorPane.setRightAnchor(pane, 0.0);
+        AnchorPane.setBottomAnchor(pane, 0.0);
+        pane.setFocusTraversable(false);
+        pane.setStyle("-fx-background: #515b51; -fx-focus-color: transparent; -fx-border-color: black;");
+        double wi = infoPane1.getPrefWidth();
+
+        Pane p1 = panelOneSetUp(data);
+
+        Label label1 = new Label();
+        Pane p2 = new Pane();
+        p2.setStyle("-fx-background: #16CAC3;");
+        p2.setPrefSize(340, 200);
+        p2.getChildren().addAll(label1);
+
+        Pane p3 = new Pane();
+        p3.setStyle("-fx-background: #16CAC3;");
+        p3.setPrefSize(340, 200);
+
+        VBox box = new VBox();
+        box.setSpacing(120.0);
+        box.getChildren().addAll(p1, p2, p3);
+
+
+        pane.setContent(box);
+        infoPane1.getChildren().add(pane);
+    }
+
+    private Pane panelOneSetUp(Map<String, Map<String, Integer[]>> data) {
+        Label label = new Label("Winning Number Distribution Between Ranges");
+        label.setStyle("-fx-text-fill: #DAC6AC;");
+        Pane p1 = new Pane();
+        p1.setPrefSize(340, 200);
+        VBox v = new VBox();
+        v.setPadding(new Insets(20, 0, 0, 0));
+        p1.getChildren().addAll(label);
+        label = new Label("Range\t" + "Hits\t\t" + "Games Out");
+        label.setPadding(new Insets(20, 0, 0, 0));
+        p1.getChildren().addAll(label);
+
+        for (Map.Entry<String, Map<String, Integer[]>> d : data.entrySet()) {
+            Map<String, Integer[]> dd = d.getValue();
+            Label l = new Label(d.getKey());
+            l.setStyle("-fx-text-fill: #DAC6AC;");
+            l.setPadding(new Insets(20, 0, 0, 0));
+            v.getChildren().addAll(l);
+
+            for (Map.Entry<String, Integer[]> ddd : dd.entrySet()) {
+                if (Integer.toString(ddd.getValue()[0]).length() == 4) {
+                    l = new Label(String.format("%1s %2$8s %3$10s", ddd.getKey(), ddd.getValue()[0], ddd.getValue()[1]));
+                    v.getChildren().add(l);
+                } else {
+                    l = new Label(String.format("%1s %2$7s %3$12s", ddd.getKey(), ddd.getValue()[0], ddd.getValue()[1]));
+                    v.getChildren().add(l);
+
+                }
+            }
+        }
+
+        p1.getChildren().addAll(v);
+        return p1;
+    }
+
 
     private Map<Integer, Integer> extractInformationForBarChart(List<Object> rowInformation) {
 
@@ -225,52 +320,56 @@ public class LottoDashboardController implements Initializable {
         bc.getData().clear();
 
         bc.setTitle(String.format("Best Group For Position %1s", position));
-        //bc.getXAxis().setLabel("Predicted Numbers");
+        bc.getXAxis().setLabel("Predicted Numbers");
         bc.getYAxis().setLabel("Hits in Pos " + position);
         bc.legendVisibleProperty().setValue(false);
         bc.setAnimated(false);
-        Label label = new Label();
+
+        //Label label = new Label();
 
         if (chartData != null) {
 
-            XYChart.Series[] series = new XYChart.Series[1];
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
             StringBuilder builder = new StringBuilder();
             //builder.append("\t\t\t   ");
-            series[0] = new XYChart.Series();
+
 
             int count = 0;
 
             for (Map.Entry<Integer, Integer> data : chartData.entrySet()) {
 
-                series[0].getData().add(new XYChart.Data<>(data.getKey()  + "", data.getValue()));
+                String num = Integer.toString(data.getKey());
+                series.getData().add(new XYChart.Data<>(num, data.getValue()));
 
-                if(count == 0)
-                    builder.append(String.format("%1$28s",data.getKey()));
-                else {
-                    if(chartData.entrySet().size() < 10) {
-                        if (Integer.toString(data.getKey()).length() > 1)
-                            builder.append(String.format("%1$10s", data.getKey()));
-                        else
-                            builder.append(String.format("%1$10s", data.getKey()));
-                    }else{
-                        if (Integer.toString(data.getKey()).length() > 1)
-                            builder.append(String.format("%1$9s", data.getKey()));
-                        else
-                            builder.append(String.format("%1$10s", data.getKey()));
-                    }
-                }
-                count++;
+//                if(count == 0 && Integer.toString(data.getKey()).length() < 2)
+//                    builder.append( String.format("%1$25s",data.getKey()));
 
-
+//                else {
+//                    if(count == 0 && Integer.toString(data.getKey()).length() > 1)
+//                        builder.append( String.format("%1$20s",data.getKey()));
+//
+//                    else if(chartData.entrySet().size() < 15) {
+//                        if (Integer.toString(data.getKey()).length() > 1)
+//                            builder.append(String.format("%1$15s", data.getKey()));
+//                        else
+//                            builder.append(String.format("%1$10s", data.getKey()));
+//                    }else{
+//                        if (Integer.toString(data.getKey()).length() > 1)
+//                            builder.append(String.format("%1$6s", data.getKey()));
+//                        else
+//                            builder.append(String.format("%1$6s", data.getKey()));
+                // }
             }
+            //count++;
+            //}
 
             //int index = builder.lastIndexOf(",");
             //builder.setCharAt(index, ']');
             //series[0].setName(builder.toString());
-            bc.getData().add(series[0]);
+            bc.getData().add(series);
 
-            label.setText(builder.toString());
-            vBox.getChildren().add(label);
+//            label.setText(builder.toString());
+//            vBox.getChildren().add(label);
 
 
         }
@@ -282,9 +381,10 @@ public class LottoDashboardController implements Initializable {
 
     }
 
-    public static void loadPositionalNumbers(int[][] positions, ObservableList<Drawing> drawings){
+    public static void loadPositionalNumbers(int[][] positions, ObservableList<Drawing> drawings) {
         loadUpPositionalNumbers(positions, drawings);
     }
+
     /**
      * Loader that injects values into perspective draw positions from a Lotterygame object.
      *

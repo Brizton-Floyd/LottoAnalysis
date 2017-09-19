@@ -57,7 +57,7 @@
       </AnchorPane>
       <AnchorPane fx:id="infoPane1" layoutX="658.0" layoutY="75.0" prefHeight="271.0" prefWidth="362.0" style="-fx-border-color: #10000C;" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="642.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="75.0">
          <children>
-            <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
       <Label layoutX="645.0" layoutY="36.0" text="BetSlip Analysis" textFill="#dac6ac">
