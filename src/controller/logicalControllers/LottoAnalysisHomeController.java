@@ -40,8 +40,16 @@ public class LottoAnalysisHomeController {
      */
     private void HandleEventsAndActions() {
 
+        btn_charAnalysis.setOnAction( e -> {
+
+            mainController.lottoDashboardController.displayChartAnalysisScreen();
+            btn_charAnalysis.disableProperty().setValue(true);
+
+        });
+
         btn_lottoDashboard.setOnAction( event ->  {
             mainController.lottoDashboardController.showPane();
+            mainController.chartAnalysisController.hidePane();
         });
 
         btn_lottoModalCloser.setOnAction(e -> {
@@ -116,4 +124,7 @@ public class LottoAnalysisHomeController {
     }
 
 
+    public void enableChartButton() {
+        btn_charAnalysis.disableProperty().setValue(false);
+    }
 }

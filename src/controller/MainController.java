@@ -1,6 +1,7 @@
 package controller;
 
 
+import controller.logicalControllers.ChartAnalysisController;
 import controller.logicalControllers.LottoAnalysisHomeController;
 import controller.logicalControllers.LottoDashboardController;
 import controller.logicalControllers.LottoInfoAndGamesController;
@@ -15,10 +16,10 @@ import javafx.fxml.FXML;
  */
 public class MainController {
 
-
     public LottoAnalysisHomeController lottoAnalysisHomeController;
     public LottoInfoAndGamesController lottoInfoAndGamesController;
     public LottoDashboardController lottoDashboardController;
+    public ChartAnalysisController chartAnalysisController;
 
     @FXML
     public void initialize() {

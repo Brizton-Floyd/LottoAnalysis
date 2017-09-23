@@ -8,9 +8,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -25,16 +29,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
-import model.Drawing;
-import model.FiveDigitLotteryGame;
-import model.GameInstructions;
-import model.LotteryGame;
+import model.*;
 import model.chartImplementations.BarChartExt;
 import utils.GamesOutViewAnalyzer;
 import utils.LottoBetSlipAnalyzer;
 import utils.NumberPatternAnalyzer;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -95,8 +100,6 @@ public class LottoDashboardController implements Initializable {
         styleChart();
         setTextStyleForAllLabels();
         loadDefaultGameForView();
-        loadChoicesIntoChoiceBox();
-
     }
 
     public static int getUniversalCount() {
@@ -108,7 +111,16 @@ public class LottoDashboardController implements Initializable {
         universalCount = val;
     }
 
-    private void loadChoicesIntoChoiceBox() {
+    public int[][] getPositionalNumbers() {
+        return positionalNumbers;
+    }
+
+    public void loadChoicesIntoChoiceBox() {
+
+
+        if(choiceBox.getItems().size() > 0)
+            choiceBox.getItems().clear();
+
 
         int count = 0;
         List<String> choiceBoxItems = new LinkedList<>();
@@ -127,7 +139,6 @@ public class LottoDashboardController implements Initializable {
         setCount(count);
         positionalNumbers = new int[count][drawNumberTable.getItems().size()];
         loadUpPositionalNumbers(positionalNumbers, lotteryGame.getDrawingData());
-
         //int[][] deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
 
         GamesOutViewAnalyzer gamesOutViewAnalyzer = new GamesOutViewAnalyzer(positionalNumbers, lotteryGame);
@@ -136,6 +147,10 @@ public class LottoDashboardController implements Initializable {
 
         choiceBox.setItems(FXCollections.observableArrayList(choiceBoxItems));
         choiceBox.getSelectionModel().selectFirst();
+    }
+
+    public void performOperationOnChoiceboxValue() {
+
         choiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
 
             final Object[] data;
@@ -198,7 +213,7 @@ public class LottoDashboardController implements Initializable {
             }
 
             // Plot data on bar chart
-            if (number < 5) {
+            if (number < 5 && number >= 0) {
                 int size = vBox.getChildren().size();
                 if (size > 1)
                     vBox.getChildren().remove(1);
@@ -325,51 +340,17 @@ public class LottoDashboardController implements Initializable {
         bc.legendVisibleProperty().setValue(false);
         bc.setAnimated(false);
 
-        //Label label = new Label();
-
         if (chartData != null) {
 
             XYChart.Series<String, Number> series = new XYChart.Series<>();
-            StringBuilder builder = new StringBuilder();
-            //builder.append("\t\t\t   ");
-
-
-            int count = 0;
 
             for (Map.Entry<Integer, Integer> data : chartData.entrySet()) {
 
                 String num = Integer.toString(data.getKey());
                 series.getData().add(new XYChart.Data<>(num, data.getValue()));
 
-//                if(count == 0 && Integer.toString(data.getKey()).length() < 2)
-//                    builder.append( String.format("%1$25s",data.getKey()));
-
-//                else {
-//                    if(count == 0 && Integer.toString(data.getKey()).length() > 1)
-//                        builder.append( String.format("%1$20s",data.getKey()));
-//
-//                    else if(chartData.entrySet().size() < 15) {
-//                        if (Integer.toString(data.getKey()).length() > 1)
-//                            builder.append(String.format("%1$15s", data.getKey()));
-//                        else
-//                            builder.append(String.format("%1$10s", data.getKey()));
-//                    }else{
-//                        if (Integer.toString(data.getKey()).length() > 1)
-//                            builder.append(String.format("%1$6s", data.getKey()));
-//                        else
-//                            builder.append(String.format("%1$6s", data.getKey()));
-                // }
             }
-            //count++;
-            //}
-
-            //int index = builder.lastIndexOf(",");
-            //builder.setCharAt(index, ']');
-            //series[0].setName(builder.toString());
             bc.getData().add(series);
-
-//            label.setText(builder.toString());
-//            vBox.getChildren().add(label);
 
 
         }
@@ -498,7 +479,6 @@ public class LottoDashboardController implements Initializable {
     public void setUpTableView(LotteryGame lotteryGame) {
 
         positionalNumbers = null;
-        choiceBox.getItems().clear();
         drawNumberTable.getItems().clear();
         drawNumberTable.getColumns().clear();
         drawNumberTable.setVisible(true);
@@ -588,7 +568,6 @@ public class LottoDashboardController implements Initializable {
         setUpCellValueFactories(tableColumns, Drawing.drawSize);
         drawNumberTable.scrollTo(lotteryGame.getDrawingData().size() - 1);
         drawNumberTable.setItems(lotteryGame.getDrawingData());
-        loadChoicesIntoChoiceBox();
     }
 
     private void setUpCellValueFactories(TableColumn[] tableColumns, int drawSize) {
@@ -649,13 +628,13 @@ public class LottoDashboardController implements Initializable {
 
     private void loadDefaultGameForView() {
 
-
         choiceBox.getItems().clear();
 
         String gameName = mainController.lottoInfoAndGamesController.getDefaultGameName();
         this.lotteryGame = new FiveDigitLotteryGame(gameName);
         String name = lotteryGame.loadGameData().getGameName();
         String newName = "";
+
         for (int i = 0; i < name.length(); i++) {
 
             if (Character.isUpperCase(name.charAt(i)) && i == 0)
@@ -673,10 +652,50 @@ public class LottoDashboardController implements Initializable {
         predictedNumbersLabel.setText("Historical Draw Table For: " + newName);
         lottoDashboard.setText(gameName + "Lotto Dashboard");
         setUpTableView(lotteryGame.loadGameData());
+        loadChoicesIntoChoiceBox();
+        performOperationOnChoiceboxValue();
+
+        LottoBetSlipAnalyzer analyzerPosOne = new LottoBetSlipAnalyzer(lotteryGame, 2);
+        List<Object> rowInformation = analyzerPosOne.getAllInformationForRowAndPosition();
+        Map<Integer, Integer> chartDataTwo = extractInformationForBarChart(rowInformation);
+        setUpChart(1,chartDataTwo);
+
     }
 
     public LotteryGame getLotteryGame() {
         return lotteryGame;
+    }
+
+    public void displayChartAnalysisScreen(){
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("../view/ChartAnalysis.fxml"));
+            AnchorPane pane =  loader.load();
+
+            ChartAnalysisController chartAnalysisController = loader.getController();
+            chartAnalysisController.init(mainController);
+            chartAnalysisController.clearButtonBox();
+            chartAnalysisController.setNumbers(positionalNumbers);
+            chartAnalysisController.setGame(lotteryGame);
+
+            Scene scene = new Scene(pane);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setTitle("Chart Analysis");
+            stage.show();
+
+            stage.setOnCloseRequest(e -> {
+                mainController.lottoAnalysisHomeController.enableChartButton();
+            });
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

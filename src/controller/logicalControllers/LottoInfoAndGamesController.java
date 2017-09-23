@@ -123,32 +123,44 @@ public class LottoInfoAndGamesController {
                 game = new FiveDigitLotteryGame(gameName);
                 this.lotteryGame = game.loadGameData();
                 mainController.lottoDashboardController.setUpTableView(lotteryGame);
+                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
+               // mainController.lottoDashboardController.performOperationOnChoiceboxValue();
             }
             else if(gameName.contains("Powerball")){
 
                 game = new SixDigitLotteryGame(gameName);
                 this.lotteryGame = game.loadGameData();
                 mainController.lottoDashboardController.setUpTableView(lotteryGame);
+                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
+               // mainController.lottoDashboardController.performOperationOnChoiceboxValue();
             }
             else if(gameName.contains("Mega")){
                 game = new SixDigitLotteryGame(gameName);
                 this.lotteryGame = game.loadGameData();
                 mainController.lottoDashboardController.setUpTableView(lotteryGame);
+                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
+                //mainController.lottoDashboardController.performOperationOnChoiceboxValue();
             }
             else if(gameName.contains("Pick 3")){
                 game = new PickThreeLotteryGame(gameName);
                 this.lotteryGame = game.loadGameData();
                 mainController.lottoDashboardController.setUpTableView(lotteryGame);
+                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
+                //mainController.lottoDashboardController.performOperationOnChoiceboxValue();
             }
             else if(gameName.contains("Pick 4")){
                 game = new PickFourLotteryGame(gameName);
                 this.lotteryGame = game.loadGameData();
                 mainController.lottoDashboardController.setUpTableView(lotteryGame);
+                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
+                //mainController.lottoDashboardController.performOperationOnChoiceboxValue();
             }
             else if(gameName.contains("Super")){
                 game = new SixDigitLotteryGame(gameName);
                 this.lotteryGame = game.loadGameData();
                 mainController.lottoDashboardController.setUpTableView(lotteryGame);
+                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
+                //mainController.lottoDashboardController.performOperationOnChoiceboxValue();
             }
         }
     }
