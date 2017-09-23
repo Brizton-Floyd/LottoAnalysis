@@ -1,0 +1,12 @@
+.chart-title{
+
+   -fx-text-fill: #dac6ac;
+   -fx-font-size: 12pt;
+}
+.axis-label {
+   -fx-text-fill: #dac6ac;
+
+}
+.chart-plot-background {
+    -fx-background-color: transparent;
+}

@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+
+
+<AnchorPane fx:id="chartAnalysisMainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.ChartAnalysisController">
+   <children>
+      <VBox layoutX="20.0" layoutY="20.0" prefHeight="752.0" prefWidth="1460.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <HBox>
+               <children>
+                  <HBox prefHeight="383.0" prefWidth="730.0">
+                     <children>
+                        <VBox prefHeight="630.0" prefWidth="809.0">
+                           <children>
+                              <HBox fx:id="buttonContainerBox" spacing="40.0">
+                                 <children>
+                                    <VBox>
+                                       <children>
+                                          <Label prefHeight="37.0" prefWidth="226.0" text="Chart Analysis" textFill="#dac6ac">
+                                             <font>
+                                                <Font size="30.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets left="10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Pane prefHeight="3.0" prefWidth="226.0" style="-fx-background-color: #EFA747;">
+                                             <padding>
+                                                <Insets left="10.0" />
+                                             </padding>
+                                          </Pane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="323.0" prefWidth="809.0">
+                                 <children>
+                                    <LineChart fx:id="lineChart" prefHeight="323.0" prefWidth="630.0" title="hello world">
+                                      <xAxis>
+                                        <CategoryAxis side="BOTTOM" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis side="LEFT" />
+                                      </yAxis>
+                                       <HBox.margin>
+                                          <Insets top="20.0" />
+                                       </HBox.margin>
+                                    </LineChart>
+                                    <VBox prefHeight="323.0" prefWidth="128.0" spacing="20.0">
+                                       <children>
+                                          <RadioButton fx:id="last20" mnemonicParsing="false" selected="true" text="Last 20 Draws" textFill="#dac6ac">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="group" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton mnemonicParsing="false" prefHeight="18.0" prefWidth="146.0" text="Last 40 Draws" textFill="#dac6ac" toggleGroup="$group">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <RadioButton mnemonicParsing="false" text="Last 60 Draws" textFill="#dac6ac" toggleGroup="$group">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <RadioButton mnemonicParsing="false" text="Last 80 Draws" textFill="#dac6ac" toggleGroup="$group">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <RadioButton mnemonicParsing="false" prefHeight="12.0" prefWidth="142.0" text="Last 100 Draws" textFill="#dac6ac" toggleGroup="$group">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </RadioButton>
+                                       </children>
+                                       <padding>
+                                          <Insets top="55.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Pane prefHeight="364.0" prefWidth="730.0">
+                     <HBox.margin>
+                        <Insets top="50.0" />
+                     </HBox.margin>
+                     <children>
+                        <HBox prefHeight="37.0" prefWidth="731.0">
+                           <children>
+                              <Label prefHeight="37.0" prefWidth="488.0" text="Overall Position Number Average: " textFill="#dac6ac" underline="true">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="37.0" prefWidth="84.0" text="30">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="2.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets left="100.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                        <VBox layoutY="66.0" prefHeight="318.0" prefWidth="731.0">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="300.0">
+                                 <children>
+                                    <VBox>
+                                       <children>
+                                          <HBox prefHeight="17.0" prefWidth="161.0">
+                                             <children>
+                                                <Label text="Hits Above Avg:" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="17.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="44.0" text="1098">
+                                                   <padding>
+                                                      <Insets left="8.0" top="1.0" />
+                                                   </padding>
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Above Games Out:" textFill="#dac6ac" />
+                                                <Label text="8">
+                                                   <padding>
+                                                      <Insets left="8.0" top="1.0" />
+                                                   </padding>
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="10.0">
+                                       <children>
+                                          <HBox prefHeight="17.0" prefWidth="161.0">
+                                             <children>
+                                                <Label text="Hits Below Avg:" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="17.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label prefHeight="17.0" prefWidth="44.0" text="4567">
+                                                   <padding>
+                                                      <Insets left="8.0" top="1.0" />
+                                                   </padding>
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Below Games Out:" textFill="#dac6ac" />
+                                                <Label text="15">
+                                                   <padding>
+                                                      <Insets left="8.0" top="1.0" />
+                                                   </padding>
+                                                   <font>
+                                                      <Font name="System Bold" size="13.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="167.0" prefWidth="656.0" spacing="225.0">
+                                 <VBox.margin>
+                                    <Insets right="50.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <TextFlow fx:id="aboveText" prefHeight="167.0" prefWidth="225.0" />
+                                    <TextFlow fx:id="belowText" layoutX="10.0" layoutY="10.0" prefHeight="167.0" prefWidth="225.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="50.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox prefHeight="351.0" prefWidth="1460.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="730.0" />
+                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="730.0">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label text="Element One Average:" textFill="#dac6ac" underline="true" />
+                              <Label text="2">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets left="5.0" top="1.0" />
+                                 </padding>
+                              </Label>
+                              <Label layoutX="60.0" layoutY="10.0" text="Element Two Average:" textFill="#dac6ac" underline="true">
+                                 <padding>
+                                    <Insets left="320.0" />
+                                 </padding>
+                              </Label>
+                              <Label layoutX="197.0" layoutY="10.0" text="6">
+                                 <padding>
+                                    <Insets left="5.0" top="1.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets left="50.0" />
+                           </padding>
+                        </HBox>
+                        <HBox prefHeight="353.0" prefWidth="732.0">
+                           <children>
+                              <VBox prefHeight="353.0" prefWidth="380.0">
+                                 <children>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Hits Above Average:" textFill="#dac6ac">
+                                             <padding>
+                                                <Insets top="30.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="2343">
+                                             <padding>
+                                                <Insets top="31.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="50.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Above Games Out:" textFill="#dac6ac">
+                                             <padding>
+                                                <Insets left="10.0" top="2.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="4">
+                                             <padding>
+                                                <Insets top="2.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="50.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Hits Below Average:" textFill="#dac6ac">
+                                             <padding>
+                                                <Insets top="30.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="6000">
+                                             <padding>
+                                                <Insets top="31.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="50.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Below Games Out:" textFill="#dac6ac">
+                                             <padding>
+                                                <Insets left="10.0" top="2.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="2343">
+                                             <padding>
+                                                <Insets top="3.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="50.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="353.0" prefWidth="360.0">
+                                 <children>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Hits Above Average:" textFill="#dac6ac">
+                                             <padding>
+                                                <Insets top="30.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="2343">
+                                             <padding>
+                                                <Insets top="31.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="145.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Above Games Out:" textFill="#dac6ac">
+                                             <padding>
+                                                <Insets left="10.0" top="2.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="4">
+                                             <padding>
+                                                <Insets top="2.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="145.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Hits Below Average:" textFill="#dac6ac">
+                                             <padding>
+                                                <Insets top="30.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="6000">
+                                             <padding>
+                                                <Insets top="31.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="145.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Below Games Out:" textFill="#dac6ac">
+                                             <padding>
+                                                <Insets left="10.0" top="2.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="2343">
+                                             <padding>
+                                                <Insets top="3.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="145.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
