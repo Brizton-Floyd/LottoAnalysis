@@ -48,8 +48,8 @@ public class LottoDashboardController implements Initializable {
     private MainController mainController;
     private LotteryGame lotteryGame;
     private static int universalCount = 0;
-    int[][] positionalNumbers = null;
-
+    private int[][] positionalNumbers = null;
+    private int[][] deltaNumberForLastDraw;
     @FXML
     private AnchorPane pane, infoPane, infoPane1, predictedNumbersPane;
 
@@ -139,7 +139,7 @@ public class LottoDashboardController implements Initializable {
         setCount(count);
         positionalNumbers = new int[count][drawNumberTable.getItems().size()];
         loadUpPositionalNumbers(positionalNumbers, lotteryGame.getDrawingData());
-        //int[][] deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
+        deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
 
         GamesOutViewAnalyzer gamesOutViewAnalyzer = new GamesOutViewAnalyzer(positionalNumbers, lotteryGame);
         Map<String, Map<String, Integer[]>> res = gamesOutViewAnalyzer.analyzeWinningNumberDistrubution();
@@ -165,9 +165,9 @@ public class LottoDashboardController implements Initializable {
                     rowInformation = analyzerPosOne.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
 
-                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[0]);
-                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[0], positionalNumbers.length,
-                            (int) data[1], (int) data[2], lotteryGame);
+//                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[0]);
+//                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[0], positionalNumbers.length,
+//                            (int) data[1], (int) data[2], lotteryGame);
 
                     break;
                 case 1:
@@ -175,36 +175,36 @@ public class LottoDashboardController implements Initializable {
                     rowInformation = analyzerPosTwo.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
 
-                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[1]);
-                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[1], positionalNumbers.length,
-                            (int) data[1], (int) data[2], lotteryGame);
+//                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[1]);
+//                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[1], positionalNumbers.length,
+//                            (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 2:
                     LottoBetSlipAnalyzer analyzerPosThree = new LottoBetSlipAnalyzer(lotteryGame, 4);
                     rowInformation = analyzerPosThree.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
 
-                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[2]);
-                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[2], positionalNumbers.length,
-                            (int) data[1], (int) data[2], lotteryGame);
+//                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[2]);
+//                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[2], positionalNumbers.length,
+//                            (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 3:
                     LottoBetSlipAnalyzer analyzerPosFour = new LottoBetSlipAnalyzer(lotteryGame, 5);
                     rowInformation = analyzerPosFour.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
 
-                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[3]);
-                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[3], positionalNumbers.length,
-                            (int) data[1], (int) data[2], lotteryGame);
+//                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[3]);
+//                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[3], positionalNumbers.length,
+//                            (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 4:
                     LottoBetSlipAnalyzer analyzerPosFive = new LottoBetSlipAnalyzer(lotteryGame, 6);
                     rowInformation = analyzerPosFive.getAllInformationForRowAndPosition();
                     chartDataTwo = extractInformationForBarChart(rowInformation);
 
-                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[4]);
-                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[4], positionalNumbers.length,
-                            (int) data[1], (int) data[2], lotteryGame);
+//                    data = NumberPatternAnalyzer.computePositionalAvgAboveBelowHits(positionalNumbers[4]);
+//                    chartData = NumberPatternAnalyzer.findNumberGroupLikelyToHit(positionalNumbers[4], positionalNumbers.length,
+//                            (int) data[1], (int) data[2], lotteryGame);
                     break;
                 case 5:
                     LottoBetSlipAnalyzer analyzerBonus = new LottoBetSlipAnalyzer(lotteryGame, 7);
@@ -679,6 +679,8 @@ public class LottoDashboardController implements Initializable {
             chartAnalysisController.clearButtonBox();
             chartAnalysisController.setNumbers(positionalNumbers);
             chartAnalysisController.setGame(lotteryGame);
+            chartAnalysisController.setUpChart();
+            chartAnalysisController.loadDataIntoPerspectivePanes();
 
             Scene scene = new Scene(pane);
             Stage stage = new Stage();
