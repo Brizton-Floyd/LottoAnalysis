@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import line_chart_helper.NumberAnalyzer;
+import model.DataFiles.LotteryGameConstants;
 import model.LotteryGame;
 import model.chartImplementations.LineChartWithHover;
 
@@ -248,10 +249,18 @@ public class ChartAnalysisController implements Initializable {
 
     public void loadDataIntoPerspectivePanes() {
 
-        Map<Integer,Map<String,Object[]>> data = NumberAnalyzer.findAverageAndGamesOut(numbers[valTwo]);
-        Map<Integer,Map<String,Object[]>> firstEle = NumberAnalyzer.findAverageAndGamesOut(firstElement);
-        Map<Integer,Map<String,Object[]>> secondEle = NumberAnalyzer.findAverageAndGamesOut(secondElement);
-
+        Map<Integer,Map<String,Object[]>> data =     null;
+        Map<Integer,Map<String,Object[]>> firstEle = null;
+        Map<Integer,Map<String,Object[]>> secondEle =null;
+        if(!game.getGameName().equals(LotteryGameConstants.DAILY_PICK_4) && !game.getGameName().equals(LotteryGameConstants.DAILY_PICK_3)){
+           data =      NumberAnalyzer.findAverageAndGamesOut(numbers[valTwo], LotteryGameConstants.inflateAverage);
+           firstEle =  NumberAnalyzer.findAverageAndGamesOut(firstElement, LotteryGameConstants.doNotInflateAverage);
+           secondEle = NumberAnalyzer.findAverageAndGamesOut(secondElement, LotteryGameConstants.doNotInflateAverage);
+        }else{
+            data =      NumberAnalyzer.findAverageAndGamesOut(numbers[valTwo], LotteryGameConstants.doNotInflateAverage);
+            firstEle =  NumberAnalyzer.findAverageAndGamesOut(firstElement, LotteryGameConstants.doNotInflateAverage);
+            secondEle = NumberAnalyzer.findAverageAndGamesOut(secondElement, LotteryGameConstants.doNotInflateAverage);
+        }
         populateHeadersForBestLastDigit(new int[]{0,1,2,3,4,5,6,7,8,9});
 
         Map<Integer,Integer[]> hitsAndGamesOutatRemainder = NumberAnalyzer.findHitsAndGamesOutForRemainder(secondElement);
