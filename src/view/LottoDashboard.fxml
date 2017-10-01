@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="700.0" prefWidth="1014.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.LottoDashboardController">
+<AnchorPane fx:id="pane" prefHeight="700.0" prefWidth="1014.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.LottoDashboardController">
    <children>
       <AnchorPane layoutX="36.0" layoutY="85.0" prefHeight="271.0" prefWidth="608.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="386.0" AnchorPane.topAnchor="75.0">
          <children>

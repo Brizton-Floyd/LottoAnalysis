@@ -14,8 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-
-<AnchorPane fx:id="chartAnalysisMainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.ChartAnalysisController">
+<AnchorPane fx:id="chartAnalysisMainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.ChartAnalysisController">
    <children>
       <VBox layoutX="20.0" layoutY="20.0" prefHeight="752.0" prefWidth="1460.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
@@ -219,7 +218,20 @@
             </HBox>
             <HBox prefHeight="351.0" prefWidth="1460.0">
                <children>
-                  <Pane prefHeight="200.0" prefWidth="730.0" />
+                  <Pane prefHeight="200.0" prefWidth="730.0">
+                     <children>
+                        <HBox prefHeight="16.0" prefWidth="730.0" spacing="25.0">
+                           <children>
+                              <RadioButton mnemonicParsing="false" selected="true" text="Remainder 0" textFill="#dac6ac">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="remainderGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="100.0" text="Remainder 1" textFill="#dac6ac" toggleGroup="$remainderGroup" />
+                              <RadioButton layoutX="112.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="130.0" text="Remainder 2" textFill="#dac6ac" toggleGroup="$remainderGroup" />
+                           </children>
+                        </HBox>
+                     </children></Pane>
                   <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="730.0">
                      <children>
                         <VBox prefHeight="356.0" prefWidth="732.0">
@@ -227,7 +239,7 @@
                               <HBox>
                                  <children>
                                     <Label text="Element One Average:" textFill="#dac6ac" underline="true" />
-                                    <Label fx:id="elementOneLbl" text="2">
+                                    <Label fx:id="elementOneLbl" text="2" textFill="#ff9e0e">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
@@ -240,7 +252,7 @@
                                           <Insets left="320.0" />
                                        </padding>
                                     </Label>
-                                    <Label fx:id="elementTwoLbl" layoutX="197.0" layoutY="10.0" text="6">
+                                    <Label fx:id="elementTwoLbl" layoutX="197.0" layoutY="10.0" text="6" textFill="#ff9e0e">
                                        <padding>
                                           <Insets left="5.0" top="1.0" />
                                        </padding>
@@ -261,7 +273,7 @@
                                                       <Insets top="30.0" />
                                                    </padding>
                                                 </Label>
-                                                <Label fx:id="elementOneHits" text="2343">
+                                                <Label fx:id="elementOneHits" text="2343" textFill="#ff9e0e">
                                                    <padding>
                                                       <Insets top="31.0" />
                                                    </padding>
@@ -281,7 +293,7 @@
                                                       <Insets left="10.0" top="2.0" />
                                                    </padding>
                                                 </Label>
-                                                <Label fx:id="elementOneAboveGamesOut" text="4">
+                                                <Label fx:id="elementOneAboveGamesOut" text="4" textFill="#ff9e0e">
                                                    <padding>
                                                       <Insets top="2.0" />
                                                    </padding>
@@ -301,7 +313,7 @@
                                                       <Insets top="30.0" />
                                                    </padding>
                                                 </Label>
-                                                <Label fx:id="belowTotalHitsEleOne" text="6000">
+                                                <Label fx:id="belowTotalHitsEleOne" text="6000" textFill="#ff9e0e">
                                                    <padding>
                                                       <Insets top="31.0" />
                                                    </padding>
@@ -321,7 +333,7 @@
                                                       <Insets left="10.0" top="2.0" />
                                                    </padding>
                                                 </Label>
-                                                <Label fx:id="belowGamesOutEleOne" text="2343">
+                                                <Label fx:id="belowGamesOutEleOne" text="2343" textFill="#ff9e0e">
                                                    <padding>
                                                       <Insets top="3.0" />
                                                    </padding>
@@ -345,7 +357,7 @@
                                                       <Insets top="30.0" />
                                                    </padding>
                                                 </Label>
-                                                <Label fx:id="elementTwoAboveHits" text="2343">
+                                                <Label fx:id="elementTwoAboveHits" text="2343" textFill="#ff9e0e">
                                                    <padding>
                                                       <Insets top="31.0" />
                                                    </padding>
@@ -365,7 +377,7 @@
                                                       <Insets left="10.0" top="2.0" />
                                                    </padding>
                                                 </Label>
-                                                <Label fx:id="elementTwoAboveGamesOut" text="4">
+                                                <Label fx:id="elementTwoAboveGamesOut" text="4" textFill="#ff9e0e">
                                                    <padding>
                                                       <Insets top="2.0" />
                                                    </padding>
@@ -385,7 +397,7 @@
                                                       <Insets top="30.0" />
                                                    </padding>
                                                 </Label>
-                                                <Label fx:id="elementTwoBelowHits" text="6000">
+                                                <Label fx:id="elementTwoBelowHits" text="6000" textFill="#ff9e0e">
                                                    <padding>
                                                       <Insets top="31.0" />
                                                    </padding>
@@ -405,7 +417,7 @@
                                                       <Insets left="10.0" top="2.0" />
                                                    </padding>
                                                 </Label>
-                                                <Label fx:id="elementTwoBelowGamesOut" text="2343">
+                                                <Label fx:id="elementTwoBelowGamesOut" text="2343" textFill="#ff9e0e">
                                                    <padding>
                                                       <Insets top="3.0" />
                                                    </padding>
@@ -449,7 +461,7 @@
                                              <children>
                                                 <Label text="Hits:" textFill="#dac6ac">
                                                    <padding>
-                                                      <Insets left="103.0" />
+                                                      <Insets left="112.0" />
                                                    </padding>
                                                 </Label>
                                                 <Label fx:id="remainder0Hits" layoutX="10.0" layoutY="10.0" text="9" textFill="#ff9e0e">
@@ -464,9 +476,9 @@
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="27.0">
                                              <children>
-                                                <Label text="Games Out:" textFill="#dac6ac">
+                                                <Label text="Current Games Out:" textFill="#dac6ac">
                                                    <padding>
-                                                      <Insets left="59.0" />
+                                                      <Insets left="17.0" />
                                                    </padding>
                                                 </Label>
                                                 <Label fx:id="remainder0GamesOut" layoutX="10.0" layoutY="10.0" text="12" textFill="#ff9e0e">
@@ -476,9 +488,23 @@
                                                 </Label>
                                              </children>
                                           </HBox>
+                                          <HBox layoutX="10.0" layoutY="54.0">
+                                             <children>
+                                                <Label text="Previous Games Out:" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="remainder0PrevGamesOut" layoutX="10.0" layoutY="10.0" text="12" textFill="#ff9e0e">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children>
+                                          </HBox>
                                           <HBox prefHeight="100.0" prefWidth="200.0">
                                              <children>
-                                                <VBox>
+                                                <VBox fx:id="remainder0Vbox">
                                                    <HBox.margin>
                                                       <Insets top="10.0" />
                                                    </HBox.margin>
@@ -591,7 +617,7 @@
                                              <children>
                                                 <Label text="Hits:" textFill="#dac6ac">
                                                    <padding>
-                                                      <Insets left="102.0" />
+                                                      <Insets left="112.0" />
                                                    </padding>
                                                 </Label>
                                                 <Label fx:id="remainder1Hits" layoutX="10.0" layoutY="10.0" text="9" textFill="#ff9e0e">
@@ -606,9 +632,9 @@
                                           </HBox>
                                           <HBox>
                                              <children>
-                                                <Label text="Games Out:" textFill="#dac6ac">
+                                                <Label text="Current Games Out:" textFill="#dac6ac">
                                                    <padding>
-                                                      <Insets left="59.0" />
+                                                      <Insets left="17.0" />
                                                    </padding>
                                                 </Label>
                                                 <Label fx:id="remainder1GamesOut" layoutX="10.0" layoutY="10.0" text="12" textFill="#ff9e0e">
@@ -618,9 +644,23 @@
                                                 </Label>
                                              </children>
                                           </HBox>
+                                          <HBox layoutX="10.0" layoutY="54.0">
+                                             <children>
+                                                <Label text="Previous Games Out:" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="remainder1PrevGamesOut" layoutX="10.0" layoutY="10.0" text="12" textFill="#ff9e0e">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children>
+                                          </HBox>
                                           <HBox prefHeight="100.0" prefWidth="200.0">
                                              <children>
-                                                <VBox>
+                                                <VBox fx:id="remainder1Vbox">
                                                    <HBox.margin>
                                                       <Insets top="10.0" />
                                                    </HBox.margin>
@@ -715,7 +755,7 @@
                                              <children>
                                                 <Label text="Hits:" textFill="#dac6ac">
                                                    <padding>
-                                                      <Insets left="102.0" />
+                                                      <Insets left="112.0" />
                                                    </padding>
                                                 </Label>
                                                 <Label fx:id="remainder2Hits" layoutX="10.0" layoutY="10.0" text="9" textFill="#ff9e0e">
@@ -730,9 +770,9 @@
                                           </HBox>
                                           <HBox>
                                              <children>
-                                                <Label text="Games Out:" textFill="#dac6ac">
+                                                <Label text="Current Games Out:" textFill="#dac6ac">
                                                    <padding>
-                                                      <Insets left="59.0" />
+                                                      <Insets left="17.0" />
                                                    </padding>
                                                 </Label>
                                                 <Label fx:id="remainder2GamesOut" layoutX="10.0" layoutY="10.0" text="12" textFill="#ff9e0e">
@@ -742,9 +782,23 @@
                                                 </Label>
                                              </children>
                                           </HBox>
+                                          <HBox layoutX="10.0" layoutY="54.0">
+                                             <children>
+                                                <Label text="Previous Games Out:" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="remainder2PrevGamesOut" layoutX="10.0" layoutY="10.0" text="12" textFill="#ff9e0e">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children>
+                                          </HBox>
                                           <HBox prefHeight="98.0" prefWidth="200.0">
                                              <children>
-                                                <VBox>
+                                                <VBox fx:id="remainder2Vbox">
                                                    <HBox.margin>
                                                       <Insets top="10.0" />
                                                    </HBox.margin>
