@@ -124,25 +124,26 @@ public class NumberAnalyzer {
     public static Map<Integer, Integer[]> findHitsAndGamesOutForRemainder(int[] secondElement) {
         Map<Integer, Integer[]> data = new TreeMap<>();
 
-        // int recentDigit = secondElement[secondElement.length -1];
+        int recentDigit = secondElement[secondElement.length - 1];
 
         for (int i = 0; i < secondElement.length; i++) {
 
-            // if(secondElement[i] == recentDigit){
+            if (secondElement[i] == recentDigit) {
 
-            if (i < secondElement.length - 1) {
-                int remainder = secondElement[i + 1] % 3;
-                if (!data.containsKey(remainder)) {
-                    data.put(remainder, new Integer[]{1, 0});
-                    incrementGamesOut(data, remainder);
-                } else {
-                    Integer[] values = data.get(remainder);
-                    values[0]++;
-                    values[1] = 0;
-                    incrementGamesOut(data, remainder);
+                if (i < secondElement.length - 1) {
+                    int remainder = secondElement[i + 1] % 3;
+                    if (!data.containsKey(remainder)) {
+                        data.put(remainder, new Integer[]{1, 0, 0});
+                        incrementGamesOut(data, remainder);
+                    } else {
+                        Integer[] values = data.get(remainder);
+                        values[0]++;
+                        values[2] = values[1];
+                        values[1] = 0;
+                        incrementGamesOut(data, remainder);
+                    }
                 }
             }
-            // }
         }
 
         return data;

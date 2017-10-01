@@ -15,11 +15,10 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+import javafx.scene.text.*;
 import line_chart_helper.NumberAnalyzer;
 import model.DataFiles.LotteryGameConstants;
 import model.LotteryGame;
@@ -47,7 +46,7 @@ public class ChartAnalysisController implements Initializable {
     private RadioButton last20;
 
     @FXML
-    private LineChart lineChart;
+    private VBox remainder0Vbox, remainder1Vbox, remainder2Vbox;
 
     @FXML
     private TextFlow aboveText;
@@ -63,7 +62,8 @@ public class ChartAnalysisController implements Initializable {
             elementTwoAboveGamesOut, elementTwoBelowHits, elementTwoBelowGamesOut, remainder0lbl,remainder1lbl,remainder2lbl;
 
     @FXML
-    private Label remainder0Hits, remainder0GamesOut, remainder1Hits, remainder1GamesOut, remainder2Hits, remainder2GamesOut;
+    private Label remainder0Hits, remainder0GamesOut, remainder0PrevGamesOut, remainder1Hits, remainder1GamesOut, remainder1PrevGamesOut,
+            remainder2Hits, remainder2GamesOut, remainder2PrevGamesOut;
 
     @FXML
     private Label digit0Hitslbl, digit0HitsGamesOutLbl,digit3Hitslbl, digit3HitsGamesOutLbl,digit6Hitslbl,digit6HitsGamesOutLbl,
@@ -261,7 +261,8 @@ public class ChartAnalysisController implements Initializable {
             firstEle =  NumberAnalyzer.findAverageAndGamesOut(firstElement, LotteryGameConstants.doNotInflateAverage);
             secondEle = NumberAnalyzer.findAverageAndGamesOut(secondElement, LotteryGameConstants.doNotInflateAverage);
         }
-        populateHeadersForBestLastDigit(new int[]{0,1,2,3,4,5,6,7,8,9});
+
+        populateHeadersForBestLastDigit();
 
         Map<Integer,Integer[]> hitsAndGamesOutatRemainder = NumberAnalyzer.findHitsAndGamesOutForRemainder(secondElement);
         populateRemainderHitsAndGamesOut(hitsAndGamesOutatRemainder);
@@ -357,18 +358,25 @@ public class ChartAnalysisController implements Initializable {
     private void populateRemainderHitsAndGamesOut(Map<Integer, Integer[]> hitsAndGamesOutatRemainder) {
 
         int count =0;
-        Label[] labels = {remainder0Hits, remainder0GamesOut, remainder1Hits, remainder1GamesOut,remainder2Hits, remainder2GamesOut};
+        Label[] labels = {remainder0Hits, remainder0GamesOut, remainder0PrevGamesOut,
+                remainder1Hits, remainder1GamesOut,remainder1PrevGamesOut,remainder2Hits, remainder2GamesOut, remainder2PrevGamesOut};
 
         for(Map.Entry<Integer, Integer[]> data : hitsAndGamesOutatRemainder.entrySet()){
             Integer[] dataTwo = data.getValue();
             labels[count++].setText(dataTwo[0].toString());
             labels[count++].setText(dataTwo[1].toString());
+            labels[count++].setText(dataTwo[2].toString());
         }
     }
 
-    private void populateHeadersForBestLastDigit(int[] ints) {
+    private void populateHeadersForBestLastDigit(){
+
         Map<Integer,String> header = new TreeMap<>();
 
+        int[] ints = new int[10];
+        for(int i = 0; i < ints.length; i++){
+            ints[i] = i;
+        }
 
         for(int num : ints){
             int remainder = num % 3;
@@ -391,8 +399,11 @@ public class ChartAnalysisController implements Initializable {
             String res = header.get(value.getKey());
             res+= " )";
             header.put(value.getKey(),res);
+            labels[count].setFont(Font.font("", FontWeight.BOLD,12.0));
             labels[count++].setText(header.get(value.getKey()));
+
         }
+
     }
 
     private void setUpTextFlowInformation(Object[] valueThree, int index) {
