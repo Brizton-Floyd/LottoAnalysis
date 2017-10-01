@@ -220,17 +220,26 @@
                <children>
                   <Pane prefHeight="200.0" prefWidth="730.0">
                      <children>
-                        <HBox prefHeight="16.0" prefWidth="730.0" spacing="25.0">
+                        <VBox prefHeight="353.0" prefWidth="730.0">
                            <children>
-                              <RadioButton mnemonicParsing="false" selected="true" text="Remainder 0" textFill="#dac6ac">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="remainderGroup" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="100.0" text="Remainder 1" textFill="#dac6ac" toggleGroup="$remainderGroup" />
-                              <RadioButton layoutX="112.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="130.0" text="Remainder 2" textFill="#dac6ac" toggleGroup="$remainderGroup" />
+                              <HBox prefHeight="16.0" prefWidth="730.0" spacing="25.0">
+                                 <children>
+                                    <RadioButton mnemonicParsing="false" selected="true" text="Remainder 0" textFill="#dac6ac">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="remainderGroup" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="100.0" text="Remainder 1" textFill="#dac6ac" toggleGroup="$remainderGroup" />
+                                    <RadioButton layoutX="112.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="130.0" text="Remainder 2" textFill="#dac6ac" toggleGroup="$remainderGroup" />
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="gridPaneHbox" layoutX="10.0" layoutY="10.0" prefHeight="338.0" prefWidth="730.0" spacing="25.0">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </HBox>
                            </children>
-                        </HBox>
+                        </VBox>
                      </children></Pane>
                   <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="730.0">
                      <children>
