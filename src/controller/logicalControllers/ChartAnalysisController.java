@@ -14,6 +14,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -22,6 +23,7 @@ import javafx.scene.text.*;
 import line_chart_helper.NumberAnalyzer;
 import model.DataFiles.LotteryGameConstants;
 import model.LotteryGame;
+import model.LottoBetSlipDefinitions;
 import model.chartImplementations.LineChartWithHover;
 
 import java.net.URL;
@@ -49,7 +51,7 @@ public class ChartAnalysisController implements Initializable {
     private VBox remainder0Vbox, remainder1Vbox, remainder2Vbox;
 
     @FXML
-    private TextFlow aboveText;
+    private TextFlow aboveText, betSlipTextFlow;
     @FXML
     private TextFlow belowText;
 
@@ -57,19 +59,19 @@ public class ChartAnalysisController implements Initializable {
     private HBox buttonContainerBox, chartHbox;
 
     @FXML
-    private Label gameAvgLbl, hitsAboveAvgLbl, aboveGamesOutHitsLbl, hitsBelowAvgLbl, belowGamesOutHitsLbl,elementOneLbl,
-            elementTwoLbl, elementOneHits,elementOneAboveGamesOut, belowTotalHitsEleOne, belowGamesOutEleOne,elementTwoAboveHits,
-            elementTwoAboveGamesOut, elementTwoBelowHits, elementTwoBelowGamesOut, remainder0lbl,remainder1lbl,remainder2lbl;
+    private Label gameAvgLbl, hitsAboveAvgLbl, aboveGamesOutHitsLbl, hitsBelowAvgLbl, belowGamesOutHitsLbl, elementOneLbl,
+            elementTwoLbl, elementOneHits, elementOneAboveGamesOut, belowTotalHitsEleOne, belowGamesOutEleOne, elementTwoAboveHits,
+            elementTwoAboveGamesOut, elementTwoBelowHits, elementTwoBelowGamesOut, remainder0lbl, remainder1lbl, remainder2lbl;
 
     @FXML
     private Label remainder0Hits, remainder0GamesOut, remainder0PrevGamesOut, remainder1Hits, remainder1GamesOut, remainder1PrevGamesOut,
             remainder2Hits, remainder2GamesOut, remainder2PrevGamesOut;
 
     @FXML
-    private Label digit0Hitslbl, digit0HitsGamesOutLbl,digit3Hitslbl, digit3HitsGamesOutLbl,digit6Hitslbl,digit6HitsGamesOutLbl,
-                  digit9Hitslbl,digit9HitsGamesOutLbl, digit1Hitslbl, digit1HitsGamesOutLbl, digit4Hitslbl, digit4HitsGamesOutLbl,
-                  digit7Hitslbl, digit7HitsGamesOutLbl,digit2Hitslbl,digit2HitsGamesOutLbl, digit5Hitslbl, digit5HitsGamesOutLbl,
-                  digit8Hitslbl,digit8HitsGamesOutLbl;
+    private Label digit0Hitslbl, digit0HitsGamesOutLbl, digit3Hitslbl, digit3HitsGamesOutLbl, digit6Hitslbl, digit6HitsGamesOutLbl,
+            digit9Hitslbl, digit9HitsGamesOutLbl, digit1Hitslbl, digit1HitsGamesOutLbl, digit4Hitslbl, digit4HitsGamesOutLbl,
+            digit7Hitslbl, digit7HitsGamesOutLbl, digit2Hitslbl, digit2HitsGamesOutLbl, digit5Hitslbl, digit5HitsGamesOutLbl,
+            digit8Hitslbl, digit8HitsGamesOutLbl;
 
     private void createDynamicButtons() {
 
@@ -164,15 +166,15 @@ public class ChartAnalysisController implements Initializable {
         firstElement = new int[number.length];
         secondElement = new int[number.length];
 
-        for(int val = 0; val < number.length; val++){
+        for (int val = 0; val < number.length; val++) {
 
             String numAsString = Integer.toString(number[val]);
             boolean isTwoCharacters = (numAsString.length() == 2);
-            if(isTwoCharacters){
+            if (isTwoCharacters) {
                 String[] numsSplit = numAsString.split("");
                 firstElement[val] = Integer.parseInt(numsSplit[0]);
                 secondElement[val] = Integer.parseInt(numsSplit[1]);
-            }else{
+            } else {
 
                 firstElement[val] = 0;
                 secondElement[val] = Integer.parseInt(numAsString);
@@ -185,27 +187,26 @@ public class ChartAnalysisController implements Initializable {
         Integer[] val = new Integer[100];
         int index = 0;
 
-        for(int i = number.length - 100; i < number.length; i++){
+        for (int i = number.length - 100; i < number.length; i++) {
 
             val[index++] = number[i];
         }
 
-        if( positionNumbers != null )
+        if (positionNumbers != null)
             positionNumbers.clear();
 
         positionNumbers = FXCollections.observableArrayList(val);
-        if(range == 0) {
+        if (range == 0) {
             setUpChart();
-        }
-        else {
-            if(range == 20)
-                positionNumbers.remove(0,20);
-            else if(range == 40)
-                positionNumbers.remove(0,40);
-            else if(range == 60)
-                positionNumbers.remove(0,60);
-            else if(range == 80)
-                positionNumbers.remove(0,80);
+        } else {
+            if (range == 20)
+                positionNumbers.remove(0, 20);
+            else if (range == 40)
+                positionNumbers.remove(0, 40);
+            else if (range == 60)
+                positionNumbers.remove(0, 60);
+            else if (range == 80)
+                positionNumbers.remove(0, 80);
 
             setUpChart();
         }
@@ -240,7 +241,7 @@ public class ChartAnalysisController implements Initializable {
 
     public void setUpChart() {
 
-        lineChartWithHover = new LineChartWithHover(game.getGameName() + " Pos " + (valTwo + 1) +" Analysis", positionNumbers);
+        lineChartWithHover = new LineChartWithHover(game.getGameName() + " Pos " + (valTwo + 1) + " Analysis", positionNumbers);
 
         chartHbox.getChildren().remove(0);
         chartHbox.getChildren().add(0, lineChartWithHover.getLineChart());
@@ -249,41 +250,41 @@ public class ChartAnalysisController implements Initializable {
 
     public void loadDataIntoPerspectivePanes() {
 
-        Map<Integer,Map<String,Object[]>> data =     null;
-        Map<Integer,Map<String,Object[]>> firstEle = null;
-        Map<Integer,Map<String,Object[]>> secondEle =null;
-        if(!game.getGameName().equals(LotteryGameConstants.DAILY_PICK_4) && !game.getGameName().equals(LotteryGameConstants.DAILY_PICK_3)){
-           data =      NumberAnalyzer.findAverageAndGamesOut(numbers[valTwo], LotteryGameConstants.inflateAverage);
-           firstEle =  NumberAnalyzer.findAverageAndGamesOut(firstElement, LotteryGameConstants.doNotInflateAverage);
-           secondEle = NumberAnalyzer.findAverageAndGamesOut(secondElement, LotteryGameConstants.doNotInflateAverage);
-        }else{
-            data =      NumberAnalyzer.findAverageAndGamesOut(numbers[valTwo], LotteryGameConstants.doNotInflateAverage);
-            firstEle =  NumberAnalyzer.findAverageAndGamesOut(firstElement, LotteryGameConstants.doNotInflateAverage);
+        Map<Integer, Map<String, Object[]>> data;
+        Map<Integer, Map<String, Object[]>> firstEle;
+        Map<Integer, Map<String, Object[]>> secondEle;
+
+        if (!game.getGameName().equals(LotteryGameConstants.DAILY_PICK_4) && !game.getGameName().equals(LotteryGameConstants.DAILY_PICK_3)) {
+            data = NumberAnalyzer.findAverageAndGamesOut(numbers[valTwo], LotteryGameConstants.inflateAverage);
+            firstEle = NumberAnalyzer.findAverageAndGamesOut(firstElement, LotteryGameConstants.doNotInflateAverage);
+            secondEle = NumberAnalyzer.findAverageAndGamesOut(secondElement, LotteryGameConstants.doNotInflateAverage);
+        } else {
+            data = NumberAnalyzer.findAverageAndGamesOut(numbers[valTwo], LotteryGameConstants.doNotInflateAverage);
+            firstEle = NumberAnalyzer.findAverageAndGamesOut(firstElement, LotteryGameConstants.doNotInflateAverage);
             secondEle = NumberAnalyzer.findAverageAndGamesOut(secondElement, LotteryGameConstants.doNotInflateAverage);
         }
 
         populateHeadersForBestLastDigit();
 
-        Map<Integer,Integer[]> hitsAndGamesOutatRemainder = NumberAnalyzer.findHitsAndGamesOutForRemainder(secondElement);
+        Map<Integer, Integer[]> hitsAndGamesOutatRemainder = NumberAnalyzer.findHitsAndGamesOutForRemainder(secondElement);
         populateRemainderHitsAndGamesOut(hitsAndGamesOutatRemainder);
 
         Map<Integer, Map<Integer, Integer[]>> lastDigitsToHitInRanges = NumberAnalyzer.findLastDigitsThatLastHitInRanges(secondElement);
         populateLastDigitHitRanges(lastDigitsToHitInRanges);
 
-        for(Map.Entry<Integer, Map<String, Object[]>> dataTwo : data.entrySet()){
+        for (Map.Entry<Integer, Map<String, Object[]>> dataTwo : data.entrySet()) {
 
             gameAvgLbl.setText(dataTwo.getKey().toString());
 
             Map<String, Object[]> dataThree = dataTwo.getValue();
-            for(Map.Entry<String, Object[]> value : dataThree.entrySet()){
+            for (Map.Entry<String, Object[]> value : dataThree.entrySet()) {
 
-                if(value.getKey().equals("Above")){
+                if (value.getKey().equals("Above")) {
                     Object[] valueThree = value.getValue();
                     hitsAboveAvgLbl.setText(valueThree[0].toString());
                     aboveGamesOutHitsLbl.setText(valueThree[1].toString());
                     setUpTextFlowInformation(valueThree, 0);
-                }
-                else if(value.getKey().equals("Below")){
+                } else if (value.getKey().equals("Below")) {
 
                     Object[] valueThree = value.getValue();
                     hitsBelowAvgLbl.setText(valueThree[0].toString());
@@ -293,19 +294,18 @@ public class ChartAnalysisController implements Initializable {
             }
         }
 
-        for(Map.Entry<Integer, Map<String, Object[]>> dataTwo : firstEle.entrySet()){
+        for (Map.Entry<Integer, Map<String, Object[]>> dataTwo : firstEle.entrySet()) {
 
             elementOneLbl.setText(dataTwo.getKey().toString());
 
             Map<String, Object[]> dataThree = dataTwo.getValue();
-            for(Map.Entry<String, Object[]> value : dataThree.entrySet()){
+            for (Map.Entry<String, Object[]> value : dataThree.entrySet()) {
 
-                if(value.getKey().equals("Above")){
+                if (value.getKey().equals("Above")) {
                     Object[] valueThree = value.getValue();
                     elementOneHits.setText(valueThree[0].toString());
                     elementOneAboveGamesOut.setText(valueThree[1].toString());
-                }
-                else if(value.getKey().equals("Below")){
+                } else if (value.getKey().equals("Below")) {
 
                     Object[] valueThree = value.getValue();
                     belowTotalHitsEleOne.setText(valueThree[0].toString());
@@ -314,19 +314,18 @@ public class ChartAnalysisController implements Initializable {
             }
         }
 
-        for(Map.Entry<Integer, Map<String, Object[]>> dataTwo : secondEle.entrySet()){
+        for (Map.Entry<Integer, Map<String, Object[]>> dataTwo : secondEle.entrySet()) {
 
             elementTwoLbl.setText(dataTwo.getKey().toString());
 
             Map<String, Object[]> dataThree = dataTwo.getValue();
-            for(Map.Entry<String, Object[]> value : dataThree.entrySet()){
+            for (Map.Entry<String, Object[]> value : dataThree.entrySet()) {
 
-                if(value.getKey().equals("Above")){
+                if (value.getKey().equals("Above")) {
                     Object[] valueThree = value.getValue();
                     elementTwoAboveHits.setText(valueThree[0].toString());
                     elementTwoAboveGamesOut.setText(valueThree[1].toString());
-                }
-                else if(value.getKey().equals("Below")){
+                } else if (value.getKey().equals("Below")) {
 
                     Object[] valueThree = value.getValue();
                     elementTwoBelowHits.setText(valueThree[0].toString());
@@ -335,20 +334,62 @@ public class ChartAnalysisController implements Initializable {
             }
         }
 
+        // Set up the Betslip panel
+        setUpPanelTwo();
+    }
 
+    private void setUpPanelTwo() {
+
+        LottoBetSlipDefinitions betSlipDefinitions = new LottoBetSlipDefinitions();
+        Map<String, Object[]> data = betSlipDefinitions.getPayslipOrientation(game.getGameName());
+        GridPane betSlipPanel = new GridPane();
+
+        Text[][] textValues = null;
+
+        for(Map.Entry<String, Object[]> dat : data.entrySet()){
+
+            Object[] va = dat.getValue();
+            textValues = new Text[(int)va[1]][];
+            break;
+        }
+
+        int count = 0;
+        int countTwo = 0;
+
+        for (Map.Entry<String, Object[]> d : data.entrySet()) {
+
+            Object[] values = d.getValue();
+            Text[] textArray = new Text[((Integer[]) values[0]).length];
+            Integer[] array = (Integer[]) values[0];
+            for (int i = 0; i < array.length; i++) {
+
+                Text text = new Text( Integer.toString(array[i]) );
+                text.setFill(Color.valueOf("#dac6ac"));
+                textArray[count++] = text;
+            }
+            textValues[countTwo++] = textArray;
+            count = 0;
+        }
+
+        for(int row = 0; row < textValues.length; row++){
+
+            for(int col = 0; col < textValues[row].length; col++){
+                betSlipPanel.add(textValues[row][col],col,row);
+            }
+        }
     }
 
     private void populateLastDigitHitRanges(Map<Integer, Map<Integer, Integer[]>> lastDigitsToHitInRanges) {
-        Label[] labels = {digit0Hitslbl, digit0HitsGamesOutLbl,digit3Hitslbl, digit3HitsGamesOutLbl,digit6Hitslbl,digit6HitsGamesOutLbl,
-                digit9Hitslbl,digit9HitsGamesOutLbl, digit1Hitslbl, digit1HitsGamesOutLbl, digit4Hitslbl, digit4HitsGamesOutLbl,
-                digit7Hitslbl, digit7HitsGamesOutLbl,digit2Hitslbl,digit2HitsGamesOutLbl, digit5Hitslbl, digit5HitsGamesOutLbl,
-                digit8Hitslbl,digit8HitsGamesOutLbl};
+        Label[] labels = {digit0Hitslbl, digit0HitsGamesOutLbl, digit3Hitslbl, digit3HitsGamesOutLbl, digit6Hitslbl, digit6HitsGamesOutLbl,
+                digit9Hitslbl, digit9HitsGamesOutLbl, digit1Hitslbl, digit1HitsGamesOutLbl, digit4Hitslbl, digit4HitsGamesOutLbl,
+                digit7Hitslbl, digit7HitsGamesOutLbl, digit2Hitslbl, digit2HitsGamesOutLbl, digit5Hitslbl, digit5HitsGamesOutLbl,
+                digit8Hitslbl, digit8HitsGamesOutLbl};
 
         int count = 0;
 
-        for(Map.Entry<Integer, Map<Integer, Integer[]>> data : lastDigitsToHitInRanges.entrySet()){
+        for (Map.Entry<Integer, Map<Integer, Integer[]>> data : lastDigitsToHitInRanges.entrySet()) {
             Map<Integer, Integer[]> dataTwo = data.getValue();
-            for(Map.Entry<Integer, Integer[]> d : dataTwo.entrySet()){
+            for (Map.Entry<Integer, Integer[]> d : dataTwo.entrySet()) {
                 labels[count++].setText(d.getValue()[0].toString());
                 labels[count++].setText(d.getValue()[1].toString());
             }
@@ -357,11 +398,11 @@ public class ChartAnalysisController implements Initializable {
 
     private void populateRemainderHitsAndGamesOut(Map<Integer, Integer[]> hitsAndGamesOutatRemainder) {
 
-        int count =0;
+        int count = 0;
         Label[] labels = {remainder0Hits, remainder0GamesOut, remainder0PrevGamesOut,
-                remainder1Hits, remainder1GamesOut,remainder1PrevGamesOut,remainder2Hits, remainder2GamesOut, remainder2PrevGamesOut};
+                remainder1Hits, remainder1GamesOut, remainder1PrevGamesOut, remainder2Hits, remainder2GamesOut, remainder2PrevGamesOut};
 
-        for(Map.Entry<Integer, Integer[]> data : hitsAndGamesOutatRemainder.entrySet()){
+        for (Map.Entry<Integer, Integer[]> data : hitsAndGamesOutatRemainder.entrySet()) {
             Integer[] dataTwo = data.getValue();
             labels[count++].setText(dataTwo[0].toString());
             labels[count++].setText(dataTwo[1].toString());
@@ -369,23 +410,22 @@ public class ChartAnalysisController implements Initializable {
         }
     }
 
-    private void populateHeadersForBestLastDigit(){
+    private void populateHeadersForBestLastDigit() {
 
-        Map<Integer,String> header = new TreeMap<>();
+        Map<Integer, String> header = new TreeMap<>();
 
         int[] ints = new int[10];
-        for(int i = 0; i < ints.length; i++){
+        for (int i = 0; i < ints.length; i++) {
             ints[i] = i;
         }
 
-        for(int num : ints){
+        for (int num : ints) {
             int remainder = num % 3;
 
-            if(!header.containsKey(remainder)){
+            if (!header.containsKey(remainder)) {
                 String res = "( " + num;
                 header.put(remainder, res);
-            }
-            else{
+            } else {
                 String res = header.get(remainder);
                 res += ", " + num;
                 header.put(remainder, res);
@@ -394,12 +434,12 @@ public class ChartAnalysisController implements Initializable {
 
         int count = 0;
         Label[] labels = {remainder0lbl, remainder1lbl, remainder2lbl};
-        for(Map.Entry<Integer, String> value : header.entrySet()){
+        for (Map.Entry<Integer, String> value : header.entrySet()) {
 
             String res = header.get(value.getKey());
-            res+= " )";
-            header.put(value.getKey(),res);
-            labels[count].setFont(Font.font("", FontWeight.BOLD,12.0));
+            res += " )";
+            header.put(value.getKey(), res);
+            labels[count].setFont(Font.font("", FontWeight.BOLD, 12.0));
             labels[count++].setText(header.get(value.getKey()));
 
         }
@@ -414,16 +454,16 @@ public class ChartAnalysisController implements Initializable {
 
         for (int i = 0; i < 1; i++) {
 
-            if(d[index].getChildren().size() > 0)
+            if (d[index].getChildren().size() > 0)
                 d[index].getChildren().clear();
 
-            Text t = new Text(String.format("When the %1s average hit counter is ",direction));
+            Text t = new Text(String.format("When the %1s average hit counter is ", direction));
             t.setFill(Color.valueOf("#dac6ac"));
 
             Text tt = new Text(valueThree[1].toString());
             tt.setFill(Color.BLACK);
 
-            Text ttt = new Text(String.format(" games out. The next draw number was %1s than the position average ",lesserorhigher));
+            Text ttt = new Text(String.format(" games out. The next draw number was %1s than the position average ", lesserorhigher));
             ttt.setFill(Color.valueOf("#dac6ac"));
 
             Text tttt = new Text(valueThree[3].toString());
