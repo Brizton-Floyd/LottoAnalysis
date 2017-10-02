@@ -7,12 +7,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -25,11 +23,10 @@ import model.DataFiles.LotteryGameConstants;
 import model.LotteryGame;
 import model.LottoBetSlipDefinitions;
 import model.chartImplementations.LineChartWithHover;
+import utils.NumberPatternAnalyzer;
 
 import java.net.URL;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.TreeMap;
+import java.util.*;
 
 public class ChartAnalysisController implements Initializable {
 
@@ -45,7 +42,7 @@ public class ChartAnalysisController implements Initializable {
     private AnchorPane chartAnalysisMainPane;
 
     @FXML
-    private RadioButton last20;
+    private RadioButton last20, remainder0Radio;
 
     @FXML
     private VBox remainder0Vbox, remainder1Vbox, remainder2Vbox;
@@ -56,7 +53,7 @@ public class ChartAnalysisController implements Initializable {
     private TextFlow belowText;
 
     @FXML
-    private HBox buttonContainerBox, chartHbox;
+    private HBox buttonContainerBox, chartHbox, gridPaneHbox, columnHeaderBox;
 
     @FXML
     private Label gameAvgLbl, hitsAboveAvgLbl, aboveGamesOutHitsLbl, hitsBelowAvgLbl, belowGamesOutHitsLbl, elementOneLbl,
@@ -86,10 +83,21 @@ public class ChartAnalysisController implements Initializable {
 
                 last20.getToggleGroup().selectToggle(last20);
                 valTwo = val;
+                clearContents();
                 loadPastOneHundredDrawingsForPosition(80);
 
+                ToggleGroup toggle = remainder0Radio.getToggleGroup();
+                for (Toggle node : toggle.getToggles()) {
+                    if (node instanceof RadioButton) {
+                        if ((node.isSelected())) {
+
+                            node.setSelected(false);
+                        }
+                    }
+                }
 
             });
+
             // button.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
             button.textFillProperty().setValue(Paint.valueOf("#dac6ac"));
             button.setOnMouseEntered(e -> {
@@ -104,6 +112,7 @@ public class ChartAnalysisController implements Initializable {
             buttonContainerBox.getChildren().add(button);
         }
     }
+
 
     public void init(MainController mainController) {
 
@@ -121,30 +130,37 @@ public class ChartAnalysisController implements Initializable {
 
             if (t instanceof RadioButton) {
                 RadioButton button = (RadioButton) t;
+                button.setStyle("-fx-focus-traversable: false;");
+
                 switch (button.getText()) {
                     case "Last 20 Draws":
                         button.setOnAction(e -> {
+                            clearContents();
                             loadPastOneHundredDrawingsForPosition(80);
                         });
                         break;
                     case "Last 40 Draws":
                         button.setOnAction(e -> {
+                            clearContents();
                             loadPastOneHundredDrawingsForPosition(60);
                         });
                         break;
                     case "Last 60 Draws":
                         button.setOnAction(e -> {
+                            clearContents();
                             loadPastOneHundredDrawingsForPosition(40);
                         });
                         break;
                     case "Last 80 Draws":
                         button.setOnAction(e -> {
+                            clearContents();
                             loadPastOneHundredDrawingsForPosition(20);
 
                         });
                         break;
                     case "Last 100 Draws":
                         button.setOnAction(e -> {
+                            clearContents();
                             loadPastOneHundredDrawingsForPosition(0);
                         });
                         break;
@@ -338,23 +354,31 @@ public class ChartAnalysisController implements Initializable {
         setUpPanelTwo();
     }
 
+    private void clearContents() {
+        gridPaneHbox.getChildren().clear();
+        columnHeaderBox.getChildren().clear();
+    }
+
     private void setUpPanelTwo() {
 
         LottoBetSlipDefinitions betSlipDefinitions = new LottoBetSlipDefinitions();
         Map<String, Object[]> data = betSlipDefinitions.getPayslipOrientation(game.getGameName());
         GridPane betSlipPanel = new GridPane();
 
-        Text[][] textValues = null;
 
-        for(Map.Entry<String, Object[]> dat : data.entrySet()){
+        Text[][] textValues = null;
+        String[] columnHeaders = null;
+
+        for (Map.Entry<String, Object[]> dat : data.entrySet()) {
 
             Object[] va = dat.getValue();
-            textValues = new Text[(int)va[1]][];
+            textValues = new Text[(int) va[1]][];
             break;
         }
 
         int count = 0;
         int countTwo = 0;
+        columnHeaders = new String[textValues.length];
 
         for (Map.Entry<String, Object[]> d : data.entrySet()) {
 
@@ -363,18 +387,257 @@ public class ChartAnalysisController implements Initializable {
             Integer[] array = (Integer[]) values[0];
             for (int i = 0; i < array.length; i++) {
 
-                Text text = new Text( Integer.toString(array[i]) );
+                Text text = new Text(Integer.toString(array[i]));
                 text.setFill(Color.valueOf("#dac6ac"));
                 textArray[count++] = text;
             }
+            columnHeaders[countTwo] = d.getKey();
             textValues[countTwo++] = textArray;
             count = 0;
         }
 
-        for(int row = 0; row < textValues.length; row++){
+        if (game.getGameName().equals(LotteryGameConstants.DAILY_PICK_4) || game.getGameName().equals(LotteryGameConstants.DAILY_PICK_3))
+            columnHeaderBox.setSpacing(30);
+        else if (game.getGameName().equals(LotteryGameConstants.POWERBALL))
+            columnHeaderBox.setSpacing(6);
+        else
+            columnHeaderBox.setSpacing(40);
 
-            for(int col = 0; col < textValues[row].length; col++){
-                betSlipPanel.add(textValues[row][col],col,row);
+        columnHeaderBox.setPadding(new Insets(20, 0, 0, 0));
+        for (int row = 0; row < textValues.length; row++) {
+
+            Label label = new Label();
+            label.setText(columnHeaders[row]);
+            label.setTextFill(Paint.valueOf("#ff9e0e"));
+
+            for (int col = 0; col < textValues[row].length; col++) {
+                betSlipPanel.add(textValues[row][col], row, col);
+            }
+
+            columnHeaderBox.getChildren().add(row, label);
+        }
+
+        if (game.getGameName().equals(LotteryGameConstants.POWERBALL))
+            betSlipPanel.setHgap(7);
+        else
+            betSlipPanel.setHgap(40);
+
+        betSlipPanel.setVgap(10);
+        gridPaneHbox.getChildren().add(0, betSlipPanel);
+
+        initializeRemainderRadioButtons(betSlipPanel);
+        setUpStatViewForColumnHitsAndRemainderDue(betSlipPanel, numbers[valTwo], countTwo);
+    }
+
+    private void setUpStatViewForColumnHitsAndRemainderDue(GridPane betSlipPanel, int[] number, int num) {
+
+        VBox vBox = new VBox();
+        if (game.getGameName().equals(LotteryGameConstants.DAILY_PICK_4))
+            vBox.setPadding(new Insets(0, 0, 0, 167));
+
+        else if (game.getGameName().equals(LotteryGameConstants.DAILY_PICK_3))
+            vBox.setPadding(new Insets(0, 0, 0, 220));
+
+        else if (game.getGameName().equals(LotteryGameConstants.POWERBALL))
+            vBox.setPadding(new Insets(0, 0, 0, 105));
+
+        else
+            vBox.setPadding(new Insets(0, 0, 0, 80));
+
+        gridPaneHbox.getChildren().add(vBox);
+
+        Map<String, Object[]> results = findhitsInEachGameColumn(betSlipPanel, number);
+        if (results.size() < num)
+            addMoreKeysToMap(results, num);
+
+        for (int i = 0; i < num; i++) {
+            HBox box = new HBox();
+            Label label = new Label("C" + (i + 1));
+            label.setPrefWidth(57);
+            label.textFillProperty().setValue(Color.valueOf("#dac6ac"));
+            box.getChildren().add(label);
+
+            Object[] data = results.get(label.getText());
+
+            label = new Label(data[0].toString());
+            label.setPrefWidth(65);
+            label.setTextFill(Color.WHITE);
+            box.getChildren().add(label);
+
+            label = new Label(data[1].toString());
+            label.setPrefWidth(100);
+            label.setTextFill(Color.valueOf("#ff9e0e"));
+            box.getChildren().add(label);
+
+            label = new Label(data[2].toString());
+            label.setTextFill(Color.valueOf("#10000C"));
+            box.getChildren().add(label);
+
+            vBox.getChildren().add(box);
+        }
+
+        Separator separator = new Separator();
+        separator.paddingProperty().setValue(new Insets(10, 0, 0, 0));
+        separator.setPrefWidth(columnHeaderBox.getPrefWidth() - 30);
+        vBox.getChildren().add(separator);
+
+    }
+
+    private void addMoreKeysToMap(Map<String, Object[]> results, int count) {
+
+        Set<Integer> keys = new TreeSet<>();
+
+        for (String res : results.keySet()) {
+            String[] resTwo = res.split("C");
+            keys.add(Integer.parseInt(resTwo[1]));
+        }
+
+        List<Integer> newKeys = new ArrayList<>(keys);
+        Collections.sort(newKeys);
+
+        int dif = Math.abs(count - newKeys.size());
+        int diff = 0;
+        for (int i = 0; i < newKeys.size() + dif; i++) {
+
+            if(i == 0){
+                int val = newKeys.get(i);
+                if(val > 1)
+                    newKeys.add(0,1);
+            }
+            if (i < newKeys.size() - 1) {
+                diff = Math.abs(newKeys.get(i) - newKeys.get(i + 1));
+            }
+
+            if (diff > 1) {
+
+                int min = newKeys.get(i);
+                int max = newKeys.get(i + 1);
+
+                for(int k = min; k < max - 1; k++){
+                    int index = newKeys.indexOf(newKeys.get(min - 1));
+                    index++;
+                    newKeys.add(index, ++k);
+                }
+
+                Collections.sort(newKeys);
+            }
+        }
+
+        int additionalNumbers = Math.abs( newKeys.size() - count);
+        if(additionalNumbers > 0){
+            for(int n = 0; n < additionalNumbers; n++){
+                int incrementLastIndex = newKeys.get(newKeys.size() - 1);
+                incrementLastIndex++;
+                newKeys.add(incrementLastIndex);
+            }
+        }
+
+        for(int num : newKeys){
+
+            String key = "C"+num;
+
+            if(!results.containsKey(key)){
+                results.put(key, new Object[]{0,0,0});
+            }
+        }
+    }
+
+    private Map<String, Object[]> findhitsInEachGameColumn(GridPane betSlipPanel, int[] numbers) {
+
+        Map<String, Object[]> result = new LinkedHashMap<>();
+       // int lastNumToHit = numbers[numbers.length - 1];
+
+        for (int number = 0; number < numbers.length; number++) {
+
+           // if (numbers[number] == lastNumToHit) {
+
+                //if (number < numbers.length - 1) {
+
+                    int nextNum = numbers[number];
+
+                    for (Node node : betSlipPanel.getChildren()) {
+
+                        if (node instanceof Text) {
+
+                            int num = Integer.parseInt(((Text) node).getText());
+
+                            if (num == nextNum) {
+                                int column = GridPane.getColumnIndex(node);
+                                String columnString = "C" + (column + 1);
+
+                                if (!result.containsKey(columnString)) {
+
+                                    result.put(columnString, new Object[]{1, 0, 0});
+                                    NumberAnalyzer.incrementGamesOut(result, columnString);
+                                } else {
+                                    Object[] data = result.get(columnString);
+                                    data[0] = (int) data[0] + 1;
+                                    data[2] = data[1];
+                                    data[1] = 0;
+                                    NumberAnalyzer.incrementGamesOut(result, columnString);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+               // }
+           // }
+        }
+
+        return result;
+    }
+
+    private void initializeRemainderRadioButtons(GridPane panel) {
+        ToggleGroup group = remainder0Radio.getToggleGroup();
+        ObservableList<Toggle> toggles = group.getToggles();
+
+        for (Toggle toggle : toggles) {
+
+            if (toggle instanceof RadioButton) {
+
+                RadioButton button = (RadioButton) toggle;
+                button.setStyle("-fx-focus-traversable: false;");
+
+                switch (button.getText()) {
+                    case "Remainder 0":
+                        button.setOnAction(event -> {
+                            if (button.isSelected())
+                                searchPanelForRemainder(panel, 0);
+                        });
+                        break;
+                    case "Remainder 1":
+                        button.setOnAction(event -> {
+                            if (button.isSelected())
+                                searchPanelForRemainder(panel, 1);
+                        });
+                        break;
+                    case "Remainder 2":
+                        button.setOnAction(event -> {
+                            if (button.isSelected())
+                                searchPanelForRemainder(panel, 2);
+                        });
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        }
+    }
+
+    private void searchPanelForRemainder(GridPane panel, int i) {
+
+        ObservableList<Node> values = panel.getChildren();
+        for (Node node : values) {
+            if (node instanceof Text) {
+                int val = Integer.parseInt(((Text) node).getText());
+                int remainder = val % 3;
+                if (remainder == i) {
+                    ((Text) node).setFill(Color.valueOf("#ff9e0e"));
+                } else {
+                    ((Text) node).setFill(Paint.valueOf("#dac6ac"));
+                }
             }
         }
     }

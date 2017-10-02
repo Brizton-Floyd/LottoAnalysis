@@ -108,7 +108,7 @@ public class NumberAnalyzer {
         return data;
     }
 
-    private static void incrementGamesOut(Map<String, Object[]> data, String direction) {
+    public static void incrementGamesOut(Map<String, Object[]> data, String direction) {
 
         for (Map.Entry<String, Object[]> d : data.entrySet()) {
 
@@ -159,6 +159,7 @@ public class NumberAnalyzer {
             }
         }
     }
+
 
     public static Map<Integer, Map<Integer, Integer[]>> findLastDigitsThatLastHitInRanges(int[] secondElement) {
 
