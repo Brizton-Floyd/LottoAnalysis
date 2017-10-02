@@ -224,7 +224,7 @@
                            <children>
                               <HBox prefHeight="16.0" prefWidth="730.0" spacing="25.0">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" selected="true" text="Remainder 0" textFill="#dac6ac">
+                                    <RadioButton fx:id="remainder0Radio" mnemonicParsing="false" text="Remainder 0" textFill="#dac6ac">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="remainderGroup" />
                                        </toggleGroup>
@@ -233,7 +233,41 @@
                                     <RadioButton layoutX="112.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="130.0" text="Remainder 2" textFill="#dac6ac" toggleGroup="$remainderGroup" />
                                  </children>
                               </HBox>
-                              <HBox fx:id="gridPaneHbox" layoutX="10.0" layoutY="10.0" prefHeight="338.0" prefWidth="730.0" spacing="25.0">
+                              <HBox>
+                                 <children>
+                                    <HBox prefHeight="52.0" prefWidth="730.0">
+                                       <children>
+                                          <HBox fx:id="columnHeaderBox" prefHeight="35.0" prefWidth="355.0" />
+                                          <HBox fx:id="gridPaneHbox1" prefHeight="22.0" prefWidth="312.0" spacing="25.0">
+                                             <children>
+                                                <Label prefHeight="13.0" prefWidth="91.0" text="Hits" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="50.0" />
+                                                   </padding>
+                                                   <font>
+                                                      <Font size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutX="10.0" layoutY="10.0" prefHeight="13.0" prefWidth="76.0" text="Games Out" textFill="#dac6ac">
+                                                   <font>
+                                                      <Font size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutX="60.0" layoutY="10.0" text="Prev Games Out" textFill="#dac6ac">
+                                                   <font>
+                                                      <Font size="12.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets top="20.0" />
+                                             </HBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="gridPaneHbox" layoutX="10.0" layoutY="10.0" prefHeight="324.0" prefWidth="730.0" spacing="25.0">
                                  <VBox.margin>
                                     <Insets top="20.0" />
                                  </VBox.margin>

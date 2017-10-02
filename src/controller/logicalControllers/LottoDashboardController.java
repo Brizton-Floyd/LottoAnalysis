@@ -680,7 +680,7 @@ public class LottoDashboardController implements Initializable {
             chartAnalysisController.setNumbers(positionalNumbers);
             chartAnalysisController.setGame(lotteryGame);
             chartAnalysisController.setUpChart();
-            chartAnalysisController.loadDataIntoPerspectivePanes();
+            //chartAnalysisController.loadDataIntoPerspectivePanes();
 
             Scene scene = new Scene(pane);
             Stage stage = new Stage();

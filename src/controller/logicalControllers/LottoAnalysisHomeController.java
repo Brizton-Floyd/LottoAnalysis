@@ -49,7 +49,7 @@ public class LottoAnalysisHomeController {
 
         btn_lottoDashboard.setOnAction( event ->  {
             mainController.lottoDashboardController.showPane();
-            mainController.chartAnalysisController.hidePane();
+            //mainController.chartAnalysisController.hidePane();
         });
 
         btn_lottoModalCloser.setOnAction(e -> {
