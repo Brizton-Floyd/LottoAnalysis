@@ -363,8 +363,11 @@ public class ChartAnalysisController implements Initializable {
 
         LottoBetSlipDefinitions betSlipDefinitions = new LottoBetSlipDefinitions();
         Map<String, Object[]> data = betSlipDefinitions.getPayslipOrientation(game.getGameName());
+        betSlipDefinitions.lodMatrixIntoMap(game.getGameName());
+
         GridPane betSlipPanel = new GridPane();
 
+        determineColumnsNumbersHitIn(numbers[valTwo], betSlipDefinitions.getGamePaySlip(game.getGameName()));
 
         Text[][] textValues = null;
         String[] columnHeaders = null;
@@ -383,8 +386,8 @@ public class ChartAnalysisController implements Initializable {
         for (Map.Entry<String, Object[]> d : data.entrySet()) {
 
             Object[] values = d.getValue();
-            Text[] textArray = new Text[((Integer[]) values[0]).length];
-            Integer[] array = (Integer[]) values[0];
+            Text[] textArray = new Text[((int[]) values[0]).length];
+            int[] array = (int[]) values[0];
             for (int i = 0; i < array.length; i++) {
 
                 Text text = new Text(Integer.toString(array[i]));
@@ -429,6 +432,15 @@ public class ChartAnalysisController implements Initializable {
         setUpStatViewForColumnHitsAndRemainderDue(betSlipPanel, numbers[valTwo], countTwo);
     }
 
+    private void determineColumnsNumbersHitIn(int[] numbers, int[][] gameMatrix) {
+
+        int[][] positionalNumbers = new int[1][];
+        positionalNumbers[0] = numbers;
+
+        // get the matrix for the current game
+        NumberAnalyzer.determineColumnsNumbersHitIn(positionalNumbers, gameMatrix);
+    }
+
     private void setUpStatViewForColumnHitsAndRemainderDue(GridPane betSlipPanel, int[] number, int num) {
 
         VBox vBox = new VBox();
@@ -442,7 +454,7 @@ public class ChartAnalysisController implements Initializable {
             vBox.setPadding(new Insets(0, 0, 0, 105));
 
         else
-            vBox.setPadding(new Insets(0, 0, 0, 80));
+            vBox.setPadding(new Insets(0, 0, 0, 135));
 
         gridPaneHbox.getChildren().add(vBox);
 
@@ -481,6 +493,18 @@ public class ChartAnalysisController implements Initializable {
         separator.setPrefWidth(columnHeaderBox.getPrefWidth() - 30);
         vBox.getChildren().add(separator);
 
+        Map<Integer,Integer[]> remainderData = NumberAnalyzer.findRemainderDueToHitInPosition(numbers[valTwo]);
+
+        HBox remainderAndColoumnbox = new HBox();
+        VBox b = new VBox();
+
+
+    }
+
+    private void generateCombinations(int[][] numberForPlay) {
+
+
+
     }
 
     private void addMoreKeysToMap(Map<String, Object[]> results, int count) {
@@ -499,10 +523,10 @@ public class ChartAnalysisController implements Initializable {
         int diff = 0;
         for (int i = 0; i < newKeys.size() + dif; i++) {
 
-            if(i == 0){
+            if (i == 0) {
                 int val = newKeys.get(i);
-                if(val > 1)
-                    newKeys.add(0,1);
+                if (val > 1)
+                    newKeys.add(0, 1);
             }
             if (i < newKeys.size() - 1) {
                 diff = Math.abs(newKeys.get(i) - newKeys.get(i + 1));
@@ -513,7 +537,7 @@ public class ChartAnalysisController implements Initializable {
                 int min = newKeys.get(i);
                 int max = newKeys.get(i + 1);
 
-                for(int k = min; k < max - 1; k++){
+                for (int k = min; k < max - 1; k++) {
                     int index = newKeys.indexOf(newKeys.get(min - 1));
                     index++;
                     newKeys.add(index, ++k);
@@ -523,21 +547,21 @@ public class ChartAnalysisController implements Initializable {
             }
         }
 
-        int additionalNumbers = Math.abs( newKeys.size() - count);
-        if(additionalNumbers > 0){
-            for(int n = 0; n < additionalNumbers; n++){
+        int additionalNumbers = Math.abs(newKeys.size() - count);
+        if (additionalNumbers > 0) {
+            for (int n = 0; n < additionalNumbers; n++) {
                 int incrementLastIndex = newKeys.get(newKeys.size() - 1);
                 incrementLastIndex++;
                 newKeys.add(incrementLastIndex);
             }
         }
 
-        for(int num : newKeys){
+        for (int num : newKeys) {
 
-            String key = "C"+num;
+            String key = "C" + num;
 
-            if(!results.containsKey(key)){
-                results.put(key, new Object[]{0,0,0});
+            if (!results.containsKey(key)) {
+                results.put(key, new Object[]{0, 0, 0});
             }
         }
     }
@@ -545,44 +569,44 @@ public class ChartAnalysisController implements Initializable {
     private Map<String, Object[]> findhitsInEachGameColumn(GridPane betSlipPanel, int[] numbers) {
 
         Map<String, Object[]> result = new LinkedHashMap<>();
-       // int lastNumToHit = numbers[numbers.length - 1];
+        // int lastNumToHit = numbers[numbers.length - 1];
 
         for (int number = 0; number < numbers.length; number++) {
 
-           // if (numbers[number] == lastNumToHit) {
+            // if (numbers[number] == lastNumToHit) {
 
-                //if (number < numbers.length - 1) {
+            //if (number < numbers.length - 1) {
 
-                    int nextNum = numbers[number];
+            int nextNum = numbers[number];
 
-                    for (Node node : betSlipPanel.getChildren()) {
+            for (Node node : betSlipPanel.getChildren()) {
 
-                        if (node instanceof Text) {
+                if (node instanceof Text) {
 
-                            int num = Integer.parseInt(((Text) node).getText());
+                    int num = Integer.parseInt(((Text) node).getText());
 
-                            if (num == nextNum) {
-                                int column = GridPane.getColumnIndex(node);
-                                String columnString = "C" + (column + 1);
+                    if (num == nextNum) {
+                        int column = GridPane.getColumnIndex(node);
+                        String columnString = "C" + (column + 1);
 
-                                if (!result.containsKey(columnString)) {
+                        if (!result.containsKey(columnString)) {
 
-                                    result.put(columnString, new Object[]{1, 0, 0});
-                                    NumberAnalyzer.incrementGamesOut(result, columnString);
-                                } else {
-                                    Object[] data = result.get(columnString);
-                                    data[0] = (int) data[0] + 1;
-                                    data[2] = data[1];
-                                    data[1] = 0;
-                                    NumberAnalyzer.incrementGamesOut(result, columnString);
-                                }
-
-                                break;
-                            }
+                            result.put(columnString, new Object[]{1, 0, 0});
+                            NumberAnalyzer.incrementGamesOut(result, columnString);
+                        } else {
+                            Object[] data = result.get(columnString);
+                            data[0] = (int) data[0] + 1;
+                            data[2] = data[1];
+                            data[1] = 0;
+                            NumberAnalyzer.incrementGamesOut(result, columnString);
                         }
+
+                        break;
                     }
-               // }
-           // }
+                }
+            }
+            // }
+            // }
         }
 
         return result;

@@ -632,4 +632,39 @@ public class NumberPatternAnalyzer {
             }
         }
     }
+
+    /**
+     * Method finds the sum of each digit for a given draw index
+     * @param positionalNumbers
+     * @return
+     */
+    public static int[][] findPositionalSums(int[][] positionalNumbers) {
+
+        int[][] data = new int[positionalNumbers.length][];
+        int sum = 0;
+
+        for(int i = 0; i < positionalNumbers.length; i++){
+
+            int[] positionData = new int[positionalNumbers[i].length];
+
+            for(int k = 0; k < positionalNumbers[i].length; k++){
+
+                String res = positionalNumbers[i][k] + "";
+                if(res.length() > 1){
+                    int indexOne = Integer.parseInt(Character.toString(res.charAt(0)));
+                    int indexTwo = Integer.parseInt(Character.toString(res.charAt(1)));
+
+                    sum = indexOne + indexTwo;
+                    positionData[k] = sum;
+
+                }else {
+                    positionData[k] = positionalNumbers[i][k];
+                }
+            }
+
+            data[i] = positionData;
+        }
+
+        return data;
+    }
 }

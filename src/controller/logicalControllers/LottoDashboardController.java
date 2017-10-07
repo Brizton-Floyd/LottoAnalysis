@@ -48,8 +48,8 @@ public class LottoDashboardController implements Initializable {
     private MainController mainController;
     private LotteryGame lotteryGame;
     private static int universalCount = 0;
-    private int[][] positionalNumbers = null;
-    private int[][] deltaNumberForLastDraw;
+    private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums;
+
     @FXML
     private AnchorPane pane, infoPane, infoPane1, predictedNumbersPane;
 
@@ -140,6 +140,7 @@ public class LottoDashboardController implements Initializable {
         positionalNumbers = new int[count][drawNumberTable.getItems().size()];
         loadUpPositionalNumbers(positionalNumbers, lotteryGame.getDrawingData());
         deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
+        positionalSums = NumberPatternAnalyzer.findPositionalSums( positionalNumbers );
 
         GamesOutViewAnalyzer gamesOutViewAnalyzer = new GamesOutViewAnalyzer(positionalNumbers, lotteryGame);
         Map<String, Map<String, Integer[]>> res = gamesOutViewAnalyzer.analyzeWinningNumberDistrubution();
