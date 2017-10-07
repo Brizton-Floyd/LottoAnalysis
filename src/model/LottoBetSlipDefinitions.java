@@ -7,6 +7,9 @@ import java.util.*;
 public class LottoBetSlipDefinitions {
 
     private  Map<String,Map<String,Object[]>> gamePayslipOrientation = new HashMap<>();
+    private Map<String,Integer[][]> gamePaySlipMatrix = new HashMap<>();
+    private int[][] gamePaySlip;
+    private String gameName;
 
     public LottoBetSlipDefinitions(){
         loadMap();
@@ -19,88 +22,207 @@ public class LottoBetSlipDefinitions {
         gamePayslipOrientation.put(LotteryGameConstants.DAILY_PICK_3, new LinkedHashMap<>());
         gamePayslipOrientation.put(LotteryGameConstants.DAILY_PICK_4, new LinkedHashMap<>());
         gamePayslipOrientation.put(LotteryGameConstants.SUPPER_LOTTO_PLUS, new LinkedHashMap<>());
-    }
-
-    public Map<String, Object[]> getPayslipOrientation(String gameName){
 
         for(Map.Entry<String, Map<String, Object[]>> g : gamePayslipOrientation.entrySet()){
 
             Map<String, Object[]> lottoSpecificFile = g.getValue();
+            gameName = g.getKey();
             loadInPaySlipOrientation(g.getKey(), lottoSpecificFile);
         }
+
+    }
+
+    public Map<String, Object[]> getPayslipOrientation(String gameName){
 
         return gamePayslipOrientation.get(gameName);
     }
 
+    private int[][] mapIntegerToInt(Integer[][] data) {
+
+        int[][] values = new int[data.length][];
+
+        for(int i = 0; i < data.length; i++){
+            int[] vals = new int[data[i].length];
+
+            for(int k = 0; k < data[i].length; k++){
+
+                vals[k] = data[i][k];
+            }
+
+            values[i] = vals;
+        }
+
+        return values;
+    }
+
+    public int[][] getGamePaySlip(String game) {
+
+        Integer[][] data = gamePaySlipMatrix.get(gameName);
+
+        int[][] intData = mapIntegerToInt(data);
+
+        return intData;
+    }
+
+    private int[][] getGame2DMatrix(){
+
+        int[][] data = null;
+
+        switch (gameName) {
+
+            case LotteryGameConstants.FANTASY_FIVE:
+                data = new int[4][];
+                data[0] = new int[]{1, 5, 9, 13, 17, 21, 25, 29, 33, 37};
+                data[1] = new int[]{2, 6, 10, 14, 18, 22, 26, 30, 34, 38};
+                data[2] = new int[]{3, 7, 11, 15, 19, 23, 27, 31, 35, 39};
+                data[3] = new int[]{4, 8, 12, 16, 20, 24, 28, 32, 36};
+
+//                Integer[][] dataTwo = mapToIntegerArray(data);
+//                gamePaySlipMatrix.put(LotteryGameConstants.FANTASY_FIVE, dataTwo);
+            break;
+
+            case LotteryGameConstants.DAILY_PICK_4:
+                data = new int[4][];
+                data[0] = new int[]{0, 4, 8};
+                data[1] = new int[]{1, 5, 9};
+                data[2] = new int[]{2, 6};
+                data[3] = new int[]{3, 7};
+
+//                Integer[][] pick4 = (Integer[][]) mapToIntegerArray(data);
+//                gamePaySlipMatrix.put(LotteryGameConstants.DAILY_PICK_4, pick4);
+
+                break;
+
+            case LotteryGameConstants.DAILY_PICK_3:
+                data = new int[4][];
+                data[0] = new int[]{0, 3, 6, 9};
+                data[1] = new int[]{1, 4, 7};
+                data[2] = new int[]{2, 5, 8};
+
+//                Integer[][] pick3 = (Integer[][]) mapToIntegerArray(data);
+//                gamePaySlipMatrix.put(LotteryGameConstants.DAILY_PICK_3, pick3);
+
+                break;
+
+            case LotteryGameConstants.POWERBALL:
+                data = new int[10][];
+                data[0] = new int[]{1, 11, 21, 31, 41, 51, 61};
+                data[1] = new int[]{2, 12, 22, 32, 42, 52, 62};
+                data[2] = new int[]{3, 13, 23, 33, 43, 53, 63};
+                data[3] = new int[]{4, 14, 24, 34, 44, 54, 64};
+                data[4] = new int[]{5, 15, 25, 35, 45, 55, 65};
+                data[5] = new int[]{6, 16, 26, 36, 46, 56, 66};
+                data[6] = new int[]{7, 17, 27, 37, 47, 57, 67};
+                data[7] = new int[]{8, 18, 28, 38, 48, 58, 68};
+                data[8] = new int[]{9, 19, 29, 39, 49, 59, 69};
+                data[9] = new int[]{10, 20, 30, 40, 50, 60};
+
+//                Integer[][] powerball = mapToIntegerArray(data);
+//                gamePaySlipMatrix.put(LotteryGameConstants.POWERBALL, powerball);
+
+                break;
+        }
+
+        return data;
+    }
+
+    private Integer[][] mapToIntegerArray(int[][] dataValues) {
+
+        Integer[][] data = new Integer[dataValues.length][];
+
+
+        for(int i = 0; i < dataValues.length; i++){
+            int[] values = new int [dataValues[i].length];
+
+            for(int k = 0; k < dataValues[i].length; k++){
+                values[k] = dataValues[i][k];
+
+            }
+            data[i] = Arrays.stream(values).boxed().toArray(Integer[]::new);
+        }
+
+        return data;
+    }
+
     private void loadInPaySlipOrientation(String key, Map<String, Object[]> lottoSpecificFile) {
-
-        Integer[][] fantasyFive = new Integer[5][];
-        fantasyFive[0] = new Integer[]{1, 2, 11, 12, 21, 22, 31, 32};
-        fantasyFive[1] = new Integer[]{3, 4, 13, 14, 23, 24, 33, 34};
-        fantasyFive[2] = new Integer[]{5, 6, 15, 16, 25, 26, 35, 36};
-        fantasyFive[3] = new Integer[]{7, 8, 17, 18, 27, 28, 37, 38};
-        fantasyFive[4] = new Integer[]{9, 10,19, 20, 29, 30, 39};
-
-
-        Integer[][] dailyPick4 = new Integer[4][];
-        dailyPick4[0] = new Integer[]{0,1,7,3,4};
-        dailyPick4[1] = new Integer[]{2,5,6,8,9};
-        dailyPick4[2] = new Integer[]{0,1,2,4,8};
-        dailyPick4[3] = new Integer[]{3,5,6,7,9};
-
-        Integer[][] dailyPick3 = new Integer[4][];
-        dailyPick3[0] = new Integer[]{0,1,7,3,4};
-        dailyPick3[1] = new Integer[]{2,5,6,8,9};
-        dailyPick3[2] = new Integer[]{0,1,2,4,8};
-
-        Integer[][] powerBall = new Integer[10][];
-        powerBall[0] = new Integer[]{1, 11, 21, 31, 41, 51, 61};
-        powerBall[1] = new Integer[]{2, 12, 22, 32, 42, 52, 62};
-        powerBall[2] = new Integer[]{3, 13, 23, 33, 43, 53, 63};
-        powerBall[3] = new Integer[]{4, 14, 24, 34, 44, 54, 64};
-        powerBall[4] = new Integer[]{5, 15, 25, 35, 45, 55, 65};
-        powerBall[5] = new Integer[]{6, 16, 26, 36, 46, 56, 66};
-        powerBall[6] = new Integer[]{7, 17, 27, 37, 47, 57, 67};
-        powerBall[7] = new Integer[]{8, 18, 28, 38, 48, 58, 68};
-        powerBall[8] = new Integer[]{9, 19, 29, 39, 49, 59, 69};
-        powerBall[9] = new Integer[]{10, 20, 30, 40, 50, 60};
-
-
 
         switch (key) {
             case LotteryGameConstants.FANTASY_FIVE:
-                lottoSpecificFile.put("C1", new Object[]{fantasyFive[0], 5});
-                lottoSpecificFile.put("C2", new Object[]{fantasyFive[1], 5});
-                lottoSpecificFile.put("C3", new Object[]{fantasyFive[2], 5});
-                lottoSpecificFile.put("C4", new Object[]{fantasyFive[3], 5});
-                lottoSpecificFile.put("C5", new Object[]{fantasyFive[4], 5});
+
+                gamePaySlip = new int[4][];
+
+                gamePaySlip[0] = getGame2DMatrix()[0];
+                gamePaySlip[1] = getGame2DMatrix()[1];
+                gamePaySlip[2] = getGame2DMatrix()[2];
+                gamePaySlip[3] = getGame2DMatrix()[3];
+
+                lottoSpecificFile.put("C1", new Object[]{gamePaySlip[0], 4});
+                lottoSpecificFile.put("C2", new Object[]{gamePaySlip[1], 4});
+                lottoSpecificFile.put("C3", new Object[]{gamePaySlip[2], 4});
+                lottoSpecificFile.put("C4", new Object[]{gamePaySlip[3], 4});
                 break;
 
             case LotteryGameConstants.DAILY_PICK_4:
-                lottoSpecificFile.put("C1",new Object[]{dailyPick4[0], 4});
-                lottoSpecificFile.put("C2", new Object[]{dailyPick4[1], 4});
-                lottoSpecificFile.put("C3", new Object[]{dailyPick4[2], 4});
-                lottoSpecificFile.put("C4",new Object[]{dailyPick4[3], 4});
+
+                gamePaySlip = new int[4][];
+
+                gamePaySlip[0] = getGame2DMatrix()[0];
+                gamePaySlip[1] = getGame2DMatrix()[1];
+                gamePaySlip[2] = getGame2DMatrix()[2];
+                gamePaySlip[3] = getGame2DMatrix()[3];
+
+                lottoSpecificFile.put("C1",new Object[]{gamePaySlip[0], 4});
+                lottoSpecificFile.put("C2", new Object[]{gamePaySlip[1], 4});
+                lottoSpecificFile.put("C3", new Object[]{gamePaySlip[2], 4});
+                lottoSpecificFile.put("C4",new Object[]{gamePaySlip[3], 4});
                 break;
             case LotteryGameConstants.DAILY_PICK_3:
-                lottoSpecificFile.put("C1",new Object[]{dailyPick3[0], 3});
-                lottoSpecificFile.put("C2", new Object[]{dailyPick3[1], 3});
-                lottoSpecificFile.put("C3", new Object[]{dailyPick3[2], 3});
+
+                gamePaySlip = new int[3][];
+
+                gamePaySlip[0] = getGame2DMatrix()[0];
+                gamePaySlip[1] = getGame2DMatrix()[1];
+                gamePaySlip[2] = getGame2DMatrix()[2];
+
+                lottoSpecificFile.put("C1",new Object[]{gamePaySlip[0], 3});
+                lottoSpecificFile.put("C2", new Object[]{gamePaySlip[1], 3});
+                lottoSpecificFile.put("C3", new Object[]{gamePaySlip[2], 3});
                 break;
             case LotteryGameConstants.POWERBALL:
-                lottoSpecificFile.put("C1",new Object[]{powerBall[0], 10});
-                lottoSpecificFile.put("C2", new Object[]{powerBall[1], 10});
-                lottoSpecificFile.put("C3", new Object[]{powerBall[2], 10});
-                lottoSpecificFile.put("C4",new Object[]{powerBall[3], 10});
-                lottoSpecificFile.put("C5",new Object[]{powerBall[4], 10});
-                lottoSpecificFile.put("C6", new Object[]{powerBall[5], 10});
-                lottoSpecificFile.put("C7", new Object[]{powerBall[6], 10});
-                lottoSpecificFile.put("C8",new Object[]{powerBall[7], 10});
-                lottoSpecificFile.put("C9", new Object[]{powerBall[8], 10});
-                lottoSpecificFile.put("C10",new Object[]{powerBall[9], 10});
+
+                gamePaySlip = new int[10][];
+
+                gamePaySlip[0] = getGame2DMatrix()[0];
+                gamePaySlip[1] = getGame2DMatrix()[1];
+                gamePaySlip[2] = getGame2DMatrix()[2];
+                gamePaySlip[3] = getGame2DMatrix()[3];
+                gamePaySlip[4] = getGame2DMatrix()[4];
+                gamePaySlip[5] = getGame2DMatrix()[5];
+                gamePaySlip[6] = getGame2DMatrix()[6];
+                gamePaySlip[7] = getGame2DMatrix()[7];
+                gamePaySlip[8] = getGame2DMatrix()[8];
+                gamePaySlip[9] = getGame2DMatrix()[9];
+
+                lottoSpecificFile.put("C1",new Object[]{gamePaySlip[0], 10});
+                lottoSpecificFile.put("C2", new Object[]{gamePaySlip[1], 10});
+                lottoSpecificFile.put("C3", new Object[]{gamePaySlip[2], 10});
+                lottoSpecificFile.put("C4",new Object[]{gamePaySlip[3], 10});
+                lottoSpecificFile.put("C5",new Object[]{gamePaySlip[4], 10});
+                lottoSpecificFile.put("C6", new Object[]{gamePaySlip[5], 10});
+                lottoSpecificFile.put("C7", new Object[]{gamePaySlip[6], 10});
+                lottoSpecificFile.put("C8",new Object[]{gamePaySlip[7], 10});
+                lottoSpecificFile.put("C9", new Object[]{gamePaySlip[8], 10});
+                lottoSpecificFile.put("C10",new Object[]{gamePaySlip[9], 10});
                 break;
 
 
         }
+    }
+
+    public void lodMatrixIntoMap(String gameName) {
+        this.gameName = gameName;
+        Integer[][] data = mapToIntegerArray( getGame2DMatrix() );
+
+        this.gamePaySlipMatrix.put(gameName, data);
     }
 }
