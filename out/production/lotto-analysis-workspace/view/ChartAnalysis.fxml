@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="chartAnalysisMainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.ChartAnalysisController">
+<AnchorPane fx:id="chartAnalysisMainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.logicalControllers.ChartAnalysisController">
    <children>
       <VBox layoutX="20.0" layoutY="20.0" prefHeight="752.0" prefWidth="1460.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
@@ -220,7 +220,75 @@
                <children>
                   <Pane prefHeight="200.0" prefWidth="730.0">
                      <children>
-                        <VBox prefHeight="353.0" prefWidth="730.0">
+                        <Pane fx:id="lineRetracementPane" prefHeight="353.0" prefWidth="730.0">
+                           <children>
+                              <HBox prefHeight="30.0" prefWidth="730.0">
+                                 <children>
+                                    <Label fx:id="retracementLbl" prefHeight="35.0" prefWidth="722.0" text="In the entire history when Lotto #7 retraced to Lotto # 10 the below data occured " textFill="#dac6ac">
+                                       <padding>
+                                          <Insets left="85.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <VBox layoutY="40.0" prefHeight="156.0" prefWidth="732.0" spacing="12.0">
+                                 <children>
+                                    <Label fx:id="abovePrevLbl" prefHeight="17.0" prefWidth="731.0" text="37 times the next draw number was higher than lotto #8. its curently been 2 games since this happened" textFill="#dac6ac" />
+                                    <Label fx:id="belowPrevLbl" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="731.0" text="108 times the next draw number was lower than lotto #8. its curently been 2 games since this happened" textFill="#dac6ac" />
+                                    <Label fx:id="equalPrevLbl" layoutX="10.0" layoutY="27.0" prefHeight="17.0" prefWidth="731.0" text="12 times the next draw number was equal to lotto #8. its curently been 2 games since this happened" textFill="#dac6ac" />
+                                 </children>
+                              </VBox>
+                              <HBox layoutY="139.0" prefHeight="110.0" prefWidth="730.0" spacing="100.0">
+                                 <children>
+                                    <Label fx:id="lineAboveLbl" text="Last Ranges Retraced to when greater than 75" textFill="#ff9e0e" />
+                                    <Label fx:id="lineBelowLbl" layoutX="10.0" layoutY="10.0" text="Last Ranges Retraced to when lower than 28" textFill="#ff9e0e" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="159.0" spacing="98.0">
+                                 <children>
+                                    <VBox fx:id="greaterThanVbox">
+                                       <children>
+                                          <HBox prefHeight="28.0" prefWidth="287.0">
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="94.0" text="Group Range" textFill="#dac6ac" />
+                                                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="94.0" text="Hits" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="40.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label layoutX="104.0" layoutY="10.0" prefHeight="17.0" prefWidth="94.0" text="Games Out" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="lessThanVbox">
+                                       <children>
+                                          <HBox prefHeight="28.0" prefWidth="287.0">
+                                             <children>
+                                                <Label prefHeight="17.0" prefWidth="94.0" text="Group Range" textFill="#dac6ac" />
+                                                <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="94.0" text="Hits" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="40.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label layoutX="104.0" layoutY="10.0" prefHeight="17.0" prefWidth="94.0" text="Games Out" textFill="#dac6ac">
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <VBox prefHeight="353.0" prefWidth="730.0" visible="false">
                            <children>
                               <HBox prefHeight="16.0" prefWidth="730.0" spacing="25.0">
                                  <children>

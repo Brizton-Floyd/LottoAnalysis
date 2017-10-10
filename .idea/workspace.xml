@@ -2,14 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/utils/GamesOutViewDepicter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LotteryDb.sqlite" afterPath="$PROJECT_DIR$/LotteryDb.sqlite" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/LotteryDb.sqlite" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/LotteryDb.sqlite" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/.idea/workspace.xml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/src/view/ChartAnalysis.fxml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/src/view/ChartAnalysis.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/src/view/LottoAnalysisHome.fxml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/src/view/LottoAnalysisHome.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/view/ChartAnalysis.fxml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/view/ChartAnalysis.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/view/LottoAnalysisHome.fxml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/view/LottoAnalysisHome.fxml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java" afterPath="$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java" afterPath="$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/line_chart_helper/NumberAnalyzer.java" afterPath="$PROJECT_DIR$/src/line_chart_helper/NumberAnalyzer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/LottoBetSlipDefinitions.java" afterPath="$PROJECT_DIR$/src/model/LottoBetSlipDefinitions.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utils/NumberPatternAnalyzer.java" afterPath="$PROJECT_DIR$/src/utils/NumberPatternAnalyzer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/view/ChartAnalysis.fxml" afterPath="$PROJECT_DIR$/src/view/ChartAnalysis.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/view/LottoAnalysisHome.fxml" afterPath="$PROJECT_DIR$/src/view/LottoAnalysisHome.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,8 +83,8 @@
       <file leaf-file-name="LottoDashboardController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="680" column="64" lean-forward="false" selection-start-line="680" selection-start-column="64" selection-end-line="680" selection-end-column="64" />
+            <state relative-caret-position="2713">
+              <caret line="688" column="0" lean-forward="false" selection-start-line="688" selection-start-column="0" selection-end-line="688" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#setUpCellValueFactories#0;class#LottoDashboardController#0" expanded="false" />
@@ -87,35 +95,22 @@
       </file>
       <file leaf-file-name="ChartAnalysis.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/view/ChartAnalysis.fxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="16" column="205" lean-forward="false" selection-start-line="16" selection-start-column="205" selection-end-line="16" selection-end-column="276" />
-              <folding />
-            </state>
-          </provider>
           <provider editor-type-id="JavaFX-Scene-Builder">
             <state />
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LottoAnalysisHome.fxml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/view/LottoAnalysisHome.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="15" column="96" lean-forward="true" selection-start-line="15" selection-start-column="96" selection-end-line="15" selection-end-column="96" />
+            <state relative-caret-position="240">
+              <caret line="16" column="205" lean-forward="false" selection-start-line="16" selection-start-column="205" selection-end-line="16" selection-end-column="237" />
               <folding />
             </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="ChartAnalysisController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="497" column="0" lean-forward="false" selection-start-line="497" selection-start-column="0" selection-end-line="497" selection-end-column="0" />
+            <state relative-caret-position="114">
+              <caret line="466" column="76" lean-forward="false" selection-start-line="466" selection-start-column="76" selection-end-line="466" selection-end-column="76" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -123,36 +118,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LotteryGame.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/model/LotteryGame.java">
+      <file leaf-file-name="LineChartWithHover.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/model/chartImplementations/LineChartWithHover.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-              <folding>
-                <element signature="e#1381#1382#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NumberPatternAnalyzer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/NumberPatternAnalyzer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="548">
-              <caret line="667" column="0" lean-forward="false" selection-start-line="667" selection-start-column="0" selection-end-line="667" selection-end-column="0" />
-              <folding>
-                <element signature="method#incrementGamesOutForAllOtherGroups#0;class#NumberPatternAnalyzer#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FXMLLoader.java" pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="2569" column="0" lean-forward="false" selection-start-line="2569" selection-start-column="0" selection-end-line="2569" selection-end-column="0" />
+            <state relative-caret-position="271">
+              <caret line="50" column="12" lean-forward="false" selection-start-line="49" selection-start-column="56" selection-end-line="50" selection-end-column="12" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LottoAnalysisHomeController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/controller/logicalControllers/LottoAnalysisHomeController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LineRetracementAnalyzer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1146">
+              <caret line="391" column="0" lean-forward="false" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GamesOutViewDepicter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/utils/GamesOutViewDepicter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="327">
+              <caret line="75" column="0" lean-forward="true" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+              <folding>
+                <element signature="e#68#98#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -160,11 +165,9 @@
       <file leaf-file-name="NumberAnalyzer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/line_chart_helper/NumberAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="243" column="0" lean-forward="false" selection-start-line="243" selection-start-column="0" selection-end-line="243" selection-end-column="0" />
+            <state relative-caret-position="111">
+              <caret line="149" column="10" lean-forward="false" selection-start-line="149" selection-start-column="10" selection-end-line="149" selection-end-column="10" />
               <folding>
-                <element signature="e#96#126#0" expanded="true" />
-                <element signature="method#findAverageAndGamesOut#0;class#NumberAnalyzer#0" expanded="false" />
                 <element signature="method#incrementGamesOut#0;class#NumberAnalyzer#0" expanded="false" />
                 <element signature="method#findHitsAndGamesOutForRemainder#0;class#NumberAnalyzer#0" expanded="false" />
                 <element signature="method#incrementGamesOut#1;class#NumberAnalyzer#0" expanded="false" />
@@ -174,25 +177,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Animation.java" pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/javafx-src.zip!/javafx/animation/Animation.java">
+      <file leaf-file-name="Labeled.java" pinned="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/javafx-src.zip!/javafx/scene/control/Labeled.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="187" column="13" lean-forward="false" selection-start-line="187" selection-start-column="13" selection-end-line="187" selection-end-column="13" />
+            <state relative-caret-position="127">
+              <caret line="145" column="35" lean-forward="false" selection-start-line="145" selection-start-column="35" selection-end-line="145" selection-end-column="35" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LottoBetSlipDefinitions.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/model/LottoBetSlipDefinitions.java">
+      <file leaf-file-name="StringExpression.java" pinned="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/javafx-src.zip!/javafx/beans/binding/StringExpression.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="86" column="43" lean-forward="false" selection-start-line="86" selection-start-column="43" selection-end-line="86" selection-end-column="43" />
+            <state relative-caret-position="127">
+              <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#383#384#0" expanded="true" />
-                <element signature="e#408#409#0" expanded="true" />
+                <element signature="e#1142#1143#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -219,10 +220,12 @@
       <find>stylech</find>
       <find>incre</find>
       <find>background</find>
-      <find>increment</find>
       <find>prev</find>
       <find>prevgamesout</find>
       <find>columnHeaderBox</find>
+      <find>setupchart</find>
+      <find>linechart</find>
+      <find>increment</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -241,8 +244,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/view/LottoDashboardView.fxml" />
-        <option value="$PROJECT_DIR$/src/model/LottoPathFileConstants.java" />
         <option value="$PROJECT_DIR$/src/styles/menu_bar.css" />
         <option value="$PROJECT_DIR$/Daily Pick 4.txt" />
         <option value="$PROJECT_DIR$/Daily Pick 3.txt" />
@@ -276,7 +277,6 @@
         <option value="$PROJECT_DIR$/src/controller/logicalControllers/LottoInfoAndGamesController.java" />
         <option value="$PROJECT_DIR$/src/styles/line_chart.css" />
         <option value="$PROJECT_DIR$/src/styles/text_area.css" />
-        <option value="$PROJECT_DIR$/src/model/chartImplementations/LineChartWithHover.java" />
         <option value="$PROJECT_DIR$/src/model/LotteryUrlPaths.java" />
         <option value="$PROJECT_DIR$/src/model/DataFiles/SqlConnection.java" />
         <option value="$PROJECT_DIR$/src/controller/MainController.java" />
@@ -286,18 +286,22 @@
         <option value="$PROJECT_DIR$/src/view/LottoDashboard.fxml" />
         <option value="$PROJECT_DIR$/src/model/DataFiles/LotteryGameConstants.java" />
         <option value="$PROJECT_DIR$/src/controller/logicalControllers/LottoAnalysisHomeController.java" />
-        <option value="$PROJECT_DIR$/src/model/LottoBetSlipDefinitions.java" />
-        <option value="$PROJECT_DIR$/src/line_chart_helper/NumberAnalyzer.java" />
-        <option value="$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java" />
         <option value="$PROJECT_DIR$/src/utils/NumberPatternAnalyzer.java" />
-        <option value="$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java" />
+        <option value="$PROJECT_DIR$/src/model/LottoBetSlipDefinitions.java" />
         <option value="$PROJECT_DIR$/src/view/LottoAnalysisHome.fxml" />
+        <option value="$PROJECT_DIR$/src/model/chartImplementations/LineChartWithHover.java" />
+        <option value="$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java" />
+        <option value="$PROJECT_DIR$/src/line_chart_helper/NumberAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java" />
+        <option value="$PROJECT_DIR$/src/utils/GamesOutViewDepicter.java" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="24" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-11" />
+    <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="823" />
   </component>
@@ -322,7 +326,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -394,9 +399,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -688,7 +692,8 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="23" width="1440" height="823" extended-state="6" />
+    <frame x="-11" y="23" width="1440" height="823" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -698,18 +703,17 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959327" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38219178" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.960274" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23462088" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32054794" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23748212" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5849315" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.86849314" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -725,7 +729,45 @@
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32950467" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32054794" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959327" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4369863" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3219178" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33835617" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32950467" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23748212" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32054794" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
@@ -1032,7 +1074,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java</url>
-          <line>315</line>
+          <line>316</line>
           <properties />
           <option name="timeStamp" value="387" />
         </line-breakpoint>
@@ -1074,13 +1116,13 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>246</line>
+          <line>275</line>
           <properties />
           <option name="timeStamp" value="457" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java</url>
-          <line>101</line>
+          <line>102</line>
           <properties />
           <option name="timeStamp" value="458" />
         </line-breakpoint>
@@ -1092,7 +1134,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java</url>
-          <line>673</line>
+          <line>674</line>
           <properties />
           <option name="timeStamp" value="472" />
         </line-breakpoint>
@@ -1104,25 +1146,25 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java</url>
-          <line>655</line>
+          <line>656</line>
           <properties />
           <option name="timeStamp" value="476" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java</url>
-          <line>148</line>
+          <line>149</line>
           <properties />
           <option name="timeStamp" value="477" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>75</line>
+          <line>74</line>
           <properties />
           <option name="timeStamp" value="481" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>144</line>
+          <line>143</line>
           <properties />
           <option name="timeStamp" value="484" />
         </line-breakpoint>
@@ -1134,31 +1176,19 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>228</line>
+          <line>257</line>
           <properties />
           <option name="timeStamp" value="489" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>202</line>
-          <properties />
-          <option name="timeStamp" value="490" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>213</line>
-          <properties />
-          <option name="timeStamp" value="491" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>217</line>
+          <line>246</line>
           <properties />
           <option name="timeStamp" value="494" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>84</line>
+          <line>83</line>
           <properties />
           <option name="timeStamp" value="496" />
         </line-breakpoint>
@@ -1170,13 +1200,13 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>181</line>
+          <line>180</line>
           <properties />
           <option name="timeStamp" value="503" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>290</line>
+          <line>319</line>
           <properties />
           <option name="timeStamp" value="508" />
         </line-breakpoint>
@@ -1194,7 +1224,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>272</line>
+          <line>301</line>
           <properties />
           <option name="timeStamp" value="516" />
         </line-breakpoint>
@@ -1206,19 +1236,19 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>285</line>
+          <line>314</line>
           <properties />
           <option name="timeStamp" value="522" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>701</line>
+          <line>765</line>
           <properties />
           <option name="timeStamp" value="525" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>629</line>
+          <line>693</line>
           <properties />
           <option name="timeStamp" value="537" />
         </line-breakpoint>
@@ -1236,79 +1266,73 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>357</line>
+          <line>386</line>
           <properties />
           <option name="timeStamp" value="555" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>173</line>
+          <line>172</line>
           <properties />
           <option name="timeStamp" value="556" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>312</line>
+          <line>341</line>
           <properties />
           <option name="timeStamp" value="557" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>353</line>
+          <line>382</line>
           <properties />
           <option name="timeStamp" value="558" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>363</line>
+          <line>392</line>
           <properties />
           <option name="timeStamp" value="559" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>420</line>
+          <line>449</line>
           <properties />
           <option name="timeStamp" value="564" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>409</line>
+          <line>438</line>
           <properties />
           <option name="timeStamp" value="565" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>611</line>
+          <line>675</line>
           <properties />
           <option name="timeStamp" value="568" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>521</line>
+          <line>585</line>
           <properties />
           <option name="timeStamp" value="573" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>511</line>
+          <line>575</line>
           <properties />
           <option name="timeStamp" value="574" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java</url>
-          <line>165</line>
-          <properties />
-          <option name="timeStamp" value="577" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>364</line>
+          <line>393</line>
           <properties />
           <option name="timeStamp" value="583" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>385</line>
+          <line>414</line>
           <properties />
           <option name="timeStamp" value="586" />
         </line-breakpoint>
@@ -1318,35 +1342,119 @@
           <properties />
           <option name="timeStamp" value="587" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
-          <line>495</line>
+          <line>560</line>
           <properties />
           <option name="timeStamp" value="592" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java</url>
-          <line>140</line>
+          <line>141</line>
           <properties />
           <option name="timeStamp" value="594" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/utils/NumberPatternAnalyzer.java</url>
-          <line>667</line>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
+          <line>201</line>
           <properties />
-          <option name="timeStamp" value="595" />
+          <option name="timeStamp" value="597" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
+          <line>221</line>
+          <properties />
+          <option name="timeStamp" value="598" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
+          <line>242</line>
+          <properties />
+          <option name="timeStamp" value="599" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java</url>
+          <line>255</line>
+          <properties />
+          <option name="timeStamp" value="600" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java</url>
+          <line>166</line>
+          <properties />
+          <option name="timeStamp" value="601" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java</url>
+          <line>77</line>
+          <properties />
+          <option name="timeStamp" value="602" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java</url>
+          <line>23</line>
+          <properties />
+          <option name="timeStamp" value="603" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java</url>
+          <line>98</line>
+          <properties />
+          <option name="timeStamp" value="608" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java</url>
+          <line>127</line>
+          <properties />
+          <option name="timeStamp" value="614" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java</url>
+          <line>146</line>
+          <properties />
+          <option name="timeStamp" value="615" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java</url>
+          <line>175</line>
+          <properties />
+          <option name="timeStamp" value="616" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java</url>
+          <line>129</line>
+          <properties />
+          <option name="timeStamp" value="617" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java</url>
+          <line>310</line>
+          <properties />
+          <option name="timeStamp" value="619" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java</url>
+          <line>391</line>
+          <properties />
+          <option name="timeStamp" value="621" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/utils/NumberPatternAnalyzer.java</url>
-          <line>647</line>
+          <url>file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java</url>
+          <line>688</line>
           <properties />
-          <option name="timeStamp" value="596" />
+          <option name="timeStamp" value="622" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/utils/GamesOutViewDepicter.java</url>
+          <line>29</line>
+          <properties />
+          <option name="timeStamp" value="623" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="597" />
+      <option name="time" value="636" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -1359,32 +1467,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/utils/GamesOutPositionTracker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="64" column="17" lean-forward="false" selection-start-line="64" selection-start-column="17" selection-end-line="64" selection-end-column="17" />
-          <folding>
-            <element signature="e#952#953#0" expanded="false" />
-            <element signature="e#996#997#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/GamesOutViewAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/javafx-src.zip!/javafx/fxml/FXMLLoader.java" />
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/javafx-src.zip!/javafx/scene/control/ChoiceBox.java" />
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/javafx-src.zip!/javafx/scene/control/SelectionModel.java" />
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/javafx-src.zip!/com/sun/javafx/binding/ExpressionHelper.java" />
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/javafx-src.zip!/javafx/beans/property/ReadOnlyIntegerPropertyBase.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/javafx-src.zip!/javafx/beans/property/ReadOnlyIntegerWrapper.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/javafx-src.zip!/javafx/animation/Animation.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/javafx-src.zip!/javafx/scene/control/SingleSelectionModel.java" />
@@ -1443,14 +1525,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/view/MainView.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="192" lean-forward="false" selection-start-line="4" selection-start-column="192" selection-end-line="4" selection-end-column="192" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/styles/text_area.css">
@@ -1489,25 +1571,25 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/view/LottoInfoAndGames.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
           <caret line="14" column="84" lean-forward="false" selection-start-line="14" selection-start-column="74" selection-end-line="14" selection-end-column="84" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/LottoDashboard.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/LottoDashboard.fxml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="67" column="130" lean-forward="false" selection-start-line="67" selection-start-column="120" selection-end-line="67" selection-end-column="130" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/styles/bar_chart.css">
@@ -1543,14 +1625,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/chartImplementations/LineChartWithHover.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="101" column="30" lean-forward="false" selection-start-line="101" selection-start-column="30" selection-end-line="101" selection-end-column="30" />
           <folding />
         </state>
       </provider>
@@ -1623,17 +1697,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/logicalControllers/LottoAnalysisHomeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-622">
-          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/javafx-src.zip!/javafx/animation/Animation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
+        <state relative-caret-position="1980">
           <caret line="187" column="13" lean-forward="false" selection-start-line="187" selection-start-column="13" selection-end-line="187" selection-end-column="13" />
           <folding />
         </state>
@@ -1641,55 +1707,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/model/LotteryGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
+        <state relative-caret-position="660">
           <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding>
-            <element signature="e#1381#1382#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/LottoBetSlipDefinitions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="86" column="43" lean-forward="false" selection-start-line="86" selection-start-column="43" selection-end-line="86" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#383#384#0" expanded="true" />
-            <element signature="e#408#409#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/line_chart_helper/NumberAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="243" column="0" lean-forward="false" selection-start-line="243" selection-start-column="0" selection-end-line="243" selection-end-column="0" />
-          <folding>
-            <element signature="e#96#126#0" expanded="true" />
-            <element signature="method#findAverageAndGamesOut#0;class#NumberAnalyzer#0" expanded="false" />
-            <element signature="method#incrementGamesOut#0;class#NumberAnalyzer#0" expanded="false" />
-            <element signature="method#findHitsAndGamesOutForRemainder#0;class#NumberAnalyzer#0" expanded="false" />
-            <element signature="method#incrementGamesOut#1;class#NumberAnalyzer#0" expanded="false" />
-            <element signature="method#findLastDigitsThatLastHitInRanges#0;class#NumberAnalyzer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="497" column="0" lean-forward="false" selection-start-line="497" selection-start-column="0" selection-end-line="497" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1381#1382#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
+        <state relative-caret-position="36165">
           <caret line="2569" column="0" lean-forward="false" selection-start-line="2569" selection-start-column="0" selection-end-line="2569" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/LottoBetSlipDefinitions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="96" column="32" lean-forward="false" selection-start-line="96" selection-start-column="32" selection-end-line="96" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lotto-analysis-workspace.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/gradle.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/LottoAnalysisHome.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -1704,10 +1778,88 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/ChartAnalysis.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="205" lean-forward="false" selection-start-line="16" selection-start-column="205" selection-end-line="16" selection-end-column="237" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/javafx-src.zip!/javafx/beans/binding/StringExpression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+          <folding>
+            <element signature="e#1142#1143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_73.jdk/Contents/Home/javafx-src.zip!/javafx/scene/control/Labeled.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="145" column="35" lean-forward="false" selection-start-line="145" selection-start-column="35" selection-end-line="145" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/logicalControllers/ChartAnalysisController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="466" column="76" lean-forward="false" selection-start-line="466" selection-start-column="76" selection-end-line="466" selection-end-column="76" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/line_chart_helper/NumberAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="149" column="10" lean-forward="false" selection-start-line="149" selection-start-column="10" selection-end-line="149" selection-end-column="10" />
+          <folding>
+            <element signature="method#incrementGamesOut#0;class#NumberAnalyzer#0" expanded="false" />
+            <element signature="method#findHitsAndGamesOutForRemainder#0;class#NumberAnalyzer#0" expanded="false" />
+            <element signature="method#incrementGamesOut#1;class#NumberAnalyzer#0" expanded="false" />
+            <element signature="method#findLastDigitsThatLastHitInRanges#0;class#NumberAnalyzer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/chartImplementations/LineChartWithHover.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="50" column="12" lean-forward="false" selection-start-line="49" selection-start-column="56" selection-end-line="50" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/logicalControllers/LottoAnalysisHomeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/line_chart_helper/LineRetracementAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1146">
+          <caret line="391" column="0" lean-forward="false" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/controller/logicalControllers/LottoDashboardController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="680" column="64" lean-forward="false" selection-start-line="680" selection-start-column="64" selection-end-line="680" selection-end-column="64" />
+        <state relative-caret-position="2713">
+          <caret line="688" column="0" lean-forward="false" selection-start-line="688" selection-start-column="0" selection-end-line="688" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#setUpCellValueFactories#0;class#LottoDashboardController#0" expanded="false" />
@@ -1715,26 +1867,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/ChartAnalysis.fxml">
+    <entry file="file://$PROJECT_DIR$/src/utils/GamesOutViewDepicter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="16" column="205" lean-forward="false" selection-start-line="16" selection-start-column="205" selection-end-line="16" selection-end-column="276" />
-          <folding />
+        <state relative-caret-position="327">
+          <caret line="75" column="0" lean-forward="true" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding>
+            <element signature="e#68#98#0" expanded="true" />
+          </folding>
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/LottoAnalysisHome.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="15" column="96" lean-forward="true" selection-start-line="15" selection-start-column="96" selection-end-line="15" selection-end-column="96" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
   </component>
