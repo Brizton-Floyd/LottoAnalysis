@@ -8,8 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -18,12 +16,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.*;
+import line_chart_helper.LineRetracementAnalyzer;
 import line_chart_helper.NumberAnalyzer;
 import model.DataFiles.LotteryGameConstants;
 import model.LotteryGame;
 import model.LottoBetSlipDefinitions;
 import model.chartImplementations.LineChartWithHover;
-import utils.NumberPatternAnalyzer;
 
 import java.net.URL;
 import java.util.*;
@@ -62,7 +60,8 @@ public class ChartAnalysisController implements Initializable {
 
     @FXML
     private Label remainder0Hits, remainder0GamesOut, remainder0PrevGamesOut, remainder1Hits, remainder1GamesOut, remainder1PrevGamesOut,
-            remainder2Hits, remainder2GamesOut, remainder2PrevGamesOut;
+            remainder2Hits, remainder2GamesOut, remainder2PrevGamesOut, retracementLbl, abovePrevLbl, belowPrevLbl, equalPrevLbl,
+            lineAboveLbl, lineBelowLbl;
 
     @FXML
     private Label digit0Hitslbl, digit0HitsGamesOutLbl, digit3Hitslbl, digit3HitsGamesOutLbl, digit6Hitslbl, digit6HitsGamesOutLbl,
@@ -200,12 +199,42 @@ public class ChartAnalysisController implements Initializable {
 
     private void loadPastOneHundredDrawingsForPosition(int[] number, int range) {
 
-        Integer[] val = new Integer[100];
+        Integer[] val = null;
         int index = 0;
 
-        for (int i = number.length - 100; i < number.length; i++) {
+        int lastDigit = number[number.length - 1];
+        List<Integer> percedingHitsForLastDigit = new ArrayList<>();
 
-            val[index++] = number[i];
+        for (int i = 0; i < number.length; i++) {
+
+            if (i < number.length - 1) {
+
+                if (number[i] == lastDigit) {
+                    int nextNum = number[i + 1];
+                    //percedingHitsForLastDigit.add(number[i]);
+                    percedingHitsForLastDigit.add(nextNum);
+                    percedingHitsForLastDigit.add(number[i]);
+
+                }
+            }
+        }
+
+        if (percedingHitsForLastDigit.size() > 100) {
+
+            val = new Integer[100];
+            for (int i = percedingHitsForLastDigit.size() - 100; i < percedingHitsForLastDigit.size(); i++) {
+
+                val[index++] = percedingHitsForLastDigit.get(i);
+            }
+
+        } else {
+
+            val = new Integer[100];
+            for (int i = number.length - 100; i < number.length; i++) {
+
+                val[index++] = number[i];
+            }
+
         }
 
         if (positionNumbers != null)
@@ -430,6 +459,42 @@ public class ChartAnalysisController implements Initializable {
 
         initializeRemainderRadioButtons(betSlipPanel);
         setUpStatViewForColumnHitsAndRemainderDue(betSlipPanel, numbers[valTwo], countTwo);
+        findLineRetracementProbability(numbers[valTwo]);
+    }
+
+    private void findLineRetracementProbability(int[] number) {
+
+        Map<String, Integer[]> data = LineRetracementAnalyzer.findAboveAndBelowHitsForPrecedingDigit(number);
+        Map<Integer,Integer[]> dataTwo = LineRetracementAnalyzer.calculateLineSpacings();
+
+        populateRetracementHeader(data, LineRetracementAnalyzer.getCurrentWinningNumber(), LineRetracementAnalyzer.getNextWinningNumber());
+        Object[] directiondata = LineRetracementAnalyzer.populateAbovePreviousRanges(LineRetracementAnalyzer.getNextWinningNumber(), game);
+
+    }
+
+    private void populateRetracementHeader(Map<String, Integer[]> data, int currentWinningNumber, int prevWinningNumber) {
+
+        // In the entire history when Lotto #7 retraced to Lotto # 10 the below data occured
+
+        String display = "In the entire history when Lotto #" + currentWinningNumber + " retraced to Lotto #" + prevWinningNumber +
+                " the below data occurred";
+        retracementLbl.setText(display);
+
+        lineAboveLbl.setText("Last Ranges retraced to when greater than " + prevWinningNumber);
+        lineBelowLbl.setText("Last Ranges retraced to when lower than " + prevWinningNumber);
+
+        Label[] labels = {abovePrevLbl, belowPrevLbl, equalPrevLbl};
+        String[] direction = {"higher than", "lower than", "equal to"};
+
+        String displayHitDirection = "";
+        int count = 0;
+        for (Map.Entry<String, Integer[]> numData : data.entrySet()) {
+            Integer[] hitData = numData.getValue();
+            displayHitDirection = hitData[0] + " times the next draw number was " + direction[count] + " lotto #" + prevWinningNumber +
+                    " It's currently been " + hitData[1] + " drawings since this happened";
+            labels[count++].setText(displayHitDirection);
+        }
+
     }
 
     private void determineColumnsNumbersHitIn(int[] numbers, int[][] gameMatrix) {
@@ -493,7 +558,7 @@ public class ChartAnalysisController implements Initializable {
         separator.setPrefWidth(columnHeaderBox.getPrefWidth() - 30);
         vBox.getChildren().add(separator);
 
-        Map<Integer,Integer[]> remainderData = NumberAnalyzer.findRemainderDueToHitInPosition(numbers[valTwo]);
+        Map<Integer, Integer[]> remainderData = NumberAnalyzer.findRemainderDueToHitInPosition(numbers[valTwo]);
 
         HBox remainderAndColoumnbox = new HBox();
         VBox b = new VBox();
@@ -502,7 +567,6 @@ public class ChartAnalysisController implements Initializable {
     }
 
     private void generateCombinations(int[][] numberForPlay) {
-
 
 
     }

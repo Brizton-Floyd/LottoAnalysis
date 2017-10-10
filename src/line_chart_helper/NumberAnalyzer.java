@@ -23,7 +23,7 @@ public class NumberAnalyzer {
 
         for (int val : number) {
 
-            if (val >= average) {
+            if (val > average) {
 
                 Map<String, Object[]> allData = data.get(average);
                 if (!allData.containsKey("Above")) {
@@ -147,7 +147,7 @@ public class NumberAnalyzer {
         return data;
     }
 
-    private static void incrementGamesOut(Map<Integer, Integer[]> data, int remainder) {
+    public static void incrementGamesOut(Map<Integer, Integer[]> data, int remainder) {
 
         for (Map.Entry<Integer, Integer[]> dataTwo : data.entrySet()) {
 

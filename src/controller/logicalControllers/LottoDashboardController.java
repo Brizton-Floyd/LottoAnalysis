@@ -36,6 +36,7 @@ import javafx.util.Callback;
 import model.*;
 import model.chartImplementations.BarChartExt;
 import utils.GamesOutViewAnalyzer;
+import utils.GamesOutViewDepicter;
 import utils.LottoBetSlipAnalyzer;
 import utils.NumberPatternAnalyzer;
 
@@ -682,6 +683,8 @@ public class LottoDashboardController implements Initializable {
             chartAnalysisController.setGame(lotteryGame);
             chartAnalysisController.setUpChart();
             //chartAnalysisController.loadDataIntoPerspectivePanes();
+
+            GamesOutViewDepicter depicter = new GamesOutViewDepicter(positionalNumbers);
 
             Scene scene = new Scene(pane);
             Stage stage = new Stage();

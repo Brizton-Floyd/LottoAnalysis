@@ -94,7 +94,7 @@ public class LottoBetSlipDefinitions {
                 break;
 
             case LotteryGameConstants.DAILY_PICK_3:
-                data = new int[4][];
+                data = new int[3][];
                 data[0] = new int[]{0, 3, 6, 9};
                 data[1] = new int[]{1, 4, 7};
                 data[2] = new int[]{2, 5, 8};
