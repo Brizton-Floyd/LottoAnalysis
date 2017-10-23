@@ -96,7 +96,11 @@ public class LotteryRepository extends Task<Void> {
 
                 updateMessage("Saving " + allGameFiles.get(i) + " Information To Database");
 
-                file = new File(allGameFiles.get(i) + ".txt");
+                file = new File(allGameFiles.get(i) + "Ver2.txt");
+
+                // select the first record in the sql database for the given game being played
+//                String query = DaoConstants.getTopRecords().get(allGameIds.get(i));
+//                int currentDrawNumber = getCurrentWinningGameNumber(query);
 
                 try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
@@ -135,7 +139,7 @@ public class LotteryRepository extends Task<Void> {
 
         for (String file : ((LotteryUrlPaths) data).getPathFiles().keySet()) {
 
-            File file1 = new File(file + ".txt");
+            File file1 = new File(file + "Ver2.txt");
             file1.delete();
         }
     }
@@ -225,11 +229,31 @@ public class LotteryRepository extends Task<Void> {
         }
     }
 
+    public int getCurrentWinningGameNumber(String query){
+
+        ResultSet rs;
+        int num = 0;
+        String q = "SELECT draw_number FROM fantasy_five_results";
+            try (Connection connection = SqlConnection.Connector();PreparedStatement pstmt = connection.prepareStatement(q)) {
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                num = rs.getInt("draw_number");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return num;
+    }
     public List<String> selectAllGames() {
         ResultSet rs;
         List<String> games = new LinkedList<>();
 
-        try (PreparedStatement pstmt = connection.prepareStatement(DaoConstants.SELECT_ALL_GAMES)) {
+        try (Connection connection = SqlConnection.Connector();
+             PreparedStatement pstmt = connection.prepareStatement(DaoConstants.SELECT_ALL_GAMES)) {
 
             rs = pstmt.executeQuery();
 

@@ -1,9 +1,6 @@
 package model.DataFiles;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by briztonfloyd on 8/26/17.
@@ -12,6 +9,7 @@ public class DaoConstants {
 
     public static Map<Integer,String> lotto_query;
     public static List<String> deleteQueries;
+    public static Map<Integer,String> topRecords;
 
     public static final String GAME_ID_QUERY = "SELECT g.game_id, gg.min_number, gg.max_number FROM game g " +
                                                     "INNER JOIN game_min_max gg ON gg.game_id = g.game_id " +
@@ -60,6 +58,18 @@ public class DaoConstants {
             "INSERT OR IGNORE INTO pick3_results (draw_number, draw_date, position_one, position_two, position_three, game_id) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
 
+    private static final String SELECT_TOP_RECORD_FANTASY_FIVE = "SELECT draw_number FROM fantasy_five_results LIMIT 3";
+
+
+    public static Map<Integer,String> getTopRecords() {
+
+        if( topRecords == null)
+            topRecords = new HashMap<>();
+
+        topRecords.put(1, SELECT_TOP_RECORD_FANTASY_FIVE);
+
+        return topRecords;
+    }
 
     public static List<String> getDeleteQueries() {
 
