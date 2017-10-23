@@ -33,7 +33,7 @@ public class FileTweaker {
             try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
                  BufferedWriter bw = new BufferedWriter(new FileWriter(outPutFile))) {
 
-                String line = null;
+                String line;
                 if(!inputFileName.equals("Daily Pick3.txt")) {
                     while ((line = br.readLine()) != null) {
 
@@ -63,13 +63,14 @@ public class FileTweaker {
                 }
             }
 
-            if (inputFile.delete()) {
-                if (!outPutFile.renameTo(inputFile)) {
-                    throw new IOException("Could not rename " + outPutFileName + " to " + inputFileName);
-                }
-            } else {
-                throw new IOException("Could not delete original input file " + inputFileName);
-            }
+            inputFile.delete();
+//            if (inputFile.delete()) {
+//                if (!outPutFile.renameTo(inputFile)) {
+//                    throw new IOException("Could not rename " + outPutFileName + " to " + inputFileName);
+//                }
+//            } else {
+//                throw new IOException("Could not delete original input file " + inputFileName);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
