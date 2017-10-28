@@ -2,6 +2,7 @@ package model;
 
 import controller.MainController;
 import javafx.concurrent.Task;
+import model.DataFiles.DaoConstants;
 import model.DataFiles.LotteryRepository;
 import utils.FileTweaker;
 
@@ -89,7 +90,7 @@ public class DataDownLoader extends Task<Void> {
     @Override
     protected void succeeded() {
 
-        controller.lottoInfoAndGamesController.unbindData();
+       // controller.lottoInfoAndGamesController.unbindData();
 
         Task repository = new LotteryRepository(controller);
         if(((LotteryRepository)repository).isDbConnected()){
