@@ -32,7 +32,7 @@ public class DaoConstants {
     public static final String FIND_CERTAIN_GAME_QUERY = "SELECT game_id FROM game Where game_id = ?";
 
     public static final String LOAD_DATA_FOR_GAME_QUERY = "SELECT * FROM ? where game_id = ?" +
-            " ORDER BY draw_id desc";
+            " ORDER BY draw_number";
 
     private static final String INSERT_HISTORICAL_POWERBALL =
             "INSERT OR IGNORE INTO powerball_results (draw_number, draw_date, position_one, position_two, position_three, position_four," +
@@ -58,15 +58,36 @@ public class DaoConstants {
             "INSERT OR IGNORE INTO pick3_results (draw_number, draw_date, position_one, position_two, position_three, game_id) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
 
-    private static final String SELECT_TOP_RECORD_FANTASY_FIVE = "SELECT draw_number FROM fantasy_five_results LIMIT 3";
+    private static final String SELECT_TOP_RECORD_FANTASY_FIVE = "SELECT fs.draw_number FROM fantasy_five_results fs" +
+                                                                 " ORDER BY fs.draw_number desc" +
+                                                                 " LIMIT 1";
 
-
+    private static final String SELECT_TOP_RECORD_MEGAMILLIONS = "SELECT fs.draw_number FROM mega_million_results fs" +
+                                                                  " ORDER BY fs.draw_number desc" +
+                                                                  " LIMIT 1";
+    private static final String SELECT_TOP_RECORD_DAILY4 = "SELECT fs.draw_number FROM pick4_results fs" +
+                                                                 " ORDER BY fs.draw_number desc" +
+                                                                 " LIMIT 1";
+    private static final String SELECT_TOP_RECORD_DAILY3 = "SELECT fs.draw_number FROM pick3_results fs" +
+                                                                " ORDER BY fs.draw_number desc" +
+                                                                " LIMIT 1";
+    private static final String SELECT_TOP_RECORD_POWERBALL = "SELECT fs.draw_number FROM powerball_results fs" +
+                                                                 " ORDER BY fs.draw_number desc" +
+                                                                 " LIMIT 1";
+    private static final String SELECT_TOP_RECORD_SUPERLOTTOPLUS = "SELECT fs.draw_number FROM super_lotto_results fs" +
+                                                                 " ORDER BY fs.draw_number desc" +
+                                                                 " LIMIT 1";
     public static Map<Integer,String> getTopRecords() {
 
         if( topRecords == null)
             topRecords = new HashMap<>();
 
         topRecords.put(1, SELECT_TOP_RECORD_FANTASY_FIVE);
+        topRecords.put(2, SELECT_TOP_RECORD_POWERBALL);
+        topRecords.put(3, SELECT_TOP_RECORD_MEGAMILLIONS);
+        topRecords.put(4, SELECT_TOP_RECORD_SUPERLOTTOPLUS);
+        topRecords.put(5, SELECT_TOP_RECORD_DAILY4);
+        topRecords.put(6, SELECT_TOP_RECORD_DAILY3);
 
         return topRecords;
     }

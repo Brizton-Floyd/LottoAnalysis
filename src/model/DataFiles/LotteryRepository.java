@@ -64,22 +64,22 @@ public class LotteryRepository extends Task<Void> {
         File file = null;
 
 
-        List<String> queries = DaoConstants.getDeleteQueries();
-
-        for (int i = 0; i < queries.size(); i++) {
-
-            if (!isDbConnected()) {
-
-                connection = SqlConnection.Connector();
-            }
-
-            String query = queries.get(i);
-
-            PreparedStatement pstmt = connection.prepareStatement(query);
-
-            pstmt.executeUpdate();
-
-        }
+//        List<String> queries = DaoConstants.getDeleteQueries();
+//
+//        for (int i = 0; i < queries.size(); i++) {
+//
+//            if (!isDbConnected()) {
+//
+//                connection = SqlConnection.Connector();
+//            }
+//
+//            String query = queries.get(i);
+//
+//            PreparedStatement pstmt = connection.prepareStatement(query);
+//
+//            pstmt.executeUpdate();
+//
+//        }
 
         try (Connection connection = SqlConnection.Connector();
              PreparedStatement pstmt = connection.prepareStatement(DaoConstants.SELECT_ALL_GAMES)) {
@@ -87,9 +87,10 @@ public class LotteryRepository extends Task<Void> {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                
+
                 allGameIds.add(rs.getInt("game_id"));
             }
+
 
             String line;
             for (int i = 0; i < allGameFiles.size(); i++) {
@@ -98,9 +99,9 @@ public class LotteryRepository extends Task<Void> {
 
                 file = new File(allGameFiles.get(i) + "Ver2.txt");
 
-                // select the first record in the sql database for the given game being played
-//                String query = DaoConstants.getTopRecords().get(allGameIds.get(i));
-//                int currentDrawNumber = getCurrentWinningGameNumber(query);
+                //select the first record in the sql database for the given game being played
+                String query = DaoConstants.getTopRecords().get(allGameIds.get(i));
+                int currentDrawNumber = getCurrentWinningGameNumber(query);
 
                 try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
@@ -118,7 +119,9 @@ public class LotteryRepository extends Task<Void> {
                                     drawString[k + 5];
                         }
 
-                        updateTableIfNeeded(drawNum, date, positionNumbers, allGameIds.get(i));
+                        if( Integer.parseInt(drawNum) > currentDrawNumber) {
+                            updateTableIfNeeded(drawNum, date, positionNumbers, allGameIds.get(i));
+                        }
                     }
                 }
             }
@@ -229,25 +232,30 @@ public class LotteryRepository extends Task<Void> {
         }
     }
 
-    public int getCurrentWinningGameNumber(String query){
+    public int getCurrentWinningGameNumber(String query) {
 
         ResultSet rs;
         int num = 0;
-        String q = "SELECT draw_number FROM fantasy_five_results";
-            try (Connection connection = SqlConnection.Connector();PreparedStatement pstmt = connection.prepareStatement(q)) {
+        //String q = "SELECT draw_number FROM fantasy_five_results";
+        if(isDbConnected()){
 
-            rs = pstmt.executeQuery();
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 
-            while (rs.next()) {
-                num = rs.getInt("draw_number");
+                rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    num = rs.getInt("draw_number");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         return num;
     }
+
     public List<String> selectAllGames() {
         ResultSet rs;
         List<String> games = new LinkedList<>();
@@ -276,7 +284,6 @@ public class LotteryRepository extends Task<Void> {
         LotteryGame game = null;
 
         try (Connection connection = SqlConnection.Connector()) {
-
             String[] query = new String[DaoConstants.LOAD_DATA_FOR_GAME_QUERY.split("[?]").length + 2];
             query[0] = DaoConstants.LOAD_DATA_FOR_GAME_QUERY.split("[?]")[0];
             query[1] = databaseName;
@@ -293,7 +300,7 @@ public class LotteryRepository extends Task<Void> {
 
             while (rs.next()) {
 
-                switch (numPositions){
+                switch (numPositions) {
 
                     case 3:
                         drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
@@ -315,7 +322,7 @@ public class LotteryRepository extends Task<Void> {
                         drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
                                 rs.getString("position_one"), rs.getString("position_two"),
                                 rs.getString("position_three"), rs.getString("position_four"),
-                                rs.getString("position_five"),rs.getString("bonus_number"));
+                                rs.getString("position_five"), rs.getString("bonus_number"));
                         break;
 
                 }
@@ -327,14 +334,14 @@ public class LotteryRepository extends Task<Void> {
             e.printStackTrace();
         }
 
-        if(numPositions == 5)
+        if (numPositions == 5)
             return new FiveDigitLotteryGame(id, FXCollections.observableArrayList(drawData));
-        else if(numPositions == 6)
-            return new SixDigitLotteryGame(id,FXCollections.observableArrayList(drawData));
+        else if (numPositions == 6)
+            return new SixDigitLotteryGame(id, FXCollections.observableArrayList(drawData));
         else if (numPositions == 4)
             return new PickFourLotteryGame(id, FXCollections.observableArrayList(drawData));
         else if (numPositions == 3)
-            return new PickThreeLotteryGame(id,  FXCollections.observableArrayList(drawData));
+            return new PickThreeLotteryGame(id, FXCollections.observableArrayList(drawData));
 
         return null;
     }
