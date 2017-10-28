@@ -62,24 +62,7 @@ public class LotteryRepository extends Task<Void> {
 
         ResultSet rs;
         File file = null;
-
-
-//        List<String> queries = DaoConstants.getDeleteQueries();
-//
-//        for (int i = 0; i < queries.size(); i++) {
-//
-//            if (!isDbConnected()) {
-//
-//                connection = SqlConnection.Connector();
-//            }
-//
-//            String query = queries.get(i);
-//
-//            PreparedStatement pstmt = connection.prepareStatement(query);
-//
-//            pstmt.executeUpdate();
-//
-//        }
+        
 
         try (Connection connection = SqlConnection.Connector();
              PreparedStatement pstmt = connection.prepareStatement(DaoConstants.SELECT_ALL_GAMES)) {
