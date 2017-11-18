@@ -45,6 +45,7 @@
                                     </VBox>
                                  </children>
                               </HBox>
+                              <HBox fx:id="elementButtonBox" prefHeight="100.0" prefWidth="200.0" />
                               <HBox fx:id="chartHbox" prefHeight="323.0" prefWidth="809.0">
                                  <children>
                                     <LineChart fx:id="lineChart" prefHeight="323.0" prefWidth="630.0" title="hello world">
