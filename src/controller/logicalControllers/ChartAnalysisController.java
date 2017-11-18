@@ -21,6 +21,8 @@ import line_chart_helper.NumberAnalyzer;
 import model.DataFiles.LotteryGameConstants;
 import model.LotteryGame;
 import model.LottoBetSlipDefinitions;
+import model.PickFourLotteryGame;
+import model.PickThreeLotteryGame;
 import model.chartImplementations.LineChartWithHover;
 
 import java.net.URL;
@@ -34,7 +36,7 @@ public class ChartAnalysisController implements Initializable {
     private int[] firstElement, secondElement;
     private ObservableList<Integer> positionNumbers;
     private LineChartWithHover lineChartWithHover;
-    private int valTwo = 0;
+    private int valTwo, globalInt;
 
     @FXML
     private AnchorPane chartAnalysisMainPane;
@@ -51,7 +53,7 @@ public class ChartAnalysisController implements Initializable {
     private TextFlow belowText;
 
     @FXML
-    private HBox buttonContainerBox, chartHbox, gridPaneHbox, columnHeaderBox;
+    private HBox buttonContainerBox, chartHbox, gridPaneHbox, columnHeaderBox,elementButtonBox;
 
     @FXML
     private Label gameAvgLbl, hitsAboveAvgLbl, aboveGamesOutHitsLbl, hitsBelowAvgLbl, belowGamesOutHitsLbl, elementOneLbl,
@@ -72,6 +74,7 @@ public class ChartAnalysisController implements Initializable {
     private void createDynamicButtons() {
 
         for (int i = 0; i < numbers.length; i++) {
+
             JFXButton button = new JFXButton("Pos " + (i + 1));
             final int val = i;
 
@@ -83,6 +86,7 @@ public class ChartAnalysisController implements Initializable {
                 last20.getToggleGroup().selectToggle(last20);
                 valTwo = val;
                 clearContents();
+                enableRadioButotns();
                 loadPastOneHundredDrawingsForPosition(80);
 
                 ToggleGroup toggle = remainder0Radio.getToggleGroup();
@@ -110,6 +114,129 @@ public class ChartAnalysisController implements Initializable {
             });
             buttonContainerBox.getChildren().add(button);
         }
+
+        if( !(game instanceof PickFourLotteryGame) && !(game instanceof PickThreeLotteryGame)){
+
+            // Create Javafx button to represent each element
+            JFXButton elementOneButton = new JFXButton("Ele: 1");
+            JFXButton elementTwoButton = new JFXButton("Ele: 2");
+            JFXButton fullNumber = new JFXButton("Draw Num");
+
+            JFXButton[] buttons = {elementOneButton, elementTwoButton, fullNumber};
+            int count = 0;
+            // Loop through and style each button
+            for(JFXButton button : buttons){
+
+                button.textFillProperty().setValue(Paint.valueOf("#dac6ac"));
+                button.setOnMouseEntered(e -> {
+                    button.setStyle("-fx-font-size: 10px;" +
+                            "-fx-background-color: #dac6ac;" +
+                            "-fx-text-fill: #10000C;");
+                });
+                button.setOnMouseExited(e -> {
+                    button.setStyle("-fx-text-fill: #dac6ac;");
+
+                });
+
+                int finalIntVal = count;
+                button.setOnAction( action -> {
+
+                    //Load proper index values into list
+                    loadProperIndexValuesIntoList(finalIntVal, valTwo);
+
+                });
+
+                count++;
+
+                elementButtonBox.getChildren().add(button);
+            }
+
+            // add the button to the hbox
+
+        }
+    }
+
+    private void loadProperIndexValuesIntoList(int count, int valTwo) {
+
+        // Disable radio buttons
+        disableRadioButton();
+        // Get all the winning numbers for current position
+        int[] drawNumbers = numbers[valTwo];
+
+        int[][] splitAndCombinedNumbers = splitAndCombineNumbersForList( drawNumbers );
+
+        if( count == 2)
+            globalInt = count;
+
+        loadPastOneHundredDrawingsForPosition(splitAndCombinedNumbers[count], 0, true);
+
+    }
+
+    private void enableRadioButotns(){
+
+        ToggleGroup toggleGroup = last20.getToggleGroup();
+        ObservableList<Toggle> toggles = toggleGroup.getToggles();
+
+        for( Toggle toggle : toggles){
+
+            if( toggle instanceof RadioButton){
+
+                RadioButton radioButton = (RadioButton)toggle;
+                if(radioButton.isDisable()){
+                    radioButton.setDisable( false );
+                }
+            }
+        }
+
+
+    }
+    private void disableRadioButton() {
+
+        ToggleGroup toggleGroup = last20.getToggleGroup();
+        ObservableList<Toggle> toggles = toggleGroup.getToggles();
+
+        for( Toggle toggle : toggles){
+
+            if( toggle instanceof RadioButton){
+
+                RadioButton radioButton = (RadioButton)toggle;
+                if(!radioButton.isDisable()){
+                    radioButton.setDisable( true );
+                }
+            }
+        }
+
+    }
+
+    private int[][] splitAndCombineNumbersForList(int[] drawNumbers) {
+
+        int[][] drawPosVals = new int[3][drawNumbers.length];
+
+        for(int i = 0; i < drawNumbers.length; i++){
+
+            String numAsString = "" + drawNumbers[i];
+
+            if(numAsString.length() > 1){
+
+                drawPosVals[0][i] = Character.getNumericValue( numAsString.charAt(0));
+                drawPosVals[1][i] = Character.getNumericValue( numAsString.charAt(1));
+
+                String combinedNumber = drawPosVals[0][i] +""+ drawPosVals[1][i];
+                drawPosVals[2][i] = Integer.parseInt( combinedNumber );
+
+            }
+            else{
+
+                drawPosVals[0][i] = 0;
+                drawPosVals[1][i] = Character.getNumericValue( numAsString.charAt(0));
+
+                String combinedNumber = drawPosVals[0][i] +""+ drawPosVals[1][i];
+                drawPosVals[2][i] = Integer.parseInt( combinedNumber );
+
+            }
+        }
+
+        return drawPosVals;
     }
 
 
@@ -172,7 +299,7 @@ public class ChartAnalysisController implements Initializable {
     private void loadPastOneHundredDrawingsForPosition(int i) {
         int[] data = numbers[valTwo];
         loadFirstAndSecondElementValuesIntoList(data);
-        loadPastOneHundredDrawingsForPosition(data, i);
+        loadPastOneHundredDrawingsForPosition(data, i, false);
         loadDataIntoPerspectivePanes();
     }
 
@@ -197,27 +324,76 @@ public class ChartAnalysisController implements Initializable {
         }
     }
 
-    private void loadPastOneHundredDrawingsForPosition(int[] number, int range) {
-
-        Integer[] val = null;
-        int index = 0;
+    private ArrayList<Integer> getPrecidingHitsFromLastDigit( int[] number, boolean isCallFromElementButtonClick ){
 
         int lastDigit = number[number.length - 1];
-        List<Integer> percedingHitsForLastDigit = new ArrayList<>();
+
+        ArrayList<Integer> percedingHitsForLastDigit = new ArrayList<>();
+
+        if( !(isCallFromElementButtonClick) && Integer.toString( lastDigit ).length() > 1)
+            lastDigit = Character.getNumericValue( (""+lastDigit).trim().charAt(1) );
+
+        for (int i = 0; i < number.length; i++) {
+
+            if (i < number.length - 1) {
+
+                int numm = ( ( ""+number[i] ).length() > 1) ? Character.getNumericValue((""+number[i]).trim().charAt(1)): number[i];
+
+                if (numm == lastDigit) {
+                    int nextNum = number[i + 1];
+
+                    if( !(isCallFromElementButtonClick) && Integer.toString( nextNum ).length() > 1)
+                        nextNum = Character.getNumericValue( (""+nextNum).trim().charAt(1) );
+
+                    percedingHitsForLastDigit.add(numm);
+                    percedingHitsForLastDigit.add(nextNum);
+                }
+            }
+        }
+
+        percedingHitsForLastDigit.add(lastDigit);
+
+        return percedingHitsForLastDigit;
+    }
+
+    private List<Integer> getPrecidingHitsForWholeNumber(int[] number) {
+
+        int lastDigit = number[number.length - 1];
+        ArrayList<Integer> percedingHitsForLastDigit = new ArrayList<>();
+
 
         for (int i = 0; i < number.length; i++) {
 
             if (i < number.length - 1) {
 
                 if (number[i] == lastDigit) {
-                    int nextNum = number[i + 1];
-                    //percedingHitsForLastDigit.add(number[i]);
-                    percedingHitsForLastDigit.add(nextNum);
-                    percedingHitsForLastDigit.add(number[i]);
 
+                    int nextNum = number[i + 1];
+
+                    percedingHitsForLastDigit.add(lastDigit);
+                    percedingHitsForLastDigit.add(nextNum);
                 }
             }
         }
+
+        percedingHitsForLastDigit.add( lastDigit );
+
+        return percedingHitsForLastDigit;
+
+    }
+
+    private void loadPastOneHundredDrawingsForPosition(int[] number, int range, boolean isComingFrom) {
+
+        Integer[] val = null;
+        int index = 0;
+
+
+        List<Integer> percedingHitsForLastDigit = null;
+
+        if( globalInt < 2 )
+          percedingHitsForLastDigit = getPrecidingHitsFromLastDigit( number, isComingFrom);
+        else
+          percedingHitsForLastDigit = getPrecidingHitsForWholeNumber( number );
 
         if (percedingHitsForLastDigit.size() > 100) {
 
@@ -255,11 +431,14 @@ public class ChartAnalysisController implements Initializable {
 
             setUpChart();
         }
+
     }
+
+
 
     public void setNumbers(int[][] numbers) {
         this.numbers = numbers;
-        createDynamicButtons();
+
     }
 
     public void showPane() {
@@ -281,6 +460,7 @@ public class ChartAnalysisController implements Initializable {
 
     public void setGame(LotteryGame game) {
         this.game = game;
+        createDynamicButtons();
         loadPastOneHundredDrawingsForPosition(80);
     }
 
