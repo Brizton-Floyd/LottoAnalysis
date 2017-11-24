@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import de.jensd.fx.glyphs.materialdesignicons.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="700.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.lottoanalysisnav.LottoAnalysisHomeController">
+   <children>
+      <AnchorPane prefHeight="700.0" prefWidth="386.0" style="-fx-background-color: #10000C;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <JFXButton fx:id="btn_lottoDashboard" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="109.0" layoutY="118.0" prefHeight="52.0" prefWidth="266.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Lotto Dashboard" textAlignment="CENTER" textFill="#dac6ac">
+               <graphic>
+                  <MaterialDesignIconView fill="#dac6ac" glyphName="VIEW_DASHBOARD" size="15" />
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btn_charAnalysis" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="107.0" layoutY="156.0" prefHeight="52.0" prefWidth="268.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Chart Analysis" textAlignment="CENTER" textFill="#dac6ac">
+               <graphic>
+                  <MaterialDesignIconView fill="#dac6ac" glyphName="CHART_LINE" size="15" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btn_compLottoAnalysis" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="107.0" layoutY="194.0" prefHeight="52.0" prefWidth="265.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Compressed Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
+               <graphic>
+                  <MaterialDesignIconView fill="#dac6ac" glyphName="RAY_START_END" size="15" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btn_neutral" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="109.0" layoutY="236.0" prefHeight="52.0" prefWidth="262.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Neutral Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
+               <graphic>
+                  <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_NEUTRAL" size="15" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btn_lengthy" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="106.0" layoutY="278.0" prefHeight="52.0" prefWidth="259.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Lengthy Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
+               <graphic>
+                  <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_UP" size="15" />
+               </graphic>
+            </JFXButton>
+            <AnchorPane layoutX="29.0" layoutY="53.0" prefHeight="700.0" prefWidth="68.0" style="-fx-background-color: #515B51;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <JFXButton fx:id="btn_search" alignment="BASELINE_LEFT" contentDisplay="CENTER" ellipsisString=".." focusTraversable="false" layoutX="24.0" layoutY="132.0" lineSpacing="3.0" prefHeight="25.0" prefWidth="32.0" text="Lotto Dashboard" textAlignment="CENTER" textFill="#dac6ac">
+                     <graphic>
+                        <FontAwesomeIconView fill="#dac6ac" glyphName="SEARCH" size="15" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_game" alignment="BASELINE_LEFT" contentDisplay="CENTER" ellipsisString="." focusTraversable="false" layoutX="15.0" layoutY="592.0" prefHeight="20.0" prefWidth="31.0" text="Lotto Dashboard" textAlignment="CENTER" textFill="#dac6ac">
+                     <graphic>
+                        <FontAwesomeIconView fill="#dac6ac" glyphName="NAVICON" size="15" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="help_button" alignment="BASELINE_LEFT" contentDisplay="GRAPHIC_ONLY" ellipsisString="." focusTraversable="false" layoutX="16.0" layoutY="635.0" prefHeight="29.0" prefWidth="30.0" text="Lotto Dashboard" textAlignment="CENTER" textFill="#dac6ac">
+                     <graphic>
+                        <FontAwesomeIconView fill="#dac6ac" glyphName="QUESTION" size="15" />
+                     </graphic>
+                  </JFXButton>
+                  <FontAwesomeIconView fill="#dac6ac" glyphName="XING" layoutX="31.0" layoutY="68.0" size="30" />
+               </children>
+            </AnchorPane>
+            <JFXButton fx:id="btn_lottoModalCloser" focusTraversable="false" layoutX="304.0" layoutY="376.0" prefHeight="27.0" prefWidth="69.0" text="Close" textFill="#dac6ac" visible="false" AnchorPane.rightAnchor="13.0">
+               <graphic>
+                  <FontAwesomeIconView fill="#dac6ac" glyphName="CLOSE" size="15" />
+               </graphic>
+            </JFXButton>
+            <Label fx:id="lbl_game_hover" layoutX="39.0" layoutY="561.0" prefHeight="17.0" prefWidth="85.0" text="Games &amp; Info" textFill="#dac6ac" visible="false" />
+            <Label layoutX="115.0" layoutY="38.0" style="-fx-font-family: 'Open Sans', sans-serif;;" text="Lotto Analysis" textFill="#dac6ac">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_game_help" layoutX="53.0" layoutY="625.0" prefHeight="17.0" prefWidth="29.0" text="Help" textFill="#dac6ac" visible="false" />
+            <Label fx:id="lbl_search" layoutX="49.0" layoutY="111.0" prefHeight="17.0" prefWidth="47.0" text="Search" textFill="#dac6ac" visible="false" />
+
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
