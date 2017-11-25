@@ -21,8 +21,8 @@ import com.lottoanalysis.utilities.NumberAnalyzer;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
 import com.lottoanalysis.utilities.LottoBetSlipDefinitions;
-import com.lottoanalysis.lottoinfoandgames.PickFourLotteryGame;
-import com.lottoanalysis.lottoinfoandgames.PickThreeLotteryGame;
+import com.lottoanalysis.lottoinfoandgames.lottogames.PickFourLotteryGame;
+import com.lottoanalysis.lottoinfoandgames.lottogames.PickThreeLotteryGame;
 
 import java.net.URL;
 import java.util.*;

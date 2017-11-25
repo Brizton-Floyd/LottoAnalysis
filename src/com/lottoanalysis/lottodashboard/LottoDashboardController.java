@@ -6,7 +6,6 @@ import com.lottoanalysis.chartanalysis.ChartAnalysisController;
 import com.lottoanalysis.MainController;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.*;
-import com.lottoanalysis.lottoinfoandgames.data.LotteryGameDao;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -118,7 +117,7 @@ public class LottoDashboardController implements Initializable {
     public void loadChoicesIntoChoiceBox() {
 
 
-        if(choiceBox.getItems().size() > 0)
+        if (choiceBox.getItems().size() > 0)
             choiceBox.getItems().clear();
 
 
@@ -140,7 +139,7 @@ public class LottoDashboardController implements Initializable {
         positionalNumbers = new int[count][drawNumberTable.getItems().size()];
         loadUpPositionalNumbers(positionalNumbers, lotteryGame.getDrawingData());
         deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
-        positionalSums = NumberPatternAnalyzer.findPositionalSums( positionalNumbers );
+        positionalSums = NumberPatternAnalyzer.findPositionalSums(positionalNumbers);
 
         GamesOutViewAnalyzer gamesOutViewAnalyzer = new GamesOutViewAnalyzer(positionalNumbers, lotteryGame);
         Map<String, Map<String, Integer[]>> res = gamesOutViewAnalyzer.analyzeWinningNumberDistrubution();
@@ -654,16 +653,16 @@ public class LottoDashboardController implements Initializable {
 
         predictedNumbersLabel.setText("Historical Draw Table For: " + newName);
         lottoDashboard.setText(gameName + "Lotto Dashboard");
-        this.lotteryGame = manager.loadLotteryData(gameName,"fantasy_five_results",5);
+        this.lotteryGame = manager.loadLotteryData(gameName, "fantasy_five_results", 5);
 
-        setUpTableView( lotteryGame );
+        setUpTableView(lotteryGame);
         loadChoicesIntoChoiceBox();
         performOperationOnChoiceboxValue();
 
         LottoBetSlipAnalyzer analyzerPosOne = new LottoBetSlipAnalyzer(lotteryGame, 2);
         List<Object> rowInformation = analyzerPosOne.getAllInformationForRowAndPosition();
         Map<Integer, Integer> chartDataTwo = extractInformationForBarChart(rowInformation);
-        setUpChart(1,chartDataTwo);
+        setUpChart(1, chartDataTwo);
 
     }
 
@@ -671,13 +670,13 @@ public class LottoDashboardController implements Initializable {
         return lotteryGame;
     }
 
-    public void displayChartAnalysisScreen(){
+    public void displayChartAnalysisScreen() {
 
         try {
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/com/lottoanalysis/view/ChartAnalysis.fxml"));
-            AnchorPane pane =  loader.load();
+            AnchorPane pane = loader.load();
 
             ChartAnalysisController chartAnalysisController = loader.getController();
             chartAnalysisController.init(mainController);

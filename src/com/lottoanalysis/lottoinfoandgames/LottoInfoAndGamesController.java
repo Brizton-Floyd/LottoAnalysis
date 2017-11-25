@@ -3,7 +3,6 @@ package com.lottoanalysis.lottoinfoandgames;
 import com.lottoanalysis.MainController;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.common.LotteryGameDaoConstants;
-import com.lottoanalysis.lottoinfoandgames.data.DaoConstants;
 import com.lottoanalysis.lottoinfoandgames.data.DataDownLoader;
 import com.lottoanalysis.lottoinfoandgames.data.LotteryGameDao;
 import com.lottoanalysis.utilities.FileTweaker;
@@ -93,12 +92,15 @@ public class LottoInfoAndGamesController {
         boolean containsGame = (itemList.contains(gameName));
         if (containsGame) {
 
+            // get lottery game manager instance
+            lotteryGameManager = getLotteryGameManagerInstance();
+
             if (item.getText().equalsIgnoreCase(LotteryGameDaoConstants.UPDATE_DB)) {
                 downloadFilesFromInternet();
             }
             else if(gameName.contains(LotteryGameConstants.FANTASY_FIVE_GAME_NAME)){
 
-                game = lotteryGameManager.loadLotteryData( gameName, LotteryGameConstants.SUPER_LOTTO_DB_NAME,
+                game = lotteryGameManager.loadLotteryData( gameName, LotteryGameConstants.FANTASY_FIVE_DB_NAME,
                                                             LotteryGameConstants.FIVE_POSITIONS);
 
                 mainController.lottoDashboardController.setUpTableView( game );
@@ -175,10 +177,7 @@ public class LottoInfoAndGamesController {
      */
     private void loadMenuItems() {
 
-        if( lotteryGameManager == null )
-            lotteryGameManager = new LotteryGameManagerImpl();
-
-        List<String> menus = lotteryGameManager.getAllGames();
+        List<String> menus = getLotteryGameManagerInstance().getAllGames();
 
         for (String menu : menus) {
             itemList.add(menu);
@@ -187,6 +186,15 @@ public class LottoInfoAndGamesController {
         itemList.add("Update Database");
         setMenuItemText(itemList);
 
+    }
+
+    /**
+     * Return a lotterygamemanager instance
+     * @return
+     */
+    private LotteryGameManager getLotteryGameManagerInstance(){
+
+        return new LotteryGameManagerImpl();
     }
 
     private void setMenuItemText(List<String> itemList) {

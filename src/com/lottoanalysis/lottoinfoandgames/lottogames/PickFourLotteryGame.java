@@ -1,5 +1,7 @@
-package com.lottoanalysis.lottoinfoandgames;
+package com.lottoanalysis.lottoinfoandgames.lottogames;
 
+import com.lottoanalysis.lottoinfoandgames.Drawing;
+import com.lottoanalysis.lottoinfoandgames.LotteryGame;
 import javafx.collections.ObservableList;
 import com.lottoanalysis.utilities.FileTweaker;
 
