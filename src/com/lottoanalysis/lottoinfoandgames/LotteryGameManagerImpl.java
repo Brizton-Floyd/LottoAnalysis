@@ -31,7 +31,7 @@ public class LotteryGameManagerImpl implements LotteryGameManager {
     @Override
     public LotteryGame loadLotteryData(int gagmeID, String dataBaseName, int numberOfPositions) {
 
-        return getDaoInstance().loadLotteryData( gagmeID, dataBaseName, numberOfPositions);
+        return getDaoInstance().getLotteryGameInstance( gagmeID, dataBaseName, numberOfPositions);
     }
 
     /**

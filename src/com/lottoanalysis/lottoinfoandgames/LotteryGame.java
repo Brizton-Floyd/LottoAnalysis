@@ -15,8 +15,6 @@ public abstract class LotteryGame {
 
     protected ObservableList<Drawing> drawingData;
 
-    protected LotteryGameDao repository = new LotteryGameDaoImpl(null);
-
     public LotteryGame() {
 
     }
