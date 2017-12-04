@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface LotteryGameDao {
 
-    Connection establishConnection();
-
     boolean isDbConnected();
 
     void updateDbTableForGame(String drawNum, String date, String[] positionNumbers, int gameId);
@@ -19,6 +17,6 @@ public interface LotteryGameDao {
 
     LotteryGame getLotteryGameInstance(int id, String databaseName, int numPositions);
 
-    int getCurrentWinningGameNumber(String query);
+    int getCurrentWinningGameNumber(int id);
 
 }

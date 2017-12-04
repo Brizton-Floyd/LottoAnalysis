@@ -630,7 +630,7 @@ public class LottoDashboardController implements Initializable {
 
         choiceBox.getItems().clear();
 
-        LotteryGameManager manager = new LotteryGameManagerImpl();
+        LotteryGameManager manager = LotteryGameManagerImpl.getInstance();
 
         String gameName = mainController.lottoInfoAndGamesController.getDefaultGameName();
         //this.lotteryGame = new FiveDigitLotteryGame(gameName);

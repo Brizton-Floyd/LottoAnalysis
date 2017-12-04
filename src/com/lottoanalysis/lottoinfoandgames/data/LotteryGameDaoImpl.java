@@ -21,6 +21,10 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
     private MainController controller;
     private Connection connection;
 
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
     public LotteryGameDaoImpl(MainController controller) {
         this.controller = controller;
     }
@@ -47,17 +51,15 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         ResultSet rs;
         File file = null;
 
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(ID_QUERY)) {
 
-        try (Connection connection = establishConnection();
-             PreparedStatement pstmt = connection.prepareStatement(SELECT_ALL_GAMES)) {
-
-            verifyActiveConnection( connection );
-
+            //SELECT_ALL_GAMES
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
 
-                allGameIds.add(rs.getInt("game_id"));
+                allGameIds.add(rs.getInt("ID"));
             }
 
 
@@ -69,8 +71,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
                 file = new File(allGameFiles.get(i) + "Ver2.txt");
 
                 //select the first record in the sql database for the given game being played
-                String query = getTopRecords().get(allGameIds.get(i));
-                int currentDrawNumber = getCurrentWinningGameNumber(query);
+                //String query = getTopRecords().get(allGameIds.get(i));
+                int currentDrawNumber = getCurrentWinningGameNumber( allGameIds.get(i) );
 
                 try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
@@ -117,44 +119,46 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
     @Override
     public void updateDbTableForGame(String drawNum, String date, String[] positionNumbers, int gameId) {
 
-        String query = getLottoQueryString().get(gameId);
+        String[] queryData = getInsertQuery( positionNumbers.length );
 
-        try (Connection con = establishConnection();
+        String query = "INSERT INTO DRAWING " + queryData[0] + queryData[1];
+
+        try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
 
-            verifyActiveConnection( connection );
+           // verifyActiveConnection( connection );
 
             switch (positionNumbers.length) {
 
                 case 3:
-                    pstmt.setInt(1, Integer.parseInt(drawNum));
+                    pstmt.setInt(1, gameId);
                     pstmt.setString(2, date);
                     pstmt.setString(3, positionNumbers[0]);
                     pstmt.setString(4, positionNumbers[1]);
                     pstmt.setString(5, positionNumbers[2]);
-                    pstmt.setInt(6, gameId);
+                    pstmt.setInt(6, Integer.parseInt(drawNum));
                     break;
                 case 4:
-                    pstmt.setInt(1, Integer.parseInt(drawNum));
+                    pstmt.setInt(1, gameId );
                     pstmt.setString(2, date);
                     pstmt.setString(3, positionNumbers[0]);
                     pstmt.setString(4, positionNumbers[1]);
                     pstmt.setString(5, positionNumbers[2]);
                     pstmt.setString(6, positionNumbers[3]);
-                    pstmt.setInt(7, gameId);
+                    pstmt.setInt(7, Integer.parseInt(drawNum));
                     break;
                 case 5:
-                    pstmt.setInt(1, Integer.parseInt(drawNum));
+                    pstmt.setInt(1, gameId);
                     pstmt.setString(2, date);
                     pstmt.setString(3, positionNumbers[0]);
                     pstmt.setString(4, positionNumbers[1]);
                     pstmt.setString(5, positionNumbers[2]);
                     pstmt.setString(6, positionNumbers[3]);
                     pstmt.setString(7, positionNumbers[4]);
-                    pstmt.setInt(8, gameId);
+                    pstmt.setInt(8, Integer.parseInt(drawNum));
                     break;
                 case 6:
-                    pstmt.setInt(1, Integer.parseInt(drawNum));
+                    pstmt.setInt(1, gameId);
                     pstmt.setString(2, date);
                     pstmt.setString(3, positionNumbers[0]);
                     pstmt.setString(4, positionNumbers[1]);
@@ -162,7 +166,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
                     pstmt.setString(6, positionNumbers[3]);
                     pstmt.setString(7, positionNumbers[4]);
                     pstmt.setString(8, positionNumbers[5]);
-                    pstmt.setInt(9, gameId);
+                    pstmt.setInt(9, Integer.parseInt(drawNum));
                     break;
                 default:
                     break;
@@ -172,29 +176,35 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
 
     }
 
     @Override
-    public int getCurrentWinningGameNumber(String query) {
+    public int getCurrentWinningGameNumber(int id) {
 
         ResultSet rs;
         int num = 0;
 
-        try (Connection connection = establishConnection();
-                PreparedStatement pstmt = connection.prepareStatement(query)) {
+        try (Connection connection = DBConnection.getConnection();
+                PreparedStatement pstmt = connection.prepareStatement(GET_RECENT_DRAW_NUMBER_QUERY)) {
 
-            verifyActiveConnection( connection );
+            pstmt.setInt(1, id);
+
+           // verifyActiveConnection( connection );
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                num = rs.getInt("draw_number");
+                num = rs.getInt("DRAW_NUMBER");
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -206,10 +216,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         ResultSet rs;
         List<String> games = new LinkedList<>();
 
-        try (Connection connection = establishConnection();
+        try (Connection connection = DBConnection.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(SELECT_ALL_GAMES)) {
-
-            verifyActiveConnection( connection );
 
             rs = pstmt.executeQuery();
 
@@ -218,6 +226,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -232,13 +242,9 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         Drawing drawing = null;
         LotteryGame game = null;
 
-        try (Connection connection = establishConnection()) {
+        try (Connection connection = DBConnection.getConnection()) {
 
-            verifyActiveConnection( connection );
-
-            String queryString = getSqlString(databaseName);
-
-            PreparedStatement pstmt = connection.prepareStatement(queryString);
+            PreparedStatement pstmt = connection.prepareStatement(SELECT_APPROPRIATE_GAME_QUERY);
             pstmt.setInt(1, id);
 
             rs = pstmt.executeQuery();
@@ -248,26 +254,26 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
                 switch (numPositions) {
 
                     case 3:
-                        drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
-                                rs.getString("position_one"), rs.getString("position_two"),
-                                rs.getString("position_three"));
+                        drawing = new Drawing(rs.getInt("DRAW_NUMBER"), rs.getString("DRAW_DATE"),
+                                rs.getString("DRAW_POS_ONE"), rs.getString("DRAW_POS_TWO"),
+                                rs.getString("DRAW_POS_THREE"));
                         break;
                     case 4:
-                        drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
-                                rs.getString("position_one"), rs.getString("position_two"),
-                                rs.getString("position_three"), rs.getString("position_four"));
+                        drawing = new Drawing(rs.getInt("DRAW_NUMBER"), rs.getString("DRAW_DATE"),
+                                rs.getString("DRAW_POS_ONE"), rs.getString("DRAW_POS_TWO"),
+                                rs.getString("DRAW_POS_THREE"), rs.getString("DRAW_POS_FOUR"));
                         break;
                     case 5:
-                        drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
-                                rs.getString("position_one"), rs.getString("position_two"),
-                                rs.getString("position_three"), rs.getString("position_four"),
-                                rs.getString("position_five"));
+                        drawing = new Drawing(rs.getInt("DRAW_NUMBER"), rs.getString("DRAW_DATE"),
+                                rs.getString("DRAW_POS_ONE"), rs.getString("DRAW_POS_TWO"),
+                                rs.getString("DRAW_POS_THREE"), rs.getString("DRAW_POS_FOUR"),
+                                rs.getString("DRAW_POS_FIVE"));
                         break;
                     case 6:
-                        drawing = new Drawing(rs.getInt("draw_number"), rs.getString("draw_date"),
-                                rs.getString("position_one"), rs.getString("position_two"),
-                                rs.getString("position_three"), rs.getString("position_four"),
-                                rs.getString("position_five"), rs.getString("bonus_number"));
+                        drawing = new Drawing(rs.getInt("DRAW_NUMBER"), rs.getString("DRAW_DATE"),
+                                rs.getString("DRAW_POS_ONE"), rs.getString("DRAW_POS_TWO"),
+                                rs.getString("DRAW_POS_THREE"), rs.getString("DRAW_POS_FOUR"),
+                                rs.getString("DRAW_POS_FIVE"), rs.getString("BONUS_NUMBER"));
                         break;
 
                 }
@@ -276,6 +282,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -295,7 +303,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
     public Object[] retrieveGameId(String gameName) {
 
         Object[] data = null;
-        try (Connection connection = establishConnection();
+        try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(GAME_ID_QUERY)) {
 
             statement.setString(1, gameName);
@@ -305,146 +313,52 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
             while (rs.next()) {
 
-                data[0] = rs.getInt("game_id");
-                data[1] = rs.getInt("min_number");
-                data[2] = rs.getInt("max_number");
+                data[0] = rs.getInt("ID");
+                data[1] = rs.getInt("GAME_MIN_NUMBER");
+                data[2] = rs.getInt("GAME_MAX_NUMBER");
+
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         return data;
     }
 
-    /**
-     * Establish a database connection
-     *
-     * @return
-     */
-    @Override
-    public Connection establishConnection() {
-        try {
+    private String[] getInsertQuery(int number){
 
-            Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection(LotteryGameDaoConstants.DATABASE_CONNECTION);
-            return conn;
+        Map<Integer,String[]> insertQueryData = new TreeMap<>();
+        insertQueryData.put(3, new String[]{"(LOTTERY_GAME_ID, DRAW_DATE, DRAW_POS_ONE, DRAW_POS_TWO, DRAW_POS_THREE, " +
+                "DRAW_NUMBER)",
+                " VALUES(?,?,?,?,?,?)"});
+        insertQueryData.put(4, new String[]{"(LOTTERY_GAME_ID, DRAW_DATE, DRAW_POS_ONE, DRAW_POS_TWO, DRAW_POS_THREE, " +
+                "DRAW_POS_FOUR, DRAW_NUMBER)",
+                " VALUES(?,?,?,?,?,?,?)"});
+        insertQueryData.put(5, new String[]{"(LOTTERY_GAME_ID, DRAW_DATE, DRAW_POS_ONE, DRAW_POS_TWO, DRAW_POS_THREE, " +
+                "DRAW_POS_FOUR, DRAW_POS_FIVE, DRAW_NUMBER)",
+                " VALUES(?,?,?,?,?,?,?,?)"});
+        insertQueryData.put(6, new String[]{"(LOTTERY_GAME_ID, DRAW_DATE, DRAW_POS_ONE, DRAW_POS_TWO, DRAW_POS_THREE, " +
+                "DRAW_POS_FOUR, DRAW_POS_FIVE, BONUS_NUMBER, DRAW_NUMBER)",
+                " VALUES(?,?,?,?,?,?,?,?,?)"});
 
-        } catch (Exception e) {
-            System.out.print(e);
-            return null;
-
-        }
-    }
-
-    /**
-     * Determine if there is an active database connection
-     * @param connection
-     */
-    private void verifyActiveConnection(Connection connection) {
-
-        if (connection == null) {
-            System.exit(1);
-        }
-    }
-
-    private Map<Integer,String> getTopRecords() {
-
-        Map<Integer, String> topRecords = new HashMap<>();
-
-        topRecords.put(1, SELECT_TOP_RECORD_FANTASY_FIVE);
-        topRecords.put(2, SELECT_TOP_RECORD_POWERBALL);
-        topRecords.put(3, SELECT_TOP_RECORD_MEGAMILLIONS);
-        topRecords.put(4, SELECT_TOP_RECORD_SUPERLOTTOPLUS);
-        topRecords.put(5, SELECT_TOP_RECORD_DAILY4);
-        topRecords.put(6, SELECT_TOP_RECORD_DAILY3);
-
-        return topRecords;
-    }
-
-    private  Map<Integer, String> getLottoQueryString(){
-
-        return loadData();
-    }
-
-    private  Map<Integer, String> loadData() {
-
-        Map<Integer, String> lotto_query = new LinkedHashMap<>();
-
-        lotto_query.put(1,INSERT_HISTORICAL_FANTASY_FIVE);
-        lotto_query.put(2,INSERT_HISTORICAL_POWERBALL);
-        lotto_query.put(3,INSERT_HISTORICAL_MEGA_MILLIONS);
-        lotto_query.put(4,INSERT_HISTORICAL_SUPER_LOTTO_PLUS);
-        lotto_query.put(5,INSERT_HISTORICAL_PICK_4);
-        lotto_query.put(6,INSERT_HISTORICAL_PICK_3);
-
-        return lotto_query;
-    }
-
-    private String getSqlString(String databaseName) {
-
-        String[] query = new String[LOAD_DATA_FOR_GAME_QUERY.split("[?]").length + 2];
-        query[0] = LOAD_DATA_FOR_GAME_QUERY.split("[?]")[0];
-        query[1] = databaseName;
-        query[2] = LOAD_DATA_FOR_GAME_QUERY.split("[?]")[1];
-        query[3] = "?";
-        query[4] = LOAD_DATA_FOR_GAME_QUERY.split("[?]")[2];
-
-        return query[0] + query[1] + query[2] + query[3] + query[4];
+        return insertQueryData.get( number );
     }
 
     // Queries
-    private String GAME_ID_QUERY = "SELECT g.game_id, gg.min_number, gg.max_number FROM game g " +
-            "INNER JOIN game_min_max gg ON gg.game_id = g.game_id " +
-            "WHERE game_name = ?";
+    private String GAME_ID_QUERY = "SELECT G.ID, G.GAME_MIN_NUMBER, G.GAME_MAX_NUMBER FROM LOTTERY_GAME G " +
+            "WHERE G.GAME_NAME = ?";
 
-    private String SELECT_ALL_GAMES = "SELECT * From game";
+    private String SELECT_ALL_GAMES = "SELECT * From LOTTERY_GAME";
 
+    private String SELECT_APPROPRIATE_GAME_QUERY = "SELECT * FROM DRAWING WHERE LOTTERY_GAME_ID = ? ORDER BY DRAW_NUMBER;";
 
-    private String LOAD_DATA_FOR_GAME_QUERY = "SELECT * FROM ? where game_id = ?" +
-            " ORDER BY draw_number";
+    private String GET_RECENT_DRAW_NUMBER_QUERY = "SELECT DRAW_NUMBER FROM DRAWING " +
+            "WHERE LOTTERY_GAME_ID = ? " +
+            "ORDER BY DRAW_NUMBER DESC " +
+            "LIMIT 1";
 
-    private String INSERT_HISTORICAL_POWERBALL =
-            "INSERT OR IGNORE INTO powerball_results (draw_number, draw_date, position_one, position_two, position_three, position_four," +
-                    "position_five,bonus_number, game_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
-
-    private String INSERT_HISTORICAL_SUPER_LOTTO_PLUS =
-            "INSERT OR IGNORE INTO super_lotto_results (draw_number, draw_date, position_one, position_two, position_three, position_four," +
-                    "position_five,bonus_number, game_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
-
-    private  String INSERT_HISTORICAL_MEGA_MILLIONS =
-            "INSERT OR IGNORE INTO mega_million_results (draw_number, draw_date, position_one, position_two, position_three, position_four," +
-                    "position_five,bonus_number, game_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
-
-    private  String INSERT_HISTORICAL_FANTASY_FIVE =
-            "INSERT OR IGNORE INTO fantasy_five_results (draw_number, draw_date, position_one, position_two, position_three, position_four," +
-                    "position_five, game_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-    private  String INSERT_HISTORICAL_PICK_4 =
-            "INSERT OR IGNORE INTO pick4_results (draw_number, draw_date, position_one, position_two, position_three, position_four, game_id) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-    private  String INSERT_HISTORICAL_PICK_3 =
-            "INSERT OR IGNORE INTO pick3_results (draw_number, draw_date, position_one, position_two, position_three, game_id) " +
-                    "VALUES (?, ?, ?, ?, ?, ?)";
-
-    private  String SELECT_TOP_RECORD_FANTASY_FIVE = "SELECT fs.draw_number FROM fantasy_five_results fs" +
-            " ORDER BY fs.draw_number desc" +
-            " LIMIT 1";
-
-    private  String SELECT_TOP_RECORD_MEGAMILLIONS = "SELECT fs.draw_number FROM mega_million_results fs" +
-            " ORDER BY fs.draw_number desc" +
-            " LIMIT 1";
-    private  String SELECT_TOP_RECORD_DAILY4 = "SELECT fs.draw_number FROM pick4_results fs" +
-            " ORDER BY fs.draw_number desc" +
-            " LIMIT 1";
-    private  String SELECT_TOP_RECORD_DAILY3 = "SELECT fs.draw_number FROM pick3_results fs" +
-            " ORDER BY fs.draw_number desc" +
-            " LIMIT 1";
-    private  String SELECT_TOP_RECORD_POWERBALL = "SELECT fs.draw_number FROM powerball_results fs" +
-            " ORDER BY fs.draw_number desc" +
-            " LIMIT 1";
-    private  String SELECT_TOP_RECORD_SUPERLOTTOPLUS = "SELECT fs.draw_number FROM super_lotto_results fs" +
-            " ORDER BY fs.draw_number desc" +
-            " LIMIT 1";
+    private String ID_QUERY = "SELECT ID FROM LOTTERY_GAME";
 }
