@@ -93,7 +93,7 @@ public class LottoInfoAndGamesController {
         if (containsGame) {
 
             // get lottery game manager instance
-            lotteryGameManager = getLotteryGameManagerInstance();
+            lotteryGameManager = LotteryGameManagerImpl.getInstance();
 
             if (item.getText().equalsIgnoreCase(LotteryGameDaoConstants.UPDATE_DB)) {
                 downloadFilesFromInternet();
@@ -177,7 +177,7 @@ public class LottoInfoAndGamesController {
      */
     private void loadMenuItems() {
 
-        List<String> menus = getLotteryGameManagerInstance().getAllGames();
+        List<String> menus = LotteryGameManagerImpl.getInstance().getAllGames();
 
         for (String menu : menus) {
             itemList.add(menu);
@@ -186,15 +186,6 @@ public class LottoInfoAndGamesController {
         itemList.add("Update Database");
         setMenuItemText(itemList);
 
-    }
-
-    /**
-     * Return a lotterygamemanager instance
-     * @return
-     */
-    private LotteryGameManager getLotteryGameManagerInstance(){
-
-        return new LotteryGameManagerImpl();
     }
 
     private void setMenuItemText(List<String> itemList) {

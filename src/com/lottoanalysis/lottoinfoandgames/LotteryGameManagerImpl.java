@@ -1,14 +1,24 @@
 package com.lottoanalysis.lottoinfoandgames;
 
+import com.lottoanalysis.lottoinfoandgames.data.DBConnection;
 import com.lottoanalysis.lottoinfoandgames.data.LotteryGameDao;
 import com.lottoanalysis.lottoinfoandgames.data.LotteryGameDaoImpl;
 import com.lottoanalysis.utilities.FileTweaker;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class LotteryGameManagerImpl implements LotteryGameManager {
 
     private LotteryGameDao lotteryGameDao;
+    private static LotteryGameManager  manager = new LotteryGameManagerImpl();
+
+    public static LotteryGameManager getInstance(){
+        return manager;
+    }
+    private LotteryGameManagerImpl(){}
+
 
     /**
      * Selects all games from the database to populate a dropdown list
