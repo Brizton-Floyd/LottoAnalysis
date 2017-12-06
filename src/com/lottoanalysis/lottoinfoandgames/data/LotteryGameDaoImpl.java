@@ -1,7 +1,6 @@
 package com.lottoanalysis.lottoinfoandgames.data;
 
-import com.lottoanalysis.MainController;
-import com.lottoanalysis.common.LotteryGameDaoConstants;
+import com.lottoanalysis.com.lottoanalysis.screenloader.MainController;
 import com.lottoanalysis.lottoinfoandgames.*;
 import com.lottoanalysis.lottoinfoandgames.lottogames.FiveDigitLotteryGame;
 import com.lottoanalysis.lottoinfoandgames.lottogames.PickFourLotteryGame;
@@ -54,7 +53,6 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(ID_QUERY)) {
 
-            //SELECT_ALL_GAMES
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -106,8 +104,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
     protected void succeeded() {
 
-        controller.lottoInfoAndGamesController.unbindData();
-        controller.lottoInfoAndGamesController.hideProgressBarAndLabeVbox();
+//        controller.lottoInfoAndGamesController.unbindData();
+//        controller.lottoInfoAndGamesController.hideProgressBarAndLabeVbox();
 
         for (String file : OnlineFileUtility.getUrlPaths().keySet()) {
 
