@@ -1,10 +1,7 @@
 package com.lottoanalysis.lottoinfoandgames.data;
 
-import com.lottoanalysis.MainController;
-import com.lottoanalysis.lottoinfoandgames.LotteryGameManager;
-import com.lottoanalysis.lottoinfoandgames.LotteryGameManagerImpl;
+import com.lottoanalysis.com.lottoanalysis.screenloader.MainController;
 import javafx.concurrent.Task;
-import com.lottoanalysis.lottoinfoandgames.data.LotteryGameDaoImpl;
 import com.lottoanalysis.utilities.FileTweaker;
 
 import java.io.BufferedReader;
@@ -56,7 +53,7 @@ public class DataDownLoader extends Task<Void> {
             fileLength += connection.getContentLength();
         }
 
-        controller.lottoInfoAndGamesController.makeVboxVisible();
+       // controller.lottoInfoAndGamesController.makeVboxVisible();
 
         for (Map.Entry<String, String> data : filePathsAndLotteryNames.entrySet()) {
 
@@ -96,15 +93,17 @@ public class DataDownLoader extends Task<Void> {
         Connection conn = null;
 
         try {
+
             conn = DBConnection.getConnection();
             Task repository = new LotteryGameDaoImpl(controller);
 
             if (!conn.isClosed()) {
 
-                controller.lottoInfoAndGamesController.lotteryUpdateLabel.textProperty().bind(repository.messageProperty());
+               // controller.lottoInfoAndGamesController.lotteryUpdateLabel.textProperty().bind(repository.messageProperty());
                 Thread thread = new Thread(repository);
                 thread.setDaemon(true);
                 thread.start();
+
             }
 
         } catch (SQLException e1) {

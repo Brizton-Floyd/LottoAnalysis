@@ -1,4 +1,4 @@
-package com.lottoanalysis;
+package com.lottoanalysis.com.lottoanalysis.screenloader;
 
 
 import com.lottoanalysis.chartanalysis.ChartAnalysisController;
@@ -6,6 +6,11 @@ import com.lottoanalysis.lottoanalysisnav.LottoAnalysisHomeController;
 import com.lottoanalysis.lottoinfoandgames.LottoInfoAndGamesController;
 import com.lottoanalysis.lottodashboard.LottoDashboardController;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This class will allow all controllers in the application to communicate with one another. Whenever a new controller
@@ -16,15 +21,17 @@ import javafx.fxml.FXML;
  */
 public class MainController {
 
-    public LottoAnalysisHomeController lottoAnalysisHomeController;
-    public LottoInfoAndGamesController lottoInfoAndGamesController;
-    public LottoDashboardController lottoDashboardController;
-    public ChartAnalysisController chartAnalysisController;
-
+    /** Holder of a switchable lotto screens. */
     @FXML
-    public void initialize() {
-        lottoAnalysisHomeController.init(this);
-        lottoInfoAndGamesController.init(this);
-        lottoDashboardController.init(this);
+    private StackPane screenHolder;
+
+    /**
+     * Replaces the screen displayed in the lottoScreen holder with a new screen.
+     *
+     * @param node the vista node to be swapped in.
+     */
+    public void setLottoScreen(Node node) {
+        screenHolder.getChildren().setAll(node);
     }
+
 }

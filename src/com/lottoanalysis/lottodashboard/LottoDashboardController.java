@@ -3,7 +3,7 @@ package com.lottoanalysis.lottodashboard;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.Main;
 import com.lottoanalysis.chartanalysis.ChartAnalysisController;
-import com.lottoanalysis.MainController;
+import com.lottoanalysis.com.lottoanalysis.screenloader.MainController;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -42,7 +42,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class LottoDashboardController implements Initializable {
+public class LottoDashboardController  {
 
     private MainController mainController;
     private LotteryGame lotteryGame;
@@ -75,7 +75,35 @@ public class LottoDashboardController implements Initializable {
     private ChoiceBox choiceBox;
     private BarChartExt<String, Number> bc;
 
-    public void init(MainController mainController) {
+    @FXML
+    public void initialize() {
+
+
+        // this is a hack to make the tableview stop scrolling horizontally
+        drawNumberTable.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                if (event.getDeltaX() != 0) {
+                    event.consume();
+                }
+            }
+        });
+
+        helpIconLottoDashboard.setOnMouseEntered(e -> {
+
+            dashBoardHelpLabel.setText(LotteryGameConstants.LOTTO_DASHBOARD_INSTRUCTION_FIRST_PANE);
+            dashBoardHelpLabel.setVisible(true);
+            helpIconLottoDashboard.fillProperty().setValue(Paint.valueOf("#EFA747"));
+            hBox.setVisible(false);
+
+        });
+
+        helpIconLottoDashboard.setOnMouseExited(e -> {
+
+            dashBoardHelpLabel.setVisible(false);
+            helpIconLottoDashboard.fillProperty().setValue(Paint.valueOf("#DAC6AC"));
+            hBox.setVisible(true);
+        });
 
         choiceBox = new ChoiceBox();
         choiceBox.setStyle("-fx-focus-color: transparent;");
@@ -405,44 +433,6 @@ public class LottoDashboardController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        btn_close.setOnAction(event -> {
-
-            predictedNumbersPane.setVisible(true);
-            infoPane.setVisible(false);
-            btn_close.setVisible(false);
-
-        });
-
-        // this is a hack to make the tableview stop scrolling horizontally
-        drawNumberTable.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
-            @Override
-            public void handle(ScrollEvent event) {
-                if (event.getDeltaX() != 0) {
-                    event.consume();
-                }
-            }
-        });
-
-        helpIconLottoDashboard.setOnMouseEntered(e -> {
-
-            dashBoardHelpLabel.setText(LotteryGameConstants.LOTTO_DASHBOARD_INSTRUCTION_FIRST_PANE);
-            dashBoardHelpLabel.setVisible(true);
-            helpIconLottoDashboard.fillProperty().setValue(Paint.valueOf("#EFA747"));
-            hBox.setVisible(false);
-
-        });
-
-        helpIconLottoDashboard.setOnMouseExited(e -> {
-
-            dashBoardHelpLabel.setVisible(false);
-            helpIconLottoDashboard.fillProperty().setValue(Paint.valueOf("#DAC6AC"));
-            hBox.setVisible(true);
-        });
-    }
-
     public void setGameLabels(String gameName) {
 
         if (!gameName.equalsIgnoreCase("update database")) {
@@ -632,7 +622,7 @@ public class LottoDashboardController implements Initializable {
 
         LotteryGameManager manager = LotteryGameManagerImpl.getInstance();
 
-        String gameName = mainController.lottoInfoAndGamesController.getDefaultGameName();
+        String gameName = "CA: Fantasy Five";
         //this.lotteryGame = new FiveDigitLotteryGame(gameName);
         String name = "Fantasy Five";
         String newName = "";
@@ -695,9 +685,9 @@ public class LottoDashboardController implements Initializable {
             stage.setTitle("Chart Analysis");
             stage.show();
 
-            stage.setOnCloseRequest(e -> {
-                mainController.lottoAnalysisHomeController.enableChartButton();
-            });
+//            stage.setOnCloseRequest(e -> {
+//                mainController.lottoAnalysisHomeController.enableChartButton();
+//            });
 
 
         } catch (IOException e) {
