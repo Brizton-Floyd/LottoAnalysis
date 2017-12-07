@@ -1,16 +1,9 @@
-package com.lottoanalysis.com.lottoanalysis.screenloader;
+package com.lottoanalysis.screenloader;
 
 
-import com.lottoanalysis.chartanalysis.ChartAnalysisController;
-import com.lottoanalysis.lottoanalysisnav.LottoAnalysisHomeController;
-import com.lottoanalysis.lottoinfoandgames.LottoInfoAndGamesController;
-import com.lottoanalysis.lottodashboard.LottoDashboardController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
-
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * This class will allow all controllers in the application to communicate with one another. Whenever a new controller

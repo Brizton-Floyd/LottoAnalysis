@@ -1,9 +1,10 @@
 package com.lottoanalysis.lottoinfoandgames;
 
 import com.lottoanalysis.Main;
-import com.lottoanalysis.com.lottoanalysis.screenloader.MainController;
+import com.lottoanalysis.screenloader.LottoScreenNavigator;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.common.LotteryGameDaoConstants;
+import com.lottoanalysis.lottodashboard.LottoDashboardController;
 import com.lottoanalysis.lottoinfoandgames.data.DataDownLoader;
 import com.lottoanalysis.utilities.OnlineFileUtility;
 import javafx.concurrent.Task;
@@ -13,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -31,10 +33,9 @@ public class LottoInfoAndGamesController {
 
 
     private List<String> itemList = new LinkedList<>();
-    private MainController mainController;
     private boolean isGamePaneOpen = false;
     private LotteryGameManager lotteryGameManager;
-    private LotteryGame lotteryGame;
+    private static LotteryGame lotteryGame;
 
 
     @FXML
@@ -49,20 +50,15 @@ public class LottoInfoAndGamesController {
     @FXML
     private VBox progressAndLabelVbox, progressBox;
 
-    public  void init(MainController mainController) {
+    @FXML
+    public void initialize(){
 
-
-        this.mainController = mainController;
-
-        //addGamesToDatabase();
+        //Start setting up the lottery game menu
         loadMenuItems();
+
     }
 
-    public LotteryGame getLotteryGame() {
-        return lotteryGame;
-    }
-
-    public void makeGamePanelAppear(ActionEvent e) {
+    public static void makeGamePanelAppear(ActionEvent e) {
 
         if (e.getSource() instanceof Button) {
 
@@ -72,27 +68,31 @@ public class LottoInfoAndGamesController {
 //                game_pane.setVisible(true);
 //                isGamePaneOpen = true;
                 // load view
-               // loadMenuItems();
+                // loadMenuItems();
                 loadview();
             }
         }
     }
 
-    private void loadview() {
+    /*
+     *Displays menu items of all the games that currently exist for a given states lottery
+     *
+     */
+    private static void loadview() {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("/com/lottoanalysis/view/LottoInfoAndGames.fxml"));
+            loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_THREE));
             AnchorPane pane = loader.load();
 
-            LottoInfoAndGamesController lottoInfoAndGamesController = loader.getController();
+            //LottoInfoAndGamesController lottoInfoAndGamesController = loader.getController();
             //lottoInfoAndGamesController.init(mainController);
 
             Scene scene = new Scene(pane);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setResizable(false);
-            //stage.setTitle("Chart Analysis");
+            stage.setTitle("Lotto Drawing Updater");
             stage.show();
 
 
@@ -111,78 +111,82 @@ public class LottoInfoAndGamesController {
     @FXML
     private void getAppropriateGameData(ActionEvent event) {
 
-//        LotteryGame game = null;
-//
-//        // Get the event source and cast to appropriate object type
-//        MenuItem item = (MenuItem) event.getSource();
-//        mainController.lottoDashboardController.setGameLabels(item.getText());
-//
-//        String gameName = item.getText();
-//        boolean containsGame = (itemList.contains(gameName));
-//        if (containsGame) {
-//
-//            // get lottery game manager instance
-//            lotteryGameManager = LotteryGameManagerImpl.getInstance();
-//
-//            if (item.getText().equalsIgnoreCase(LotteryGameDaoConstants.UPDATE_DB)) {
-//                downloadFilesFromInternet();
-//            }
-//            else if(gameName.contains(LotteryGameConstants.FANTASY_FIVE_GAME_NAME)){
-//
-//                game = lotteryGameManager.loadLotteryData( gameName, LotteryGameConstants.FANTASY_FIVE_DB_NAME,
-//                                                            LotteryGameConstants.FIVE_POSITIONS);
-//
-//                mainController.lottoDashboardController.setUpTableView( game );
-//                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
-//
-//            }
-//            else if(gameName.contains(LotteryGameConstants.POWERBALL_GAME_NAME)){
-//
-//                game = lotteryGameManager.loadLotteryData( gameName,LotteryGameConstants.POWERBALL_DB_NAME,
-//                        LotteryGameConstants.SIX_POSITIONS);
-//
-//                mainController.lottoDashboardController.setUpTableView( game );
-//                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
-//
-//            }
-//            else if(gameName.contains(LotteryGameConstants.MEGA_MILLIONS_GAME_NAME)){
-//
-//                game = lotteryGameManager.loadLotteryData( gameName, LotteryGameConstants.MEGA_MILLIONS_DB_NAME,
-//                        LotteryGameConstants.SIX_POSITIONS);
-//
-//                mainController.lottoDashboardController.setUpTableView( game );
-//                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
-//
-//            }
-//            else if(gameName.contains(LotteryGameConstants.PICK3_GAME_NAME)){
-//
-//                game = lotteryGameManager.loadLotteryData( gameName, LotteryGameConstants.PICK3_DB_NAME,
-//                        LotteryGameConstants.THREE_POSITIONS);
-//
-//                mainController.lottoDashboardController.setUpTableView( game );
-//                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
-//
-//            }
-//            else if(gameName.contains(LotteryGameConstants.PICK4_GAME_NAME)){
-//
-//                game = lotteryGameManager.loadLotteryData( gameName, LotteryGameConstants.PICK4_DB_NAME,
-//                        LotteryGameConstants.FOUR_POSITIONS);
-//
-//                mainController.lottoDashboardController.setUpTableView( game );
-//                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
-//
-//            }
-//            else if(gameName.contains(LotteryGameConstants.SUPER_LOTTO_PLUS_GAME_NAME)){
-//
-//                game = lotteryGameManager.loadLotteryData( gameName, LotteryGameConstants.SUPER_LOTTO_DB_NAME,
-//                        LotteryGameConstants.SIX_POSITIONS);
-//
-//                mainController.lottoDashboardController.setUpTableView( game );
-//                mainController.lottoDashboardController.loadChoicesIntoChoiceBox();
-//
-//            }
-//        }
+        LotteryGame game = null;
+
+        // Get the event source and cast to appropriate object type
+        MenuItem item = (MenuItem) event.getSource();
+
+        FXMLLoader loader = new FXMLLoader( getClass().getResource( LottoScreenNavigator.LOTTO_SCREEN_ONE));
+        try {
+
+            Pane pane = (Pane)loader.load();
+
+            LottoDashboardController dashboardController = loader.getController();
+
+            String gameName = item.getText();
+            boolean containsGame = (itemList.contains(gameName));
+            if (containsGame) {
+
+                dashboardController.setGameLabels( gameName );
+
+                // get lottery game manager instance
+                lotteryGameManager = LotteryGameManagerImpl.getInstance();
+
+                if (item.getText().equalsIgnoreCase(LotteryGameDaoConstants.UPDATE_DB)) {
+                    downloadFilesFromInternet();
+                }else {
+
+                    if (gameName.contains(LotteryGameConstants.FANTASY_FIVE_GAME_NAME)) {
+
+                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.FANTASY_FIVE_DB_NAME, LotteryGameConstants.FIVE_POSITIONS);
+                    } else if (gameName.contains(LotteryGameConstants.POWERBALL_GAME_NAME)) {
+
+                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.POWERBALL_DB_NAME, LotteryGameConstants.SIX_POSITIONS);
+                    } else if (gameName.contains(LotteryGameConstants.MEGA_MILLIONS_GAME_NAME)) {
+
+                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.MEGA_MILLIONS_DB_NAME, LotteryGameConstants.SIX_POSITIONS);
+                    } else if (gameName.contains(LotteryGameConstants.PICK3_GAME_NAME)) {
+
+                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.PICK3_DB_NAME,
+                                LotteryGameConstants.THREE_POSITIONS);
+                    } else if (gameName.contains(LotteryGameConstants.PICK4_GAME_NAME)) {
+
+                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.PICK4_DB_NAME,
+                                LotteryGameConstants.FOUR_POSITIONS);
+                    } else if (gameName.contains(LotteryGameConstants.SUPER_LOTTO_PLUS_GAME_NAME)) {
+
+                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.SUPER_LOTTO_DB_NAME, LotteryGameConstants.SIX_POSITIONS);
+                    }
+
+                    // Once we have the selected game from the manager send the data to the table view
+                    dashboardController.setUpTableView(game);
+                    dashboardController.loadChoicesIntoChoiceBox();
+
+                    // Set static lottery game for reference by other classes
+                    setLotteryGame(game);
+
+                    // Prepare view to be rendered in stackpane
+                    LottoScreenNavigator.getMainController().setLottoScreen(pane);
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    private static void setLotteryGame(LotteryGame game){
+
+        LottoInfoAndGamesController.lotteryGame = game;
+    }
+    /*
+     * Returns the current Lottery game being played in the system really helpful when wanting
+     * to render chart data
+     */
+    public static LotteryGame getCurrentLotteryGameBeingPlayed(){
+        return lotteryGame;
+    }
+
 
     /**
      * Method will be responsible for downloading historical data from the internet for lottery games on seperate
@@ -190,7 +194,7 @@ public class LottoInfoAndGamesController {
      */
     private void downloadFilesFromInternet() {
 
-        Task<Void> task = new DataDownLoader(OnlineFileUtility.getUrlPaths(), mainController);
+        Task<Void> task = new DataDownLoader(OnlineFileUtility.getUrlPaths(), this);
         updateProgressBar.progressProperty().bind(task.progressProperty());
         lotteryUpdateLabel.textProperty().bind(task.messageProperty());
         lotteryUpdateLabel.setVisible(true);
@@ -199,9 +203,7 @@ public class LottoInfoAndGamesController {
         thread.setDaemon(true);
         thread.start();
 
-        progressBox.getChildren().add(updateProgressBar);
-
-
+        //progressBox.getChildren().add(updateProgressBar);
     }
 
     /**
@@ -258,12 +260,14 @@ public class LottoInfoAndGamesController {
 
     public void hideProgressBarAndLabeVbox() {
 
+        updateProgressBar.setVisible(false);
         progressAndLabelVbox.setVisible(false);
         lotteryUpdateLabel.setVisible(false);
 
     }
 
     public void makeVboxVisible() {
+        updateProgressBar.setVisible(true);
         progressAndLabelVbox.setVisible(true);
         lotteryUpdateLabel.setVisible(true);
     }

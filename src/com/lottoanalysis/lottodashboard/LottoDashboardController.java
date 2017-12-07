@@ -3,7 +3,7 @@ package com.lottoanalysis.lottodashboard;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.Main;
 import com.lottoanalysis.chartanalysis.ChartAnalysisController;
-import com.lottoanalysis.com.lottoanalysis.screenloader.MainController;
+import com.lottoanalysis.screenloader.MainController;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -13,7 +13,6 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -39,7 +38,6 @@ import com.lottoanalysis.utilities.LottoBetSlipAnalyzer;
 import com.lottoanalysis.utilities.NumberPatternAnalyzer;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 public class LottoDashboardController  {
