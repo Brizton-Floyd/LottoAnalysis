@@ -13,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.event.*;
 import javafx.scene.layout.StackPane;
 
+import java.util.List;
+
 /**
  * Class: This class is responsible for handling all events that are contained in the Lotto Analysis  Home View file. This
  * class will invoke all events that allow the overall application to work accordingly. (i.e. calling other controllers via
@@ -72,13 +74,16 @@ public class LottoAnalysisHomeController  {
 
         // Retrieve the current game that is currently being played
         LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        List<Object> drawData = LottoInfoAndGamesController.getValues();
+
+        Object[] allData = {game, drawData};
 
         if(game == null ){
 
             LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, null);
         }else{
 
-            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, game);
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, allData);
         }
 
     }

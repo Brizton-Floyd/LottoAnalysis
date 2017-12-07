@@ -127,6 +127,14 @@ public class LottoDashboardController  {
         loadDefaultGameForView();
     }
 
+    public int[][] getDeltaNumberForLastDraw() {
+        return deltaNumberForLastDraw;
+    }
+
+    public int[][] getPositionalSums() {
+        return positionalSums;
+    }
+
     public static int getUniversalCount() {
         return universalCount;
     }
@@ -170,6 +178,7 @@ public class LottoDashboardController  {
         GamesOutViewAnalyzer gamesOutViewAnalyzer = new GamesOutViewAnalyzer(positionalNumbers, lotteryGame);
         Map<String, Map<String, Integer[]>> res = gamesOutViewAnalyzer.analyzeWinningNumberDistrubution();
         setUpInfoPanel(res);
+
 
         choiceBox.setItems(FXCollections.observableArrayList(choiceBoxItems));
         choiceBox.getSelectionModel().selectFirst();
