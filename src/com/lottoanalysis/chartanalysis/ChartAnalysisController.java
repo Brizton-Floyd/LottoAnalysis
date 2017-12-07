@@ -1,7 +1,7 @@
 package com.lottoanalysis.chartanalysis;
 
 import com.jfoenix.controls.JFXButton;
-import com.lottoanalysis.com.lottoanalysis.screenloader.MainController;
+import com.lottoanalysis.screenloader.MainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

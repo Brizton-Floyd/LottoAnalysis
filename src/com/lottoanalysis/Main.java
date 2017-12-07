@@ -1,11 +1,9 @@
 package com.lottoanalysis;
 
-import com.lottoanalysis.com.lottoanalysis.screenloader.LottoScreenNavigator;
-import com.lottoanalysis.com.lottoanalysis.screenloader.MainController;
+import com.lottoanalysis.screenloader.LottoScreenNavigator;
 import com.lottoanalysis.lottoanalysisnav.LottoAnalysisHomeController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -26,6 +24,7 @@ public class Main extends Application {
                 )
         );
 
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

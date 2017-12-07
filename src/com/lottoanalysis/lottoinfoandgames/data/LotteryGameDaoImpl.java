@@ -1,6 +1,5 @@
 package com.lottoanalysis.lottoinfoandgames.data;
 
-import com.lottoanalysis.com.lottoanalysis.screenloader.MainController;
 import com.lottoanalysis.lottoinfoandgames.*;
 import com.lottoanalysis.lottoinfoandgames.lottogames.FiveDigitLotteryGame;
 import com.lottoanalysis.lottoinfoandgames.lottogames.PickFourLotteryGame;
@@ -17,14 +16,14 @@ import java.util.*;
 
 public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
-    private MainController controller;
+    private LottoInfoAndGamesController controller;
     private Connection connection;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
-    public LotteryGameDaoImpl(MainController controller) {
+    public LotteryGameDaoImpl(LottoInfoAndGamesController controller) {
         this.controller = controller;
     }
 
@@ -104,8 +103,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
     protected void succeeded() {
 
-//        controller.lottoInfoAndGamesController.unbindData();
-//        controller.lottoInfoAndGamesController.hideProgressBarAndLabeVbox();
+        controller.unbindData();
+        controller.hideProgressBarAndLabeVbox();
 
         for (String file : OnlineFileUtility.getUrlPaths().keySet()) {
 
@@ -124,7 +123,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
 
-           // verifyActiveConnection( connection );
+            // verifyActiveConnection( connection );
 
             switch (positionNumbers.length) {
 
@@ -188,11 +187,11 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         int num = 0;
 
         try (Connection connection = DBConnection.getConnection();
-                PreparedStatement pstmt = connection.prepareStatement(GET_RECENT_DRAW_NUMBER_QUERY)) {
+             PreparedStatement pstmt = connection.prepareStatement(GET_RECENT_DRAW_NUMBER_QUERY)) {
 
             pstmt.setInt(1, id);
 
-           // verifyActiveConnection( connection );
+            // verifyActiveConnection( connection );
 
             rs = pstmt.executeQuery();
 
