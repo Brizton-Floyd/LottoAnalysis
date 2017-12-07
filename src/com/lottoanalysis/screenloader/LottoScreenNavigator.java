@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.List;
 
 public class LottoScreenNavigator {
 
@@ -52,11 +53,11 @@ public class LottoScreenNavigator {
      *
      * @param fxml the fxml file to be loaded.
      */
-    public static void loadLottoScreen( String fxml, Object domainObject ) {
+    public static void loadLottoScreen( String fxml, Object... domainObject ) {
 
         try {
 
-            Pane pane = getAppropriateView( fxml, domainObject );
+            Pane pane = LottoScreenNavigator.getAppropriateView( fxml, domainObject );
             mainController.setLottoScreen( pane );
 
         } catch (IOException e) {
@@ -64,25 +65,29 @@ public class LottoScreenNavigator {
         }
     }
 
-    private static Pane getAppropriateView( String view, Object domainObject ) throws IOException{
+    @SuppressWarnings("unchecked")
+    private static Pane getAppropriateView( String view, Object... domainObject ) throws IOException{
 
-        FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader(LottoScreenNavigator.class.getResource(view) );
         Pane pane;
 
         if(domainObject != null ){
 
-            pane = loader.load( LottoScreenNavigator.class.getResource(view) );
-            if( domainObject instanceof LotteryGame ){
+            pane = loader.load( );
+            if( domainObject[0] instanceof LotteryGame ){
 
                 // use the values passed in by the domain object and provide contrller with
                 // appropriate values
-                LotteryGame game = (LotteryGame) domainObject;
+                LotteryGame game = (LotteryGame) domainObject[0];
 
                 ChartAnalysisController controller = loader.getController();
+                controller.clearButtonBox();
+                controller.setNumbers((int[][])((List<Object>)domainObject[1]).get(0));
+                controller.setGame((LotteryGame)domainObject[0]);
             }
 
         }else{
-            pane = loader.load( LottoScreenNavigator.class.getResource(view) );
+            pane = loader.load();
         }
 
         return pane;

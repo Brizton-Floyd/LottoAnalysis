@@ -19,6 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,6 +38,8 @@ public class LottoInfoAndGamesController {
     private boolean isGamePaneOpen = false;
     private LotteryGameManager lotteryGameManager;
     private static LotteryGame lotteryGame;
+    private static List<Object> values = new ArrayList<>();
+
 
 
     @FXML
@@ -162,6 +166,12 @@ public class LottoInfoAndGamesController {
                     dashboardController.setUpTableView(game);
                     dashboardController.loadChoicesIntoChoiceBox();
 
+                    List<Object> data = new ArrayList<>();
+                    data.add(dashboardController.getPositionalNumbers() );
+                    data.add( dashboardController.getDeltaNumberForLastDraw());
+                    data.add(dashboardController.getPositionalSums());
+
+                    setValues( data );
                     // Set static lottery game for reference by other classes
                     setLotteryGame(game);
 
@@ -174,7 +184,13 @@ public class LottoInfoAndGamesController {
             e.printStackTrace();
         }
     }
+    public static List<Object> getValues() {
+        return values;
+    }
 
+    public static void setValues(List values) {
+        LottoInfoAndGamesController.values = values;
+    }
     private static void setLotteryGame(LotteryGame game){
 
         LottoInfoAndGamesController.lotteryGame = game;
