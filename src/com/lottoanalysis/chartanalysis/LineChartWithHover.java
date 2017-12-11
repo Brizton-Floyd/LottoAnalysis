@@ -20,11 +20,16 @@ public class LineChartWithHover {
 
     private LineChart lineChart;
     private ObservableList<Integer> values;
+    private String lineColor;
+    private int lower, upper;
 
     @SuppressWarnings("unchecked")
-    public LineChartWithHover(String title, ObservableList<Integer> values) {
+    public LineChartWithHover(ObservableList<Integer> values, String lineColor,int lower, int upper, String nums) {
 
         this.values = values;
+        this.lineColor = lineColor;
+        this.lower = lower;
+        this.upper = upper;
 
         lineChart = new LineChart(
                 new NumberAxis(), new NumberAxis(),
@@ -34,28 +39,26 @@ public class LineChartWithHover {
         );
 
         lineChart.getStylesheets().add("/com/lottoanalysis/styles/line_chart.css");
-        lineChart.setPrefWidth(630);
-        lineChart.setPrefHeight(323);
+        lineChart.setPrefWidth(374);
+        lineChart.setPrefHeight(248);
         lineChart.legendVisibleProperty().setValue(false);
-        lineChart.setTitle(title);
         lineChart.setAnimated(true);
         NumberAxis xAxis = (NumberAxis) lineChart.getXAxis();
-        //xAxis.setAutoRanging(false);
+        xAxis.setAutoRanging(false);
         xAxis.tickLabelFontProperty().set(Font.font(8));
-
+        xAxis.setUpperBound(values.size()+1);
         //xAxis.setTickLabelRotation(20);
         xAxis.setStyle("-fx-tick-label-fill: #dac6ac");
-        xAxis.setLabel("Drawing Ranges");
 
         NumberAxis yAxis = (NumberAxis) lineChart.getYAxis();
         yAxis.tickLabelFontProperty().set(Font.font(8));
         yAxis.setStyle("-fx-tick-label-fill: #dac6ac");
-        //yAxis.setAutoRanging(false);
-        yAxis.setLabel("Digit");
+        yAxis.setAutoRanging(false);
+        yAxis.setLabel(nums);
+        yAxis.setLowerBound(lower-1);
+        yAxis.setUpperBound(upper+1);
 
-        yAxis.setLowerBound(0.0);
-        yAxis.setUpperBound(40.0);
-        yAxis.setTickUnit(3.0);
+        yAxis.setTickUnit(4);
 
     }
 
@@ -131,7 +134,7 @@ public class LineChartWithHover {
             label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
             label.setStyle("-fx-font-size: 10; -fx-font-weight: bold;");
 
-            label.setTextFill(Color.FIREBRICK);
+            label.setTextFill(Color.valueOf(lineColor));
 
             label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
             return label;

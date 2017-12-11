@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?scenebuilder-stylesheet com/lottoanalysis/styles/panecolor.css?>
+
+<AnchorPane maxHeight="755.0" maxWidth="1207.0" minHeight="755.0" minWidth="1207.0" prefHeight="755.0" prefWidth="1207.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.chartanalysis.ChartAnalysisController">
+   <children>
+      <HBox layoutX="10.0" layoutY="10.0" spacing="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label fx:id="gameTitle" prefHeight="46.0" prefWidth="1107.0" text="Chart Analysis: " textFill="#dac6ac">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Label>
+            <Label fx:id="analyzedPosition" layoutX="10.0" layoutY="10.0" prefHeight="46.0" prefWidth="958.0" text="Currently Analyzing Position" textFill="#dac6ac">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Pane prefHeight="3.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="55.0" />
+      <VBox prefHeight="684.0" prefWidth="1205.0" spacing="20.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
+         <children>
+            <HBox prefHeight="182.0" prefWidth="1147.0" spacing="10.0" style="-fx-border-color: black;">
+               <children>
+                  <VBox>
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                     <children>
+                        <AnchorPane prefHeight="61.0" prefWidth="377.0" style="-fx-background-color: #515B51;">
+                           <children>
+                              <Label text="Hot Group" textFill="#dac6ac" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="20.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="chartOneAnchorPane">
+                           <children>
+                              <LineChart prefHeight="248.0" prefWidth="374.0" stylesheets="@../styles/line_chart.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                     <children>
+                        <AnchorPane prefHeight="70.0" prefWidth="353.0">
+                           <children>
+                              <Label text="Warm Group" textFill="#dac6ac" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="20.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="chartTwoAnchorPane" prefWidth="360.0">
+                           <children>
+                              <LineChart prefHeight="248.0" prefWidth="377.0" stylesheets="@../styles/line_chart.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                 <xAxis>
+                                    <CategoryAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <HBox.margin>
+                        <Insets right="10.0" top="10.0" />
+                     </HBox.margin>
+                     <children>
+                        <AnchorPane prefHeight="47.0" prefWidth="375.0">
+                           <children>
+                              <Label text="Cold Group" textFill="#dac6ac" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="20.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="chartThreeAnchorPane">
+                           <children>
+                              <LineChart prefHeight="248.0" prefWidth="372.0" stylesheets="@../styles/line_chart.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                 <xAxis>
+                                    <CategoryAxis side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox>
+               <children>
+                  <VBox prefHeight="395.0" prefWidth="555.0">
+                     <children>
+                        <AnchorPane prefHeight="27.0" prefWidth="540.0">
+                           <children>
+                              <Label layoutX="16.0" prefHeight="27.0" prefWidth="506.0" text="Current History &amp; Numbers Drawn After Current Winning Digit" textFill="#efa747" AnchorPane.leftAnchor="16.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="areaChartAnchorPane">
+                           <children>
+                              <AreaChart fx:id="areaChart" prefHeight="368.0" prefWidth="529.0">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis prefHeight="304.0" prefWidth="53.0" side="LEFT" />
+                                </yAxis>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets bottom="80.0" />
+                                 </padding>
+                              </AreaChart>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="356.0" prefWidth="628.0" style="-fx-border-color: black;">
+                     <children>
+                        <AnchorPane prefHeight="43.0" prefWidth="456.0">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="163.0" text="Control &amp; Info Panel" textFill="#efa747" AnchorPane.topAnchor="5.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="373.0" prefWidth="454.0">
+                           <children>
+                              <GridPane layoutX="-1.0" prefHeight="211.0" prefWidth="431.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="121.2000732421875" minWidth="10.0" prefWidth="111.5999755859375" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.60009765625" minWidth="10.0" prefWidth="78.3333740234375" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="154.066650390625" minWidth="10.0" prefWidth="80.933349609375" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.933349609375" minWidth="10.0" prefWidth="87.33331298828125" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.7999267578125" minWidth="10.0" prefWidth="136.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.7999267578125" minWidth="10.0" prefWidth="132.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Hot Group" textFill="#dac6ac" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Warm Group" textFill="#dac6ac" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Cold Group" textFill="#dac6ac" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="42.0" prefHeight="27.0" prefWidth="85.0" text="Hits" textFill="#dac6ac" GridPane.columnIndex="1">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label layoutX="10.0" layoutY="42.0" prefHeight="27.0" prefWidth="154.0" text="Out" textFill="#dac6ac" GridPane.columnIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="hotHits" layoutX="10.0" layoutY="76.0" prefHeight="27.0" prefWidth="155.0" text="1000" textFill="#dac6ac" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="hotOut" layoutX="160.0" layoutY="76.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="warmHits" layoutX="310.0" layoutY="76.0" prefHeight="27.0" prefWidth="128.0" text="95" textFill="#dac6ac" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="coldHits" layoutX="160.0" layoutY="129.0" prefHeight="27.0" prefWidth="128.0" text="32" textFill="#dac6ac" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="warmOut" layoutX="160.0" layoutY="182.0" prefHeight="27.0" prefWidth="128.0" text="20" textFill="#dac6ac" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="coldOut" layoutX="310.0" layoutY="129.0" prefHeight="27.0" prefWidth="128.0" text="50" textFill="#dac6ac" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="30.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="222.0" layoutY="23.0" prefHeight="27.0" prefWidth="154.0" text="Out Hits" textFill="#dac6ac" GridPane.columnIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="hotHitsAtGamesOut" layoutX="195.0" layoutY="76.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="warmHitsAtGamesOut" layoutX="294.0" layoutY="76.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="coldHitsAtGamesOut" layoutX="294.0" layoutY="129.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="288.0" layoutY="23.0" prefHeight="27.0" prefWidth="154.0" text="Out Last Seen" textFill="#dac6ac" GridPane.columnIndex="4">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label layoutX="120.0" layoutY="23.0" prefHeight="27.0" prefWidth="85.0" text="Group" textFill="#dac6ac">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="377.0" layoutY="23.0" prefHeight="27.0" prefWidth="154.0" text="Out Total Hits" textFill="#dac6ac" GridPane.columnIndex="5">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="hotOutLastSeen" layoutX="291.0" layoutY="76.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="warmOutLastSeen" layoutX="362.0" layoutY="76.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="coldOutLastSeen" layoutX="362.0" layoutY="129.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="hotOutLastSeenHits" layoutX="362.0" layoutY="76.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="warmOutLastSeenHits" layoutX="496.0" layoutY="76.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="coldOutLastSeenHits" layoutX="496.0" layoutY="129.0" prefHeight="27.0" prefWidth="128.0" text="5" textFill="#dac6ac" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets left="15.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                        <HBox fx:id="buttonHbox" prefHeight="254.0" prefWidth="449.0">
+                           <VBox.margin>
+                              <Insets left="10.0" top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="60.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
