@@ -1,6 +1,7 @@
 package com.lottoanalysis.lottoanalysisnav;
 
 import com.jfoenix.controls.JFXButton;
+import com.lottoanalysis.lottodashboard.LottoDashboardController;
 import com.lottoanalysis.screenloader.LottoScreenNavigator;
 import com.lottoanalysis.screenloader.MainController;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
@@ -59,7 +60,10 @@ public class LottoAnalysisHomeController  {
     @FXML
     public void loadLotteryDashBoardScreen(ActionEvent event){
 
-        LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE, null );
+        if(LottoInfoAndGamesController.getStaticPane() == null)
+            LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE, null );
+        else
+            LottoScreenNavigator.getMainController().setLottoScreen( LottoInfoAndGamesController.getStaticPane());
     }
 
     @FXML
@@ -78,9 +82,13 @@ public class LottoAnalysisHomeController  {
 
         Object[] allData = {game, drawData};
 
-        if(game == null ){
+        if(game == null || drawData == null){
 
-            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, null);
+            game = LottoDashboardController.getClassLevelLotteryGame();
+            drawData = LottoDashboardController.getNumbersForChartDisplay();
+            allData = new Object[]{game, drawData};
+
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, allData);
         }else{
 
             LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, allData);

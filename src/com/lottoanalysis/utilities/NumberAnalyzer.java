@@ -405,4 +405,18 @@ public class NumberAnalyzer {
         }
         return data;
     }
+
+
+    public static void incrementGamesOut(Map<Integer[], Object[]> mapData, Object[] valueData) {
+
+        for( Map.Entry<Integer[], Object[]> data : mapData.entrySet()){
+
+            if(!Arrays.equals(data.getKey(), valueData)){
+
+                Object[] datatwo = data.getValue();
+                datatwo[1] = (int)datatwo[1] + 1;
+            }
+        }
+
+    }
 }

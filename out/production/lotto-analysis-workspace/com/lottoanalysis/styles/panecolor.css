@@ -1,0 +1,11 @@
+#chartOneAnchorPane {
+    -fx-background-color: rgba(0, 255, 0, .1); // transparent white
+}
+
+#chartTwoAnchorPane {
+    -fx-background-color: rgba(255, 255, 102, .1); // transparent white
+}
+
+#chartThreeAnchorPane{
+     -fx-background-color: rgba(255, 51, 51, .1); // transparent white
+}

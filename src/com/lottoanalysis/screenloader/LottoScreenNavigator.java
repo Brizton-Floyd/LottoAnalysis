@@ -16,7 +16,7 @@ public class LottoScreenNavigator {
      */
     public static final String MAIN    = "/com/lottoanalysis/view/LottoAnalysisHome.fxml";
     public static final String LOTTO_SCREEN_ONE   = "/com/lottoanalysis/view/LottoDashboard.fxml";
-    public static final String LOTTO_SCREEN_TWO   = "/com/lottoanalysis/view/ChartAnalysis.fxml";
+    public static final String LOTTO_SCREEN_TWO   = "/com/lottoanalysis/view/ChartView.fxml";
     public static final String LOTTO_SCREEN_THREE = "/com/lottoanalysis/view/LottoInfoAndGames.fxml";
 
     /** The main application layout controller. */
@@ -81,9 +81,9 @@ public class LottoScreenNavigator {
                 LotteryGame game = (LotteryGame) domainObject[0];
 
                 ChartAnalysisController controller = loader.getController();
-                controller.clearButtonBox();
-                controller.setNumbers((int[][])((List<Object>)domainObject[1]).get(0));
-                controller.setGame((LotteryGame)domainObject[0]);
+                controller.setDrawNumbers((int[][])((List<Object>)domainObject[1]).get(0));
+                controller.setLotteryGame(game);
+                controller.start();
             }
 
         }else{

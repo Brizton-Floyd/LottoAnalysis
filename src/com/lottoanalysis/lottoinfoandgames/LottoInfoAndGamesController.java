@@ -39,7 +39,7 @@ public class LottoInfoAndGamesController {
     private LotteryGameManager lotteryGameManager;
     private static LotteryGame lotteryGame;
     private static List<Object> values = new ArrayList<>();
-
+    private static Pane staticPane;
 
 
     @FXML
@@ -60,6 +60,14 @@ public class LottoInfoAndGamesController {
         //Start setting up the lottery game menu
         loadMenuItems();
 
+    }
+
+    public static Pane getStaticPane() {
+        return staticPane;
+    }
+
+    public static void setStaticPane(Pane staticPane) {
+        LottoInfoAndGamesController.staticPane = staticPane;
     }
 
     public static void makeGamePanelAppear(ActionEvent e) {
@@ -124,7 +132,7 @@ public class LottoInfoAndGamesController {
         try {
 
             Pane pane = (Pane)loader.load();
-
+            setStaticPane(pane);
             LottoDashboardController dashboardController = loader.getController();
 
             String gameName = item.getText();

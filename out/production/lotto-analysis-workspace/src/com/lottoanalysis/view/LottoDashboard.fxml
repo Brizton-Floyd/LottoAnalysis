@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
@@ -10,78 +9,90 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" prefHeight="753.0" prefWidth="1205.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.lottodashboard.LottoDashboardController">
+<AnchorPane fx:id="pane" prefHeight="753.0" prefWidth="1207.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.lottodashboard.LottoDashboardController">
    <children>
-      <HBox layoutX="20.0" layoutY="34.0" spacing="20.0">
+      <VBox prefHeight="743.0" prefWidth="608.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <children>
-            <VBox prefHeight="631.0" prefWidth="608.0">
+            <AnchorPane fx:id="predictedNumbersPane" prefHeight="334.0" prefWidth="1165.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;">
                <children>
-                  <VBox spacing="40.0">
+                  <Pane prefHeight="4.0" prefWidth="606.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <Label fx:id="predictedNumbersLabel" layoutX="-3.0" layoutY="-49.0" text="Predicted Numbers For Todays Drawing" textFill="#dac6ac">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <TableView fx:id="drawNumberTable" layoutX="39.0" layoutY="36.0" prefHeight="271.0" prefWidth="608.0" stylesheets="@../styles/table_view.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <HBox prefHeight="380.0" prefWidth="1205.0" spacing="175.0">
+               <children>
+                  <VBox>
                      <children>
-                        <VBox>
+                        <Label fx:id="lottoDashboard" text="Best Numbers For Next Drawing" textFill="#dac6ac">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <AnchorPane prefHeight="271.0" prefWidth="606.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;">
                            <children>
-                              <Label fx:id="lottoDashboard" text="Lotto Dashboard" textFill="#dac6ac">
-                                 <font>
-                                    <Font name="System Bold" size="30.0" />
-                                 </font>
-                              </Label>
-                              <AnchorPane prefHeight="271.0" prefWidth="606.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;">
+                              <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                              <VBox fx:id="vBox" layoutX="2.0" layoutY="2.0" prefHeight="270.0" prefWidth="604.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                                    <Label fx:id="dashBoardHelpLabel" layoutX="20.0" layoutY="5.0" prefHeight="186.0" prefWidth="584.0" text="Based on the research conducted by Lotto-Analysis, the best group of numbers to look into for the next draw are listed below. These aren't necessarily the best numbers to play but serves as a starting point. Confirm on this group based on the trends you detect with the chart analysis tool. " textFill="#dac6ac" visible="false" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="13.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets top="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <VBox fx:id="vBox" prefHeight="271.0" prefWidth="608.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <HBox fx:id="hBox" prefHeight="273.0" prefWidth="610.0" />
-                                       </children>
-                                    </VBox>
-                                    <FontAwesomeIconView fx:id="helpIconLottoDashboard" fill="#dac6ac" glyphName="QUESTION" size="15" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                    <HBox fx:id="hBox" prefHeight="273.0" prefWidth="610.0">
+                                       <VBox.margin>
+                                          <Insets bottom="-30.0" />
+                                       </VBox.margin>
+                                    </HBox>
                                  </children>
-                              </AnchorPane>
+                              </VBox>
                            </children>
-                        </VBox>
-                        <AnchorPane fx:id="predictedNumbersPane" prefHeight="271.0" prefWidth="608.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;">
-                           <children>
-                              <Pane prefHeight="4.0" prefWidth="606.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                              <Label fx:id="predictedNumbersLabel" layoutX="-3.0" layoutY="-49.0" text="Predicted Numbers For Todays Drawing" textFill="#dac6ac" visible="false">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                              </Label>
-                              <TableView fx:id="drawNumberTable" layoutX="39.0" layoutY="36.0" prefHeight="271.0" prefWidth="608.0" stylesheets="@../styles/table_view.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
                         </AnchorPane>
                      </children>
+                     <HBox.margin>
+                        <Insets top="50.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox prefHeight="375.0" prefWidth="380.0">
+                     <children>
+                        <Label fx:id="lottoDashboard1" text="Betslip Analysis" textFill="#dac6ac">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="50.0" />
+                           </VBox.margin>
+                        </Label>
+                        <AnchorPane fx:id="infoPane1" prefHeight="275.0" prefWidth="463.0" style="-fx-border-color: #10000C;">
+                           <children>
+                              <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </AnchorPane>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </VBox>
                </children>
-            </VBox>
-            <VBox prefHeight="656.0" prefWidth="362.0">
-               <children>
-                  <Label text="BetSlip Analysis" textFill="#dac6ac">
-                     <font>
-                        <Font name="System Bold" size="30.0" />
-                     </font>
-                  </Label>
-                  <AnchorPane fx:id="infoPane1" prefHeight="583.0" prefWidth="362.0" style="-fx-border-color: #10000C;">
-                     <children>
-                        <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-               <HBox.margin>
-                  <Insets left="100.0" />
-               </HBox.margin>
-            </VBox>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </children>
 </AnchorPane>

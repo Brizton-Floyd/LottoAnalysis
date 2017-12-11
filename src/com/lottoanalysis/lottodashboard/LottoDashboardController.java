@@ -46,7 +46,24 @@ public class LottoDashboardController  {
     private LotteryGame lotteryGame;
     private static int universalCount = 0;
     private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums;
+    private static LotteryGame classLevelLotteryGame;
+    private static List<Object> numbersForChartDisplay = new ArrayList<>();
 
+    public static LotteryGame getClassLevelLotteryGame() {
+        return classLevelLotteryGame;
+    }
+
+    private static void setClassLevelLotteryGame(LotteryGame classLevelLotteryGame) {
+        LottoDashboardController.classLevelLotteryGame = classLevelLotteryGame;
+    }
+
+    public static List<Object> getNumbersForChartDisplay() {
+        return numbersForChartDisplay;
+    }
+
+    private static void setNumbersForChartDisplay(List<Object> numbersForChartDisplay) {
+        LottoDashboardController.numbersForChartDisplay = numbersForChartDisplay;
+    }
     @FXML
     private AnchorPane pane, infoPane, infoPane1, predictedNumbersPane;
 
@@ -54,7 +71,7 @@ public class LottoDashboardController  {
     private JFXButton btn_close;
 
     @FXML
-    private Label lottoDashboard, predictedNumbersLabel, dashBoardHelpLabel;
+    private Label lottoDashboard, predictedNumbersLabel;
 
     @FXML
     private TableView<Drawing> drawNumberTable;
@@ -87,22 +104,6 @@ public class LottoDashboardController  {
             }
         });
 
-        helpIconLottoDashboard.setOnMouseEntered(e -> {
-
-            dashBoardHelpLabel.setText(LotteryGameConstants.LOTTO_DASHBOARD_INSTRUCTION_FIRST_PANE);
-            dashBoardHelpLabel.setVisible(true);
-            helpIconLottoDashboard.fillProperty().setValue(Paint.valueOf("#EFA747"));
-            hBox.setVisible(false);
-
-        });
-
-        helpIconLottoDashboard.setOnMouseExited(e -> {
-
-            dashBoardHelpLabel.setVisible(false);
-            helpIconLottoDashboard.fillProperty().setValue(Paint.valueOf("#DAC6AC"));
-            hBox.setVisible(true);
-        });
-
         choiceBox = new ChoiceBox();
         choiceBox.setStyle("-fx-focus-color: transparent;");
         CategoryAxis xAxis = new CategoryAxis();
@@ -118,9 +119,7 @@ public class LottoDashboardController  {
         bc = new BarChartExt<>(xAxis, yAxis);
         hBox.getChildren().addAll(bc, choiceBox);
         vBox.setPadding(new Insets(20, 0, 50, 0));
-        hBox.setPadding(new Insets(0, 0, -18, 0));
         this.mainController = mainController;
-
 
         styleChart();
         setTextStyleForAllLabels();
@@ -179,6 +178,12 @@ public class LottoDashboardController  {
         Map<String, Map<String, Integer[]>> res = gamesOutViewAnalyzer.analyzeWinningNumberDistrubution();
         setUpInfoPanel(res);
 
+        List<Object> chartPoints = new ArrayList<>();
+        chartPoints.add( positionalNumbers);
+        chartPoints.add(deltaNumberForLastDraw);
+        chartPoints.add(positionalSums);
+
+        setNumbersForChartDisplay( chartPoints );
 
         choiceBox.setItems(FXCollections.observableArrayList(choiceBoxItems));
         choiceBox.getSelectionModel().selectFirst();
@@ -561,6 +566,7 @@ public class LottoDashboardController  {
             tableColumns[i].setSortable(false);
             drawNumberTable.getColumns().add(tableColumns[i]);
         }
+        lottoDashboard.setStyle("-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;");
 
         setUpCellValueFactories(tableColumns, Drawing.drawSize);
         drawNumberTable.scrollTo(lotteryGame.getDrawingData().size() - 1);
@@ -652,6 +658,8 @@ public class LottoDashboardController  {
         lottoDashboard.setText(gameName + "Lotto Dashboard");
         this.lotteryGame = manager.loadLotteryData(gameName, "fantasy_five_results", 5);
 
+        setClassLevelLotteryGame(lotteryGame);
+
         setUpTableView(lotteryGame);
         loadChoicesIntoChoiceBox();
         performOperationOnChoiceboxValue();
@@ -676,10 +684,10 @@ public class LottoDashboardController  {
             AnchorPane pane = loader.load();
 
             ChartAnalysisController chartAnalysisController = loader.getController();
-            chartAnalysisController.init(mainController);
-            chartAnalysisController.clearButtonBox();
-            chartAnalysisController.setNumbers(positionalNumbers);
-            chartAnalysisController.setGame(lotteryGame);
+//            chartAnalysisController.init(mainController);
+//            chartAnalysisController.clearButtonBox();
+//            chartAnalysisController.setNumbers(positionalNumbers);
+//            chartAnalysisController.setGame(lotteryGame);
             //chartAnalysisController.setUpChart();
             //chartAnalysisController.loadDataIntoPerspectivePanes();
 
