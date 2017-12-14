@@ -13,30 +13,29 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.List;
+
 /**
  * Displays a LineChart which displays the value of a plotted Node when you hover over the Node.
  */
+@SuppressWarnings("unchecked")
 public class LineChartWithHover {
 
     private LineChart lineChart;
-    private ObservableList<Integer> values;
+    //private ObservableList<Integer> values;
     private String lineColor;
     private int lower, upper;
 
-    @SuppressWarnings("unchecked")
-    public LineChartWithHover(ObservableList<Integer> values, String lineColor,int lower, int upper, String nums) {
 
-        this.values = values;
+    public LineChartWithHover(List<List<Integer>> dataPoints, String lineColor, int lower, int upper, String nums) {
+
         this.lineColor = lineColor;
         this.lower = lower;
         this.upper = upper;
 
-        lineChart = new LineChart(
-                new NumberAxis(), new NumberAxis(),
-                FXCollections.observableArrayList(
-                        new XYChart.Series("", FXCollections.observableArrayList(plot(this.values)))
-                )
-        );
+        lineChart = new LineChart(new NumberAxis(), new NumberAxis());
+
+        loadDataPointsIntoChart( lineChart, dataPoints);
 
         lineChart.getStylesheets().add("/com/lottoanalysis/styles/line_chart.css");
         lineChart.setPrefWidth(374);
@@ -46,7 +45,7 @@ public class LineChartWithHover {
         NumberAxis xAxis = (NumberAxis) lineChart.getXAxis();
         xAxis.setAutoRanging(false);
         xAxis.tickLabelFontProperty().set(Font.font(8));
-        xAxis.setUpperBound(values.size()+1);
+        xAxis.setUpperBound(dataPoints.get(0).size()+1);
         //xAxis.setTickLabelRotation(20);
         xAxis.setStyle("-fx-tick-label-fill: #dac6ac");
 
@@ -62,14 +61,16 @@ public class LineChartWithHover {
 
     }
 
-    @SuppressWarnings("unchecked")
-    public void removePointsFromList(int begin, int end){
-        getLineChart().getData().clear();
-        values.remove(begin,end);
-        XYChart.Series data = new XYChart.Series("",FXCollections.observableArrayList(plot(values)));
+    private void loadDataPointsIntoChart(LineChart lineChart, List<List<Integer>> dataPoints) {
 
-        getLineChart().getData().add(data);
+        for( int i = 0; i < dataPoints.size(); i++){
+
+            ObservableList<XYChart.Data<Integer,Integer>> dataSet = FXCollections.observableArrayList(plot(dataPoints.get(i)));
+            XYChart.Series<Integer,Integer> data = new XYChart.Series("", dataSet );
+            lineChart.getData().add( data );
+        }
     }
+
     public LineChart getLineChart() {
         return lineChart;
     }
@@ -77,7 +78,7 @@ public class LineChartWithHover {
     /**
      * @return plotted y values for monotonically increasing integer x values, starting from x=1
      */
-    private ObservableList<XYChart.Data<Integer, Integer>> plot(ObservableList<Integer> y) {
+    private ObservableList<XYChart.Data<Integer, Integer>> plot(List<Integer> y) {
 
         final ObservableList<XYChart.Data<Integer, Integer>> dataset = FXCollections.observableArrayList();
 
