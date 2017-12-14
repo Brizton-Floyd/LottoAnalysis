@@ -183,4 +183,33 @@ public class ChartHelper {
         return data;
 
     }
+
+    public static List<Integer> getListOfNumbersBasedOnCurrentWinningNumber(List<Integer> points) {
+
+        List<Integer> getListOfIndexes = getIndexes( points);
+
+        List<Integer> precedingWinningNumbers = new ArrayList<>();
+
+        for(int i = 0; i < getListOfIndexes.size()-1; i++){
+
+            precedingWinningNumbers.add( points.get( (getListOfIndexes.get(i) + 1) ));
+        }
+        return precedingWinningNumbers;
+    }
+
+    private static List<Integer> getIndexes(List<Integer> points) {
+
+        int currentWinningNumber = points.get( points.size() - 1);
+
+        List<Integer> indexes = new ArrayList<>();
+
+        for(int i = 0; i < points.size(); i++){
+
+            if( points.get(i) == currentWinningNumber){
+                indexes.add(i);
+            }
+        }
+
+        return indexes;
+    }
 }

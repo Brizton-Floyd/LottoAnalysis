@@ -6,10 +6,7 @@ import com.lottoanalysis.lottoinfoandgames.LotteryGame;
 import com.lottoanalysis.lottoinfoandgames.lottogames.PickFourLotteryGame;
 import com.lottoanalysis.lottoinfoandgames.lottogames.PickThreeLotteryGame;
 import com.lottoanalysis.screenloader.MainController;
-import com.lottoanalysis.utilities.ChartHelper;
-import com.lottoanalysis.utilities.LineRetracementAnalyzer;
-import com.lottoanalysis.utilities.LottoBetSlipDefinitions;
-import com.lottoanalysis.utilities.NumberAnalyzer;
+import com.lottoanalysis.utilities.*;
 import com.sun.javafx.font.freetype.HBGlyphLayout;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,13 +60,16 @@ public class ChartAnalysisController  {
             warmOutLastSeenHits,coldOutLastSeenHits;
 
     @FXML
+    private Label lastHitPos, lottoGamesOut, posHits, lottoNum;
+
+    @FXML
     private AnchorPane chartOneAnchorPane, chartTwoAnchorPane, chartThreeAnchorPane, areaChartAnchorPane;
 
     @FXML
     private HBox buttonHbox;
 
     @FXML
-    private AreaChart areaChart;
+    private MenuButton menuButton;
 
     @FXML
     public void intialize(){
@@ -77,51 +77,61 @@ public class ChartAnalysisController  {
 
     }
 
+    private void makeVisible(){
+        Label[] data = {lastHitPos, lottoGamesOut, posHits, lottoNum};
+
+        for(Label label : data){
+            label.setVisible(true);
+        }
+    }
+
+    private void makeInvisible(){
+        Label[] data = {lastHitPos, lottoGamesOut, posHits, lottoNum};
+
+        for(Label label : data){
+            label.setVisible(false);
+        }
+    }
     private void processDataForChartRendering(int position){
 
         // set up headers
         setUpHeaders( position );
 
         int[] positionArray = drawNumbers[position];
-
+        loadMenuButtonDropDown( positionArray, position);
         // set up top level charts
         List<Object[]> upperChartData = ChartHelper.setUpTopLevelCharts( positionArray );
         setUpTopCharts( upperChartData );
 
-        // set up main area chart
-        setUpAreaChart(positionArray);
 
     }
 
-    @SuppressWarnings("unchecked")
-    private void setUpAreaChart(int[] positionArray) {
+    private void loadMenuButtonDropDown(int[] positionArray, int position) {
 
-        areaChart.getData().clear();
-        CategoryAxis xAxis = (CategoryAxis) areaChart.getXAxis();
-        xAxis.setStyle("-fx-tick-label-fill: #dac6ac");
+        menuButton.getItems().clear();
 
-        NumberAxis yAxis = (NumberAxis) areaChart.getYAxis();
-        yAxis.setStyle("-fx-tick-label-fill: #dac6ac");
+        List<Integer> nums = Arrays.asList(Arrays.stream( positionArray ).boxed().toArray(Integer[]::new));
+        Set<Integer> numbers = new TreeSet<>(nums);
 
-        XYChart.Series currentWinningNums = new XYChart.Series();
-        currentWinningNums.setName("Current Winning Numbers");
-        int count = 1;
+        for(Iterator<Integer> num = numbers.iterator(); num.hasNext();){
 
-        for(int i = positionArray.length - 80; i < positionArray.length; i++){
-
-            currentWinningNums.getData().add( new XYChart.Data<>(count++ + "", positionArray[i]));
+            MenuItem item = new MenuItem(num.next()+"");
+            item.setOnAction( e -> {
+                GamesOutAnalyzerHelper.analyze(drawNumbers,position,item.getText());
+                Object[] data = GamesOutAnalyzerHelper.getLottoNumSpecificData();
+                populateTextFields( data , item.getText());
+            });
+            menuButton.getItems().add( item );
         }
+    }
 
-        XYChart.Series proceedingDigit = new XYChart.Series();
-        proceedingDigit.setName("Proceeding winning num");
-        count = 1;
-        int[] data = ChartHelper.generateListOfAllWinningNumbersAfterCurrentWinningNumber( positionArray);
-        int num = (data.length >= 100) ? data.length - 80 : 0;
+    private void populateTextFields(Object[] data, String num) {
+        makeVisible();
+        lottoNum.setText("Lotto#: " + num );
+        posHits.setText( "Pos Hits: " + data[0] + "");
+        lottoGamesOut.setText( "Games Out: " + data[1] + "");
+        lastHitPos.setText( "Last Hit: " + data[2] + "");
 
-        for(int i = num; i < data.length; i++){
-            proceedingDigit.getData().add( new XYChart.Data<>(count++ + "",data[i]));
-        }
-        areaChart.getData().addAll(currentWinningNums, proceedingDigit);
     }
 
     @SuppressWarnings("unchecked")
@@ -138,10 +148,17 @@ public class ChartAnalysisController  {
         for (int i = 0; i < upperChartData.size(); i++){
 
             List<Integer> points = (List<Integer>)upperChartData.get(i)[2];
+            List<Integer> pointTwo = ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber( points );
             Set<Integer> unique = new HashSet<>( points );
 
-            LineChartWithHover lc = new LineChartWithHover(FXCollections.observableArrayList(points.subList(points.size() - 60,
-                                                            points.size())),
+            List<List<Integer>> dataPoints = new ArrayList<>();
+            dataPoints.add((points.size() > 100) ? points.subList(points.size() - 30, points.size()) : points);
+            //dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 30, pointTwo.size()) : pointTwo);
+
+            LineSpacingHelper.determineMostProbableLineSpacing(points);
+            LineSpacingHelper.num++;
+
+            LineChartWithHover lc = new LineChartWithHover(dataPoints,
                                                             colors[i],
                                                             (int)upperChartData.get(i)[3],
                                                             (int)upperChartData.get(i)[4],unique.toString());
@@ -155,7 +172,7 @@ public class ChartAnalysisController  {
             outLastSeenHits[i].setText(upperChartData.get(i)[8]+"");
 
             panes[i].getChildren().clear();
-            panes[i].getChildren().add( lc.getLineChart() );dd
+            panes[i].getChildren().add( lc.getLineChart() );
         }
     }
 
@@ -184,7 +201,7 @@ public class ChartAnalysisController  {
             buttons[i].setOnAction( e -> {
 
                 processDataForChartRendering( postion );
-
+                makeInvisible();
             });
             buttons[i].setOnMouseEntered(e -> {
                 buttons[postion].setStyle("-fx-font-size: 10px;" +
