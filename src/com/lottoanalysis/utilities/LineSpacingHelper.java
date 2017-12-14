@@ -11,6 +11,7 @@ public class LineSpacingHelper {
     private static Map<Integer[],Map<String,Integer[]>> lineSpacingHolder = new LinkedHashMap<>();
     private static List<String> lineSpacingSequences = new ArrayList<>();
     private static Map<Integer,Integer[]> hitLengthHolder = new TreeMap<>();
+	private static Map<Integer,Map<Integer,Integer[]>> firstDigitHolder = new TreeMap<>();
     public static int num = 1;
 
     public static void determineMostProbableLineSpacing( List<Integer> numbers ){
@@ -24,7 +25,7 @@ public class LineSpacingHelper {
 		
         print();
     }
-    private static void print(){
+    private static void print(){ 
         System.out.println("CHART# " + num);
         for( Map.Entry<Integer[],Map<String,Integer[]>> data : lineSpacingHolder.entrySet()){
 
@@ -33,19 +34,26 @@ public class LineSpacingHelper {
             for(Map.Entry<String,Integer[]> innerData : data.getValue().entrySet()){
                 System.out.println("Sequence:  " + innerData.getKey() + "Hits and Games out: " + Arrays.toString(innerData.getValue()));
             }
-
             predict();
         }
         lineSpacingHolder.clear();
         System.out.println("\n");
     }
+	private static void printTwo(){
+		
+	}
 	private static void predict(){
 		System.out.println("\nHit Length Due For Chart: " + num);
 		hitLengthHolder.forEach( (key, value) -> { 
-		    System.out.println("HitLength: " + key + "\tHit and Games Out: " + Arrays.toString(value));
-		    
+		    System.out.println("\nHitLength: " + key + "\tHit and Games Out: " + Arrays.toString(value) + "\n");
+		    if( firstDigitHolder.containsKey( key ) ){
+				System.out.println("First number hit sequence for line lenght: " + key + "\n");
+				Map<Integer,Integer[]> data = firstDigitHolder.get( key );
+				data.forEach( (keyTwo,valueTwo) -> {
+					System.out.println( "Hit Beginning Digit: " + keyTwo + "\tDigit Hits and Games Out" + Arrays.toString(valueTwo) );
+				});
+			}
 		} );
-		
 	}
 	private static void determineWhatHitsWithKeyMostOften( Map<Integer[],Map<String,Integer[]>> lineSpacingHolder, List<Integer> numbers ){
 
@@ -86,12 +94,60 @@ public class LineSpacingHelper {
 						dd[0]++;
 						incrementForLineSpacingPrediction( hitLengthHolder, Integer.parseInt( len ) );
 					}
+					
+					analyzeFirstDigitOfLineLenght( hitLengthHolder );
                 }
             }
         }
 
     }
 
+	private static void analyzeFirstDigitOfLineLenght( Map<Integer,Integer[]> lineSpacingHolder){
+
+		lineSpacingHolder.forEach( (key,value) -> {
+			
+			String len = Integer.toString( value[0] ).length() + "";
+			int firstCharacterOfLenght = Character.getNumericValue( Integer.toString( value[0] ).toString().charAt(0));
+			
+			if( !firstDigitHolder.containsKey(Integer.parseInt(len))){
+				
+				firstDigitHolder.put( Integer.parseInt(len), new TreeMap<>() );
+				
+				Map<Integer,Integer[]> firstDigitHitHolder = firstDigitHolder.get( Integer.parseInt( len ) );
+				
+				if(!firstDigitHitHolder.containsKey( firstCharacterOfLenght ) ){
+					firstDigitHitHolder.put( firstCharacterOfLenght, new Integer[]{1,0} );
+				}else{
+					Integer[] innerValue = firstDigitHitHolder.get( firstCharacterOfLenght );
+					innerValue[0]++;
+					innerValue[1] = 0;
+					// create a gamesout incremented for innerValue map
+					incrementGamesOut(firstDigitHitHolder, firstCharacterOfLenght );
+			    }
+				
+			}else{
+				Map<Integer,Integer[]> valueData = firstDigitHolder.get( Integer.parseInt( len ) );
+				if(!valueData.containsKey( firstCharacterOfLenght ) ) {
+					valueData.put( firstCharacterOfLenght, new Integer[]{1,0});
+				}else{
+					Integer[] dd = valueData.get( firstCharacterOfLenght );
+					dd[0]++;
+					dd[1] = 0;
+					// create a gamesout incremented for innerValue map
+					incrementGamesOut( valueData, firstCharacterOfLenght );
+				}
+			}
+		});
+	}
+	private static void incrementGamesOut(Map<Integer,Integer[]> data, int number){
+		
+		data.forEach( (key,value) -> {
+			
+			if( key != number ){
+				value[1]++;
+			}
+		});
+	}
 	private static void incrementForLineSpacingPrediction(Map<Integer,Integer[]> lineLengths, int len){
 
 		lineLengths.forEach( (key, value) -> {
