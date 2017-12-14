@@ -10,6 +10,7 @@ public class LineSpacingHelper {
 
     private static Map<Integer[],Map<String,Integer[]>> lineSpacingHolder = new LinkedHashMap<>();
     private static List<String> lineSpacingSequences = new ArrayList<>();
+    private static Map<Integer,Integer[]> hitLengthHolder = new TreeMap<>();
     public static int num = 1;
 
     public static void determineMostProbableLineSpacing( List<Integer> numbers ){
@@ -18,9 +19,11 @@ public class LineSpacingHelper {
         lineSpacingHolder.put( data, new LinkedHashMap<>() );
         populateLineSpacingSequences( numbers );
         determineWhatHitsWithKeyMostOften( lineSpacingHolder, numbers );
+		
+		// new method here that will try to predict which sequence to play
+		
         print();
     }
-
     private static void print(){
         System.out.println("CHART# " + num);
         for( Map.Entry<Integer[],Map<String,Integer[]>> data : lineSpacingHolder.entrySet()){
@@ -31,15 +34,20 @@ public class LineSpacingHelper {
                 System.out.println("Sequence:  " + innerData.getKey() + "Hits and Games out: " + Arrays.toString(innerData.getValue()));
             }
 
+            predict();
         }
         lineSpacingHolder.clear();
         System.out.println("\n");
     }
-
-    public static Map<Integer[],Map<String,Integer[]>> getLineSpacingHolder(){
-        return lineSpacingHolder;
-    }
-    private static void determineWhatHitsWithKeyMostOften( Map<Integer[],Map<String,Integer[]>> lineSpacingHolder, List<Integer> numbers ){
+	private static void predict(){
+		System.out.println("\nHit Length Due For Chart: " + num);
+		hitLengthHolder.forEach( (key, value) -> { 
+		    System.out.println("HitLength: " + key + "\tHit and Games Out: " + Arrays.toString(value));
+		    
+		} );
+		
+	}
+	private static void determineWhatHitsWithKeyMostOften( Map<Integer[],Map<String,Integer[]>> lineSpacingHolder, List<Integer> numbers ){
 
         for(Map.Entry<Integer[],Map<String,Integer[]>> data : lineSpacingHolder.entrySet()){
 
@@ -55,17 +63,49 @@ public class LineSpacingHelper {
 
                     if( !dataValue.containsKey( nextSequence ) ){
                         dataValue.put(nextSequence, new Integer[]{1,0});
-                        incrementGamesOut( dataValue, nextSequence );
+                        
+                        incrementGamesOut( dataValue, nextSequence);
+                        
                     }else{
                         Integer[] innerValue = dataValue.get( nextSequence );
                         innerValue[0]++;
                         innerValue[1] = 0;
+  
                         incrementGamesOut(dataValue, nextSequence);
                     }
+					
+					// get length
+					Integer[] vals = dataValue.get( nextSequence );
+					String len = Integer.toString( vals[0] ).length() + "";
+					if( !hitLengthHolder.containsKey( Integer.parseInt( len ) )){
+						hitLengthHolder.put( Integer.parseInt( len), new Integer[]{1, 0} );
+						incrementForLineSpacingPrediction( hitLengthHolder, Integer.parseInt( len ) );
+					}else{
+						Integer[] dd = hitLengthHolder.get( Integer.parseInt( len ) );
+						dd[1]=0;
+						dd[0]++;
+						incrementForLineSpacingPrediction( hitLengthHolder, Integer.parseInt( len ) );
+					}
                 }
             }
         }
 
+    }
+
+	private static void incrementForLineSpacingPrediction(Map<Integer,Integer[]> lineLengths, int len){
+
+		lineLengths.forEach( (key, value) -> {
+			
+			if( key != len ){
+				value[1]++;
+			}
+			
+		});
+	}
+
+
+    public static Map<Integer[],Map<String,Integer[]>> getLineSpacingHolder(){
+        return lineSpacingHolder;
     }
 
     private static void incrementGamesOut(Map<String,Integer[]> values, String winningSequence){
@@ -77,6 +117,7 @@ public class LineSpacingHelper {
                 data[1]++;
             }
         }
+        
     }
 
     private static void populateLineSpacingSequences(List<Integer> numbers ) {
@@ -135,5 +176,4 @@ public class LineSpacingHelper {
             return new int[]{difOne, difTwo};
         }
     }
-
 }
