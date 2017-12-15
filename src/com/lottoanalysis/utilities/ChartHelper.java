@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class ChartHelper {
 
     private static Map<Integer,Integer[]> overallGamesOutTracker = new TreeMap<>();
-    private static Map<Integer,Map<Integer,Integer[]>> recentWinningNumberCompanionHitTracker = TreeMap<>();
+    private static Map<Integer,Map<Integer,Integer[]>> recentWinningNumberCompanionHitTracker = new TreeMap<>();
     
     public static List<Object[]> setUpTopLevelCharts(int[] data){
 
@@ -21,7 +21,15 @@ public class ChartHelper {
 
     }
 
-    public static void plugNumbersIntoRecentWinningNumberCompanionMap(List<Integers> winningNumbers){
+    public static Map<Integer, Map<Integer, Integer[]>> getRecentWinningNumberCompanionHitTracker() {
+        return recentWinningNumberCompanionHitTracker;
+    }
+
+    public static void clearRecentWinningNumberCompanionHitTrackerMap(){
+        if(recentWinningNumberCompanionHitTracker != null)
+            recentWinningNumberCompanionHitTracker.clear();
+    }
+    public static void plugNumbersIntoRecentWinningNumberCompanionMap(List<Integer> winningNumbers){
         
         // recent winning digit
         int num = winningNumbers.get( winningNumbers.size() - 1 );
