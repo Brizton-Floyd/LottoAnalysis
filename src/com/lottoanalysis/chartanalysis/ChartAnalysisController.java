@@ -153,6 +153,9 @@ public class ChartAnalysisController  {
             List<Integer> points = (List<Integer>)upperChartData.get(i)[2];
             List<Integer> pointTwo = ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber( points );
             Set<Integer> unique = new HashSet<>( points );
+            
+            // Plug all recent winning numbers accross all charts into a static map
+            ChartHelper.plugNumbersIntoRecentWinningNumberCompanionMap( points );
 
             List<List<Integer>> dataPoints = new ArrayList<>();
             dataPoints.add((points.size() > 100) ? points.subList(points.size() - 30, points.size()) : points);
