@@ -94,6 +94,9 @@ public class ChartAnalysisController  {
     }
     private void processDataForChartRendering(int position){
 
+        // clear the compainion hit tracker first before rendering any new chart data
+        ChartHelper.clearRecentWinningNumberCompanionHitTrackerMap();
+        
         // set up headers
         setUpHeaders( position );
 
