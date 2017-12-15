@@ -106,9 +106,19 @@ public class ChartAnalysisController  {
         List<Object[]> upperChartData = ChartHelper.setUpTopLevelCharts( positionArray );
         setUpTopCharts( upperChartData );
 
-
+        // print recent winning number companion hits
+        print( ChartHelper.getRecentWinningNumberCompanionHitTracker() );
     }
-
+    private void print( Map<Integer,Map<Integer,Integer[]>> mapData ){
+    
+        mapData.forEach( (key,value) -> {
+            System.out.println("\nRecent Winning Lotto Number: " + key + "\n");
+            value.forEach( (keyTwo,valueTwo) -> {
+                System.out.println("Companion Number: " + keyTwo + "\tHits and Games Out: " + Arrays.toString( valueTwo) );
+            });
+        });
+    }
+    
     private void loadMenuButtonDropDown(int[] positionArray, int position) {
 
         menuButton.getItems().clear();
