@@ -10,6 +10,7 @@ public class ChartHelper {
 
     private static Map<Integer,Integer[]> overallGamesOutTracker = new TreeMap<>();
     private static Map<Integer,Map<Integer,Integer[]>> recentWinningNumberCompanionHitTracker = new TreeMap<>();
+    private static Map<Integer,Map<Integer,Integer[]>> recentWinningNumberLineLengthDue = new TreeMap<>();
     
     public static List<Object[]> setUpTopLevelCharts(int[] data){
 
@@ -77,10 +78,43 @@ public class ChartHelper {
 						NumberAnalyzer.incrementGamesOut( innerTreeMap, nextWinningNumber );
 					}
 				}
+				// start code here 
+				determineLineLengthDueForRecentWinningDigit ( recentWinningNumberCompanionHitTracker );
+				
 			}
 		}
     }
     
+private static void determineLineLengthDueForRecentWinningDigit( Map<Integer,Map<Integer,Integer[]>> companionNumbers ){
+		
+		companionNumbers.forEach( (key,value) -> {
+			
+			if(!recentWinningNumberLineLengthDue.containsKey( key ) ){
+				recentWinningNumberLineLengthDue.put(key, new TreeMap<>());
+			}
+			
+			Map<Integer,Integer[]> data = recentWinningNumberLineLengthDue.get( key );
+			value.forEach( (keyTwo, valueTwo) -> {
+				
+				if(valueTwo[1] == 0){
+					int len = Integer.parseInt( Integer.toString( valueTwo[0] ).length() + "" );
+					if( !data.containsKey(len) ){
+						data.put( len, new Integer[]{1,0});
+						NumberAnalyzer.incrementGamesOut(data,len);
+					}
+					else{
+						Integer[] dataTwo = data.get( len );
+						dataTwo[0]++;
+						dataTwo[1] = 0; 
+						NumberAnalyzer.incrementGamesOut(data,len);
+					}
+				}
+				
+			});			
+			
+		});
+	}
+	
     @SuppressWarnings("unchecked")
     private static void groupNumbers(int[] data, List<Object[]> numberPoints) {
 
