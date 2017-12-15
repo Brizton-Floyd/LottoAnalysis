@@ -21,18 +21,6 @@ public class ChartHelper {
 
     }
 
-	public static Map<Integer,Map<Integer,Integer[]>> getRecentWinningNumberCompanionHitTracker(){
-		
-		return recentWinningNumberCompanionHitTracker;
-	}
-	
-	public static void clearRecentWinningNumberCompanionHitTrackerMap(){
-		
-		// when new charts are loaded for different positions clear the map
-		if(recentWinningNumberCompanionHitTracker != null )
-			recentWinningNumberCompanionHitTracker.clear();
-	}
-	
     public static void plugNumbersIntoRecentWinningNumberCompanionMap(List<Integers> winningNumbers){
         
         // recent winning digit
@@ -41,13 +29,13 @@ public class ChartHelper {
 		for(int i = 0; i < winningNumbers.size() - 1; i++){
 			
 			if(winningNumbers.get(i) == num){
+				// extract the nextWinningNumber
+			    int nextWinningNumber = winningNumbers.get( i + 1 );
 				
 				// first check to see if recentWinningNumberCompanionHitTracker contains key for recent winning digit
 				if(!recentWinningNumberCompanionHitTracker.containsKey( num ) ){
 					
-					// extract the nextWinningNumber
-					int nextWinningNumber = winningNumbers.get( i + 1 );
-					
+					// place number and new TreeMap instance into map
 					recentWinningNumberCompanionHitTracker.put( num, new TreeMap<>() );
 					
 					// retrieve the inner tree map for further processing
@@ -66,6 +54,19 @@ public class ChartHelper {
 						data[1] = 0;
 						NumberAnalyzer.incrementGamesOut( innerTreeMap, nextWinningNumber );
 						
+					}
+				}else{
+					
+					Map<Integer,Integer[]> innerTreeMap = recentWinningNumberCompanionHitTracker.get( num );
+					if( !innerTreeMap.containsKey( nextWinningNumber ) ){
+						innerTreeMap.put( nextWinningNumber, new Integer[]{1,0});
+						NumberAnalyzer.incrementGamesOut( innerTreeMap, nextWinningNumber );
+					}
+					else{
+						Integer[] data = innerTreeMap.get( nextWinningNumber );
+						data[0]++;
+						data[1] = 0;
+						NumberAnalyzer.incrementGamesOut( innerTreeMap, nextWinningNumber );
 					}
 				}
 			}
