@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 public class ChartHelper {
 
     private static Map<Integer,Integer[]> overallGamesOutTracker = new TreeMap<>();
-
+    private static Map<Integer,Map<Integer,Integer[]>> recentWinningNumberCompanionHitTracker = TreeMap<>();
+    
     public static List<Object[]> setUpTopLevelCharts(int[] data){
 
         List<Object[]> numberPoints = new LinkedList<>();
@@ -20,6 +21,57 @@ public class ChartHelper {
 
     }
 
+	public static Map<Integer,Map<Integer,Integer[]>> getRecentWinningNumberCompanionHitTracker(){
+		
+		return recentWinningNumberCompanionHitTracker;
+	}
+	
+	public static void clearRecentWinningNumberCompanionHitTrackerMap(){
+		
+		// when new charts are loaded for different positions clear the map
+		if(recentWinningNumberCompanionHitTracker != null )
+			recentWinningNumberCompanionHitTracker.clear();
+	}
+	
+    public static void plugNumbersIntoRecentWinningNumberCompanionMap(List<Integers> winningNumbers){
+        
+        // recent winning digit
+        int num = winningNumbers.get( winningNumbers.size() - 1 );
+		
+		for(int i = 0; i < winningNumbers.size() - 1; i++){
+			
+			if(winningNumbers.get(i) == num){
+				
+				// first check to see if recentWinningNumberCompanionHitTracker contains key for recent winning digit
+				if(!recentWinningNumberCompanionHitTracker.containsKey( num ) ){
+					
+					// extract the nextWinningNumber
+					int nextWinningNumber = winningNumbers.get( i + 1 );
+					
+					recentWinningNumberCompanionHitTracker.put( num, new TreeMap<>() );
+					
+					// retrieve the inner tree map for further processing
+					Map<Integer,Integer[]> innerTreeMap = recentWinningNumberCompanionHitTracker.get( num );
+					
+					// Check to see if inneer tree map contains next winning number. if it doesnt add it						
+					if(!innerTreeMap.containsKey( nextWinningNumber ) ){
+
+						innerTreeMap.put( nextWinningNumber, new Integer[]{1,0} );
+						NumberAnalyzer.incrementGamesOut( innerTreeMap, nextWinningNumber );
+						
+					}else{
+						
+						Integer[] data = innerTreeMap.get( nextWinningNumber );
+						data[0]++;
+						data[1] = 0;
+						NumberAnalyzer.incrementGamesOut( innerTreeMap, nextWinningNumber );
+						
+					}
+				}
+			}
+		}
+    }
+    
     @SuppressWarnings("unchecked")
     private static void groupNumbers(int[] data, List<Object[]> numberPoints) {
 
