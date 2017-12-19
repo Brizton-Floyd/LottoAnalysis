@@ -3,36 +3,16 @@ package com.lottoanalysis.chartanalysis;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
-import com.lottoanalysis.lottoinfoandgames.lottogames.PickFourLotteryGame;
-import com.lottoanalysis.lottoinfoandgames.lottogames.PickThreeLotteryGame;
-import com.lottoanalysis.screenloader.MainController;
 import com.lottoanalysis.utilities.*;
-import com.sun.javafx.font.freetype.HBGlyphLayout;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
-import java.net.URL;
 import java.util.*;
 
-public class ChartAnalysisController  {
+public class ChartAnalysisController {
 
     private LotteryGame lotteryGame;
     private int[][] drawNumbers;
@@ -55,9 +35,9 @@ public class ChartAnalysisController  {
     }
 
     @FXML
-    private Label gameTitle, analyzedPosition,hotHits,hotOut,warmHits,warmOut,coldHits,coldOut, warmHitsAtGamesOut,
-            hotHitsAtGamesOut,coldHitsAtGamesOut, hotOutLastSeen, warmOutLastSeen, coldOutLastSeen,hotOutLastSeenHits,
-            warmOutLastSeenHits,coldOutLastSeenHits;
+    private Label gameTitle, analyzedPosition, hotHits, hotOut, warmHits, warmOut, coldHits, coldOut, warmHitsAtGamesOut,
+            hotHitsAtGamesOut, coldHitsAtGamesOut, hotOutLastSeen, warmOutLastSeen, coldOutLastSeen, hotOutLastSeenHits,
+            warmOutLastSeenHits, coldOutLastSeenHits;
 
     @FXML
     private Label lastHitPos, lottoGamesOut, posHits, lottoNum;
@@ -72,78 +52,147 @@ public class ChartAnalysisController  {
     private MenuButton menuButton;
 
     @FXML
-    public void intialize(){
+    private RadioButton rdbFullLottoButton;
+
+    @FXML
+    public void intialize() {
 
 
     }
 
-    private void makeVisible(){
+    private void makeVisible() {
         Label[] data = {lastHitPos, lottoGamesOut, posHits, lottoNum};
 
-        for(Label label : data){
+        for (Label label : data) {
             label.setVisible(true);
         }
     }
 
-    private void makeInvisible(){
+    private void makeInvisible() {
         Label[] data = {lastHitPos, lottoGamesOut, posHits, lottoNum};
 
-        for(Label label : data){
+        for (Label label : data) {
             label.setVisible(false);
         }
     }
-    private void processDataForChartRendering(int position){
+
+    private void processDataForChartRendering(int position) {
 
         // clear the compainion hit tracker first before rendering any new chart data
-        ChartHelper.clearRecentWinningNumberCompanionHitTrackerMap();
-        
+        ChartHelper.clearStaticCharts();
+        rdbFullLottoButton.selectedProperty().setValue(true);
+
         // set up headers
-        setUpHeaders( position );
+        setUpHeaders(position);
 
         int[] positionArray = drawNumbers[position];
-        loadMenuButtonDropDown( positionArray, position);
+        loadMenuButtonDropDown(positionArray, position);
         // set up top level charts
-        List<Object[]> upperChartData = ChartHelper.setUpTopLevelCharts( positionArray );
-        setUpTopCharts( upperChartData );
+        getDataForTopChartRendering(positionArray);
 
         // print recent winning number companion hits
-        print( ChartHelper.getRecentWinningNumberCompanionHitTracker() );
+        print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
     }
-    private void print( Map<Integer,Map<Integer,Integer[]>> mapData ){
-    
-        mapData.forEach( (key,value) -> {
+
+    private void getDataForTopChartRendering(int[] posisitionArray) {
+
+        ObservableList<Toggle> toggles = rdbFullLottoButton.getToggleGroup().getToggles();
+        for (Toggle toggle : toggles) {
+
+            RadioButton radioButton = (RadioButton) toggle;
+            radioButton.setOnAction(e -> {
+                switch (radioButton.getText()) {
+
+                    case LotteryGameConstants.ELE_ONE:
+                        if (radioButton.isSelected()) {
+                            ChartHelper.clearStaticCharts();
+                            int[] eleOneData = ChartHelper.returnNumbersAtIndex(posisitionArray, "0");
+                            List<Object[]> upperChartData = ChartHelper.setUpTopLevelCharts(eleOneData,"1");
+                            setUpTopCharts(upperChartData);
+                            print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
+                        }
+                        break;
+                    case LotteryGameConstants.ELE_TWO:
+                        if(radioButton.isSelected()) {
+                            ChartHelper.clearStaticCharts();
+                            int[] eleTwoData = ChartHelper.returnNumbersAtIndex(posisitionArray, "1");
+                            List<Object[]> upperChartDataTwo = ChartHelper.setUpTopLevelCharts(eleTwoData,"1");
+                            setUpTopCharts(upperChartDataTwo);
+                            print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
+
+                        }
+                        break;
+                    case LotteryGameConstants.FULL_NUM:
+                        if(radioButton.isSelected()) {
+                            ChartHelper.clearStaticCharts();
+                            int[] fullNumData = ChartHelper.returnNumbersAtIndex(posisitionArray, null);
+                            List<Object[]> upperChartDataFullNum = ChartHelper.setUpTopLevelCharts(fullNumData,"2");
+                            setUpTopCharts(upperChartDataFullNum);
+                            print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
+                            //ChartHelperTwo.processIncomingData(lotteryGame,fullNumData,10);
+
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+            });
+        }
+        int[] eleOneData = ChartHelper.returnNumbersAtIndex(posisitionArray, null);
+        List<Object[]> upperChartData = ChartHelper.setUpTopLevelCharts(eleOneData,"2");
+        setUpTopCharts(upperChartData);
+        //ChartHelperTwo.processIncomingData(lotteryGame,eleOneData,10);
+
+    }
+
+    private void print(Map<Integer, Map<Integer, Integer[]>> mapData) {
+
+        mapData.forEach((key, value) -> {
             System.out.println("\nRecent Winning Lotto Number: " + key + "\n");
-            value.forEach( (keyTwo,valueTwo) -> {
-                System.out.println("Companion Number: " + keyTwo + "\tHits and Games Out: " + Arrays.toString( valueTwo) );
+            value.forEach((keyTwo, valueTwo) -> {
+                System.out.println("Companion Number: " + keyTwo + "\tHits and Games Out: " + Arrays.toString(valueTwo));
+            });
+            System.out.println("\nHit Length Due for Lotto Number: " + key);
+            ChartHelper.getRecentWinningNumberLineLengthDue().get(key).forEach((keyThree, valueThree) -> {
+                System.out.println("Hit Length: " + keyThree + "\tHits and Games Out: " + Arrays.toString(valueThree));
+
+                Map<Integer, Map<Integer, Integer[]>> data = ChartHelper.getRemainderDueForLineLength().get(key);
+                Map<Integer, Integer[]> dataTwo = data.get(keyThree);
+                System.out.println("\nRemainder Due For Hit Length: " + keyThree);
+                dataTwo.forEach((keyFour, keyFive) -> {
+                    System.out.println("\nRemainder Number: " + keyFour + "\tHits and Games Out: " + Arrays.toString(keyFive));
+                });
+                System.out.println("\n");
             });
         });
     }
-    
+
     private void loadMenuButtonDropDown(int[] positionArray, int position) {
 
         menuButton.getItems().clear();
 
-        List<Integer> nums = Arrays.asList(Arrays.stream( positionArray ).boxed().toArray(Integer[]::new));
+        List<Integer> nums = Arrays.asList(Arrays.stream(positionArray).boxed().toArray(Integer[]::new));
         Set<Integer> numbers = new TreeSet<>(nums);
 
-        for(Iterator<Integer> num = numbers.iterator(); num.hasNext();){
+        for (Iterator<Integer> num = numbers.iterator(); num.hasNext(); ) {
 
-            MenuItem item = new MenuItem(num.next()+"");
-            item.setOnAction( e -> {
-                GamesOutAnalyzerHelper.analyze(drawNumbers,position,item.getText());
+            MenuItem item = new MenuItem(num.next() + "");
+            item.setOnAction(e -> {
+                GamesOutAnalyzerHelper.analyze(drawNumbers, position, item.getText());
                 Object[] data = GamesOutAnalyzerHelper.getLottoNumSpecificData();
-                populateTextFields( data , item.getText());
+                populateTextFields(data, item.getText());
             });
-            menuButton.getItems().add( item );
+            menuButton.getItems().add(item);
         }
     }
 
     private void populateTextFields(Object[] data, String num) {
         makeVisible();
-        lottoNum.setText("Lotto#: " + num );
-        posHits.setText( "Pos Hits: " + data[0] + "");
-        lottoGamesOut.setText( "Games Out: " + data[1] + "");
-        lastHitPos.setText( "Last Hit: " + data[2] + "");
+        lottoNum.setText("Lotto#: " + num);
+        posHits.setText("Pos Hits: " + data[0] + "");
+        lottoGamesOut.setText("Games Out: " + data[1] + "");
+        lastHitPos.setText("Last Hit: " + data[2] + "");
 
     }
 
@@ -151,72 +200,76 @@ public class ChartAnalysisController  {
     private void setUpTopCharts(List<Object[]> upperChartData) {
 
         AnchorPane[] panes = {chartOneAnchorPane, chartTwoAnchorPane, chartThreeAnchorPane};
-        Label[][] labelData = {{hotHits,hotOut},{warmHits,warmOut},{coldHits,coldOut}};
-        Label[] hitAtGamesOut = {hotHitsAtGamesOut,warmHitsAtGamesOut,coldHitsAtGamesOut};
-        Label[] outLastSeen = { hotOutLastSeen, warmOutLastSeen,coldOutLastSeen};
+        Label[][] labelData = {{hotHits, hotOut}, {warmHits, warmOut}, {coldHits, coldOut}};
+        Label[] hitAtGamesOut = {hotHitsAtGamesOut, warmHitsAtGamesOut, coldHitsAtGamesOut};
+        Label[] outLastSeen = {hotOutLastSeen, warmOutLastSeen, coldOutLastSeen};
         Label[] outLastSeenHits = {hotOutLastSeenHits, warmOutLastSeenHits, coldOutLastSeenHits};
 
-        String[] colors = {"#FF0000","#FF0000","#FF0000"};
+        String[] colors = {"#FF0000", "#FF0000", "#FF0000"};
 
-        for (int i = 0; i < upperChartData.size(); i++){
+        for (int i = 0; i < upperChartData.size(); i++) {
 
-            List<Integer> points = (List<Integer>)upperChartData.get(i)[2];
-            List<Integer> pointTwo = ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber( points );
-            Set<Integer> unique = new HashSet<>( points );
-            
+            List<Integer> points = (List<Integer>) upperChartData.get(i)[2];
+
+            List<Integer> pointTwo = (points.size() > 0) ? ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber(points) : new ArrayList<>();
+            Set<Integer> unique = new HashSet<>(points);
+
             // Plug all recent winning numbers accross all charts into a static map
-            ChartHelper.plugNumbersIntoRecentWinningNumberCompanionMap( points );
+            if(points.size() > 0)
+             ChartHelper.plugNumbersIntoRecentWinningNumberCompanionMap(points);
 
             List<List<Integer>> dataPoints = new ArrayList<>();
             dataPoints.add((points.size() > 100) ? points.subList(points.size() - 30, points.size()) : points);
-            //dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 30, pointTwo.size()) : pointTwo);
 
-            LineSpacingHelper.determineMostProbableLineSpacing(points);
-            LineSpacingHelper.num++;
+            if(pointTwo.size() > 0)
+                dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 30, pointTwo.size()) : pointTwo);
+
+            //LineSpacingHelper.determineMostProbableLineSpacing(points);
+           // LineSpacingHelper.num++;
 
             LineChartWithHover lc = new LineChartWithHover(dataPoints,
-                                                            colors[i],
-                                                            (int)upperChartData.get(i)[3],
-                                                            (int)upperChartData.get(i)[4],unique.toString());
+                    colors[i],
+                    (int) upperChartData.get(i)[3],
+                    (int) upperChartData.get(i)[4], unique.toString());
             Label[] currentLabel = labelData[i];
-            currentLabel[0].setText( upperChartData.get(i)[0]+"");
-            currentLabel[1].setText( upperChartData.get(i)[1]+"");
+            currentLabel[0].setText(upperChartData.get(i)[0] + "");
+            currentLabel[1].setText(upperChartData.get(i)[1] + "");
 
-            hitAtGamesOut[i].setText( upperChartData.get(i)[6]+"");
+            hitAtGamesOut[i].setText(upperChartData.get(i)[6] + "");
 
-            outLastSeen[i].setText( upperChartData.get(i)[7]+"");
-            outLastSeenHits[i].setText(upperChartData.get(i)[8]+"");
+            outLastSeen[i].setText(upperChartData.get(i)[7] + "");
+            outLastSeenHits[i].setText(upperChartData.get(i)[8] + "");
 
             panes[i].getChildren().clear();
-            panes[i].getChildren().add( lc.getLineChart() );
+            panes[i].getChildren().add(lc.getLineChart());
         }
     }
 
     private void setUpHeaders(int position) {
 
         gameTitle.setText("");
-        gameTitle.setText( "Chart Analysis: " + lotteryGame.getGameName() );
+        gameTitle.setText("Chart Analysis: " + lotteryGame.getGameName());
 
-       analyzedPosition.setText("");
-       analyzedPosition.setText("Currently Analyzing Position " + (position + 1));
+        analyzedPosition.setText("");
+        analyzedPosition.setText("Currently Analyzing Position " + (position + 1));
 
     }
 
-    public void start(){
+    public void start() {
 
 
-        if(buttonHbox.getChildren().size() > 0)
+        if (buttonHbox.getChildren().size() > 0)
             buttonHbox.getChildren().clear();
 
         // get size of 2D array
         JFXButton[] buttons = new JFXButton[drawNumbers.length];
-        for(int i = 0; i < buttons.length; i++){
-            buttons[i] = new JFXButton("Pos " + (i+1));
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new JFXButton("Pos " + (i + 1));
             buttons[i].setStyle("-fx-text-fill: #dac6ac;");
             final int postion = i;
-            buttons[i].setOnAction( e -> {
+            buttons[i].setOnAction(e -> {
 
-                processDataForChartRendering( postion );
+                processDataForChartRendering(postion);
                 makeInvisible();
             });
             buttons[i].setOnMouseEntered(e -> {
@@ -229,7 +282,7 @@ public class ChartAnalysisController  {
 
             });
 
-            buttonHbox.getChildren().add( buttons[i] );
+            buttonHbox.getChildren().add(buttons[i]);
         }
 
         buttonHbox.setSpacing(10);

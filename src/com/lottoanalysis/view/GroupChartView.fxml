@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="683.0" prefWidth="1214.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.chartanalysis.GroupChartController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <VBox prefWidth="1214.0">
+               <children>
+                  <HBox spacing="400.0">
+                     <children>
+                        <Label text="Group Chart Analysis: Fantasy Five" textFill="#dac6ac">
+                           <font>
+                              <Font size="31.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="10.0" text="Analyzing Position One" textFill="#dac6ac">
+                           <font>
+                              <Font size="31.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="4.0" prefWidth="1214.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;">
+                     <VBox.margin>
+                        <Insets right="10.0" />
+                     </VBox.margin>
+                  </Pane>
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </VBox>
+            <HBox prefHeight="22.0" prefWidth="1194.0" spacing="40.0">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="20.0" />
+               </VBox.margin>
+               <children>
+                  <RadioButton mnemonicParsing="false" text="Position One" textFill="#dac6ac" />
+                  <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Position Two" textFill="#dac6ac" />
+                  <RadioButton layoutX="99.0" layoutY="10.0" mnemonicParsing="false" text="Position Three" textFill="#dac6ac" />
+                  <RadioButton layoutX="188.0" layoutY="10.0" mnemonicParsing="false" text="Position Four" textFill="#dac6ac" />
+                  <RadioButton layoutX="277.0" layoutY="10.0" mnemonicParsing="false" text="Position Five" textFill="#dac6ac" />
+               </children>
+            </HBox>
+            <HBox prefHeight="326.0" prefWidth="1214.0">
+               <children>
+                  <VBox prefHeight="326.0" prefWidth="65.0" spacing="20.0">
+                     <children>
+                        <RadioButton mnemonicParsing="false" text="[1,10]" textFill="#dac6ac">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="[11,20]" textFill="#dac6ac" />
+                        <RadioButton layoutX="10.0" layoutY="27.0" mnemonicParsing="false" text="[21,30]" textFill="#dac6ac" />
+                        <RadioButton layoutX="10.0" layoutY="44.0" mnemonicParsing="false" text="[31,39]" textFill="#dac6ac" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <LineChart prefHeight="326.0" prefWidth="1130.0" title="Range 1 - 10">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <MenuButton mnemonicParsing="false" text="MenuButton" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="85.0">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
+   </children>
+</AnchorPane>

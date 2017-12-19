@@ -58,6 +58,12 @@ public class LottoAnalysisHomeController  {
     }
 
     @FXML
+    public void loadGroupChartScreen(ActionEvent event){
+
+        LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FOUR,null);
+
+    }
+    @FXML
     public void loadLotteryDashBoardScreen(ActionEvent event){
 
         if(LottoInfoAndGamesController.getStaticPane() == null)

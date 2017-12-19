@@ -6,6 +6,8 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,11 +16,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 <?scenebuilder-stylesheet com/lottoanalysis/styles/panecolor.css?>
 
-<AnchorPane prefHeight="703.0" prefWidth="1205.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.chartanalysis.ChartAnalysisController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="1214.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.chartanalysis.ChartAnalysisController">
    <children>
-      <Pane prefHeight="4.0" prefWidth="1145.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="80.0" />
+      <Pane prefHeight="4.0" prefWidth="1145.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="60.0" />
       <VBox prefHeight="684.0" prefWidth="1220.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="29.0" prefWidth="1165.0" spacing="150.0">
@@ -35,8 +38,22 @@
                   </Label>
                </children>
                <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="40.0" />
+                  <Insets left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
+            </HBox>
+            <HBox spacing="40.0">
+               <VBox.margin>
+                  <Insets left="20.0" top="10.0" />
+               </VBox.margin>
+               <children>
+                  <RadioButton mnemonicParsing="false" text="Element One" textFill="#dac6ac">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="numberElementGroup" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Element Two" textFill="#dac6ac" toggleGroup="$numberElementGroup" />
+                  <RadioButton fx:id="rdbFullLottoButton" layoutX="97.0" layoutY="10.0" mnemonicParsing="false" selected="true" text="Full Lotto Number" textFill="#dac6ac" toggleGroup="$numberElementGroup" />
+               </children>
             </HBox>
             <HBox prefHeight="189.0" prefWidth="1145.0" spacing="10.0" style="-fx-border-color: black;">
                <children>
@@ -174,7 +191,11 @@
                               </HBox>
                            </children>
                         </AnchorPane>
+                        <TextFlow prefHeight="266.0" prefWidth="536.0" style="-fx-background-color: black;" />
                      </children>
+                     <HBox.margin>
+                        <Insets bottom="60.0" />
+                     </HBox.margin>
                   </VBox>
                   <VBox prefHeight="356.0" prefWidth="628.0" style="-fx-border-color: black;">
                      <children>

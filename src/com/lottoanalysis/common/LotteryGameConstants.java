@@ -41,6 +41,11 @@ public class LotteryGameConstants {
     public static final String SUPER_LOTTO_DB_NAME= "super_lotto_results";
 
 
+    //Radio Button Text
+    public static final String ELE_ONE = "Element One";
+    public static final String ELE_TWO = "Element Two";
+    public static final String FULL_NUM = "Full Lotto Number";
+
     // Average inflate constants
     public static final boolean inflateAverage = true;
     public static final boolean doNotInflateAverage = false;

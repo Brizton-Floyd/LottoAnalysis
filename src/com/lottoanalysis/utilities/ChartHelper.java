@@ -11,27 +11,43 @@ public class ChartHelper {
     private static Map<Integer,Integer[]> overallGamesOutTracker = new TreeMap<>();
     private static Map<Integer,Map<Integer,Integer[]>> recentWinningNumberCompanionHitTracker = new TreeMap<>();
     private static Map<Integer,Map<Integer,Integer[]>> recentWinningNumberLineLengthDue = new TreeMap<>();
-    
-    public static List<Object[]> setUpTopLevelCharts(int[] data){
+    private static Map<Integer,Map<Integer,Map<Integer,Integer[]>>> remainderDueForLineLength = new TreeMap<>();
+
+    public static List<Object[]> setUpTopLevelCharts(int[] data, String length){
 
         List<Object[]> numberPoints = new LinkedList<>();
 
-        groupNumbers(data, numberPoints);
+        groupNumbers(data, numberPoints, length);
 
         return numberPoints;
 
+    }
+
+    public static Map<Integer, Map<Integer, Map<Integer, Integer[]>>> getRemainderDueForLineLength() {
+        return remainderDueForLineLength;
+    }
+
+    public static Map<Integer, Map<Integer, Integer[]>> getRecentWinningNumberLineLengthDue() {
+        return recentWinningNumberLineLengthDue;
     }
 
     public static Map<Integer, Map<Integer, Integer[]>> getRecentWinningNumberCompanionHitTracker() {
         return recentWinningNumberCompanionHitTracker;
     }
 
-    public static void clearRecentWinningNumberCompanionHitTrackerMap(){
+    public static void clearStaticCharts(){
         if(recentWinningNumberCompanionHitTracker != null)
             recentWinningNumberCompanionHitTracker.clear();
+
+        if(recentWinningNumberLineLengthDue != null)
+            recentWinningNumberLineLengthDue.clear();
+
+        if(remainderDueForLineLength != null)
+            remainderDueForLineLength.clear();
     }
     public static void plugNumbersIntoRecentWinningNumberCompanionMap(List<Integer> winningNumbers){
-        
+
+        //recentWinningNumberCompanionHitTracker.clear();
         // recent winning digit
         int num = winningNumbers.get( winningNumbers.size() - 1 );
 		
@@ -108,15 +124,79 @@ private static void determineLineLengthDueForRecentWinningDigit( Map<Integer,Map
 						dataTwo[1] = 0; 
 						NumberAnalyzer.incrementGamesOut(data,len);
 					}
+					//map to populateremainder map
+                    setUpRemainderMap( data, value, key);
 				}
 				
 			});			
 			
 		});
 	}
-	
+
+    private static void setUpRemainderMap(Map<Integer, Integer[]> lineLengthData, Map<Integer, Integer[]> companionNumberData,
+                                          int winningNumber) {
+
+        //remainderDueForLineLength
+        for( Iterator<Integer> iterator = lineLengthData.keySet().iterator(); iterator.hasNext();){
+
+            int numLen = iterator.next();
+            companionNumberData.forEach( (key,value) -> {
+
+                int len = Integer.parseInt( Integer.toString(value[0]).length()+"");
+                if( len == numLen ){
+                    int remainder = value[1] % 3;
+                    if( !remainderDueForLineLength.containsKey(winningNumber)){
+
+                        remainderDueForLineLength.put(winningNumber,new TreeMap<>());
+                        Map<Integer,Map<Integer,Integer[]>> data  = remainderDueForLineLength.get(winningNumber);
+                        if(!data.containsKey(numLen)){
+                            data.put(numLen, new TreeMap<>());
+                            Map<Integer,Integer[]> dataTwo = data.get( numLen );
+                            if( !dataTwo.containsKey(remainder)){
+
+                                dataTwo.put(remainder, new Integer[]{1,0});
+                                NumberAnalyzer.incrementGamesOut(dataTwo,remainder);
+                            }
+                        }else{
+
+                            Map<Integer,Map<Integer,Integer[]>> dataVal = remainderDueForLineLength.get(winningNumber);
+                            Map<Integer,Integer[]> dataValTwo = dataVal.get(numLen);
+                            Integer[] values = dataValTwo.get( remainder );
+                            values[0]++;
+                            values[1] = 0;
+                            NumberAnalyzer.incrementGamesOut(dataValTwo,remainder);
+                        }
+                    }
+                    else{
+                        Map<Integer,Map<Integer,Integer[]>> data = remainderDueForLineLength.get(winningNumber);
+                        if(!data.containsKey(numLen)){
+                            data.put(numLen, new TreeMap<>());
+                            Map<Integer,Integer[]> dataTwo = data.get(numLen);
+                            if(!dataTwo.containsKey(remainder)){
+                                dataTwo.put(remainder, new Integer[]{1,0});
+                                NumberAnalyzer.incrementGamesOut(dataTwo,remainder);
+                            }
+                        }
+                        else {
+                            Map<Integer,Integer[]> vals= data.get(numLen);
+                            if(!vals.containsKey(remainder)){
+                                vals.put(remainder,new Integer[]{1,0});
+                                NumberAnalyzer.incrementGamesOut(vals,remainder);
+                            }else {
+                                Integer[] values = vals.get(remainder);
+                                values[0]++;
+                                values[1] = 0;
+                                NumberAnalyzer.incrementGamesOut(vals, remainder);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
     @SuppressWarnings("unchecked")
-    private static void groupNumbers(int[] data, List<Object[]> numberPoints) {
+    private static void groupNumbers(int[] data, List<Object[]> numberPoints, String length) {
 
         Map<Integer[],Object[]> lastDigitGroupingsAndHitCounter = new HashMap<>();
         lastDigitGroupingsAndHitCounter.put(new Integer[]{0,1,2,3}, new Object[]{0,0,new ArrayList<Integer>(),0,0,new ArrayList<>(),0,"",0});
@@ -130,8 +210,12 @@ private static void determineLineLengthDueForRecentWinningDigit( Map<Integer,Map
                 Integer[] keyData = mapData.getKey();
                 List<Integer> keyDataList = Arrays.asList( keyData );
 
-                int lastDigit = (Integer.toString(data[number]).length() > 1) ? Character.getNumericValue( Integer.toString(data[number]).charAt(1)) :
+                int lastDigit;
+                if( Integer.parseInt(length) > 1)
+                    lastDigit = (Integer.toString(data[number]).length() > 1) ? Character.getNumericValue( Integer.toString(data[number]).charAt(1)) :
                                                                                 data[number];
+                else
+                    lastDigit = data[number];
 
                 if(keyDataList.contains( lastDigit )){
 
@@ -244,6 +328,7 @@ private static void determineLineLengthDueForRecentWinningDigit( Map<Integer,Map
     }
 
     private static void findMinAndMax(Map<Integer[], Object[]> lastDigitGroupingsAndHitCounter) {
+
         for(Map.Entry<Integer[],Object[]> mapData : lastDigitGroupingsAndHitCounter.entrySet()){
 
             Object[] valueData = mapData.getValue();
@@ -251,9 +336,17 @@ private static void determineLineLengthDueForRecentWinningDigit( Map<Integer,Map
 
             Collections.sort( dataa );
 
-            valueData[3] = dataa.get(0);
-            valueData[4] = dataa.get( dataa.size() - 1);
+            if(dataa.size() > 0) {
+                valueData[3] = dataa.get(0);
+                valueData[4] = dataa.get(dataa.size() - 1);
+            }
+            else {
+                valueData[3] = 0;
+                valueData[4] = 0;
+            }
+
         }
+
     }
 
     public static int[] generateListOfAllWinningNumbersAfterCurrentWinningNumber(int[] positionArray) {
@@ -306,5 +399,26 @@ private static void determineLineLengthDueForRecentWinningDigit( Map<Integer,Map
         }
 
         return indexes;
+    }
+
+    public static int[] returnNumbersAtIndex(int[] posisitionArray, String index) {
+        int[] numberArray = new int[posisitionArray.length];
+        int count = 0;
+
+        if(index != null){
+            int ind = Integer.parseInt(index);
+            for(int num : posisitionArray){
+                String numAsString = (Integer.toString(num).length() > 1) ? num + "" : "0"+num;
+                int number = Character.getNumericValue( numAsString.charAt(ind));
+                numberArray[count++] = number;
+            }
+        }else{
+
+            for(int num : posisitionArray){
+                numberArray[count++] = num;
+            }
+
+        }
+        return numberArray;
     }
 }

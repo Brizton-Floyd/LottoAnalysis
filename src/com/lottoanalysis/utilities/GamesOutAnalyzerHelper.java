@@ -27,14 +27,15 @@ public class GamesOutAnalyzerHelper{
     private static void loadUpLottoNumSpecificData(int[][] drawPositions, int index, int lottoNumber){
         int count = 0;
 
-        List<Integer> nums = new ArrayList<>();
+        List<Integer> nums = Arrays.asList( Arrays.stream( drawPositions[index]).boxed().toArray(Integer[]::new) );
 
-        for( int num : drawPositions[index] ){
+        for( int num : nums ){
 
             if(num == lottoNumber)
                 count++;
 
         }
+
         lottoNumSpecificData = new Object[3];
         lottoNumSpecificData[0] = count;
         lottoNumSpecificData[1] = gamesOutAndHitTracker.get( lottoNumber )[0];
