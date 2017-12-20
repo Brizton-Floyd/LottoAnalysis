@@ -2,6 +2,7 @@ package com.lottoanalysis.utilities;
 
 import java.util.*;
 import com.lottoanalysis.lottoinfoandgames.*;
+
 /**
  *
  *
@@ -27,9 +28,72 @@ public class ChartHelperTwo {
 
         // determine hits at games out
         findHitsAtCurrentGamesOut();
+		
+		// analyze games out information
+		plugInNumbersForCurrentGamesOut();
 
         print();
     }
+	
+	private static void plugInNumbersForCurrentGamesOut(){
+	
+		List<Integer> gamesOutIndexHolder = new ArrayList<>();
+		groupHitInformation.forEach( (key,value) -> {
+			
+			Object[] data = value;
+			List<Integer> arrayListData = (List<Integer>) data[4];
+			for(int n = 0; n < arrayListData.size(); n++){
+				if(arrayListData.get(n) == (int)data[2]){
+			
+					gamesOutIndexHolder.add(n);
+					
+				}
+			}
+			
+			//System.out.println(Arrays.toString(gamesOutIndexHolder.toArray()));
+			
+			if(gamesOutIndexHolder.size() > 1 ){
+		    	List<Integer> diferenceHolder = new ArrayList<>();
+		    	for(int i = 0; i < gamesOutIndexHolder.size() - 1; i++){
+		    	    
+		    	    int dif = gamesOutIndexHolder.get( i + 1 ) - gamesOutIndexHolder.get(i);
+		    	    diferenceHolder.add(dif);
+		    	    
+		    	}
+		    	
+		    	// compute the averate
+		    	double avg = 0.0; 
+		    	int sum = 0; 
+		    	
+		    	for(int num : diferenceHolder){
+		    	    sum += num;
+		    	}
+		    	
+		    	avg = sum / diferenceHolder.size();
+		    	value[5] = avg;
+		    	
+		    	for(int num : diferenceHolder){
+		    	    if(num > avg)
+		    	        value[6] = (int)value[6] + 1;
+		    	    else if( num < avg)
+		    	        value[7] = (int)value[7] + 1;
+		    	    else
+		    	        value[8] = (int)value[8] + 1;
+		    	}
+		    	
+		    	int index = arrayListData.lastIndexOf( arrayListData.get( arrayListData.size() - 1) );
+		    	int currentGamesOut = index - gamesOutIndexHolder.get(gamesOutIndexHolder.size() - 1 );
+		    	value[9] = currentGamesOut;
+		    	
+				//System.out.println(Arrays.toString(diferenceHolder.toArray()));
+				
+			}
+	
+			gamesOutIndexHolder.clear();
+
+		});
+	}
+	
     private static void print(){
 
 
@@ -164,8 +228,9 @@ public class ChartHelperTwo {
                 }
                 // add array to groupmap. 0 index in object array will be the number hits for the group,
                 // 1 index will be group hits, 2 index will games out, 3 index will be the hits at specified games out
-                // and the 4 index will be an arraylist holding all game out data.
-                groupHitInformation.put(groupArray,new Object[]{new ArrayList<Integer>(),0,0,0,new ArrayList<Integer>()});
+                // and the 4 index will be an arraylist holding all game out data, index 5 will out avg skips, index 6 will be hits above avg, index 7 will be hits below avg, index 8 will be 
+				// current games out for the specified out.
+                groupHitInformation.put(groupArray,new Object[]{new ArrayList<Integer>(),0,0,0,new ArrayList<Integer>(),0.0,0,0,0,0});
 
                 // reset counter backt to 1 and clear the list
                 count = 0;
@@ -183,7 +248,7 @@ public class ChartHelperTwo {
             groupArray[i] = currentNumberInIteration;
         }
 
-        groupHitInformation.put(groupArray,new Object[]{new ArrayList<Integer>(),0,0,0,new ArrayList<Integer>()});
+        groupHitInformation.put(groupArray,new Object[]{new ArrayList<Integer>(),0,0,0,new ArrayList<Integer>(),0.0,0,0,0,0});
 
     }
 }
