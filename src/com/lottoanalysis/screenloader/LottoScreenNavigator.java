@@ -1,6 +1,8 @@
 package com.lottoanalysis.screenloader;
 
 import com.lottoanalysis.chartanalysis.ChartAnalysisController;
+import com.lottoanalysis.chartanalysis.GroupChartController;
+import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoanalysisnav.LottoAnalysisHomeController;
 import com.lottoanalysis.lottoinfoandgames.*;
 import javafx.fxml.FXMLLoader;
@@ -54,11 +56,11 @@ public class LottoScreenNavigator {
      *
      * @param fxml the fxml file to be loaded.
      */
-    public static void loadLottoScreen( String fxml, Object... domainObject ) {
+    public static void loadLottoScreen( String fxml, String controllerName, Object... domainObject ) {
 
         try {
 
-            Pane pane = LottoScreenNavigator.getAppropriateView( fxml, domainObject );
+            Pane pane = LottoScreenNavigator.getAppropriateView( fxml, controllerName, domainObject );
             mainController.setLottoScreen( pane );
 
         } catch (IOException e) {
@@ -67,7 +69,7 @@ public class LottoScreenNavigator {
     }
 
     @SuppressWarnings("unchecked")
-    private static Pane getAppropriateView( String view, Object... domainObject ) throws IOException{
+    private static Pane getAppropriateView( String view, String controllerName, Object... domainObject ) throws IOException{
 
         FXMLLoader loader = new FXMLLoader(LottoScreenNavigator.class.getResource(view) );
         Pane pane;
@@ -79,12 +81,22 @@ public class LottoScreenNavigator {
 
                 // use the values passed in by the domain object and provide contrller with
                 // appropriate values
-                LotteryGame game = (LotteryGame) domainObject[0];
+                if(controllerName.equalsIgnoreCase(LotteryGameConstants.CHART_ANALYSIS_CONTROLLER)) {
+                    LotteryGame game = (LotteryGame) domainObject[0];
 
-                ChartAnalysisController controller = loader.getController();
-                controller.setDrawNumbers((int[][])((List<Object>)domainObject[1]).get(0));
-                controller.setLotteryGame(game);
-                controller.start();
+                    ChartAnalysisController controller = loader.getController();
+                    controller.setDrawNumbers((int[][]) ((List<Object>) domainObject[1]).get(0));
+                    controller.setLotteryGame(game);
+                    controller.start();
+                }
+                else if( controllerName.equalsIgnoreCase(LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER)){
+
+                    LotteryGame game = (LotteryGame) domainObject[0];
+
+                    GroupChartController controller = loader.getController();
+                    controller.initFields(game, (int[][])((List<Object>)domainObject[1]).get(0));
+                    controller.startSceneLayoutSequence();
+                }
             }
 
         }else{

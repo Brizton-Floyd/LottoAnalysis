@@ -27,19 +27,20 @@ public class LineChartWithHover {
     private int lower, upper;
 
 
-    public LineChartWithHover(List<List<Integer>> dataPoints, String lineColor, int lower, int upper, String nums) {
+    public LineChartWithHover(List<List<Integer>> dataPoints, String lineColor, int lower, int upper, String nums,String title, int width, int height) {
 
         this.lineColor = lineColor;
         this.lower = lower;
         this.upper = upper;
 
         lineChart = new LineChart(new NumberAxis(), new NumberAxis());
-
+        if(title != null)
+            lineChart.setTitle(title);
         loadDataPointsIntoChart( lineChart, dataPoints);
 
         lineChart.getStylesheets().add("/com/lottoanalysis/styles/line_chart.css");
-        lineChart.setPrefWidth(374);
-        lineChart.setPrefHeight(248);
+        lineChart.setPrefWidth(width);
+        lineChart.setPrefHeight(height);
         lineChart.legendVisibleProperty().setValue(false);
         lineChart.setAnimated(true);
         NumberAxis xAxis = (NumberAxis) lineChart.getXAxis();
@@ -135,7 +136,10 @@ public class LineChartWithHover {
             label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
             label.setStyle("-fx-font-size: 10; -fx-font-weight: bold;");
 
-            label.setTextFill(Color.valueOf(lineColor));
+            if(lineColor != null)
+                label.setTextFill(Color.valueOf(lineColor));
+            else
+                label.setTextFill(Color.valueOf("#FF0000"));
 
             label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
             return label;

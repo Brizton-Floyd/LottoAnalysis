@@ -40,6 +40,9 @@ public class LotteryGameConstants {
     public static final String PICK4_DB_NAME= "pick4_results";
     public static final String SUPER_LOTTO_DB_NAME= "super_lotto_results";
 
+    // Screen names
+    public static final String CHART_ANALYSIS_CONTROLLER = "chartAnalysisContoller";
+    public static final String GROUP_CHART_ANALYSIS_CONTOLLER = "groupChartAnalysisContoller";
 
     //Radio Button Text
     public static final String ELE_ONE = "Element One";
