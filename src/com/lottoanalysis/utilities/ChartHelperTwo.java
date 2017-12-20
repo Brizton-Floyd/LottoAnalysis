@@ -228,7 +228,8 @@ public class ChartHelperTwo {
                 }
                 // add array to groupmap. 0 index in object array will be the number hits for the group,
                 // 1 index will be group hits, 2 index will games out, 3 index will be the hits at specified games out
-                // and the 4 index will be an arraylist holding all game out data, index 5 will out avg skips, index 6 will be hits above avg, index 7 will be hits below avg, index 8 will be 
+                // and the 4 index will be an arraylist holding all game out data, index 5 will out avg skips, index 6 will be hits above avg,
+                // index 7 will be hits below avg, index 8 will be
 				// current games out for the specified out.
                 groupHitInformation.put(groupArray,new Object[]{new ArrayList<Integer>(),0,0,0,new ArrayList<Integer>(),0.0,0,0,0,0});
 

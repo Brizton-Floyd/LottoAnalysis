@@ -1,6 +1,7 @@
 package com.lottoanalysis.lottoanalysisnav;
 
 import com.jfoenix.controls.JFXButton;
+import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottodashboard.LottoDashboardController;
 import com.lottoanalysis.screenloader.LottoScreenNavigator;
 import com.lottoanalysis.screenloader.MainController;
@@ -59,15 +60,30 @@ public class LottoAnalysisHomeController  {
 
     @FXML
     public void loadGroupChartScreen(ActionEvent event){
+        // Retrieve the current game that is currently being played
+        LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        List<Object> drawData = LottoInfoAndGamesController.getValues();
 
-        LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FOUR,null);
+        Object[] allData = {game, drawData};
+
+        if(game == null || drawData == null){
+
+            game = LottoDashboardController.getClassLevelLotteryGame();
+            drawData = LottoDashboardController.getNumbersForChartDisplay();
+            allData = new Object[]{game, drawData};
+
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FOUR, LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER, allData);
+        }else{
+
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FOUR, LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER,allData);
+        }
 
     }
     @FXML
     public void loadLotteryDashBoardScreen(ActionEvent event){
 
         if(LottoInfoAndGamesController.getStaticPane() == null)
-            LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE, null );
+            LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE, null ,null);
         else
             LottoScreenNavigator.getMainController().setLottoScreen( LottoInfoAndGamesController.getStaticPane());
     }
@@ -94,10 +110,10 @@ public class LottoAnalysisHomeController  {
             drawData = LottoDashboardController.getNumbersForChartDisplay();
             allData = new Object[]{game, drawData};
 
-            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, allData);
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, LotteryGameConstants.CHART_ANALYSIS_CONTROLLER, allData);
         }else{
 
-            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, allData);
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, LotteryGameConstants.CHART_ANALYSIS_CONTROLLER,allData);
         }
 
     }

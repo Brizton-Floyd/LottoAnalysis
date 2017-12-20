@@ -129,7 +129,7 @@ public class ChartAnalysisController {
                             List<Object[]> upperChartDataFullNum = ChartHelper.setUpTopLevelCharts(fullNumData,"2");
                             setUpTopCharts(upperChartDataFullNum);
                             print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
-                            //ChartHelperTwo.processIncomingData(lotteryGame,fullNumData,10);
+                            ChartHelperTwo.processIncomingData(lotteryGame,fullNumData,10);
 
                         }
                         break;
@@ -142,7 +142,9 @@ public class ChartAnalysisController {
         int[] eleOneData = ChartHelper.returnNumbersAtIndex(posisitionArray, null);
         List<Object[]> upperChartData = ChartHelper.setUpTopLevelCharts(eleOneData,"2");
         setUpTopCharts(upperChartData);
-        //ChartHelperTwo.processIncomingData(lotteryGame,eleOneData,10);
+        ChartHelperTwo.processIncomingData(lotteryGame,eleOneData,10);
+        Map<String,Object[]> dd = ChartHelperTwo.getGroupHitInformation();
+        System.out.println();
 
     }
 
@@ -230,7 +232,8 @@ public class ChartAnalysisController {
             LineChartWithHover lc = new LineChartWithHover(dataPoints,
                     colors[i],
                     (int) upperChartData.get(i)[3],
-                    (int) upperChartData.get(i)[4], unique.toString());
+                    (int) upperChartData.get(i)[4], unique.toString(),null,374,248);
+
             Label[] currentLabel = labelData[i];
             currentLabel[0].setText(upperChartData.get(i)[0] + "");
             currentLabel[1].setText(upperChartData.get(i)[1] + "");

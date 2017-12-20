@@ -63,7 +63,7 @@ public class Main extends Application {
         LottoAnalysisHomeController mainController = loader.getController();
 
         LottoScreenNavigator.setMainController( mainController );
-        LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE,Boolean.FALSE );
+        LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE,"",Boolean.FALSE );
 
         return mainPane;
     }
