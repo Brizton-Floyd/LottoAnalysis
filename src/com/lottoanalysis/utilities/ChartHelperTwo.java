@@ -252,4 +252,28 @@ public class ChartHelperTwo {
         groupHitInformation.put(groupArray,new Object[]{new ArrayList<Integer>(),0,0,0,new ArrayList<Integer>(),0.0,0,0,0,0});
 
     }
+	
+	public static List<Integer> extractAppropriatePosition(Map<String,Object[]> data, String group){
+
+		List<Integer> numbers = new ArrayList<>();
+
+		if( group.equals("1") ){
+
+			Map.Entry<String,Object[]> res = data.entrySet().iterator().next();	
+
+			return (List<Integer>) res.getValue()[0];
+
+		}		
+
+		for(Map.Entry<String,Object[]> positionData : data.entrySet()){
+
+			if(positionData.getKey().equals(group)){
+
+				numbers = (List<Integer>) positionData.getValue()[0];
+				break;
+			}
+		}
+
+		return numbers;
+	}	
 }
