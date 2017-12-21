@@ -1,4 +1,6 @@
-import java.util.*;;
+package com.lottoanalysis.utilities;
+
+import java.util.*;
 /*
 *
 */
@@ -14,9 +16,23 @@ public class CompanionNumberFinder{
 		
 		clearMap();
 		findRecentWinningLottoNumber( positionNumbers );
-		
+		print();
 	}
-	
+
+	private static void print(){
+
+		companionNumberHitTrackerMap.forEach((key,value) -> {
+
+			System.out.println("\nRecent Winning Number: " + key);
+			value.forEach( (keyTwo,valueTwo) -> {
+
+				System.out.println("Companion Number: " + keyTwo + "\t\tCompanion Hits and Game Out: " + Arrays.toString(valueTwo));
+			});
+
+		});
+
+	}
+
 	private static void clearMap(){
 		
 		if(companionNumberHitTrackerMap.size() > 0){
@@ -28,6 +44,7 @@ public class CompanionNumberFinder{
 		final int recentWinningNumber = numbers.get( numbers.size() - 1 );
 		
 		plugCompanionNumbersIntoMap( recentWinningNumber, numbers );
+
 	}
 	
 	private static void plugCompanionNumbersIntoMap(int recentWinningNumber, List<Integer> numbers){

@@ -32,7 +32,7 @@ public class ChartHelperTwo {
 		// analyze games out information
 		plugInNumbersForCurrentGamesOut();
 
-        print();
+        //print();
     }
 	
 	private static void plugInNumbersForCurrentGamesOut(){

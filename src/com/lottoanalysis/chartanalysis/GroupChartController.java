@@ -4,7 +4,7 @@ import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
 import com.lottoanalysis.utilities.ChartHelper;
 import com.lottoanalysis.utilities.ChartHelperTwo;
-import com.lottoanalysis.utilities.*;
+import com.lottoanalysis.utilities.CompanionNumberFinder;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -165,7 +165,7 @@ public class GroupChartController {
                 injectChartWithData(positionData,button.getText());
                 setUpGroupHitGridPane(positionData);
                 CompanionNumberFinder.analyzeIncomingInformation(
-                      ChartHelperTwo.extractAppropriatePosition( positionData, button.getText()) 
+                      ChartHelperTwo.extractAppropriatePosition( positionData, button.getText())
                 );
             });
 
