@@ -216,7 +216,7 @@ public class ChartHelperTwo {
         List<Integer> numberHolderList = new ArrayList<>();
 
         // start setting up to populate group hit map
-        for(int i = 0; i < maxNumber; i++){
+        for(int i = minNumber; i < maxNumber; i++){
 
             if(count == groupDivisor){
 
@@ -238,7 +238,7 @@ public class ChartHelperTwo {
                 numberHolderList.clear();
             }
 
-            numberHolderList.add( (i+1) );
+            numberHolderList.add( i );
             count++;
         }
         // plug in last remaining numbers if there are any;
