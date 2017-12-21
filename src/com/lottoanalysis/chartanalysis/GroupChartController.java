@@ -4,6 +4,7 @@ import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
 import com.lottoanalysis.utilities.ChartHelper;
 import com.lottoanalysis.utilities.ChartHelperTwo;
+import com.lottoanalysis.utilities.CompanionNumberFinder;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -163,7 +164,9 @@ public class GroupChartController {
             button.setOnAction(event -> {
                 injectChartWithData(positionData,button.getText());
                 setUpGroupHitGridPane(positionData);
-                // Set up companion number hit pane here will need to create method to analye current position data 
+                CompanionNumberFinder.analyzeIncomingInformation( 
+                      ChartHelperTwo.extractAppropriatePosition( positionData, button.getText()) 
+                );
             });
 
             if(count == 0) {
@@ -181,7 +184,7 @@ public class GroupChartController {
 
         injectChartWithData(positionData,((RadioButton)group.getToggles().get(0)).getText());
         setUpGroupHitGridPane(positionData);
-        // Set up companion number hit pane here will need to create method to analye current position data 
+        CompanionNumberFinder.analyzeIncomingInformation(ChartHelperTwo.extractAppropriatePosition( positionData, button.getText())); 
     }
 
     private void setUpGroupHitGridPane(Map<String, Object[]> positionData) {
