@@ -163,6 +163,7 @@ public class GroupChartController {
             button.setOnAction(event -> {
                 injectChartWithData(positionData,button.getText());
                 setUpGroupHitGridPane(positionData);
+                // Set up companion number hit pane here will need to create method to analye current position data 
             });
 
             if(count == 0) {
@@ -180,6 +181,7 @@ public class GroupChartController {
 
         injectChartWithData(positionData,((RadioButton)group.getToggles().get(0)).getText());
         setUpGroupHitGridPane(positionData);
+        // Set up companion number hit pane here will need to create method to analye current position data 
     }
 
     private void setUpGroupHitGridPane(Map<String, Object[]> positionData) {
