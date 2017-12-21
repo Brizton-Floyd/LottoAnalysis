@@ -240,6 +240,8 @@ public class GroupChartController {
         if(radioBtnAndChartHbox.getChildren().size() > 1)
             radioBtnAndChartHbox.getChildren().remove(1);
 
+        String[] colors = {"#FF0000", "#FF0000"};
+
         List<Integer> numList = (List<Integer>)positionData.get(text)[0];
         List<Integer> numListTwo = new ArrayList<>(numList);
         Collections.sort(numListTwo);
