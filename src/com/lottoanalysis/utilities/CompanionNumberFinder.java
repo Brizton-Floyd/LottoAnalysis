@@ -67,16 +67,23 @@ public class CompanionNumberFinder {
         data.put(0,companionNumberHitTrackerMap);
         data.put(1,companionNumberFirstDigitMap);
 
-
-
-        companionNumberHitTrackerMap.put(recentWinningNumber, new TreeMap<>());
+		Map<Integer,Map<Integer,Integer[]>> dataTwo = null;
+		for(Map.Entry<Integer,Map<Integer,Map<Integer,Integer>>> entry : data.entrySet()){
+			
+			if(entry.getValue().size() == 0){
+				dataTwo = entry.getValue();
+				break;
+			}
+		}
+		
+        dataTwo.put(recentWinningNumber, new TreeMap<>());
 
         for (int i = 0; i < numbers.size() - 1; i++) {
 
             if (numbers.get(i) == recentWinningNumber) {
 
                 int companionNumber = numbers.get(i + 1);
-                Map<Integer, Integer[]> companionNumberData = companionNumberHitTrackerMap.get(recentWinningNumber);
+                Map<Integer, Integer[]> companionNumberData = dataTwo.get(recentWinningNumber);
 
                 if (!companionNumberData.containsKey(companionNumber)) {
 
