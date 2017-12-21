@@ -1,13 +1,15 @@
 package com.lottoanalysis.utilities;
 
 import java.util.*;
-/*
-*
-*/
 public class CompanionNumberFinder{
 	
 	private static Map<Integer,Map<Integer,Integer[]>> companionNumberHitTrackerMap = new TreeMap<>();
+	private static List<Integer> companionNumberFirstElementHitDigitHolder = new ArrayList<>();
 	
+	public static List<Integer> getCompanionNumberFirstElementHitDigitHolder(){
+		
+		return companionNumberFirstElementHitDigitHolder;
+	}
 	/*
 	*
 	*	Method will start the analyzing process for all incoming numbers
@@ -16,23 +18,36 @@ public class CompanionNumberFinder{
 		
 		clearMap();
 		findRecentWinningLottoNumber( positionNumbers );
+		populateHitDigitList();
 		print();
+		
 	}
-
+	
 	private static void print(){
-
-		companionNumberHitTrackerMap.forEach((key,value) -> {
-
-			System.out.println("\nRecent Winning Number: " + key);
-			value.forEach( (keyTwo,valueTwo) -> {
-
-				System.out.println("Companion Number: " + keyTwo + "\t\tCompanion Hits and Game Out: " + Arrays.toString(valueTwo));
-			});
-
-		});
-
+	    
+        companionNumberHitTrackerMap.forEach( (key,value) -> {
+            
+            System.out.println("Recent Winning Number: " + key);
+            value.forEach( (keyTwo, valueTwo) -> {
+                
+                System.out.println("Companion Number: " + keyTwo + "\t\tCompanion Hits and Games Out: " + Arrays.toString(valueTwo));
+            }); 
+            
+        });	    
+	    
 	}
-
+	
+	private static void populateHitDigitList(){
+		
+		CompanionNumberHitDigitAnalyzer analyzer = new CompanionNumberHitDigitAnalyzer();
+		
+		List<Integer> nums = analyzer.getNumbers();
+		nums.forEach( n -> {
+			companionNumberFirstElementHitDigitHolder.add(n);
+		});
+		 
+	}
+	
 	private static void clearMap(){
 		
 		if(companionNumberHitTrackerMap.size() > 0){
@@ -44,7 +59,6 @@ public class CompanionNumberFinder{
 		final int recentWinningNumber = numbers.get( numbers.size() - 1 );
 		
 		plugCompanionNumbersIntoMap( recentWinningNumber, numbers );
-
 	}
 	
 	private static void plugCompanionNumbersIntoMap(int recentWinningNumber, List<Integer> numbers){
@@ -84,5 +98,31 @@ public class CompanionNumberFinder{
 				value[1]++;
 			}
 		});
+	}
+
+	private class CompanionNumberHitDigitAnalyzer{
+		
+		private List<Integer> numbers new ArrayList<>();
+		
+		public CompanionNumberHitDigitAnalyzer( Map<Integer,Map<Integer,Integer[]>> companionNumberData ){
+			
+			extractRelevantInformationFromMap(companionNumberData);
+		}
+		
+		private void extractRelevantInformationFromMap( Map<Integer,Map<Integer,Integer[]>> incomingData ){
+			// will set numbers in here after extracting data 
+			Map.Entry<Integer,Map<Integer,Integer[]>> data = incomingData.entrySet();
+			
+			Map<Integer,Integer[]> values = data.getValue();
+			values.forEach( (key,val) -> {
+				
+				
+			});
+		}
+		
+		public List<Integer> getNumbers(){
+			
+			return numbers;
+		}
 	}
 }
