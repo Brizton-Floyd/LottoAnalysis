@@ -35,12 +35,21 @@ public class CompanionNumberFinder {
 
         companionNumberHitTrackerMap.forEach((key, value) -> {
 
-            System.out.println("Recent Winning Number: " + key);
+            System.out.println("\nRecent Winning Number: " + key);
             value.forEach((keyTwo, valueTwo) -> {
 
                 System.out.println("Companion Number: " + keyTwo + "\t\tCompanion Hits and Games Out: " + Arrays.toString(valueTwo));
             });
 
+        });
+
+        companionNumberFirstDigitMap.forEach((key,value) -> {
+
+            System.out.println("\nCurrent Winning Companion Number Hit Digit: " + key);
+            value.forEach((keyTwo,valueTwo) -> {
+
+                System.out.println("Companion Number For Hit Digit: " + keyTwo + "\t\tHits and Games Out: " + Arrays.toString(valueTwo));
+            });
         });
 
     }
@@ -68,8 +77,8 @@ public class CompanionNumberFinder {
         data.put(1,companionNumberFirstDigitMap);
 
 		Map<Integer,Map<Integer,Integer[]>> dataTwo = null;
-		for(Map.Entry<Integer,Map<Integer,Map<Integer,Integer>>> entry : data.entrySet()){
-			
+		for(Map.Entry<Integer,Map<Integer,Map<Integer,Integer[]>>> entry : data.entrySet()){
+
 			if(entry.getValue().size() == 0){
 				dataTwo = entry.getValue();
 				break;
@@ -118,28 +127,4 @@ public class CompanionNumberFinder {
         });
     }
 
-    private class CompanionNumberHitDigitAnalyzer {
-
-        private List<Integer> numbers = new ArrayList<>();
-
-        public CompanionNumberHitDigitAnalyzer() {
-
-        }
-
-        private void extractRelevantInformationFromMap(Map<Integer, Map<Integer, Integer[]>> incomingData) {
-            // will set numbers in here after extracting data
-			Map.Entry<Integer,Map<Integer,Integer[]>> data = incomingData.entrySet().iterator().next();
-
-            Map<Integer,Integer[]> values = data.getValue();
-			values.forEach( (key,val) -> {
-
-
-			});
-        }
-
-        public List<Integer> getNumbers() {
-
-            return numbers;
-        }
-    }
 }

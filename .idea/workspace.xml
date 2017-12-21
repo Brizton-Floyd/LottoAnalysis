@@ -125,8 +125,8 @@
       <file leaf-file-name="CompanionNumberFinder.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/CompanionNumberFinder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1600">
-              <caret line="83" column="76" lean-forward="true" selection-start-line="79" selection-start-column="0" selection-end-line="83" selection-end-column="76" />
+            <state relative-caret-position="1280">
+              <caret line="47" column="34" lean-forward="false" selection-start-line="47" selection-start-column="34" selection-end-line="47" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -702,7 +702,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-16" y="-16" width="3872" height="2092" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -723,7 +722,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5131212" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4723618" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1420,25 +1419,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/CompanionNumberFinder.java</url>
-          <line>123</line>
+          <line>74</line>
           <properties />
-          <option name="timeStamp" value="925" />
+          <option name="timeStamp" value="929" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/CompanionNumberFinder.java</url>
-          <line>101</line>
+          <line>117</line>
           <properties />
-          <option name="timeStamp" value="928" />
+          <option name="timeStamp" value="930" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/CompanionNumberFinder.java</url>
+          <line>30</line>
+          <properties />
+          <option name="timeStamp" value="931" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="929" />
+      <option name="time" value="932" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="((LinkedHashMap)gameRanges).entrySet().toArray()[4]" custom="java.util.LinkedHashMap" />
+        <watch expression="((Integer[])((TreeMap.Entry)((TreeMap)((TreeMap.Entry)((TreeMap)CompanionNumberFinder.companionNumberFirstDigitMap).entrySet().toArray()[0]).getValue()).entrySet().toArray()[1]).getValue())[1]" custom="java.util.TreeMap,java.util.TreeMap.Entry,java.lang.Integer[]" />
       </configuration>
     </watches-manager>
   </component>
@@ -1865,8 +1871,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/CompanionNumberFinder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1600">
-          <caret line="83" column="76" lean-forward="true" selection-start-line="79" selection-start-column="0" selection-end-line="83" selection-end-column="76" />
+        <state relative-caret-position="1280">
+          <caret line="47" column="34" lean-forward="false" selection-start-line="47" selection-start-column="34" selection-end-line="47" selection-end-column="34" />
           <folding />
         </state>
       </provider>
