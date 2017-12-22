@@ -5,6 +5,7 @@ import com.lottoanalysis.lottoinfoandgames.LotteryGame;
 import com.lottoanalysis.utilities.ChartHelper;
 import com.lottoanalysis.utilities.ChartHelperTwo;
 import com.lottoanalysis.utilities.CompanionNumberFinder;
+import com.lottoanalysis.utilities.LineSpacingHelper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -167,6 +168,7 @@ public class GroupChartController {
                 CompanionNumberFinder.analyzeIncomingInformation(
                       ChartHelperTwo.extractAppropriatePosition( positionData, button.getText())
                 );
+                //LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,button.getText()));
             });
 
             if(count == 0) {
@@ -185,6 +187,8 @@ public class GroupChartController {
         injectChartWithData(positionData,((RadioButton)group.getToggles().get(0)).getText());
         setUpGroupHitGridPane(positionData);
         CompanionNumberFinder.analyzeIncomingInformation(ChartHelperTwo.extractAppropriatePosition( positionData, "1"));
+        LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
+
     }
 
     private void setUpGroupHitGridPane(Map<String, Object[]> positionData) {
@@ -247,12 +251,12 @@ public class GroupChartController {
         Collections.sort(numListTwo);
 
         List<List<Integer>> dataPoints = new ArrayList<>();
-        dataPoints.add((numList.size() > 100) ? numList.subList(numList.size()-100,numList.size()) : numList);
+        dataPoints.add((numList.size() > 150) ? numList.subList(numList.size()-150,numList.size()) : numList);
 
         List<Integer> pointTwo = (numList.size() > 0) ? ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber(numList) : new ArrayList<>();
 
         if(pointTwo.size() > 0)
-            dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 30, pointTwo.size()) : pointTwo);
+            dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 100, pointTwo.size()) : pointTwo);
 
         Set<Integer> unique = new HashSet<>(numListTwo);
 
