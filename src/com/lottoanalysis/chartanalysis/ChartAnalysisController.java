@@ -221,10 +221,10 @@ public class ChartAnalysisController {
              ChartHelper.plugNumbersIntoRecentWinningNumberCompanionMap(points);
 
             List<List<Integer>> dataPoints = new ArrayList<>();
-            dataPoints.add((points.size() > 100) ? points.subList(points.size() - 30, points.size()) : points);
+            dataPoints.add((points.size() > 100) ? points.subList(points.size() - 60, points.size()) : points);
 
-            if(pointTwo.size() > 0)
-                dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 30, pointTwo.size()) : pointTwo);
+           // if(pointTwo.size() > 0)
+                //dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 30, pointTwo.size()) : pointTwo);
 
             //LineSpacingHelper.determineMostProbableLineSpacing(points);
            // LineSpacingHelper.num++;
