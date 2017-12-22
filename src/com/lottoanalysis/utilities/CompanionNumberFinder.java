@@ -7,7 +7,7 @@ public class CompanionNumberFinder {
     private static Map<Integer, Map<Integer, Integer[]>> companionNumberHitTrackerMap = new TreeMap<>();
     private static Map<Integer,Map<Integer,Integer[]>> companionNumberFirstDigitMap = new TreeMap<>();
     private static  List<Integer> companionNumberFirstElementHitDigitHolder = new ArrayList<>();
-
+    
     public static List<Integer> getCompanionNumberFirstElementHitDigitHolder() {
 
         return companionNumberFirstElementHitDigitHolder;
@@ -28,7 +28,11 @@ public class CompanionNumberFinder {
 
     private static void findRecentWinningDigitNumber(List<Integer> companionNumberFirstElementHitDigitHolder) {
 
-        findRecentWinningLottoNumber(companionNumberFirstElementHitDigitHolder);
+        List<Integer> numbers = new ArrayList<>(companionNumberFirstElementHitDigitHolder);
+       // System.out.println("Number List Size: " + numbers.size());
+        companionNumberFirstElementHitDigitHolder.clear();
+        
+        findRecentWinningLottoNumber(numbers);
     }
 
     private static void print() {
@@ -65,9 +69,12 @@ public class CompanionNumberFinder {
 
     private static void findRecentWinningLottoNumber(List<Integer> numbers) {
 
-        final int recentWinningNumber = numbers.get(numbers.size() - 1);
-
-        plugCompanionNumbersIntoMap(recentWinningNumber, numbers);
+        if(numbers.size() > 1 ){
+            final int recentWinningNumber = numbers.get(numbers.size() - 1);
+    
+            plugCompanionNumbersIntoMap(recentWinningNumber, numbers);
+        }
+        
     }
 
     private static void plugCompanionNumbersIntoMap(int recentWinningNumber, List<Integer> numbers) {
@@ -90,8 +97,9 @@ public class CompanionNumberFinder {
         for (int i = 0; i < numbers.size() - 1; i++) {
 
             if (numbers.get(i) == recentWinningNumber) {
-
+               // System.out.println("Before: " + numbers.get(i));
                 int companionNumber = numbers.get(i + 1);
+                //System.out.println("After: " + companionNumber);
                 Map<Integer, Integer[]> companionNumberData = dataTwo.get(recentWinningNumber);
 
                 if (!companionNumberData.containsKey(companionNumber)) {
@@ -106,15 +114,17 @@ public class CompanionNumberFinder {
                     incrementGamesOut(companionNumberData, companionNumber);
                 }
 
+                
                 // place numbers into hit tracker list
                 Integer[] trackerData = companionNumberData.get(companionNumber);
-                int digit = (Integer.toString(trackerData[0]).length() > 1) ? Character.getNumericValue(Integer.toString(trackerData[0]).charAt(0))
-                                                                            : 0;
+               // System.out.println(Integer.toString(trackerData[0]));
+                int digit = (Integer.toString(trackerData[0]).length() > 1) ? Character.getNumericValue(Integer.toString(trackerData[0]).charAt(0)) : 0;
                 getCompanionNumberFirstElementHitDigitHolder().add(digit);
+                //System.out.println(digit + "\tHit with number: " + companionNumber);
+            
             }
 
         }
-
     }
 
     private static void incrementGamesOut(Map<Integer, Integer[]> companionNumberData, int companionNumber) {
