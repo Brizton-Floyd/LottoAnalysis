@@ -4,6 +4,7 @@ public class Groupings{
 	
 	// Define fields up here 
 	private static Map<Integer[],Object[]> data = new LinkedHashMap<>();
+	private static Map<Integer,Integer[]> gamesOutData = new TreeMap<>();
 	
 	public static void analyze( int[] drawPositionNumbes ) {
 		clearMap();		
@@ -16,7 +17,16 @@ public class Groupings{
 	    
 	    data.forEach( (key, value) -> {
 	        
-	        System.out.println("\nKey: " + Arrays.toString(key) + "\t\tValue: " + Arrays.toString(value) );
+	        System.out.println("\nKey: " + Arrays.toString(key) + "\tValue: " + Arrays.toString(value) );
+			
+			int gamesOut = value[1];
+			if(gamesOutData.containsKey(gamesOut)){
+				Integer[] vals = gamesOutData.get( gamesOut );
+				System.out.print("\tGroup Games Out: " + gamesOut + "\tGames Out Hits: " + vals[0] + "\tHits Games Out: " + vals[1]);
+			}else{
+				
+				System.out.print("\tNever Hit at games out");
+			}
 	    });
 	}
 	
@@ -32,7 +42,7 @@ public class Groupings{
 	}
 	
 	private static void clearMap(){
-		
+		gamesOutData.clear();
 		data.clear();
 	}
 	
@@ -65,6 +75,17 @@ public class Groupings{
 					
 					Object[] dataValues = dataSet.getValue();
 					dataValues[0] = (int) dataValues[0] + 1;
+					
+					if( !gamesOutData.containsKey( (int)dataValues[1] ) ){
+						gamesOutData.put( (int)dataValues[1], new Integer[]{1,0} );
+						incrementGamesOut(gamesOutData, (int)dataValues[1]);
+					}else{
+						
+						Integer[] gameOutValues = gamesOutData.get( (int)dataValues[1] );
+						gameOutValues[0]++;
+						gameOutValues
+						incrementGamesOut(gamesOutData, (int)dataValues[1]);
+					}
 					dataValues[1] = 0;
 					incrementGamesOut(data, dataSet.getKey());
 					break;
@@ -74,6 +95,17 @@ public class Groupings{
 			}
 			
 		}
+	}
+	
+	private static void incrementGamesOut(Map<Integer,Integer[]> gamesOutInfo, Integer gamesOut){
+		
+		gamesOutInfo.forEach( (key,value) -> {
+			
+			if(key != gamesOut){
+				value[1]++;
+			}
+		});
+		
 	}
 	
 	private static void incrementGamesOut(Map<Integer[],Object[]> hitInformation, Integer[] arrayValues ){
