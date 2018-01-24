@@ -1,15 +1,17 @@
 package com.lottoanalysis.utilities;
 
 import java.util.*;
+import com.lottoanalysis.lottoinfoandgames;
 
 @SuppressWarnings("unchecked")
 class ProbableSumFinder{
 	
 	private static Map<Integer,Map<String,Object[]>> hitDirectionHolder = new TreeMap<>();
 	private static List<Integer> numbersAsSums = new ArrayList<>();
+	private static Map<Integer, Integer> gamesOutHolderForAllRanges = new TreeMap<>();
 	private static int winningSum; 
 	
-	public static void analyze( int[] winningNumbers, LotteryGame game ){
+	public static void analyze( int[] winningNumbers, LotteryGame){
 		
 		clear();
 		loadHitDirectionHolder();
@@ -30,15 +32,37 @@ class ProbableSumFinder{
 	    
 	    System.out.println("------------------------------");	
 	    System.out.println("Direction Analysis information");
-	    System.out.println("------------------------------\n");	   
+	    System.out.println("------------------------------\n");	
+	    
+	    List<Integer> currentGamesOutForEachRange = new LinkedList<>();
 	    
 	    hitDirectionHolder.forEach( (key,value) -> {
 	        
 	        value.forEach( (keyTwo, valueTwo) -> {
 
 	            System.out.println("Direction: " + String.format("%5s", keyTwo) + "\tHits: "+ String.format("%-5d", valueTwo[0]) + "\tGames Out: "+String.format("%-4d", valueTwo[1] ) + "\t\tHits At Games Out: " + valueTwo[2] + "\t\tGames Ago: " + valueTwo[4]);
+	            
+                currentGamesOutForEachRange.add((int)valueTwo[1]);	            
 	        });
 	    });
+	    
+	    System.out.println("\n--------------------------------------");	
+	    System.out.println("Game Out Total Hits Amongst All Groups");
+	    System.out.println("--------------------------------------\n");
+	    
+	    for(int i = 0; i < currentGamesOutForEachRange.size(); i++ ){
+	        
+	        int val = currentGamesOutForEachRange.get(i);
+	        if(gamesOutHolderForAllRanges.get(val) != null){
+	            
+	            System.out.println("Out #: " + val + "\tTotal Hits: " + gamesOutHolderForAllRanges.get(val));
+	        }
+	        else
+	        {
+	            System.out.println("Out #: " + val + "\tHas never hit before");	            
+	        }
+	    }
+	    
 	}
 	
 	private static void setSum(int value){
@@ -50,6 +74,7 @@ class ProbableSumFinder{
 	private static void clear(){
 		hitDirectionHolder.clear();
 		numbersAsSums.clear();
+		gamesOutHolderForAllRanges.clear();
 	}
 	
 	private static void populateHitDirectionHolder(){
@@ -70,6 +95,7 @@ class ProbableSumFinder{
 					Object[] dataTwo = data.get("Up");
 					dataTwo[0] = (int)dataTwo[0] + 1;
 					((List<Integer>) dataTwo[3]).add( (int)dataTwo[1] );
+					loadGamesOutHolderForAllRanges( (int) dataTwo[1] );
 					dataTwo[1] = 0;
 					incrementGamesOut(hitDirectionHolder,1);
 				}
@@ -78,7 +104,8 @@ class ProbableSumFinder{
 					data = hitDirectionHolder.get(2);
 					Object[] dataTwo = data.get("Down");					
 					dataTwo[0] = (int) dataTwo[0] + 1;
-					((List<Integer>) dataTwo[3]).add( (int)dataTwo[1] );					
+					((List<Integer>) dataTwo[3]).add( (int)dataTwo[1] );
+					loadGamesOutHolderForAllRanges( (int) dataTwo[1] );
 					dataTwo[1] = 0;
 					incrementGamesOut(hitDirectionHolder,2);					
 				}
@@ -87,7 +114,8 @@ class ProbableSumFinder{
 					data = hitDirectionHolder.get(3);
 					Object[] dataTwo = data.get("Equal");					
 					dataTwo[0] = (int) dataTwo[0] + 1;
-					((List<Integer>) dataTwo[3]).add( (int)dataTwo[1] );					
+					((List<Integer>) dataTwo[3]).add( (int)dataTwo[1] );
+					loadGamesOutHolderForAllRanges( (int) dataTwo[1] );
 					dataTwo[1] = 0;
 					incrementGamesOut(hitDirectionHolder,3);					
 				}
@@ -113,6 +141,18 @@ class ProbableSumFinder{
 				valueTwo[4] = Math.abs( nums.lastIndexOf(currentGamesOut) - nums.size() );
 			});
 		});
+	}
+	
+	private static void loadGamesOutHolderForAllRanges( int gameOutValue ){
+	    
+	    if(!gamesOutHolderForAllRanges.containsKey( gameOutValue ) ){
+	        gamesOutHolderForAllRanges.put(gameOutValue, 1);
+	    }
+	    else{
+	        int num = gamesOutHolderForAllRanges.get(gameOutValue);
+	        num++;
+	        gamesOutHolderForAllRanges.put(gameOutValue, num);
+	    }
 	}
 	
 	private static void incrementGamesOut(Map<Integer,Map<String,Object[]>> numberInformation, int number){
