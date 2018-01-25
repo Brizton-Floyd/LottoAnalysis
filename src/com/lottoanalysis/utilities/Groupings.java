@@ -1,3 +1,4 @@
+package com.lottoanalysis.utilities;
 import java.util.*;
 
 public class Groupings{
@@ -17,19 +18,19 @@ public class Groupings{
 	    
 	    data.forEach( (key, value) -> {
 	        
-	        System.out.println("\nKey: " + Arrays.toString(key) + "\tValue: " + Arrays.toString(value) );
-			
-			int gamesOut = value[1];
+			int gamesOut = (int) value[1];
 			if(gamesOutData.containsKey(gamesOut)){
 				Integer[] vals = gamesOutData.get( gamesOut );
-				System.out.print("\tGroup Games Out: " + gamesOut + "\tGames Out Hits: " + vals[0] + "\tHits Games Out: " + vals[1]);
+				System.out.println("\nKey: " + Arrays.toString(key) + "\tValue: " + Arrays.toString(value) +
+						"\tGroup Games Out: " + gamesOut + "\tGames Out Hits: " + vals[0] + "\tHits Games Out: " + vals[1] );
+
 			}else{
-				
-				System.out.print("\tNever Hit at games out");
+				System.out.println("\nKey: " + Arrays.toString(key) + "\tValue: " + Arrays.toString(value) +
+						"\tNever Hit at games out");
 			}
 	    });
 	}
-	
+
 	// define private methods down here
 	private static void populateMap(){
 		
@@ -83,7 +84,7 @@ public class Groupings{
 						
 						Integer[] gameOutValues = gamesOutData.get( (int)dataValues[1] );
 						gameOutValues[0]++;
-						gameOutValues
+						gameOutValues[1]=0;
 						incrementGamesOut(gamesOutData, (int)dataValues[1]);
 					}
 					dataValues[1] = 0;

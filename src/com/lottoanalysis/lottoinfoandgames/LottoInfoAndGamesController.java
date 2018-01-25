@@ -178,8 +178,11 @@ public class LottoInfoAndGamesController {
                     data.add(dashboardController.getPositionalNumbers() );
                     data.add( dashboardController.getDeltaNumberForLastDraw());
                     data.add(dashboardController.getPositionalSums());
+                    data.add(dashboardController.getLineSpacings());
+                    data.add(dashboardController.getRemainder());
 
                     setValues( data );
+
                     // Set static lottery game for reference by other classes
                     setLotteryGame(game);
 

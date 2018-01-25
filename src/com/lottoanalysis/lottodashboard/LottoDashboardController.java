@@ -45,7 +45,7 @@ public class LottoDashboardController  {
     private MainController mainController;
     private LotteryGame lotteryGame;
     private static int universalCount = 0;
-    private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums;
+    private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums, lineSpacings, remainder;
     private static LotteryGame classLevelLotteryGame;
     private static List<Object> numbersForChartDisplay = new ArrayList<>();
 
@@ -143,6 +143,14 @@ public class LottoDashboardController  {
         universalCount = val;
     }
 
+    public int[][] getRemainder() {
+        return remainder;
+    }
+
+    public int[][] getLineSpacings() {
+        return lineSpacings;
+    }
+
     public int[][] getPositionalNumbers() {
         return positionalNumbers;
     }
@@ -173,6 +181,8 @@ public class LottoDashboardController  {
         loadUpPositionalNumbers(positionalNumbers, lotteryGame.getDrawingData());
         deltaNumberForLastDraw = NumberPatternAnalyzer.findDeltaNumbers(positionalNumbers);
         positionalSums = NumberPatternAnalyzer.findPositionalSums(positionalNumbers);
+        lineSpacings = NumberPatternAnalyzer.lineSpacings(positionalNumbers);
+        remainder = NumberPatternAnalyzer.computeRemainders(positionalNumbers);
 
         GamesOutViewAnalyzer gamesOutViewAnalyzer = new GamesOutViewAnalyzer(positionalNumbers, lotteryGame);
         Map<String, Map<String, Integer[]>> res = gamesOutViewAnalyzer.analyzeWinningNumberDistrubution();
@@ -182,6 +192,8 @@ public class LottoDashboardController  {
         chartPoints.add( positionalNumbers);
         chartPoints.add(deltaNumberForLastDraw);
         chartPoints.add(positionalSums);
+        chartPoints.add(lineSpacings);
+        chartPoints.add(remainder);
 
         setNumbersForChartDisplay( chartPoints );
 
