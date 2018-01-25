@@ -23,7 +23,7 @@ class ProbableSumFinder{
 		
 	}
 	
-	public static void analyze( int[] winningNumbers, LotteryGame game){
+	public static void analyze( int[] winningNumbers){
 		
 		clear();
 		loadHitDirectionHolder();
@@ -69,7 +69,7 @@ class ProbableSumFinder{
 	        int val = currentGamesOutForEachRange.get(i);
 	        if(gamesOutHolderForAllRanges.get(val) != null){
 	            
-	            System.out.println("Out #: " + val + "\tTotal Hits: " + gamesOutHolderForAllRanges.get(val));
+	            System.out.println("Out #: " + val + "\tHits: " + gamesOutHolderForAllRanges.get(val));
 	        }
 	        else
 	        {
@@ -113,7 +113,7 @@ class ProbableSumFinder{
 	            for(int k = 0; k < indexHolder.size(); k++){
 	                Integer[] stats = info.get( indexHolder.get(k) );
 	                if(stats != null)
-	                     System.out.println("Out #: " + indexHolder.get(k) + "\tHits: " + stats[0] + "\tGames Ago: " + stats[1]);
+	                     System.out.println("Out #: " + indexHolder.get(k) + "\tHits: " + String.format("%03d", stats[0]) + "\tGames Ago: " + stats[1]);
 	                else
 	                     System.out.println("Out #: " + indexHolder.get(k) + "\tHas Never Hit Before" );	  
 	            }
