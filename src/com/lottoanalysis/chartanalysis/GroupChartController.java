@@ -2,10 +2,7 @@ package com.lottoanalysis.chartanalysis;
 
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
-import com.lottoanalysis.utilities.ChartHelper;
-import com.lottoanalysis.utilities.ChartHelperTwo;
-import com.lottoanalysis.utilities.CompanionNumberFinder;
-import com.lottoanalysis.utilities.LineSpacingHelper;
+import com.lottoanalysis.utilities.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -147,6 +144,7 @@ public class GroupChartController {
 
         int[] drawingPos = drawPositionalNumbers[drawPosition];
 
+        ProbableSumFinder.analyze(drawingPos,lotteryGame);
         ChartHelperTwo.clearGroupHitInformation();
         ChartHelperTwo.processIncomingData(lotteryGame, drawingPos, drawSize);
 

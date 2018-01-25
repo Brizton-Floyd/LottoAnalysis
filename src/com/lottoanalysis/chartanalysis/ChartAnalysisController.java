@@ -109,7 +109,7 @@ public class ChartAnalysisController {
                             int[] eleOneData = ChartHelper.returnNumbersAtIndex(posisitionArray, "0");
                             List<Object[]> upperChartData = ChartHelper.setUpTopLevelCharts(eleOneData,"1");
                             setUpTopCharts(upperChartData);
-                            Groupings.analyze( eleOneData );
+                            //Groupings.analyze( eleOneData );
                             print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
                         }
                         break;
@@ -119,7 +119,7 @@ public class ChartAnalysisController {
                             int[] eleTwoData = ChartHelper.returnNumbersAtIndex(posisitionArray, "1");
                             List<Object[]> upperChartDataTwo = ChartHelper.setUpTopLevelCharts(eleTwoData,"1");
                             setUpTopCharts(upperChartDataTwo);
-                            Groupings.analyze( eleTwoData );
+                            //Groupings.analyze( eleTwoData );
                             print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
 
                         }

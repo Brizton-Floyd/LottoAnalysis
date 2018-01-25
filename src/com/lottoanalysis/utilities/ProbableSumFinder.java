@@ -1,10 +1,10 @@
 package com.lottoanalysis.utilities;
 
 import java.util.*;
-import com.lottoanalysis.lottoinfoandgames;
+import com.lottoanalysis.lottoinfoandgames.*;
 
 @SuppressWarnings("unchecked")
-class ProbableSumFinder{
+public class ProbableSumFinder{
 	
 	private static Map<Integer,Map<String,Object[]>> hitDirectionHolder = new TreeMap<>();
 	private static List<Integer> numbersAsSums = new ArrayList<>();
@@ -23,7 +23,7 @@ class ProbableSumFinder{
 		
 	}
 	
-	public static void analyze( int[] winningNumbers){
+	public static void analyze( int[] winningNumbers, LotteryGame game ){
 		
 		clear();
 		loadHitDirectionHolder();
@@ -35,7 +35,7 @@ class ProbableSumFinder{
 		// groups depending on direction 
 		
 		//you will need to pass the game object here in order use the min and max value for the game but for now we will hardcode some values in the function
-		formGroupsBasedAroundCurrentWinningNumber(winningNumbers);
+		formGroupsBasedAroundCurrentWinningNumber(winningNumbers,game);
 		
 		print();
 	}
@@ -89,7 +89,7 @@ class ProbableSumFinder{
 	        Map<Integer[],Object[]> lottoData = groupAndNumberHitHolder.get( names[j] );
 	        if(lottoData != null){
 	            
-	            System.out.println( "\n" + names[j] + " Hit Information\n");
+	            System.out.println( "\n<----------" + names[j] + " Hit Information ---------->\n");
 	            lottoData.forEach( (k,v) -> {
 	                
 	                int count = 0;
@@ -123,10 +123,10 @@ class ProbableSumFinder{
 	    
 	}
 	
-	private static void formGroupsBasedAroundCurrentWinningNumber(int[] winningNumbers){
+	private static void formGroupsBasedAroundCurrentWinningNumber(int[] winningNumbers, LotteryGame game){
 	
-		int min = 1; 
-		int max = 39; 
+		int min = game.getMinNumber();
+		int max = game.getMaxNumber();
 		int dif = 0;
 		int groupSize = 0;
 		//Map<String,Map<Integer[],Map<Integer,Integer[]>>> groupAndNumberHitHolder
@@ -413,7 +413,7 @@ class ProbableSumFinder{
 	/**
      * Loads the direction holder with appropriate data 
      *
-     * @param context -passed as parameter.
+     *
      */
 	private static void loadHitDirectionHolder(){
 		
