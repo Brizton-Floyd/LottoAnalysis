@@ -149,7 +149,7 @@ public class ProbableSumFinder{
 
 			Map<Integer[], Object[]> data = new LinkedHashMap<>();
 			
-			dif = Math.abs( currentWinningDigit - min );
+			dif = (min == 0) ? Math.abs( currentWinningDigit - min ) - 1 : Math.abs( currentWinningDigit - min );
 			List<Integer> belowNumberList = new ArrayList<>();
 			
 			for(int i = min; i <= dif; i++){
