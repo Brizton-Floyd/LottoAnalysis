@@ -1,10 +1,12 @@
 package com.lottoanalysis.utilities;
 
+import com.lottoanalysis.lottoinfoandgames.LotteryGame;
+
 import java.util.*;
-import com.lottoanalysis.lottoinfoandgames;
+
 
 @SuppressWarnings("unchecked")
-class ProbableSumFinder{
+public class ProbableSumFinder{
 	
 	private static Map<Integer,Map<String,Object[]>> hitDirectionHolder = new TreeMap<>();
 	private static List<Integer> numbersAsSums = new ArrayList<>();
@@ -12,7 +14,7 @@ class ProbableSumFinder{
 	private static Map<String,Map<Integer[],Object[]>> groupAndNumberHitHolder = new LinkedHashMap<>();
 	private static Map<String,Map<Integer,Integer[]>> aboveAndBelowGroupGameOutTracker = new LinkedHashMap<>();
 	private static int winningSum; 
-	
+
 	
     private static void clear(){
 		hitDirectionHolder.clear();
@@ -22,8 +24,8 @@ class ProbableSumFinder{
 		aboveAndBelowGroupGameOutTracker.clear();
 		
 	}
-	
-	public static void analyze( int[] winningNumbers){
+
+	public static void analyze( int[] winningNumbers, LotteryGame game){
 		
 		clear();
 		loadHitDirectionHolder();
@@ -35,7 +37,7 @@ class ProbableSumFinder{
 		// groups depending on direction 
 		
 		//you will need to pass the game object here in order use the min and max value for the game but for now we will hardcode some values in the function
-		formGroupsBasedAroundCurrentWinningNumber(winningNumbers);
+		formGroupsBasedAroundCurrentWinningNumber(winningNumbers,game);
 		
 		print();
 	}
@@ -89,7 +91,7 @@ class ProbableSumFinder{
 	        Map<Integer[],Object[]> lottoData = groupAndNumberHitHolder.get( names[j] );
 	        if(lottoData != null){
 	            
-	            System.out.println( "\n" + names[j] + " Hit Information\n");
+	            System.out.println( "\n<------------ " + names[j] + " Hit Information ------------> \n");
 	            lottoData.forEach( (k,v) -> {
 	                
 	                int count = 0;
@@ -102,7 +104,16 @@ class ProbableSumFinder{
 	                
 	                indexHolder.add( (int)v[1] );
 	                int gamesAgo = Math.abs( ((List<Integer>)v[3]).lastIndexOf((int)v[1]) - ((List<Integer>)v[3]).size());
-	              	System.out.println("LottoNumber Group: " + String.format("%20s",Arrays.toString(k)) + "\t\tHits: " + v[0] + "\tGames Out: " + v[1] + "\tHits At Games Out: " + count + "\tGames Ago: " + gamesAgo);  
+	              	System.out.println("LottoNumber Group: " + String.format("%20s",Arrays.toString(k)) + "\t\tHits: " + String.format("%3d",v[0]) +
+							"\t\tGames Out: " + v[1] + "\t\t Hits At Games Out: " + count + "\t\tGames Ago: " + gamesAgo +"\n");
+					System.out.println(String.format("%50s","Number Performance Within Group") + "\n");
+
+					((Map<Integer,Integer[]>)v[2]).forEach((kk,vv) -> {
+						System.out.println(String.format("%30s", "Lotto #: " + String.format("%2d",kk)) + "\t\tHits: " + String.format("%4d",vv[0]) + "\t\tGames Out: " +
+								String.format("%4d",vv[1]));
+
+					});
+					System.out.println();
 	            });
 	            
 	        }
@@ -123,10 +134,10 @@ class ProbableSumFinder{
 	    
 	}
 	
-	private static void formGroupsBasedAroundCurrentWinningNumber(int[] winningNumbers){
+	private static void formGroupsBasedAroundCurrentWinningNumber(int[] winningNumbers, LotteryGame game){
 	
-		int min = 1; 
-		int max = 39; 
+		int min = game.getMinNumber();
+		int max = game.getMaxNumber();
 		int dif = 0;
 		int groupSize = 0;
 		//Map<String,Map<Integer[],Map<Integer,Integer[]>>> groupAndNumberHitHolder
@@ -217,56 +228,66 @@ class ProbableSumFinder{
 		for(int i = 0; i < wininingNumbers.length; i++){
 			
 			final int num = wininingNumbers[i];
-			
+			List<Integer> n = Arrays.asList( Arrays.stream(wininingNumbers).boxed().toArray(Integer[]::new) );
 			groupAndNumberHitHolder.forEach( (k,v) -> {
 				
 				v.forEach( (kTwo, vTwo) -> {
 					
 					List<Integer> data = Arrays.asList(kTwo);
 					
-					if(data.contains( num ) ){
-						
+					if(data.contains( num ) ) {
+
 						vTwo[0] = (int) vTwo[0] + 1;
-                        Map<Integer, Integer[]> tracker = aboveAndBelowGroupGameOutTracker.get( k );
-                        
-						((List<Integer>)vTwo[3]).add( (int)vTwo[1] );
-						if(!tracker.containsKey((int)vTwo[1]) ){
-						    
-						    tracker.put((int)vTwo[1], new Integer[]{1,0});
-						    
-						    // yourll need to increment games out here 
-						    incrementGamesOutTwo(tracker,(int)vTwo[1]);
+						String val = (currentWinningLottoNumbers < num) ? "Below" : "Above";
+						Map<Integer, Integer[]> tracker = aboveAndBelowGroupGameOutTracker.get(val);
+
+						((List<Integer>) vTwo[3]).add((int) vTwo[1]);
+						if (!tracker.containsKey((int) vTwo[1])) {
+
+							tracker.put((int) vTwo[1], new Integer[]{1, 0});
+
+							// yourll need to increment games out here
+							incrementGamesOutTwo(tracker, (int) vTwo[1]);
+						} else {
+
+							Integer[] gameOutData = tracker.get((int) vTwo[1]);
+							gameOutData[0]++;
+							gameOutData[1] = 0;
+
+							// youll need to increment games out here
+							incrementGamesOutTwo(tracker, (int) vTwo[1]);
 						}
-						else{
-						    
-						    Integer[] gameOutData = tracker.get( (int)vTwo[1] );
-						    gameOutData[0]++;
-						    gameOutData[1] = 0;
-						    
-						    // youll need to increment games out here 
-						    incrementGamesOutTwo(tracker,(int)vTwo[1]);						    
+
+						vTwo[1] = 0;
+						incrementGamesOut(groupAndNumberHitHolder, kTwo);
+						Map<Integer, Integer[]> lottoNumberData = (TreeMap<Integer, Integer[]>) vTwo[2];
+
+						if (!lottoNumberData.containsKey(num)) {
+
+							lottoNumberData.put(num, new Integer[]{1, 0});
+							incrementGamesOut(lottoNumberData, num,n);
+						} else {
+							Integer[] lottoData = lottoNumberData.get(num);
+							lottoData[0]++;
+							lottoData[1] = 0;
+							incrementGamesOut(lottoNumberData, num, n);
 						}
-						
-						vTwo[1] = 0; 
-						incrementGamesOut(v,kTwo);
-						Map<Integer, Integer[]> lottoNumberData = (TreeMap<Integer,Integer[]>)vTwo[2];
-						
-						if(!lottoNumberData.containsKey(num) )
-						{
-						    
-						    lottoNumberData.put( num, new Integer[]{1,0});
-						}
-						else
-						{
-						    Integer[] lottoData = lottoNumberData.get( num );
-						    lottoData[0]++;
-						    lottoData[1] = 0;
-						}
+
 					}
+
 				});
 			});
 		}
 		
+	}
+
+	private static void incrementGamesOut(Map<Integer, Integer[]> tracker, int num, List<Integer> n)
+	{
+		tracker.forEach( (k,v) -> {
+
+			if(k != num)
+				v[1] = Math.abs( n.lastIndexOf(k) - n.size());
+		});
 	}
 	
 	private static void incrementGamesOutTwo(Map<Integer, Integer[]> tracker, int num)
@@ -277,15 +298,18 @@ class ProbableSumFinder{
 	            v[1]++;
 	    });
 	}
-	private static void incrementGamesOut( Map<Integer[],Object[]> data, Integer[] key )
+	private static void incrementGamesOut( Map<String,Map<Integer[],Object[]>> data, Integer[] key )
 	{
 		
 		data.forEach( (k,v) -> {
-			
-			if(!Arrays.equals( k, key ) ){
-				
-				v[1] = (int) v[1] + 1;
-			}
+
+			v.forEach( (kk,vv) -> {
+				if(!Arrays.equals( kk, key ) ){
+
+					vv[1] = (int) vv[1] + 1;
+				}
+			});
+
 		});
 		
 	}
@@ -401,7 +425,7 @@ class ProbableSumFinder{
 		for(int i = 0; i < winningNumbers.length; i++){
 			
 			String numberAsString = winningNumbers[i] + "";
-			
+
 // 			if(numberAsString.length() > 1)
 // 				numberAsString = Character.getNumericValue( numberAsString.charAt(0) ) + Character.getNumericValue( numberAsString.charAt(1) ) + "";
 			
@@ -413,7 +437,7 @@ class ProbableSumFinder{
 	/**
      * Loads the direction holder with appropriate data 
      *
-     * @param context -passed as parameter.
+     *
      */
 	private static void loadHitDirectionHolder(){
 		

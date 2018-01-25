@@ -2,10 +2,7 @@ package com.lottoanalysis.chartanalysis;
 
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
-import com.lottoanalysis.utilities.ChartHelper;
-import com.lottoanalysis.utilities.ChartHelperTwo;
-import com.lottoanalysis.utilities.CompanionNumberFinder;
-import com.lottoanalysis.utilities.LineSpacingHelper;
+import com.lottoanalysis.utilities.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -75,6 +72,7 @@ public class GroupChartController {
 
         setLotteryGame(game);
         setDrawPositionalNumbers(drawPositionalNumbers);
+        PatternFinder.analyze(drawPositionalNumbers);
 
     }
 
@@ -145,7 +143,14 @@ public class GroupChartController {
         lblGame.setText("Group Chart Analysis: " + lotteryGame.getGameName());
         groupHitOutlookLabel.setText("Group Hit Outlook Position " + data.get(globalDrawPosition));
 
+        NextProbableGroupFinder.analyze(drawPositionalNumbers);
+        GameOutViewPatternFinder.analyze(drawPositionalNumbers);;
+
         int[] drawingPos = drawPositionalNumbers[drawPosition];
+
+        //SumGroupAnalyzer.analyze(drawingPos, lotteryGame);
+        //LineSpacingHelperTwo.analyze( Arrays.asList( Arrays.stream(drawingPos).boxed().toArray(Integer[]::new)), false);
+        ProbableSumFinder.analyze(drawingPos, lotteryGame);
 
         ChartHelperTwo.clearGroupHitInformation();
         ChartHelperTwo.processIncomingData(lotteryGame, drawingPos, drawSize);
@@ -165,10 +170,11 @@ public class GroupChartController {
             button.setOnAction(event -> {
                 injectChartWithData(positionData,button.getText());
                 setUpGroupHitGridPane(positionData);
-                CompanionNumberFinder.analyzeIncomingInformation(
-                      ChartHelperTwo.extractAppropriatePosition( positionData, button.getText())
-                );
-                //LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,button.getText()));
+               // LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
+//                CompanionNumberFinder.analyzeIncomingInformation(
+//                      ChartHelperTwo.extractAppropriatePosition( positionData, button.getText())
+//                );
+               // LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,button.getText()));
             });
 
             if(count == 0) {
@@ -186,8 +192,9 @@ public class GroupChartController {
 
         injectChartWithData(positionData,((RadioButton)group.getToggles().get(0)).getText());
         setUpGroupHitGridPane(positionData);
-        CompanionNumberFinder.analyzeIncomingInformation(ChartHelperTwo.extractAppropriatePosition( positionData, "1"));
-        LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
+        //LineSpacingHelperTwo.analyze(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
+        //CompanionNumberFinder.analyzeIncomingInformation(ChartHelperTwo.extractAppropriatePosition( positionData, "1"));
+        //LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
 
     }
 
@@ -250,13 +257,16 @@ public class GroupChartController {
         List<Integer> numListTwo = new ArrayList<>(numList);
         Collections.sort(numListTwo);
 
+        List<Integer> specialList = ChartHelperTwo.getRepeatedNumberList(numList);
+
         List<List<Integer>> dataPoints = new ArrayList<>();
-        dataPoints.add((numList.size() > 150) ? numList.subList(numList.size()-150,numList.size()) : numList);
+        //dataPoints.add((numList.size() > 150) ? numList.subList(numList.size()-150,numList.size()) : numList);
+        dataPoints.add( (specialList.size() > 150) ? specialList.subList(specialList.size()-150,specialList.size()) : specialList);
 
-        List<Integer> pointTwo = (numList.size() > 0) ? ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber(numList) : new ArrayList<>();
-
-        if(pointTwo.size() > 0)
-            dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 100, pointTwo.size()) : pointTwo);
+//        List<Integer> pointTwo = (numList.size() > 0) ? ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber(numList) : new ArrayList<>();
+//
+//        if(pointTwo.size() > 0)
+//            dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 100, pointTwo.size()) : pointTwo);
 
         Set<Integer> unique = new HashSet<>(numListTwo);
 

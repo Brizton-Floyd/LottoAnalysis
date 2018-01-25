@@ -667,4 +667,58 @@ public class NumberPatternAnalyzer {
 
         return data;
     }
+
+    /**
+     * Method finds the sum of each digit for a given draw index
+     * @param positionalNumbers
+     * @return
+     */
+    public static int[][] lineSpacings(int[][] positionalNumbers) {
+
+        int[][] data = new int[positionalNumbers.length][];
+        int sum = 0;
+
+        for(int i = 0; i < positionalNumbers.length; i++){
+
+            int[] positionData = new int[positionalNumbers[i].length-1];
+
+            for(int k = 0; k < positionalNumbers[i].length-1; k++){
+
+                int res = LineSpacingHelperTwo.computeDifference(positionalNumbers[i][k],positionalNumbers[i][k+1]);
+                positionData[k] = res;
+            }
+
+            data[i] = positionData;
+        }
+
+        return data;
+    }
+
+
+    /**
+     * Method finds the sum of each digit for a given draw index
+     * @param positionalNumbers
+     * @return
+     */
+    public static int[][] computeRemainders(int[][] positionalNumbers) {
+
+        int[][] data = new int[positionalNumbers.length][];
+        int sum = 0;
+
+        for(int i = 0; i < positionalNumbers.length; i++){
+
+            int[] positionData = new int[positionalNumbers[i].length];
+
+            for(int k = 0; k < positionalNumbers[i].length; k++){
+
+                int num = positionalNumbers[i][k];
+                int remainder = num % 3;
+                positionData[k] = remainder;
+            }
+
+            data[i] = positionData;
+        }
+
+        return data;
+    }
 }

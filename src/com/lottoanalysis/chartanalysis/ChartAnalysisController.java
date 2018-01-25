@@ -108,9 +108,10 @@ public class ChartAnalysisController {
                             ChartHelper.clearStaticCharts();
                             int[] eleOneData = ChartHelper.returnNumbersAtIndex(posisitionArray, "0");
                             List<Object[]> upperChartData = ChartHelper.setUpTopLevelCharts(eleOneData,"1");
+                            Groupings.analyze( posisitionArray );
                             setUpTopCharts(upperChartData);
-                            Groupings.analyze( eleOneData );
-                            print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
+
+                            //print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
                         }
                         break;
                     case LotteryGameConstants.ELE_TWO:
@@ -118,9 +119,10 @@ public class ChartAnalysisController {
                             ChartHelper.clearStaticCharts();
                             int[] eleTwoData = ChartHelper.returnNumbersAtIndex(posisitionArray, "1");
                             List<Object[]> upperChartDataTwo = ChartHelper.setUpTopLevelCharts(eleTwoData,"1");
+                            Groupings.analyze( posisitionArray );
                             setUpTopCharts(upperChartDataTwo);
-                            Groupings.analyze( eleTwoData );
-                            print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
+
+                           // print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
 
                         }
                         break;
@@ -130,7 +132,7 @@ public class ChartAnalysisController {
                             int[] fullNumData = ChartHelper.returnNumbersAtIndex(posisitionArray, null);
                             List<Object[]> upperChartDataFullNum = ChartHelper.setUpTopLevelCharts(fullNumData,"2");
                             setUpTopCharts(upperChartDataFullNum);
-                            print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
+                            //print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
                             ChartHelperTwo.processIncomingData(lotteryGame,fullNumData,10);
 
                         }
@@ -222,8 +224,9 @@ public class ChartAnalysisController {
             if(points.size() > 0)
              ChartHelper.plugNumbersIntoRecentWinningNumberCompanionMap(points);
 
+            List<Integer> special = ChartHelperTwo.getRepeatedNumberList(points);
             List<List<Integer>> dataPoints = new ArrayList<>();
-            dataPoints.add((points.size() > 100) ? points.subList(points.size() - 60, points.size()) : points);
+            dataPoints.add((special.size() > 100) ? special.subList(special.size() - 60, special.size()) : special);
 
            // if(pointTwo.size() > 0)
                 //dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 30, pointTwo.size()) : pointTwo);

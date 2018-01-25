@@ -275,5 +275,57 @@ public class ChartHelperTwo {
 		}
 
 		return numbers;
-	}	
+	}
+
+	public static List<Integer> getRepeatedNumberList(List<Integer> values){
+
+	    int currentWinningNumber = values.get(values.size()-1);
+	    List<Integer> list = new ArrayList<>();
+        List<Integer> indexHolder = new ArrayList<>();
+        int count = 0;
+
+	    for(int i = 0; i < values.size()-1; i++){
+
+	        if(values.get(i) == currentWinningNumber){
+
+	            int nextWinningNumber = values.get(i +1);
+
+	            indexHolder.add(count);
+	            indexHolder.add(count+2);
+
+                list.add(currentWinningNumber);
+	            list.add(nextWinningNumber);
+	            list.add(currentWinningNumber);
+
+	            count = list.size();
+            }
+
+        }
+        //list.add(currentWinningNumber);
+       // System.out.println(list.get(list.size() - 2));
+
+//        List<Integer> modList = new ArrayList<>(list);
+//
+//        for(int i = 0; i < indexHolder.size(); i++){
+//
+//            int index = indexHolder.get(i);
+//            modList.remove(index);
+//            modList.add(index,-1);
+//        }
+//
+//        for(Iterator<Integer> iterator = modList.iterator(); iterator.hasNext();){
+//
+//            int n = iterator.next();
+//            if(n < 0)
+//                iterator.remove();
+//
+//
+//        }
+       // modList.removeAll(indexHolder);
+
+        // pass values to retracement class for access later in application
+        //LineRetracementFinder.analyze(currentWinningNumber, modList.stream().mapToInt(i -> i).toArray() );
+
+	    return list;
+    }
 }
