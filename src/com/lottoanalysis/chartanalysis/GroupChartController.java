@@ -150,7 +150,7 @@ public class GroupChartController {
 
         //SumGroupAnalyzer.analyze(drawingPos, lotteryGame);
         //LineSpacingHelperTwo.analyze( Arrays.asList( Arrays.stream(drawingPos).boxed().toArray(Integer[]::new)), false);
-        ProbableSumFinder.analyze(drawingPos, lotteryGame);
+        ProbableSumFinder.analyze(drawingPos, lotteryGame, drawPositionalNumbers);
 
         ChartHelperTwo.clearGroupHitInformation();
         ChartHelperTwo.processIncomingData(lotteryGame, drawingPos, drawSize);

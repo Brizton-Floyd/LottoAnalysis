@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/chartanalysis/GroupChartController.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/chartanalysis/GroupChartController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/ProbableSumFinder.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/ProbableSumFinder.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -68,25 +69,10 @@
       <file leaf-file-name="GroupChartController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/chartanalysis/GroupChartController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="150" column="56" lean-forward="false" selection-start-line="150" selection-start-column="56" selection-end-line="150" selection-end-column="56" />
+            <state relative-caret-position="297">
+              <caret line="152" column="31" lean-forward="false" selection-start-line="152" selection-start-column="31" selection-end-line="152" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1164#1165#0" expanded="true" />
-                <element signature="e#1203#1204#0" expanded="true" />
-                <element signature="e#1775#1776#0" expanded="true" />
-                <element signature="e#1863#1864#0" expanded="true" />
-                <marker date="1516893333373" expanded="true" signature="9244:9938" ph="{...}" />
-                <marker date="1516893333373" expanded="false" signature="10004:10015" ph=" { " />
-                <marker date="1516893333373" expanded="false" signature="10031:10037" ph=" }" />
-                <marker date="1516893333373" expanded="false" signature="10087:10098" ph=" { " />
-                <marker date="1516893333373" expanded="false" signature="10139:10145" ph=" }" />
-                <marker date="1516893333373" expanded="false" signature="10186:10197" ph=" { " />
-                <marker date="1516893333373" expanded="false" signature="10216:10222" ph=" }" />
-                <marker date="1516893333373" expanded="false" signature="10280:10291" ph=" { " />
-                <marker date="1516893333373" expanded="false" signature="10322:10328" ph=" }" />
-                <marker date="1516893333373" expanded="false" signature="10375:10386" ph=" { " />
-                <marker date="1516893333373" expanded="false" signature="10415:10421" ph=" }" />
               </folding>
             </state>
           </provider>
@@ -95,8 +81,8 @@
       <file leaf-file-name="ProbableSumFinder.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/ProbableSumFinder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="148" column="0" lean-forward="true" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
+            <state relative-caret-position="1321">
+              <caret line="327" column="35" lean-forward="false" selection-start-line="327" selection-start-column="35" selection-end-line="327" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#117#147#0" expanded="true" />
@@ -108,7 +94,7 @@
       <file leaf-file-name="Groupings.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/Groupings.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="601">
+            <state relative-caret-position="4480">
               <caret line="112" column="0" lean-forward="false" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
               <folding />
             </state>
@@ -118,18 +104,12 @@
       <file leaf-file-name="ChartAnalysisController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/chartanalysis/ChartAnalysisController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
+            <state relative-caret-position="3160">
               <caret line="87" column="15" lean-forward="false" selection-start-line="87" selection-start-column="15" selection-end-line="87" selection-end-column="15" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1516893333371" expanded="true" signature="2951:3415" ph="{...}" />
-                <marker date="1516893333371" expanded="true" signature="9264:10302" ph="{...}" />
-                <marker date="1516893333371" expanded="true" signature="9279:9547" ph="//..." />
-                <marker date="1516893333371" expanded="true" signature="10348:10586" ph="{...}" />
-                <marker date="1516893333371" expanded="true" signature="10612:11697" ph="{...}" />
-                <marker date="1516893333371" expanded="true" signature="11053:11157" ph="{...}" />
-                <marker date="1516893333371" expanded="true" signature="11206:11399" ph="{...}" />
-                <marker date="1516893333371" expanded="true" signature="11447:11533" ph="{...}" />
+                <marker date="1516946086480" expanded="true" signature="2951:3415" ph="{...}" />
+                <marker date="1516946086480" expanded="true" signature="9264:10302" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -138,7 +118,7 @@
       <file leaf-file-name="ChartHelperTwo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/ChartHelperTwo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
+            <state relative-caret-position="13200">
               <caret line="330" column="1" lean-forward="false" selection-start-line="330" selection-start-column="1" selection-end-line="330" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -150,11 +130,11 @@
       <file leaf-file-name="ChartHelper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/ChartHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1920">
+            <state relative-caret-position="13240">
               <caret line="331" column="1" lean-forward="false" selection-start-line="331" selection-start-column="1" selection-end-line="331" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1513722343587" expanded="false" signature="7956:7986" ph="/unchecked/" />
+                <marker date="1516946086506" expanded="false" signature="7956:7986" ph="/unchecked/" />
               </folding>
             </state>
           </provider>
@@ -163,7 +143,7 @@
       <file leaf-file-name="NumberAnalyzer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/NumberAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="893">
+            <state relative-caret-position="16360">
               <caret line="409" column="23" lean-forward="false" selection-start-line="409" selection-start-column="23" selection-end-line="409" selection-end-column="23" />
               <folding />
             </state>
@@ -173,7 +153,7 @@
       <file leaf-file-name="LottoScreenNavigator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/screenloader/LottoScreenNavigator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-39">
+            <state relative-caret-position="2360">
               <caret line="70" column="34" lean-forward="false" selection-start-line="70" selection-start-column="34" selection-end-line="70" selection-end-column="34" />
               <folding />
             </state>
@@ -183,49 +163,10 @@
       <file leaf-file-name="LottoDashboardController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottodashboard/LottoDashboardController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
+            <state relative-caret-position="4040">
               <caret line="153" column="19" lean-forward="false" selection-start-line="153" selection-start-column="19" selection-end-line="153" selection-end-column="19" />
               <folding>
-                <marker date="1516893333379" expanded="true" signature="6480:6672" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="6725:10826" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="6838:10818" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="7401:7714" ph="//..." />
-                <marker date="1516893333379" expanded="true" signature="8040:8353" ph="//..." />
-                <marker date="1516893333379" expanded="true" signature="8682:8995" ph="//..." />
-                <marker date="1516893333379" expanded="true" signature="9322:9635" ph="//..." />
-                <marker date="1516893333379" expanded="true" signature="9962:10275" ph="//..." />
-                <marker date="1516893333379" expanded="true" signature="10902:11895" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="11970:13361" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="13457:14415" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="14422:14540" ph="/**...*/" />
-                <marker date="1516893333379" expanded="true" signature="14616:15323" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="15355:15443" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="15543:15604" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="15610:15779" ph="/**...*/" />
-                <marker date="1516893333379" expanded="true" signature="15892:18072" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="18121:18547" ph="{...}" />
-                <marker date="1516893333379" expanded="false" signature="18575:18586" ph=" { " />
-                <marker date="1516893333379" expanded="false" signature="18608:18614" ph=" }" />
-                <marker date="1516893333379" expanded="false" signature="18642:18653" ph=" { " />
-                <marker date="1516893333379" expanded="false" signature="18676:18682" ph=" }" />
-                <marker date="1516893333379" expanded="true" signature="18688:18932" ph="/**...*/" />
-                <marker date="1516893333379" expanded="true" signature="18989:22918" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="20532:21438" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="20660:21420" ph="{...}" />
-                <marker date="1516893333379" expanded="false" signature="20693:20847" ph="updateItem(item, empty) → {" />
-                <marker date="1516893333379" expanded="false" signature="21366:21397" ph="}" />
-                <marker date="1516893333379" expanded="true" signature="21582:22475" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="21710:22457" ph="{...}" />
-                <marker date="1516893333379" expanded="false" signature="21743:21897" ph="updateItem(item, empty) → {" />
-                <marker date="1516893333379" expanded="false" signature="22403:22434" ph="}" />
-                <marker date="1516893333379" expanded="false" signature="23003:25752" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="25798:26096" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="26140:27579" ph="{...}" />
-                <marker date="1516893333379" expanded="false" signature="27620:27631" ph=" { " />
-                <marker date="1516893333379" expanded="false" signature="27650:27656" ph=" }" />
-                <marker date="1516893333379" expanded="true" signature="27703:28922" ph="{...}" />
-                <marker date="1516893333379" expanded="true" signature="28005:28371" ph="//..." />
-                <marker date="1516893333379" expanded="true" signature="28692:28836" ph="//..." />
+                <marker date="1516946086487" expanded="true" signature="6480:6672" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -339,8 +280,8 @@
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/PatternFinder.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/ChartHelperTwo.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/SumGroupAnalyzer.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/chartanalysis/GroupChartController.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/screenloader/LottoScreenNavigator.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/chartanalysis/GroupChartController.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/ProbableSumFinder.java" />
       </list>
     </option>
@@ -373,19 +314,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
-              <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
@@ -465,6 +394,18 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
+              <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -764,7 +705,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-16" y="-16" width="3872" height="2092" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -774,54 +714,33 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294249" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.91233945" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7414852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17139037" sideWeight="0.6703755" order="7" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17352942" sideWeight="0.6703755" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43997768" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12459893" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.96259075" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5538805" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294249" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12459893" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5538805" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32049134" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32950467" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7414852" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17139037" sideWeight="0.6703755" order="7" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43997768" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="UnknownFeatures">
@@ -1575,15 +1494,21 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/ProbableSumFinder.java</url>
-          <line>240</line>
+          <line>106</line>
           <properties />
-          <option name="timeStamp" value="1001" />
+          <option name="timeStamp" value="1002" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/ProbableSumFinder.java</url>
+          <line>46</line>
+          <properties />
+          <option name="timeStamp" value="1005" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="1002" />
+      <option name="time" value="1006" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -1663,7 +1588,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2119">
           <caret line="169" column="43" lean-forward="false" selection-start-line="169" selection-start-column="43" selection-end-line="169" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1773,18 +1697,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/chartanalysis/ChartAnalysisController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
+        <state relative-caret-position="3160">
           <caret line="87" column="15" lean-forward="false" selection-start-line="87" selection-start-column="15" selection-end-line="87" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1516893333371" expanded="true" signature="2951:3415" ph="{...}" />
-            <marker date="1516893333371" expanded="true" signature="9264:10302" ph="{...}" />
-            <marker date="1516893333371" expanded="true" signature="9279:9547" ph="//..." />
-            <marker date="1516893333371" expanded="true" signature="10348:10586" ph="{...}" />
-            <marker date="1516893333371" expanded="true" signature="10612:11697" ph="{...}" />
-            <marker date="1516893333371" expanded="true" signature="11053:11157" ph="{...}" />
-            <marker date="1516893333371" expanded="true" signature="11206:11399" ph="{...}" />
-            <marker date="1516893333371" expanded="true" signature="11447:11533" ph="{...}" />
+            <marker date="1516946086480" expanded="true" signature="2951:3415" ph="{...}" />
+            <marker date="1516946086480" expanded="true" signature="9264:10302" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1827,7 +1745,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/Groupings.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
+        <state relative-caret-position="4480">
           <caret line="112" column="0" lean-forward="false" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
           <folding />
         </state>
@@ -1949,7 +1867,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/NumberAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="893">
+        <state relative-caret-position="16360">
           <caret line="409" column="23" lean-forward="false" selection-start-line="409" selection-start-column="23" selection-end-line="409" selection-end-column="23" />
           <folding />
         </state>
@@ -1957,35 +1875,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/ChartHelperTwo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
+        <state relative-caret-position="13200">
           <caret line="330" column="1" lean-forward="false" selection-start-line="330" selection-start-column="1" selection-end-line="330" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/chartanalysis/GroupChartController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="150" column="56" lean-forward="false" selection-start-line="150" selection-start-column="56" selection-end-line="150" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1164#1165#0" expanded="true" />
-            <element signature="e#1203#1204#0" expanded="true" />
-            <element signature="e#1775#1776#0" expanded="true" />
-            <element signature="e#1863#1864#0" expanded="true" />
-            <marker date="1516893333373" expanded="true" signature="9244:9938" ph="{...}" />
-            <marker date="1516893333373" expanded="false" signature="10004:10015" ph=" { " />
-            <marker date="1516893333373" expanded="false" signature="10031:10037" ph=" }" />
-            <marker date="1516893333373" expanded="false" signature="10087:10098" ph=" { " />
-            <marker date="1516893333373" expanded="false" signature="10139:10145" ph=" }" />
-            <marker date="1516893333373" expanded="false" signature="10186:10197" ph=" { " />
-            <marker date="1516893333373" expanded="false" signature="10216:10222" ph=" }" />
-            <marker date="1516893333373" expanded="false" signature="10280:10291" ph=" { " />
-            <marker date="1516893333373" expanded="false" signature="10322:10328" ph=" }" />
-            <marker date="1516893333373" expanded="false" signature="10375:10386" ph=" { " />
-            <marker date="1516893333373" expanded="false" signature="10415:10421" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -2003,76 +1896,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/ChartHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1920">
+        <state relative-caret-position="13240">
           <caret line="331" column="1" lean-forward="false" selection-start-line="331" selection-start-column="1" selection-end-line="331" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1513722343587" expanded="false" signature="7956:7986" ph="/unchecked/" />
+            <marker date="1516946086506" expanded="false" signature="7956:7986" ph="/unchecked/" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottodashboard/LottoDashboardController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
+        <state relative-caret-position="4040">
           <caret line="153" column="19" lean-forward="false" selection-start-line="153" selection-start-column="19" selection-end-line="153" selection-end-column="19" />
           <folding>
-            <marker date="1516893333379" expanded="true" signature="6480:6672" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="6725:10826" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="6838:10818" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="7401:7714" ph="//..." />
-            <marker date="1516893333379" expanded="true" signature="8040:8353" ph="//..." />
-            <marker date="1516893333379" expanded="true" signature="8682:8995" ph="//..." />
-            <marker date="1516893333379" expanded="true" signature="9322:9635" ph="//..." />
-            <marker date="1516893333379" expanded="true" signature="9962:10275" ph="//..." />
-            <marker date="1516893333379" expanded="true" signature="10902:11895" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="11970:13361" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="13457:14415" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="14422:14540" ph="/**...*/" />
-            <marker date="1516893333379" expanded="true" signature="14616:15323" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="15355:15443" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="15543:15604" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="15610:15779" ph="/**...*/" />
-            <marker date="1516893333379" expanded="true" signature="15892:18072" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="18121:18547" ph="{...}" />
-            <marker date="1516893333379" expanded="false" signature="18575:18586" ph=" { " />
-            <marker date="1516893333379" expanded="false" signature="18608:18614" ph=" }" />
-            <marker date="1516893333379" expanded="false" signature="18642:18653" ph=" { " />
-            <marker date="1516893333379" expanded="false" signature="18676:18682" ph=" }" />
-            <marker date="1516893333379" expanded="true" signature="18688:18932" ph="/**...*/" />
-            <marker date="1516893333379" expanded="true" signature="18989:22918" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="20532:21438" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="20660:21420" ph="{...}" />
-            <marker date="1516893333379" expanded="false" signature="20693:20847" ph="updateItem(item, empty) → {" />
-            <marker date="1516893333379" expanded="false" signature="21366:21397" ph="}" />
-            <marker date="1516893333379" expanded="true" signature="21582:22475" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="21710:22457" ph="{...}" />
-            <marker date="1516893333379" expanded="false" signature="21743:21897" ph="updateItem(item, empty) → {" />
-            <marker date="1516893333379" expanded="false" signature="22403:22434" ph="}" />
-            <marker date="1516893333379" expanded="false" signature="23003:25752" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="25798:26096" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="26140:27579" ph="{...}" />
-            <marker date="1516893333379" expanded="false" signature="27620:27631" ph=" { " />
-            <marker date="1516893333379" expanded="false" signature="27650:27656" ph=" }" />
-            <marker date="1516893333379" expanded="true" signature="27703:28922" ph="{...}" />
-            <marker date="1516893333379" expanded="true" signature="28005:28371" ph="//..." />
-            <marker date="1516893333379" expanded="true" signature="28692:28836" ph="//..." />
+            <marker date="1516946086487" expanded="true" signature="6480:6672" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/screenloader/LottoScreenNavigator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-39">
+        <state relative-caret-position="2360">
           <caret line="70" column="34" lean-forward="false" selection-start-line="70" selection-start-column="34" selection-end-line="70" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/chartanalysis/GroupChartController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="152" column="31" lean-forward="false" selection-start-line="152" selection-start-column="31" selection-end-line="152" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/ProbableSumFinder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="148" column="0" lean-forward="true" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
+        <state relative-caret-position="1321">
+          <caret line="327" column="35" lean-forward="false" selection-start-line="327" selection-start-column="35" selection-end-line="327" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#117#147#0" expanded="true" />
