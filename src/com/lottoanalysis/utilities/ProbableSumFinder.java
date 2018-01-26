@@ -42,7 +42,7 @@ public class ProbableSumFinder{
 		print();
 	}
 	
-	private static void print(){
+		private static void print(){
 	    
 	    System.out.println("\n\t\t\t\t************** Current Winning Number: " + winningSum + " ************** \n");
 	    
@@ -106,10 +106,10 @@ public class ProbableSumFinder{
 	                int gamesAgo = Math.abs( ((List<Integer>)v[3]).lastIndexOf((int)v[1]) - ((List<Integer>)v[3]).size());
 	              	System.out.println("LottoNumber Group: " + String.format("%20s",Arrays.toString(k)) + "\t\tHits: " + String.format("%3d",v[0]) +
 							"\t\tGames Out: " + v[1] + "\t\t Hits At Games Out: " + count + "\t\tGames Ago: " + gamesAgo +"\n");
-					System.out.println(String.format("%50s","Number Performance Within Group") + "\n");
+					System.out.println(String.format("%45s","NUMBER PERFORMANCE WITHIN GROUP") + "\n");
 
 					((Map<Integer,Integer[]>)v[2]).forEach((kk,vv) -> {
-						System.out.println(String.format("%30s", "Lotto #: " + String.format("%2d",kk)) + "\t\tHits: " + String.format("%4d",vv[0]) + "\t\tGames Out: " +
+						System.out.println(String.format("%10s", "Lotto #: " + String.format("%2d",kk)) + "\t\tHits: " + String.format("%4d",vv[0]) + "\t\tGames Out: " +
 								String.format("%4d",vv[1]));
 
 					});
@@ -120,11 +120,11 @@ public class ProbableSumFinder{
 	        
 	        Map<Integer,Integer[]> info = aboveAndBelowGroupGameOutTracker.get( names[j] );
 	        if(info != null){
-	        System.out.println("\n" + names[j] + " Game Out Statistics For All " + names[j] + " Groups");	            
+	        System.out.println("\n" + names[j].toUpperCase() + " GAME OUT STATISTICS FOR ALL " + names[j].toUpperCase() + " GROUPS");	            
 	            for(int k = 0; k < indexHolder.size(); k++){
 	                Integer[] stats = info.get( indexHolder.get(k) );
 	                if(stats != null)
-	                     System.out.println("Out #: " + indexHolder.get(k) + "\tHits: " + String.format("%03d", stats[0]) + "\tGames Ago: " + stats[1]);
+	                     System.out.println("Out #: " + indexHolder.get(k) + "\tHits: " + String.format("%3d", stats[0]) + "\tGames Ago: " + stats[1]);
 	                else
 	                     System.out.println("Out #: " + indexHolder.get(k) + "\tHas Never Hit Before" );	  
 	            }
