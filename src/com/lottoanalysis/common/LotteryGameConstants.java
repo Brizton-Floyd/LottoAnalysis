@@ -43,6 +43,7 @@ public class LotteryGameConstants {
     // Screen names
     public static final String CHART_ANALYSIS_CONTROLLER = "chartAnalysisContoller";
     public static final String GROUP_CHART_ANALYSIS_CONTOLLER = "groupChartAnalysisContoller";
+    public static final String COMPANION_NUMBER_ANALYSIS_CONTOLLER = "companionNumberAnalysisContoller";
 
     //Radio Button Text
     public static final String ELE_ONE = "Element One";

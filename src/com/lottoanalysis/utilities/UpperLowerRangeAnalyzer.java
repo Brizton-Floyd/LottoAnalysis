@@ -2,9 +2,10 @@ package com.lottoanalysis.utilities;
 
 import java.util.*;
 
-import com.lottoanalysis.lottoinfoandgames;
-import com.lottoanalysis.common;
+import com.lottoanalysis.lottoinfoandgames.*;
+import com.lottoanalysis.common.*;
 
+@SuppressWarnings("unchecked")
 public class UpperLowerRangeAnalyzer {
 
     private static Map<Integer[],Object[]> uppperLowerRangeData = new LinkedHashMap<>();
@@ -50,6 +51,15 @@ public class UpperLowerRangeAnalyzer {
                     Integer[] lnValues = ln.getValue();
                     System.out.println(String.format("\n%26s %2d %15s %4d %22s %2d","Lotto Num #:", ln.getKey() , "Hits:", lnValues[0], "Games Out:",lnValues[1]));                   
                 }
+
+                Map<Integer,Object[]> remainderData = (Map<Integer,Object[]>)pp[6];
+                for(Map.Entry<Integer,Object[]> ln : remainderData.entrySet())
+                {
+                    Object[] lnValues = ln.getValue();
+                    Integer[] arr = ((List<Integer>)lnValues[2]).toArray(new Integer[((List<Integer>)lnValues[2]).size()]);
+                    System.out.println(String.format("\n%26s %2d %15s %4d %22s %2d %40s","Remainder:", ln.getKey() , "Hits:", lnValues[0], "Games Out:",lnValues[1], "Numbers At Remainder " + Arrays.toString(arr)));
+                }
+
                 count++;
                 
             }
@@ -76,7 +86,7 @@ public class UpperLowerRangeAnalyzer {
             }
 
             v[2] = count;
-            v[3] = Math.abs( gamesOutHolder.size() - gamesOutHolder.lastIndexOf(currentGamesOut)) - 1;
+            v[3] = Math.abs( gamesOutHolder.size() - gamesOutHolder.lastIndexOf(currentGamesOut)) ;
 
             Map<Integer[], Object[]> lastDigitData = (Map<Integer[],Object[]>) v[5];
             lastDigitData.forEach((kk,vv) -> {
@@ -94,7 +104,7 @@ public class UpperLowerRangeAnalyzer {
                 }
 
                 vv[2] = countTwo;
-                vv[3] = Math.abs( gamesOutHolderTwo.size() - gamesOutHolderTwo.lastIndexOf(currentGamesOutTwo)) - 1;
+                vv[3] = Math.abs( gamesOutHolderTwo.size() - gamesOutHolderTwo.lastIndexOf(currentGamesOutTwo)) ;
     
             });
 
@@ -143,6 +153,29 @@ public class UpperLowerRangeAnalyzer {
                                 // Third index will hold the index number of last position the lotto number hit in
                                 winningLottoNumberMap.put(winningNumber, new Integer[]{1,0});
                                 incrementGamesOut(winningLottoNumberMap, winningNumber);
+
+                                int remainder = winningNumber % 3;
+                                Map<Integer,Object[]> remainderData = (Map<Integer,Object[]>) lastDigitDataTwo[6];
+                                if(!remainderData.containsKey(remainder))
+                                {
+                                    remainderData.put(remainder, new Object[]{1,0, new ArrayList<Integer>()});
+                                    List<Integer> nums = (List<Integer>) remainderData.get(remainder)[2];
+                                    nums.add(winningNumber);
+
+                                    incrementGamesOut(remainderData, remainder);
+                                }
+                                else
+                                {
+                                    Object[] obj = remainderData.get(remainder);
+                                    obj[0] = (int)obj[0] + 1;
+                                    obj[1] = 0;
+                                    List<Integer> nums = (List<Integer>) obj[2];
+                                    if(!nums.contains(winningNumber))
+                                         nums.add(winningNumber);
+                                    incrementGamesOut(remainderData, remainder);
+
+                                }
+
                             }
                             else
                             {
@@ -150,6 +183,30 @@ public class UpperLowerRangeAnalyzer {
                                 winningNumberData[0]++;
                                 winningNumberData[1] = 0; 
                                 incrementGamesOut(winningLottoNumberMap, winningNumber);
+
+                                int remainder = winningNumber % 3;
+                                Map<Integer,Object[]> remainderData = (Map<Integer,Object[]>) lastDigitDataTwo[6];
+                                if(!remainderData.containsKey(remainder))
+                                {
+                                    remainderData.put(remainder, new Object[]{1,0, new ArrayList<Integer>()});
+                                    List<Integer> nums = (List<Integer>) remainderData.get(remainder)[2];
+                                    nums.add(winningNumber);
+
+                                    incrementGamesOut(remainderData, remainder);
+                                }
+                                else
+                                {
+                                    Object[] obj = remainderData.get(remainder);
+                                    obj[0] = (int)obj[0] + 1;
+                                    obj[1] = 0;
+
+                                    List<Integer> nums = (List<Integer>) obj[2];
+                                    if(!nums.contains(winningNumber))
+                                        nums.add(winningNumber);
+
+                                    incrementGamesOut(remainderData, remainder);
+
+                                }
                             }
                         }
                     });
@@ -157,6 +214,18 @@ public class UpperLowerRangeAnalyzer {
 
             });
         }
+    }
+
+    private static void incrementGamesOut(Map<Integer, Object[]> data, int remainder) {
+
+        data.forEach((k,v) -> {
+
+            if(k != remainder)
+            {
+                v[1] = (int)v[1] + 1;
+            }
+        });
+
     }
 
     private static void incrementGamesOut(Map<Integer,Integer[]> data, Integer number)
@@ -189,22 +258,22 @@ public class UpperLowerRangeAnalyzer {
     {
         int maxNumber = game.getMaxNumber();
         
-        int half = maxNumber / 2;
+        int half = (game.getMaxNumber() == 9) ? (maxNumber+1)/2 : maxNumber / 2;
         List<List<Integer>> upperLowerNumbers = new LinkedList<>();
         upperLowerNumbers.add(new ArrayList<Integer>());
         upperLowerNumbers.add(new ArrayList<Integer>());
 
-        for(int i = 0; i < maxNumber; i++)
+        for(int i = game.getMinNumber(); i <= maxNumber; i++)
         {
             if(i < half)
             {
                 List<Integer> lower = upperLowerNumbers.get(0);
-                lower.add(i+1);
+                lower.add(i);
             }
             else
             {
                 List<Integer> upper = upperLowerNumbers.get(1);
-                upper.add(i+1);
+                upper.add(i);
             }
         }
 
@@ -227,8 +296,8 @@ public class UpperLowerRangeAnalyzer {
             for(int i = 0; i < mainData.length; i++)
             {
                 Map<Integer[],Object[]> data = new LinkedHashMap<>();
-                data.put(new Integer[]{0,1,2,3,4}, new Object[]{0,0,0,0, new ArrayList<Integer>(),new Map<Integer,Integer[]>()});
-                data.put(new Integer[]{5,6,7,8,9}, new Object[]{0,0,0,0, new ArrayList<Integer>(),new Map<Integer,Integer[]>()});
+                data.put(new Integer[]{0,1,2,3,4}, new Object[]{0,0,0,0, new ArrayList<Integer>(),new TreeMap<Integer,Integer[]>(), new TreeMap<Integer,Object[]>()});
+                data.put(new Integer[]{5,6,7,8,9}, new Object[]{0,0,0,0, new ArrayList<Integer>(),new TreeMap<Integer,Integer[]>(), new TreeMap<Integer,Object[]>()});
 
                 mainData[i] = data;
             }
@@ -239,9 +308,9 @@ public class UpperLowerRangeAnalyzer {
             {
                 Map<Integer[],Object[]> data = new LinkedHashMap<>();
                 if(i == 0)
-                    data.put(new Integer[]{0,1,2,3,4}, new Object[]{0,0,0,0, new ArrayList<Integer>(),new TreeMap<Integer,Integer[]>()});
+                    data.put(new Integer[]{0,1,2,3,4}, new Object[]{0,0,0,0, new ArrayList<Integer>(),new TreeMap<Integer,Integer[]>(),new TreeMap<Integer,Object[]>()});
                 else
-                    data.put(new Integer[]{5,6,7,8,9}, new Object[]{0,0,0,0, new ArrayList<Integer>(),new TreeMap<Integer,Integer[]>()});
+                    data.put(new Integer[]{5,6,7,8,9}, new Object[]{0,0,0,0, new ArrayList<Integer>(),new TreeMap<Integer,Integer[]>(), new TreeMap<Integer,Object[]>()});
 
                 mainData[i] = data;
             }

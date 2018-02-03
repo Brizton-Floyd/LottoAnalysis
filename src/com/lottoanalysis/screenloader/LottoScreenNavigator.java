@@ -3,6 +3,7 @@ package com.lottoanalysis.screenloader;
 import com.lottoanalysis.chartanalysis.ChartAnalysisController;
 import com.lottoanalysis.chartanalysis.GroupChartController;
 import com.lottoanalysis.common.LotteryGameConstants;
+import com.lottoanalysis.companionnumbers.CompanionNumberController;
 import com.lottoanalysis.lottoanalysisnav.LottoAnalysisHomeController;
 import com.lottoanalysis.lottoinfoandgames.*;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,7 @@ public class LottoScreenNavigator {
     public static final String LOTTO_SCREEN_TWO   = "/com/lottoanalysis/view/ChartView.fxml";
     public static final String LOTTO_SCREEN_THREE = "/com/lottoanalysis/view/LottoInfoAndGames.fxml";
     public static final String LOTTO_SCREEN_FOUR = "/com/lottoanalysis/view/GroupChartView.fxml";
+    public static final String LOTTO_SCREEN_FIVE = "/com/lottoanalysis/view/CompanionNumber.fxml";
 
     /** The main application layout controller. */
     private static LottoAnalysisHomeController mainController;
@@ -94,8 +96,17 @@ public class LottoScreenNavigator {
                     LotteryGame game = (LotteryGame) domainObject[0];
 
                     GroupChartController controller = loader.getController();
-                    controller.initFields(game, (int[][])((List<Object>)domainObject[1]).get(0));
+                    controller.initFields(game, (int[][])((List<Object>)domainObject[1]).get(3));
                     controller.startSceneLayoutSequence();
+                }
+                else if(controllerName.equalsIgnoreCase(LotteryGameConstants.COMPANION_NUMBER_ANALYSIS_CONTOLLER)){
+
+                    LotteryGame game = (LotteryGame) domainObject[0];
+                    CompanionNumberController controller = loader.getController();
+
+                    controller.setPostionalNumbers((int[][])((List<Object>)domainObject[1]).get(0));
+                    controller.setGame(game);
+                    controller.initComponents();
                 }
             }
 
