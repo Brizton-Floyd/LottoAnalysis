@@ -59,6 +59,30 @@ public class LottoAnalysisHomeController  {
     }
 
     @FXML
+    public void loadCompanionNumberScreen(ActionEvent event)
+    {
+
+        // Retrieve the current game that is currently being played
+        LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        List<Object> drawData = LottoInfoAndGamesController.getValues();
+
+        Object[] allData = {game, drawData};
+
+        if(game == null || drawData == null) {
+
+            game = LottoDashboardController.getClassLevelLotteryGame();
+            drawData = LottoDashboardController.getNumbersForChartDisplay();
+            allData = new Object[]{game, drawData};
+
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FIVE, LotteryGameConstants.COMPANION_NUMBER_ANALYSIS_CONTOLLER, allData);
+        }
+        else{
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FIVE, LotteryGameConstants.COMPANION_NUMBER_ANALYSIS_CONTOLLER, allData);
+
+        }
+    }
+
+    @FXML
     public void loadGroupChartScreen(ActionEvent event){
         // Retrieve the current game that is currently being played
         LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
