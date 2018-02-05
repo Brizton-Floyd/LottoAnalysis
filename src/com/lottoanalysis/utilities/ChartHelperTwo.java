@@ -279,6 +279,9 @@ public class ChartHelperTwo {
 
 	public static List<Integer> getRepeatedNumberList(List<Integer> values){
 
+	    if(values.size() < 2)
+	        return new ArrayList<>();
+
 	    int currentWinningNumber = values.get(values.size()-1);
 	    List<Integer> list = new ArrayList<>();
         List<Integer> indexHolder = new ArrayList<>();
@@ -293,15 +296,15 @@ public class ChartHelperTwo {
 	            indexHolder.add(count);
 	            indexHolder.add(count+2);
 
-                list.add(currentWinningNumber);
+               // list.add(currentWinningNumber);
 	            list.add(nextWinningNumber);
-	            list.add(currentWinningNumber);
+	            //list.add(currentWinningNumber);
 
 	            count = list.size();
             }
 
         }
-        //list.add(currentWinningNumber);
+        list.add(currentWinningNumber);
        // System.out.println(list.get(list.size() - 2));
 
 //        List<Integer> modList = new ArrayList<>(list);
@@ -328,4 +331,86 @@ public class ChartHelperTwo {
 
 	    return list;
     }
+
+    public static Map<String,Object[]> getPatternData(List<Integer> integers,String text) {
+
+	    if(integers.size() < 2)
+	        return new HashMap<>();
+
+	    List<String> patterns = new LinkedList<>();
+
+	    int min = 0;
+	    int max = 0;
+        int recentWinningDigit = integers.get(integers.size() - 1);
+        //int prevWinningDigit = integers.get(integers.size() - 2);
+
+        String[] values = getMinMax(text);
+
+        min = Integer.parseInt(values[0]);
+        max = Integer.parseInt(values[1]);
+
+        for(int i = min; i <= max; i++)
+        {
+            patterns.add(recentWinningDigit + "-" + i);
+        }
+
+        Map<Integer,Integer[]> gameOutHitMap = new TreeMap<>();
+        Map<String,Object[]> data = new LinkedHashMap<>();
+        for(String string : patterns)
+            data.put(string, new Object[]{0,0,0,0});
+
+        for(int i = 0; i < integers.size() - 1; i++){
+
+            if(integers.get(i) == recentWinningDigit){
+                int nextNum = integers.get(i+1);
+                String pattern = recentWinningDigit + "-" + nextNum;
+                if(data.containsKey(pattern)){
+
+                    Object[] value = data.get(pattern);
+                    value[0] = (int) value[0] + 1;
+
+                    if(!gameOutHitMap.containsKey(value[1])){
+
+                        gameOutHitMap.put((Integer)value[1],new Integer[]{1,0});
+                        NumberAnalyzer.incrementGamesOut(gameOutHitMap,(int)value[1]);
+                    }
+                    else{
+
+                        Integer[] dataa = gameOutHitMap.get( value[1]);
+                        dataa[0]++;
+                        dataa[1] = 0;
+                        NumberAnalyzer.incrementGamesOut(gameOutHitMap,(int)value[1]);
+                    }
+                    value[1] = 0;
+                    NumberAnalyzer.incrementGamesOut(data,pattern);
+                }
+            }
+        }
+
+        // iterate
+        data.forEach((k,v) -> {
+
+            int gamesOut = (int)v[1];
+            if(gameOutHitMap.containsKey(gamesOut)){
+
+                Integer[] goOutData = gameOutHitMap.get(gamesOut);
+                v[2] = goOutData[0];
+                v[3] = goOutData[1];
+            }
+        });
+
+	    return data;
+    }
+
+    private static String[] getMinMax(String text) {
+        StringBuilder builder = new StringBuilder(text);
+        int i = builder.indexOf("[");
+        int ii = builder.indexOf("]");
+
+        builder.setCharAt(i,' ');
+        builder.setCharAt(ii,' ');
+        String val = builder.toString();
+        return val.trim().split("[\\s ,]+");
+    }
+
 }

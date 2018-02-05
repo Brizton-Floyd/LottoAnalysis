@@ -96,7 +96,7 @@ public class LottoScreenNavigator {
                     LotteryGame game = (LotteryGame) domainObject[0];
 
                     GroupChartController controller = loader.getController();
-                    controller.initFields(game, (int[][])((List<Object>)domainObject[1]).get(3));
+                    controller.initFields(game, (int[][])((List<Object>)domainObject[1]).get(0));
                     controller.startSceneLayoutSequence();
                 }
                 else if(controllerName.equalsIgnoreCase(LotteryGameConstants.COMPANION_NUMBER_ANALYSIS_CONTOLLER)){

@@ -8,12 +8,10 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -21,16 +19,16 @@
    <children>
       <VBox prefWidth="1214.0" AnchorPane.bottomAnchor="623.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <HBox fx:id="headerHbox" spacing="400.0">
+            <HBox fx:id="headerHbox" spacing="475.0">
                <children>
                   <Label fx:id="lblGame" text="Group Chart Analysis: Fantasy Five" textFill="#dac6ac">
                      <font>
-                        <Font size="31.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
                   <Label fx:id="lblAnalyzedPosition" layoutX="10.0" layoutY="10.0" text="Analyzing Position One" textFill="#dac6ac">
                      <font>
-                        <Font size="31.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
                </children>
@@ -42,7 +40,7 @@
             </Pane>
          </children>
       </VBox>
-      <HBox fx:id="drawPositionHbox" prefHeight="22.0" prefWidth="1194.0" spacing="40.0" AnchorPane.bottomAnchor="571.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0">
+      <HBox fx:id="drawPositionHbox" prefHeight="22.0" prefWidth="1194.0" spacing="40.0" AnchorPane.bottomAnchor="571.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
          <children>
             <RadioButton mnemonicParsing="false" text="Position One" textFill="#dac6ac" />
             <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Position Two" textFill="#dac6ac" />
@@ -51,11 +49,26 @@
             <RadioButton layoutX="277.0" layoutY="10.0" mnemonicParsing="false" text="Position Five" textFill="#dac6ac" />
          </children>
       </HBox>
-      <VBox layoutX="10.0" layoutY="130.0" prefHeight="436.0" prefWidth="1194.0" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="130.0">
+      <VBox layoutX="10.0" layoutY="130.0" prefHeight="264.0" prefWidth="1194.0" AnchorPane.topAnchor="110.0">
          <children>
-            <HBox fx:id="radioBtnAndChartHbox" prefHeight="326.0" prefWidth="1194.0">
+            <HBox fx:id="radioBtnAndChartHbox" prefHeight="326.0" prefWidth="1194.0" spacing="20.0">
                <children>
                   <VBox fx:id="groupRadioButtonVbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="292.0" prefWidth="82.0" spacing="20.0">
+                     <children>
+                        <RadioButton mnemonicParsing="false" text="[1,10]" textFill="#dac6ac">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="108.0" text="[11,20]" textFill="#dac6ac" />
+                        <RadioButton layoutX="10.0" layoutY="27.0" mnemonicParsing="false" text="[21,30]" textFill="#dac6ac" />
+                        <RadioButton layoutX="10.0" layoutY="44.0" mnemonicParsing="false" text="[31,39]" textFill="#dac6ac" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox fx:id="groupRadioButtonVbox1" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="264.0" prefWidth="73.0" spacing="20.0" visible="false">
                      <children>
                         <RadioButton mnemonicParsing="false" text="[1,10]" textFill="#dac6ac">
                            <VBox.margin>
@@ -66,11 +79,8 @@
                         <RadioButton layoutX="10.0" layoutY="27.0" mnemonicParsing="false" text="[21,30]" textFill="#dac6ac" />
                         <RadioButton layoutX="10.0" layoutY="44.0" mnemonicParsing="false" text="[31,39]" textFill="#dac6ac" />
                      </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
                   </VBox>
-                  <LineChart prefHeight="167.0" prefWidth="1121.0" stylesheets="@../styles/line_chart.css" title="Range 1 - 10">
+                  <LineChart prefHeight="264.0" prefWidth="996.0" stylesheets="@../styles/line_chart.css" title="Range 1 - 10">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -80,105 +90,59 @@
                   </LineChart>
                </children>
             </HBox>
-            <HBox prefHeight="293.0" prefWidth="1194.0">
-               <children>
-                  <VBox prefHeight="283.0" prefWidth="599.0" style="-fx-border-color: black;">
-                     <children>
-                        <AnchorPane prefHeight="17.0" prefWidth="738.0" style="-fx-background-color: black;">
-                           <children>
-                              <Label fx:id="groupHitOutlookLabel" prefHeight="27.0" prefWidth="705.0" textFill="#efa747">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="250.0" />
-                                 </padding>
-                              </Label>
-                           </children>
-                        </AnchorPane>
-                        <GridPane fx:id="groupGridPane" prefHeight="89.0" prefWidth="732.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.5999755859375" minWidth="10.0" prefWidth="74.19998168945312" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.60000610351562" minWidth="10.0" prefWidth="73.13334655761719" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.60000610351562" minWidth="10.0" prefWidth="67.86665344238281" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.73330688476562" minWidth="10.0" prefWidth="118.39999389648438" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.4000244140625" minWidth="0.0" prefWidth="96.33334350585938" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.66665649414062" minWidth="10.0" prefWidth="68.933349609375" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.066650390625" minWidth="10.0" prefWidth="75.1334228515625" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.5999755859375" minWidth="10.0" prefWidth="55.066650390625" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.20001220703125" minWidth="10.0" prefWidth="81.933349609375" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label prefHeight="17.0" prefWidth="73.0" text="Group" textFill="#efa747">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label layoutX="10.0" layoutY="11.0" prefHeight="29.0" prefWidth="62.0" text="Hits" textFill="#efa747" GridPane.columnIndex="1">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="88.0" layoutY="11.0" prefHeight="29.0" prefWidth="77.0" text="Games Out" textFill="#efa747" GridPane.columnIndex="2">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="166.0" layoutY="11.0" prefHeight="29.0" prefWidth="123.0" text="Hits @ Games Out" textFill="#efa747" wrapText="true" GridPane.columnIndex="3">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="247.0" layoutY="10.0" prefHeight="29.0" prefWidth="83.0" text="Out Avg Skips" textFill="#efa747" wrapText="true" GridPane.columnIndex="4">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="369.0" layoutY="10.0" prefHeight="29.0" prefWidth="83.0" text="Hits Above" textFill="#efa747" wrapText="true" GridPane.columnIndex="5">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="457.0" layoutY="10.0" prefHeight="29.0" prefWidth="83.0" text="Hits Below" textFill="#efa747" wrapText="true" GridPane.columnIndex="6">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="530.0" layoutY="10.0" prefHeight="29.0" prefWidth="83.0" text="Hits At" textFill="#efa747" wrapText="true" GridPane.columnIndex="7">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="600.0" layoutY="10.0" prefHeight="29.0" prefWidth="84.0" text="Hits Games Out" textFill="#efa747" wrapText="true" GridPane.columnIndex="8">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <padding>
-                              <Insets left="10.0" right="10.0" />
-                           </padding>
-                        </GridPane>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
          </children>
       </VBox>
-      <MenuButton fx:id="groupSizeMenuButton" mnemonicParsing="false" text="Group Size" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="85.0">
+      <MenuButton fx:id="groupSizeMenuButton" mnemonicParsing="false" text="Group Size" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
         <items>
+            <MenuItem mnemonicParsing="false" text="2" />
           <MenuItem mnemonicParsing="false" text="3" />
+            <MenuItem mnemonicParsing="false" text="4" />
           <MenuItem mnemonicParsing="false" text="5" />
+            <MenuItem mnemonicParsing="false" text="6" />
+            <MenuItem mnemonicParsing="false" text="7" />
+            <MenuItem mnemonicParsing="false" text="8" />
             <MenuItem mnemonicParsing="false" text="10" />
             <MenuItem mnemonicParsing="false" text="15" />
             <MenuItem mnemonicParsing="false" text="20" />
         </items>
       </MenuButton>
+      <HBox layoutY="381.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="297.0" prefWidth="1193.0" spacing="20.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="400.0">
+         <children>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="297.0" prefWidth="0.0" style="-fx-background-color: black;">
+               <children>
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                     <children>
+                        <Label fx:id="groupHitOutlookLabel" prefHeight="27.0" prefWidth="705.0" textFill="#efa747">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="250.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="groupInfoTable" stylesheets="@../styles/table_view.css" />
+               </children>
+            </VBox>
+            <VBox style="-fx-background-color: black;">
+               <children>
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                     <children>
+                        <Label fx:id="patternOutlookLabel" prefHeight="27.0" prefWidth="468.0" text="Pattern Table" textFill="#efa747">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="200.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="patternTable" stylesheets="@../styles/table_view.css" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

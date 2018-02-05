@@ -1,12 +1,17 @@
 package com.lottoanalysis.companionnumbers;
 
+import com.lottoanalysis.common.LotteryGameConstants;
+import com.lottoanalysis.companionnumbers.companionnumberhelpers.CompanionNumberHelper;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 import java.util.*;
 
@@ -17,6 +22,8 @@ public class CompanionNumberController {
     private LotteryGame game;
     private Map<Integer,String> positionStringNameHolder = new HashMap<>();
     private Map<String,List<Integer>> groupAndNumberHolder = new LinkedHashMap<>();
+    private Object[] array = new Object[4];
+
     @FXML
     private ComboBox postionBox, positionNumbers, positionGroupNumbers, companionNumberGrpups;
 
@@ -25,6 +32,9 @@ public class CompanionNumberController {
 
     @FXML
     private Button analyzeBtn;
+
+    @FXML
+    private TableView companionTable, statTable;
 
     @FXML
     public void initialize(){
@@ -38,6 +48,9 @@ public class CompanionNumberController {
         positionStringNameHolder.put(3,"Position Four");
         positionStringNameHolder.put(4,"Position Five");
         positionStringNameHolder.put(5,"Position Six");
+
+        companionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        statTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     public void setPostionalNumbers(int[][] numbers)
@@ -57,16 +70,177 @@ public class CompanionNumberController {
 
         plugGroupRanges();
 
-        List<String> items = positionGroupNumbers.getItems();
+        adjustCompanionGroupSize();
+        analyzePositions(true);
 
-        for(String n : items)
-            companionNumberGrpups.getItems().add(n);
-        companionNumberGrpups.getSelectionModel().selectFirst();
+        analyzeBtn.setOnAction( event -> {
 
-        analyzePositions();
+            analyzePositions(false);
+            CompanionNumberHelper.analyze((int)array[0],(List<Integer>)array[1],(List<Integer>)array[2],(List<Integer>) array[3]);
+            Map<String,Object[]> data = CompanionNumberHelper.getPatternHolder();
+            setUpCompanionTable(data);
+        });
     }
 
-    private void analyzePositions() {
+    private void setUpCompanionTable(Map<String, Object[]> data) {
+
+
+        companionTable.getItems().clear();
+        companionTable.getColumns().clear();
+        statTable.getItems().clear();
+        statTable.getColumns().clear();
+        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+        // Create columns
+        for(int i = 0; i < data.size(); i++){
+
+            final int j = i;
+            TableColumn col = new TableColumn(CompanionNumberHelper.getColumnHeaders().get(j));
+            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+
+                @Override
+                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+                    return new TableCell<ObservableList, String>() {
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!isEmpty()) {
+                                this.setTextFill(Color.BEIGE);
+                                // Get fancy and change color based on data
+                                if (item.contains("X"))
+                                    this.setTextFill(Color.valueOf("#EFA747"));
+                                setText(item);
+                            }
+                        }
+                    };
+                }
+            });
+
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+
+
+
+            );
+
+            col.setSortable(false);
+            companionTable.getColumns().addAll(col);
+        }
+
+        /********************************
+         * Data added to ObservableList *
+         ********************************/
+        List<List<String>> points = CompanionNumberHelper.getListHolder();
+        int size = points.get(0).size();
+
+        for(int i = 0; i < size; i++){
+
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+
+            for(int j = 0; j < points.size(); j++){
+
+
+                List<String> values = points.get(j);
+                //Iterate Column
+                row.add(values.get(i));
+                // System.out.println("Row [1] added " + row);
+
+            }
+
+            dataItems.add(row);
+        }
+
+        companionTable.setItems(dataItems);
+        companionTable.scrollTo(size - 1);
+
+        setUpStatTable(CompanionNumberHelper.getPatternHolder());
+    }
+
+    private void setUpStatTable(Map<String, Object[]> patternHolder) {
+
+        statTable.getItems().clear();
+        statTable.getColumns().clear();
+        ObservableList<ObservableList> getDataItemsTwo = FXCollections.observableArrayList();
+        // Create columns
+        String[] colNames = {"Pattern","Hits","Games Out","Out Hits","Last Seen"};
+        for(int i = 0; i < colNames.length; i++){
+
+            final int j = i;
+            TableColumn col = new TableColumn(colNames[i]);
+            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+
+                @Override
+                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+                    return new TableCell<ObservableList, String>() {
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!isEmpty()) {
+
+                                setText(item);
+                                this.setTextFill(Color.BEIGE);
+                                // System.out.println(param.getText());
+
+                                ObservableList observableList = getTableView().getItems().get(getIndex());
+                                if (observableList.get(2).toString().equalsIgnoreCase("0") &&
+                                        !observableList.get(1).toString().equalsIgnoreCase("0") ) {
+                                    getTableView().getSelectionModel().select(getIndex());
+
+                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+
+                                        this.setTextFill(Color.valueOf("#76FF03"));
+                                    }
+
+                                    //System.out.println(getItem());
+                                    // Get fancy and change color based on data
+                                    //if (item.contains("X"))
+                                    //this.setTextFill(Color.valueOf("#EFA747"));
+                                }
+                            }
+                        }
+                    };
+                }
+            });
+
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+
+
+
+            );
+
+            col.setSortable(false);
+            statTable.getColumns().addAll(col);
+        }
+
+        /********************************
+         * Data added to ObservableList *
+         ********************************/
+        //int size = statTable.size();
+        for(Map.Entry<String,Object[]> data : patternHolder.entrySet()){
+
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+
+            String key = data.getKey();
+            Object[] values = data.getValue();
+
+            row.add(key);
+            row.add(values[0]+"");
+            row.add(values[1]+"");
+            row.add(values[3]+"");
+            row.add(values[4]+"");
+
+            getDataItemsTwo.add(row);
+        }
+
+        statTable.setItems(getDataItemsTwo);
+
+    }
+
+    private void analyzePositions(boolean val) {
 
         Map<String,Integer> indexrefHolder = new HashMap<>();
         indexrefHolder.put("Position One",0);
@@ -79,6 +253,41 @@ public class CompanionNumberController {
         String currentPos = (String)postionBox.getValue();
         String companionPos = companionPostionLbl.getText();
 
+        // numbers
+        List<Integer> previousPostion = Arrays.asList( Arrays.stream(postionalNumbers[indexrefHolder.get(currentPos)]).boxed().toArray(Integer[]::new));
+        List<Integer> companionNumbers = Arrays.asList( Arrays.stream(postionalNumbers[indexrefHolder.get(companionPos)]).boxed().toArray(Integer[]::new));
+
+        // selected num
+        int selectedNum = Integer.parseInt(positionNumbers.getValue().toString());
+
+        // companion values
+        List<Integer> companionValues;
+
+        if(!game.getGameName().contains("Pick4") && !game.getGameName().contains("Pick3")){
+
+           List<Integer> items = new ArrayList<>( groupAndNumberHolder.get(companionNumberGrpups.getValue()));
+
+
+           items.removeIf(num -> num == selectedNum || num < selectedNum);
+
+           companionValues = new ArrayList<>(items);
+
+        }
+        else{
+            List<Integer> items = groupAndNumberHolder.get(companionNumberGrpups.getValue());
+            companionValues = new ArrayList<>(items);
+        }
+
+        array[0] = selectedNum;
+        array[1] = previousPostion;
+        array[2] = companionNumbers;
+        array[3] = companionValues;
+
+        if(val) {
+            CompanionNumberHelper.analyze(selectedNum, previousPostion, companionNumbers, companionValues);
+            Map<String,Object[]> data = CompanionNumberHelper.getPatternHolder();
+            setUpCompanionTable(data);
+        }
         
     }
 
@@ -155,9 +364,32 @@ public class CompanionNumberController {
             numbers.forEach( i -> {
                 positionNumbers.getItems().add(i);
             });
+
+            positionNumbers.getSelectionModel().selectFirst();
+            adjustCompanionGroupSize();
         }));
 
         positionGroupNumbers.getSelectionModel().selectFirst();
+        positionNumbers.getSelectionModel().selectFirst();
+    }
+
+    private void adjustCompanionGroupSize(){
+
+        List<String> items = positionGroupNumbers.getItems();
+        companionNumberGrpups.getItems().clear();
+
+        if(game.getGameName().contains(LotteryGameConstants.PICK4_GAME_NAME) || game.getGameName().contains(LotteryGameConstants.PICK3_GAME_NAME)) {
+            for (String n : items) {
+                companionNumberGrpups.getItems().add(n);
+            }
+        }else{
+            int index = items.indexOf(positionGroupNumbers.getValue());
+            for(int i = index; i < items.size(); i++){
+                companionNumberGrpups.getItems().add(items.get(i));
+            }
+        }
+
+        companionNumberGrpups.getSelectionModel().selectFirst();
     }
 
     private void plugPostionsIntoPostionComboBox() {
