@@ -1,27 +1,32 @@
 package com.lottoanalysis.chartanalysis;
 
 import com.lottoanalysis.common.LotteryGameConstants;
+import com.lottoanalysis.companionnumbers.companionnumberhelpers.CompanionNumberHelper;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
 import com.lottoanalysis.utilities.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.chart.LineChart;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 import java.util.*;
 
+@SuppressWarnings("unchecked")
 public class GroupChartController {
 
     private LotteryGame lotteryGame;
     private int[][] drawPositionalNumbers;
     private Map<Integer, String> data;
+
 
     private static int globalDrawPosition,rowIndex;
 
@@ -35,14 +40,18 @@ public class GroupChartController {
     private MenuButton groupSizeMenuButton;
 
     @FXML
-    private Label lblGame, lblAnalyzedPosition,groupHitOutlookLabel;
+    private Label lblGame, lblAnalyzedPosition,groupHitOutlookLabel,patternOutlookLabel;
 
     @FXML
     private GridPane groupGridPane;
 
     @FXML
+    private TableView groupInfoTable, patternTable;
+
+    @FXML
     public void initialize() {
-        clearUnDynamicContent();
+        groupInfoTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        patternTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     public GroupChartController() {
@@ -60,12 +69,16 @@ public class GroupChartController {
     private void clearUnDynamicContent() {
         groupRadioButtonVbox.getChildren().clear();
         drawPositionHbox.getChildren().clear();
+        drawPositionHboxSet();
+
         Node node = radioBtnAndChartHbox.getChildren().get(0);
         radioBtnAndChartHbox.getChildren().setAll(node);
     }
 
     private void clearVbox() {
-        ((VBox) radioBtnAndChartHbox.getChildren().get(0)).getChildren().clear();
+        //((VBox) radioBtnAndChartHbox.getChildren().get(0)).getChildren().clear();
+
+        radioBtnAndChartHbox.getChildren().removeIf(obj -> obj instanceof VBox);
     }
 
     public void initFields(LotteryGame game, int[][] drawPositionalNumbers) {
@@ -78,6 +91,7 @@ public class GroupChartController {
 
     public void startSceneLayoutSequence() {
 
+        clearUnDynamicContent();
         insertPositionRadioButtonsIntoHbox();
         placeActionsOnMenuButtonItems();
     }
@@ -93,12 +107,19 @@ public class GroupChartController {
         }
 
         items.forEach(menuItem -> {
+
             menuItem.setOnAction(e -> retrieveDataForChartViewing(globalDrawPosition, Integer.parseInt(menuItem.getText())));
         });
     }
 
     private void insertPositionRadioButtonsIntoHbox() {
+        setGlobalDrawPosition(0);
+        setPositionBeingAnalyzedLabel();
+        retrieveDataForChartViewing(0, 10);
+    }
 
+    private void drawPositionHboxSet() {
+        // clearUnDynamicContent();
         ToggleGroup group = new ToggleGroup();
 
         for (int i = 0; i < drawPositionalNumbers.length; i++) {
@@ -107,22 +128,27 @@ public class GroupChartController {
             final int position = i;
 
             button.setOnAction(e -> {
+                ObservableList<Toggle> toggles = group.getToggles();
+                for(Toggle t : toggles){
+                    RadioButton b = (RadioButton)t;
+                    if(b.getText().equalsIgnoreCase(button.getText()))
+                        b.setSelected(true);
+                }
+
+                patternTable.getItems().clear();
+                patternTable.getColumns().clear();
+
                 setGlobalDrawPosition(position);
                 setPositionBeingAnalyzedLabel();
                 retrieveDataForChartViewing(position, 10);
             });
             button.setStyle("-fx-text-fill: #dac6ac;");
 
-            if (i == 0)
-                button.setSelected(true);
-
             drawPositionHbox.getChildren().add(button);
             group.getToggles().add(button);
         }
 
-        setGlobalDrawPosition(0);
-        setPositionBeingAnalyzedLabel();
-        retrieveDataForChartViewing(0, 10);
+        ((RadioButton)group.getToggles().get(0)).setSelected(true);
     }
 
     private void setPositionBeingAnalyzedLabel() {
@@ -139,6 +165,10 @@ public class GroupChartController {
      */
     private void retrieveDataForChartViewing(int drawPosition, int drawSize) {
 
+       //clearUnDynamicContent();
+
+        patternTable.getItems().clear();
+        patternTable.getColumns().clear();
         clearVbox();
         lblGame.setText("Group Chart Analysis: " + lotteryGame.getGameName());
         groupHitOutlookLabel.setText("Group Hit Outlook Position " + data.get(globalDrawPosition));
@@ -164,15 +194,25 @@ public class GroupChartController {
     }
 
     private void setupChartForViewing(Map<String, Object[]> positionData) {
+        //clearUnDynamicContent();
+        radioBtnAndChartHbox.getChildren().add(0,new VBox());
+        radioBtnAndChartHbox.getChildren().add(1,new VBox());
 
         ToggleGroup group = new ToggleGroup();
         int count = 0;
+        int countTwo = 1;
+
         for (Iterator<String> iterator = positionData.keySet().iterator(); iterator.hasNext(); ) {
 
             RadioButton button = new RadioButton(iterator.next());
             button.setOnAction(event -> {
+                patternTable.getItems().clear();
+                patternTable.getColumns().clear();
                 injectChartWithData(positionData,button.getText());
-                setUpGroupHitGridPane(positionData);
+                List<Integer> specialList = ChartHelperTwo.getRepeatedNumberList((List<Integer>) positionData.get(button.getText())[0]);
+                setUpGroupHitGridPane(positionData,button.getText(),specialList);
+
+
                // LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
 //                CompanionNumberFinder.analyzeIncomingInformation(
 //                      ChartHelperTwo.extractAppropriatePosition( positionData, button.getText())
@@ -185,74 +225,236 @@ public class GroupChartController {
                 count++;
             }
 
+            VBox box2 = (VBox) radioBtnAndChartHbox.getChildren().get(1);
             button.setStyle("-fx-text-fill: #dac6ac;");
             VBox box = (VBox) radioBtnAndChartHbox.getChildren().get(0);
             box.setSpacing(2);
-            box.getChildren().add(button);
+
+
+            if( box.getChildren().size() > 13){
+
+                box2.setVisible(true);
+                box2.setSpacing(2);
+
+                box2.getChildren().add(button);
+            }
+            else {
+                box.getChildren().add(button);
+                box2.setVisible(false);
+            }
 
             group.getToggles().add(button);
         }
 
+        radioBtnAndChartHbox.setSpacing(20);
         injectChartWithData(positionData,((RadioButton)group.getToggles().get(0)).getText());
-        setUpGroupHitGridPane(positionData);
+        List<Integer> specialList = ChartHelperTwo.getRepeatedNumberList(
+                (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]);
+
+        setUpGroupHitGridPane(positionData, ((RadioButton)group.getToggles().get(0)).getText(),specialList);
+//        setUpPatternChart((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0],
+//                ((RadioButton)group.getToggles().get(0)).getText());
         //LineSpacingHelperTwo.analyze(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
         //CompanionNumberFinder.analyzeIncomingInformation(ChartHelperTwo.extractAppropriatePosition( positionData, "1"));
         //LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
 
     }
 
-    private void setUpGroupHitGridPane(Map<String, Object[]> positionData) {
+    private void setUpPatternChart(List<Integer> integers,String text) {
 
-        List<Node> nodesToRemove = new ArrayList<>();
-        groupGridPane.setVgap(2);
-        for(int i = 9; i < groupGridPane.getChildren().size(); i++){
+       // .//patternTable.getItems().clear();
+        //patternTable.getColumns().clear();
 
-            nodesToRemove.add( groupGridPane.getChildren().get(i));
+        Map<String,Object[]> positionData = ChartHelperTwo.getPatternData(integers,text);
+        //getDataItemsTwo.clear();
 
+        ObservableList<ObservableList> getDataItemsTwo = FXCollections.observableArrayList();
+        // Create columns
+        String[] colNames = {"Pattern","Hits","Games Out","Game Out Hits","Last Seen"};
+        for(int i = 0; i < colNames.length; i++){
+
+            final int j = i;
+            TableColumn col = new TableColumn(colNames[i]);
+            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+
+                @Override
+                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+                    return new TableCell<ObservableList, String>() {
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!isEmpty()) {
+
+                                setText(item);
+                                this.setTextFill(Color.BEIGE);
+                                // System.out.println(param.getText());
+
+                                ObservableList observableList = getTableView().getItems().get(getIndex());
+                                if (observableList.get(2).toString().equalsIgnoreCase("0") &&
+                                        !observableList.get(1).toString().equalsIgnoreCase("0") ) {
+                                    getTableView().getSelectionModel().select(getIndex());
+
+                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+
+                                        this.setTextFill(Color.valueOf("#76FF03"));
+                                    }
+
+                                    //System.out.println(getItem());
+                                    // Get fancy and change color based on data
+                                    //if (item.contains("X"))
+                                    //this.setTextFill(Color.valueOf("#EFA747"));
+                                }
+                            }
+                        }
+                    };
+                }
+            });
+
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+
+
+
+            );
+
+            col.setSortable(false);
+            patternTable.getColumns().addAll(col);
         }
 
-        for(Node node : nodesToRemove){
-            groupGridPane.getChildren().remove(node);
+        /********************************
+         * Data added to ObservableList *
+         ********************************/
+        int size = positionData.size();
+        for(Map.Entry<String,Object[]> data : positionData.entrySet()){
+
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+
+            String key = data.getKey();
+            Object[] values = data.getValue();
+
+            row.add(key);
+            row.add(values[0]+"");
+            row.add(values[1]+"");
+            row.add(values[2]+"");
+            row.add(values[3]+"");
+
+            getDataItemsTwo.add(row);
         }
 
-        Node[][] gameData = new Node[positionData.size()][9];
+        patternTable.setItems(getDataItemsTwo);
 
-        positionData.forEach( (key,value) -> {
-            int rowIndex= getRowIndex();
-            int colIndex=0;
+    }
 
-            Node[] d = gameData[rowIndex];
-            d[colIndex] = new Label(key);
-            d[++colIndex] = new Label(value[1]+"");
-            d[++colIndex] = new Label(value[2]+"");
-            d[++colIndex] = new Label(value[3]+"");
-            d[++colIndex] = new Label(value[5]+"");
-            d[++colIndex] = new Label(value[6]+"");
-            d[++colIndex] = new Label(value[7]+"");
-            d[++colIndex] = new Label(value[8]+"");
-            d[++colIndex] = new Label(value[9]+"");
+    private void setUpGroupHitGridPane(Map<String, Object[]> positionData, String text, List<Integer> points) {
 
-            setRowIndex( rowIndex + 1 );
+        groupInfoTable.getItems().clear();
+        groupInfoTable.getColumns().clear();
+        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+        // Create columns
+        String[] colNames = {"Group","Hits","Games Out","Hits At", "Avg Skips", "Hits Above","Hits Below","Hits At","Last Seen"};
+        for(int i = 0; i < colNames.length; i++){
 
-        });
+            final int j = i;
+            TableColumn col = new TableColumn(colNames[i]);
+            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
 
-        for(int i = 0; i < gameData.length; i++){
+                @Override
+                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+                    return new TableCell<ObservableList, String>() {
 
-            for(int j = 0; j < gameData[i].length; j++){
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!isEmpty()) {
 
-                gameData[i][j].setStyle("-fx-text-fill: #dac6ac;");
-                groupGridPane.add(gameData[i][j],j,(i+1));
-            }
+                                setText(item);
+                                this.setTextFill(Color.BEIGE);
+                                // System.out.println(param.getText());
+
+                                ObservableList observableList = getTableView().getItems().get(getIndex());
+                                if (observableList.get(2).toString().equalsIgnoreCase("0")) {
+                                    getTableView().getSelectionModel().select(getIndex());
+
+                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+
+                                        this.setTextFill(Color.valueOf("#76FF03"));
+                                    }
+
+                                    //System.out.println(getItem());
+                                    // Get fancy and change color based on data
+                                    //if (item.contains("X"))
+                                    //this.setTextFill(Color.valueOf("#EFA747"));
+                                }
+                            }
+                        }
+                    };
+                }
+            });
+
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+
+
+
+            );
+
+            col.setSortable(false);
+            groupInfoTable.getColumns().addAll(col);
         }
 
-        setRowIndex(0);
+        /********************************
+         * Data added to ObservableList *
+         ********************************/
+        int size = positionData.size();
+        for(Map.Entry<String,Object[]> data : positionData.entrySet()){
+
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+
+            String key = data.getKey();
+            Object[] values = data.getValue();
+
+            row.add(key);
+            row.add(values[1]+"");
+            row.add(values[2]+"");
+            row.add(values[3]+"");
+            row.add(values[5]+"");
+            row.add(values[6]+"");
+            row.add(values[7]+"");
+            row.add(values[8]+"");
+            row.add(values[9]+"");
+
+            dataItems.add(row);
+        }
+
+        groupInfoTable.setItems(dataItems);
+      //  groupInfoTable.scrollTo(size - 1);
+
+        setUpPatternChart(points,text);
     }
 
     @SuppressWarnings("unchecked")
     private void injectChartWithData(Map<String, Object[]> positionData, String text) {
 
-        if(radioBtnAndChartHbox.getChildren().size() > 1)
+        if(radioBtnAndChartHbox.getChildren().size() < 3) {
             radioBtnAndChartHbox.getChildren().remove(1);
+        }
+        else if(radioBtnAndChartHbox.getChildren().size() > 2){
+
+            for(int i = 0; i < radioBtnAndChartHbox.getChildren().size(); i++){
+
+                Object obj = radioBtnAndChartHbox.getChildren().get(i);
+
+                if(obj instanceof LineChart){
+
+                    radioBtnAndChartHbox.getChildren().remove(i);
+                }
+            }
+
+        }
+            //radioBtnAndChartHbox.getChildren().remove(2);
 
         String[] colors = {"#FF0000", "#FF0000"};
 
@@ -287,7 +489,7 @@ public class GroupChartController {
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minValue,
-                maxValue, unique.toString(), text,1130,293);
+                maxValue, unique.toString(), text,996,263);
 
         radioBtnAndChartHbox.getChildren().add(lc.getLineChart());
 

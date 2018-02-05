@@ -350,7 +350,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
     private String SELECT_ALL_GAMES = "SELECT * From LOTTERY_GAME";
 
-    private String SELECT_APPROPRIATE_GAME_QUERY = "SELECT * FROM DRAWING WHERE LOTTERY_GAME_ID = ? ORDER BY DRAW_NUMBER;";
+    private String SELECT_APPROPRIATE_GAME_QUERY = "SELECT * FROM DRAWING WHERE LOTTERY_GAME_ID = ? ORDER BY DRAW_NUMBER limit 8000;";
 
     private String GET_RECENT_DRAW_NUMBER_QUERY = "SELECT DRAW_NUMBER FROM DRAWING " +
             "WHERE LOTTERY_GAME_ID = ? " +

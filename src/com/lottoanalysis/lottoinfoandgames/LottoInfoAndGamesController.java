@@ -161,6 +161,7 @@ public class LottoInfoAndGamesController {
 
                         game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.PICK3_DB_NAME,
                                 LotteryGameConstants.THREE_POSITIONS);
+                        System.out.println(game.drawingData.size());
                     } else if (gameName.contains(LotteryGameConstants.PICK4_GAME_NAME)) {
 
                         game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.PICK4_DB_NAME,
