@@ -26,9 +26,9 @@ public class TrendLineAnalyzer {
 
             ((Map<String,Object[]>)v[3]).forEach((kk,vv) -> {
                 
-                System.out.println(String.format("%10s %18s %6s %15s %6s",kk,"Hits:",vv[0],"Games Out",vv[1]));
+                System.out.println(String.format("<------ %10s %18s %6s %15s %6s    ------>",kk,"Hits:",vv[0],"Games Out",vv[1]));
                 
-                System.out.println(String.format("\n%1s %2s\n","Line Length Due For Direction",kk));
+                System.out.println(String.format("\n%1s %2s\n","Gap Due For Direction",kk));
                 
                 ((Map<Integer,Integer[]>)vv[2]).forEach((kkk,vvv) -> {
                     
