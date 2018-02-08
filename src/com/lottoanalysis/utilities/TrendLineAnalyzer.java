@@ -102,6 +102,7 @@ public class TrendLineAnalyzer {
             Map<Integer,Integer[]> lineLengthHolderForDirection = (Map<Integer,Integer[]>)trendlineDirectionData.get(currentDirection + " +" + data[0])[2];
 
             int dif = Math.abs( numberOne - numberTwo );
+          
             if(!lineLengthHolderForDirection.containsKey(numberTwo))
             {   
                 lineLengthHolderForDirection.put(numberTwo, new Integer[]{1,0});
