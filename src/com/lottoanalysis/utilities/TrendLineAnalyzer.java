@@ -28,11 +28,11 @@ public class TrendLineAnalyzer {
                 
                 System.out.println(String.format("<------ %10s %18s %6s %15s %6s    ------>",kk,"Hits:",vv[0],"Games Out",vv[1]));
                 
-                System.out.println(String.format("\n%1s %2s\n","Gap Due For Direction",kk));
+                System.out.println(String.format("\n%1s %2s\n","Lotto Num Due For Direction",kk));
                 
                 ((Map<Integer,Integer[]>)vv[2]).forEach((kkk,vvv) -> {
                     
-                   System.out.println(String.format("%1s %3s %16s %6s %15s %6s","Gap Due:",kkk,"Hits:",vvv[0],"Games Out",vvv[1])); 
+                   System.out.println(String.format("%1s %3s %16s %6s %15s %6s","Lotto Num Due:",kkk,"Hits:",vvv[0],"Games Out",vvv[1]));
                 });
                 System.out.println("");
             });
@@ -102,16 +102,17 @@ public class TrendLineAnalyzer {
             Map<Integer,Integer[]> lineLengthHolderForDirection = (Map<Integer,Integer[]>)trendlineDirectionData.get(currentDirection + " +" + data[0])[2];
 
             int dif = Math.abs( numberOne - numberTwo );
-            if(!lineLengthHolderForDirection.containsKey(dif))
+          
+            if(!lineLengthHolderForDirection.containsKey(numberTwo))
             {   
-                lineLengthHolderForDirection.put(dif, new Integer[]{1,0});
-                incrementGamesOut(lineLengthHolderForDirection, dif);
+                lineLengthHolderForDirection.put(numberTwo, new Integer[]{1,0});
+                incrementGamesOut(lineLengthHolderForDirection, numberTwo);
             }
             else{
-                Integer[] lineLenData = lineLengthHolderForDirection.get(dif);
+                Integer[] lineLenData = lineLengthHolderForDirection.get(numberTwo);
                 lineLenData[0]++;
                 lineLenData[1] = 0;
-                incrementGamesOut(lineLengthHolderForDirection, dif);
+                incrementGamesOut(lineLengthHolderForDirection, numberTwo);
             }
             
             // reset all other direction back to zero
