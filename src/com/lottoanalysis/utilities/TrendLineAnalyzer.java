@@ -61,7 +61,7 @@ public class TrendLineAnalyzer {
         for(int i = 0; i < numbers.length-1; i++)
         {
             int numberOne = numbers[i];
-            int numberTwo = numbers[i + 1];
+            int numberTwo = numbers[i +1];
 
             Object[] data;
 
@@ -83,28 +83,28 @@ public class TrendLineAnalyzer {
             data[1] = 0;
             data[2] = (int) data[2] + 1;
             Map<String,Object[]> trendlineDirectionData = (Map<String,Object[]>) data[3];
-            
+
             if(!trendlineDirectionData.containsKey(currentDirection + " +" +data[0])){
 
                 trendlineDirectionData.put(currentDirection + " +" +data[0], new Object[]{0,0,new TreeMap<Integer,Integer[]>()});
-            }     
-            
+            }
+
             Object[] dataTwo = trendlineDirectionData.get(currentDirection + " +" + data[0]);
 
             dataTwo[0] = (int) dataTwo[0] + 1;
-            dataTwo[1] = 0;   
-            
-            incrementGamesOut(directionHolderMap,currentDirection);   
-            
+            dataTwo[1] = 0;
+
+            incrementGamesOut(directionHolderMap,currentDirection);
+
             // increment games out for other trendline directions
-            incrementGamesOut(trendlineDirectionData,currentDirection + " +" +data[0]);     
-            
+            incrementGamesOut(trendlineDirectionData,currentDirection + " +" +data[0]);
+
             Map<Integer,Integer[]> lineLengthHolderForDirection = (Map<Integer,Integer[]>)trendlineDirectionData.get(currentDirection + " +" + data[0])[2];
 
             int dif = Math.abs( numberOne - numberTwo );
-          
+
             if(!lineLengthHolderForDirection.containsKey(numberTwo))
-            {   
+            {
                 lineLengthHolderForDirection.put(numberTwo, new Integer[]{1,0});
                 incrementGamesOut(lineLengthHolderForDirection, numberTwo);
             }
@@ -114,7 +114,7 @@ public class TrendLineAnalyzer {
                 lineLenData[1] = 0;
                 incrementGamesOut(lineLengthHolderForDirection, numberTwo);
             }
-            
+
             // reset all other direction back to zero
             directionHolderMap.forEach((k,v) -> {
 
@@ -131,7 +131,7 @@ public class TrendLineAnalyzer {
         data.forEach((k,v) -> {
 
             if(!k.equals(direction)){
-
+               // v[0] = 0;
                 v[1] = (int) v[1] + 1;
             }
         });

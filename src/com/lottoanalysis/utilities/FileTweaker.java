@@ -13,7 +13,7 @@ public class FileTweaker {
 
     private static List<String> lottoNames;
     private static String startTime = "19:30:20";
-    private static String endTime = "10:00:12";
+    private static String endTime = "24:00:00";
 
     public static void removeHeaderAndOverWrite() {
 
@@ -23,7 +23,7 @@ public class FileTweaker {
 
         lottoNames = new ArrayList<>(OnlineFileUtility.getUrlPaths().keySet());
 
-        int lineSkipCount = 0;
+        int lineSkipCount = 1;
 
         String inputFileName = game + ".txt";
         String outPutFileName = game + "Ver2" + ".txt";
@@ -51,7 +51,7 @@ public class FileTweaker {
                     }
                 }else{
 
-                    if(isTimeBetweenTwoTime(startTime,endTime)) {
+                    //if(isTimeBetweenTwoTime(startTime,endTime)) {
                         while ((line = br.readLine()) != null) {
 
                             if (lineSkipCount < 6) {
@@ -65,7 +65,7 @@ public class FileTweaker {
                             }
                             count++;
                         }
-                    }
+                   // }
                 }
             }
 
