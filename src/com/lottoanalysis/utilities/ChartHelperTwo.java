@@ -56,7 +56,7 @@ public class ChartHelperTwo {
 		    	List<Integer> diferenceHolder = new ArrayList<>();
 		    	for(int i = 0; i < gamesOutIndexHolder.size() - 1; i++){
 		    	    
-		    	    int dif = gamesOutIndexHolder.get( i + 1 ) - gamesOutIndexHolder.get(i);
+		    	    int dif = Math.abs(gamesOutIndexHolder.get( i + 1 ) - gamesOutIndexHolder.get(i)) - 1;
 		    	    diferenceHolder.add(dif);
 		    	    
 		    	}

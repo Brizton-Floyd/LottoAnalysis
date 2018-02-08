@@ -108,7 +108,10 @@ public class GroupChartController {
 
         items.forEach(menuItem -> {
 
-            menuItem.setOnAction(e -> retrieveDataForChartViewing(globalDrawPosition, Integer.parseInt(menuItem.getText())));
+            menuItem.setOnAction(e -> {
+                groupSizeMenuButton.setText(menuItem.getText());
+                retrieveDataForChartViewing(globalDrawPosition, Integer.parseInt(menuItem.getText()));
+            });
         });
     }
 
@@ -210,16 +213,10 @@ public class GroupChartController {
                 patternTable.getColumns().clear();
                 injectChartWithData(positionData,button.getText());
                 List<Integer> specialList = ChartHelperTwo.getRepeatedNumberList((List<Integer>) positionData.get(button.getText())[0]);
-                setUpGroupHitGridPane(positionData,button.getText(),specialList);
+                setUpGroupHitGridPane(positionData,button.getText(),(List<Integer>) positionData.get(button.getText())[0]);
 
-                int[] nums = new int[((List<Integer>) positionData.get(button.getText())[0]).size()];
-
-                for(int i = 0; i < nums.length; i++)
-                {
-                    nums[i] = ((List<Integer>) positionData.get(button.getText())[0]).get(i);
-                }
-
-                TrendLineAnalyzer.analyzeData(nums);
+                int[] num = ( ((List<Integer>) positionData.get(button.getText())[0]) ).stream().mapToInt(Integer::intValue).toArray();
+                TrendLineAnalyzer.analyzeData(num);
 
                // LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
 //                CompanionNumberFinder.analyzeIncomingInformation(
@@ -259,15 +256,10 @@ public class GroupChartController {
         List<Integer> specialList = ChartHelperTwo.getRepeatedNumberList(
                 (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]);
 
-        setUpGroupHitGridPane(positionData, ((RadioButton)group.getToggles().get(0)).getText(),specialList);
+        setUpGroupHitGridPane(positionData, ((RadioButton)group.getToggles().get(0)).getText(),
+                (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]);
 
-        int[] nums = new int[((List<Integer>) positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]).size()];
-
-        for(int i = 0; i < nums.length; i++)
-        {
-            nums[i] = ((List<Integer>) positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]).get(i);
-        }
-
+        int[] nums = ((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]).stream().mapToInt(i->i).toArray();
         TrendLineAnalyzer.analyzeData(nums);
 //        setUpPatternChart((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0],
 //                ((RadioButton)group.getToggles().get(0)).getText());
@@ -370,7 +362,7 @@ public class GroupChartController {
         groupInfoTable.getColumns().clear();
         ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
         // Create columns
-        String[] colNames = {"Group","Hits","Games Out","Hits At", "Avg Skips", "Hits Above","Hits Below","Hits At","Last Seen"};
+        String[] colNames = {"Group","Hits","Games Out","Hits At", "Avg Skips", "Hits Above","Hits Below","Equal To","Last Seen"};
         for(int i = 0; i < colNames.length; i++){
 
             final int j = i;
