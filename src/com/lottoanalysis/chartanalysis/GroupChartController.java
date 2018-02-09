@@ -26,7 +26,7 @@ public class GroupChartController {
     private LotteryGame lotteryGame;
     private int[][] drawPositionalNumbers;
     private Map<Integer, String> data;
-
+    private ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
 
     private static int globalDrawPosition,rowIndex;
 
@@ -109,10 +109,13 @@ public class GroupChartController {
         items.forEach(menuItem -> {
 
             menuItem.setOnAction(e -> {
-                groupSizeMenuButton.setText(menuItem.getText());
+
+                //groupSizeMenuButton.setText(menuItem.getText());
                 retrieveDataForChartViewing(globalDrawPosition, Integer.parseInt(menuItem.getText()));
             });
         });
+
+
     }
 
     private void insertPositionRadioButtonsIntoHbox() {
@@ -172,6 +175,9 @@ public class GroupChartController {
 
         patternTable.getItems().clear();
         patternTable.getColumns().clear();
+        groupInfoTable.getItems().clear();
+        groupInfoTable.getColumns().clear();
+
         clearVbox();
         lblGame.setText("Group Chart Analysis: " + lotteryGame.getGameName());
         groupHitOutlookLabel.setText("Group Hit Outlook Position " + data.get(globalDrawPosition));
@@ -271,8 +277,8 @@ public class GroupChartController {
 
     private void setUpPatternChart(List<Integer> integers,String text) {
 
-       // .//patternTable.getItems().clear();
-        //patternTable.getColumns().clear();
+        patternTable.getItems().clear();
+        patternTable.getColumns().clear();
 
         Map<String,Object[]> positionData = ChartHelperTwo.getPatternData(integers,text);
         //getDataItemsTwo.clear();
@@ -358,9 +364,11 @@ public class GroupChartController {
 
     private void setUpGroupHitGridPane(Map<String, Object[]> positionData, String text, List<Integer> points) {
 
+        groupInfoTable.refresh();
+
         groupInfoTable.getItems().clear();
         groupInfoTable.getColumns().clear();
-        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+
         // Create columns
         String[] colNames = {"Group","Hits","Games Out","Hits At", "Avg Skips", "Hits Above","Hits Below","Equal To","Last Seen"};
         for(int i = 0; i < colNames.length; i++){
@@ -475,7 +483,7 @@ public class GroupChartController {
 
         List<List<Integer>> dataPoints = new ArrayList<>();
         //dataPoints.add((numList.size() > 150) ? numList.subList(numList.size()-150,numList.size()) : numList);
-        dataPoints.add( (specialList.size() > 150) ? specialList.subList(specialList.size()-150,specialList.size()) : specialList);
+        dataPoints.add( (numList.size() > 150) ? numList.subList(numList.size()-150,numList.size()) : numList);
 
 //        List<Integer> pointTwo = (numList.size() > 0) ? ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber(numList) : new ArrayList<>();
 //
