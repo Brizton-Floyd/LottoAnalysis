@@ -182,7 +182,7 @@ public class GroupChartController {
         lblGame.setText("Group Chart Analysis: " + lotteryGame.getGameName());
         groupHitOutlookLabel.setText("Group Hit Outlook Position " + data.get(globalDrawPosition));
 
-        //NextProbableGroupFinder.analyze(drawPositionalNumbers);
+        NextProbableGroupFinder.analyze(drawPositionalNumbers);
        // GameOutViewPatternFinder.analyze(drawPositionalNumbers);;
 
         int[] drawingPos = drawPositionalNumbers[drawPosition];
@@ -222,13 +222,13 @@ public class GroupChartController {
                 setUpGroupHitGridPane(positionData,button.getText(),(List<Integer>) positionData.get(button.getText())[0]);
 
                 int[] num = ( ((List<Integer>) positionData.get(button.getText())[0]) ).stream().mapToInt(Integer::intValue).toArray();
-                TrendLineAnalyzer.analyzeData(num);
+                //TrendLineAnalyzer.analyzeData(num);
 
-               // LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
+//               LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
 //                CompanionNumberFinder.analyzeIncomingInformation(
 //                      ChartHelperTwo.extractAppropriatePosition( positionData, button.getText())
 //                );
-               // LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,button.getText()));
+                LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,button.getText()));
             });
 
             if(count == 0) {
@@ -266,12 +266,12 @@ public class GroupChartController {
                 (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]);
 
         int[] nums = ((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]).stream().mapToInt(i->i).toArray();
-        TrendLineAnalyzer.analyzeData(nums);
+        //TrendLineAnalyzer.analyzeData(nums);
 //        setUpPatternChart((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0],
 //                ((RadioButton)group.getToggles().get(0)).getText());
         //LineSpacingHelperTwo.analyze(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
         //CompanionNumberFinder.analyzeIncomingInformation(ChartHelperTwo.extractAppropriatePosition( positionData, "1"));
-        //LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
+        LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
 
     }
 
@@ -359,8 +359,8 @@ public class GroupChartController {
         }
 
         patternTable.setItems(getDataItemsTwo);
-
     }
+
 
     private void setUpGroupHitGridPane(Map<String, Object[]> positionData, String text, List<Integer> points) {
 

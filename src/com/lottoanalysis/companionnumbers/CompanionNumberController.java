@@ -34,7 +34,7 @@ public class CompanionNumberController {
     private Button analyzeBtn;
 
     @FXML
-    private TableView companionTable, statTable;
+    private TableView companionTable, statTable, lastDigitDueTable;
 
     @FXML
     public void initialize(){
@@ -51,6 +51,8 @@ public class CompanionNumberController {
 
         companionTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         statTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        lastDigitDueTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
     }
 
     public void setPostionalNumbers(int[][] numbers)
@@ -84,7 +86,7 @@ public class CompanionNumberController {
 
     private void setUpCompanionTable(Map<String, Object[]> data) {
 
-
+        companionTable.refresh();
         companionTable.getItems().clear();
         companionTable.getColumns().clear();
         statTable.getItems().clear();
@@ -238,7 +240,93 @@ public class CompanionNumberController {
 
         statTable.setItems(getDataItemsTwo);
 
+        setUpLastDigitTable();
     }
+
+    private void setUpLastDigitTable() {
+
+        lastDigitDueTable.refresh();
+        lastDigitDueTable.getItems().clear();
+        lastDigitDueTable.getColumns().clear();
+
+        String[] headers = {"First Digit","Hits","Games Out"};
+
+        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+
+        Map<Integer,Integer[]> data = CompanionNumberHelper.getLastDigitDueHolder();
+
+        for(int i = 0; i < headers.length; i++){
+
+            final int j = i;
+            TableColumn col = new TableColumn(headers[i]);
+            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+
+                @Override
+                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+                    return new TableCell<ObservableList, String>() {
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!isEmpty()) {
+
+                                setText(item);
+                                this.setTextFill(Color.BEIGE);
+                                // System.out.println(param.getText());
+
+                                ObservableList observableList = getTableView().getItems().get(getIndex());
+                                if (observableList.get(2).toString().equalsIgnoreCase("0") ) {
+                                    getTableView().getSelectionModel().select(getIndex());
+
+                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+
+                                        this.setTextFill(Color.valueOf("#76FF03"));
+                                    }
+
+                                    //System.out.println(getItem());
+                                    // Get fancy and change color based on data
+                                    //if (item.contains("X"))
+                                    //this.setTextFill(Color.valueOf("#EFA747"));
+                                }
+                            }
+                        }
+                    };
+                }
+            });
+
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+
+
+
+            );
+
+            col.setSortable(false);
+            lastDigitDueTable.getColumns().addAll(col);
+        }
+
+        /********************************
+         * Data added to ObservableList *
+         ********************************/
+        //int size = positionData.size();
+        for(Map.Entry<Integer,Integer[]> dataa : data.entrySet()){
+
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+
+            String key = dataa.getKey() + "";
+            Integer[] values = dataa.getValue();
+
+            row.add(key);
+            row.add(values[0]+"");
+            row.add(values[1]+"");
+
+            dataItems.add(row);
+        }
+
+        lastDigitDueTable.setItems(dataItems);
+    }
+
 
     private void analyzePositions(boolean val) {
 
