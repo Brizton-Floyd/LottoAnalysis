@@ -1,11 +1,14 @@
 package com.lottoanalysis.utilities;
 
 import java.util.*;
+import java.math.*;
 
 @SuppressWarnings("unchecked")
 public class TrendLineAnalyzer {
 
     private static Map<String,Object[]> directionHolderMap = new LinkedHashMap<>();
+    private static Map<String,Map<String,Integer[]>> directionHolderRetracementMap = new LinkedHashMap<>();
+    private static List<String> directionHolderList = new ArrayList<>();
     private static String currentDirection;
     
     public static void analyzeData( int[] lottoNumbers )
@@ -13,7 +16,59 @@ public class TrendLineAnalyzer {
         clear();
         loadUpDirectionHolderMap();
         startTrendLineAnalysis(lottoNumbers);
+        storeDirectionHitsAtGamesOut();
+        populateDirectionRetracmentList();
         print();
+    }
+
+    private static void populateDirectionRetracmentList() {
+
+        String currentWinningDirection = directionHolderList.get(directionHolderList.size()-1);
+        for(int i = 0; i < directionHolderList.size() -1; i++){
+
+            if(directionHolderList.get(i).equals(currentWinningDirection)){
+
+                String nextDirection = directionHolderList.get(i+1);
+                Map<String,Integer[]> data = directionHolderRetracementMap.get(currentWinningDirection);
+                if(!data.containsKey(nextDirection)){
+                    data.put(nextDirection,new Integer[]{1,0});
+                    NumberPatternAnalyzer.incrementGamesOutForMatrix(data,nextDirection);
+                }
+                else{
+                    Integer[] dataTwo = data.get(nextDirection);
+                    dataTwo[0]++;
+                    dataTwo[1] =0;
+                    NumberPatternAnalyzer.incrementGamesOutForMatrix(data,nextDirection);
+                }
+            }
+        }
+    }
+
+    private static void storeDirectionHitsAtGamesOut() {
+
+        System.out.println(directionHolderList.get(directionHolderList.size() -1));
+        directionHolderMap.forEach( (k,v) -> {
+
+            ((Map<String,Object[]>)v[3]).forEach((kk,vv) -> {
+
+                int currentGamesOut = (int)vv[1];
+                List<Integer> gameOutContainer = (List<Integer>)vv[3];
+
+                if(gameOutContainer.contains(currentGamesOut)){
+
+                    int lastIndex = gameOutContainer.lastIndexOf(currentGamesOut);
+                    int gamesOut = Math.abs(lastIndex - gameOutContainer.size()) - 1;
+                    vv[4] = gamesOut;
+                }else
+                {
+                    vv[4] = -1;
+                }
+
+                long occurences = gameOutContainer.stream().filter( count -> count == currentGamesOut).count();
+                int value = Math.toIntExact(occurences);
+                vv[5] = value;
+            });
+        });
     }
 
     private static void print(){
@@ -26,7 +81,8 @@ public class TrendLineAnalyzer {
 
             ((Map<String,Object[]>)v[3]).forEach((kk,vv) -> {
                 
-                System.out.println(String.format("<------ %10s %18s %6s %15s %6s    ------>",kk,"Hits:",vv[0],"Games Out",vv[1]));
+                System.out.println(String.format("<------ %10s %16s %6s %15s %6s %15s %3s %20s %3s ------>",kk,"Hits:",vv[0],"Games Out:",vv[1],
+                        "Last Seen:",vv[4],"Hits At G Out:",vv[5]));
                 
                 System.out.println(String.format("\n%1s %2s\n","Lotto Num Due For Direction",kk));
                 
@@ -41,6 +97,8 @@ public class TrendLineAnalyzer {
     }
     
     private static void clear(){
+        directionHolderRetracementMap.clear();
+        directionHolderList.clear();
         directionHolderMap.clear();
     }
 
@@ -79,6 +137,7 @@ public class TrendLineAnalyzer {
                 currentDirection = "Equal";
             }
 
+            directionHolderList.add(currentDirection);
             data[0] = (int) data[0] + 1;
             data[1] = 0;
             data[2] = (int) data[2] + 1;
@@ -86,12 +145,13 @@ public class TrendLineAnalyzer {
 
             if(!trendlineDirectionData.containsKey(currentDirection + " +" +data[0])){
 
-                trendlineDirectionData.put(currentDirection + " +" +data[0], new Object[]{0,0,new TreeMap<Integer,Integer[]>()});
+                trendlineDirectionData.put(currentDirection + " +" +data[0], new Object[]{0,0,new TreeMap<Integer,Integer[]>(),new ArrayList<Integer>(),0,0});
             }
 
             Object[] dataTwo = trendlineDirectionData.get(currentDirection + " +" + data[0]);
 
             dataTwo[0] = (int) dataTwo[0] + 1;
+            ((List<Integer>)dataTwo[3]).add((int)dataTwo[1]);
             dataTwo[1] = 0;
 
             incrementGamesOut(directionHolderMap,currentDirection);
@@ -123,7 +183,11 @@ public class TrendLineAnalyzer {
                     v[0] = 0;
                 }
             });
+
         }
+
+        directionHolderRetracementMap.put(directionHolderList.get(directionHolderList.size()-1),new LinkedHashMap<>());
+
     }
 
     private static void incrementGamesOut(Map<String,Object[]> data, String direction)

@@ -1,6 +1,7 @@
 package com.lottoanalysis.companionnumbers.companionnumberhelpers;
 
 import com.lottoanalysis.utilities.NumberAnalyzer;
+import jdk.nashorn.internal.runtime.regexp.joni.encoding.CharacterType;
 
 import java.util.*;
 
@@ -11,9 +12,14 @@ public class CompanionNumberHelper {
     private static Map<Integer,String> columnHeaders = new TreeMap<>();
     private static List<List<String>> listHolder = new LinkedList<>();
     private static Map<Integer,Integer[]> gameOutHolderMap = new LinkedHashMap<>();
+    private static Map<Integer,Integer[]> lastDigitDueHolder = new TreeMap<>();
 
     public static Map<Integer, Integer[]> getGameOutHolderMap() {
         return gameOutHolderMap;
+    }
+
+    public static Map<Integer, Integer[]> getLastDigitDueHolder() {
+        return lastDigitDueHolder;
     }
 
     public static List<List<String>> getListHolder() {
@@ -59,6 +65,21 @@ public class CompanionNumberHelper {
                         NumberAnalyzer.incrementGamesOut(gameOutHolderMap,(int)data[1]);
                     }
 
+                    String outAsString = data[1] + "";
+                    int digit = (outAsString.length() == 1) ? 0 :
+                            Character.getNumericValue(outAsString.charAt(0));
+
+                    if(!lastDigitDueHolder.containsKey(digit)){
+
+                        lastDigitDueHolder.put(digit,new Integer[]{1,0});
+                        NumberAnalyzer.incrementGamesOut(lastDigitDueHolder,digit);
+                    }
+                    else{
+                        Integer[] lastDigitData = lastDigitDueHolder.get(digit);
+                        lastDigitData[0]++;
+                        lastDigitData[1] = 0;
+                        NumberAnalyzer.incrementGamesOut(lastDigitDueHolder,digit);
+                    }
                     data[1] = 0;
 
                     List<String> list = (LinkedList<String>)data[2];
@@ -115,5 +136,7 @@ public class CompanionNumberHelper {
     private static void clear(){
         patternHolder.clear();
         listHolder.clear();
+        columnHeaders.clear();
+        lastDigitDueHolder.clear();
     }
 }
