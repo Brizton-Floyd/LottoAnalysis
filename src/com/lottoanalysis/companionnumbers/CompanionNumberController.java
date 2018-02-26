@@ -3,6 +3,7 @@ package com.lottoanalysis.companionnumbers;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.companionnumbers.companionnumberhelpers.CompanionNumberHelper;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
+import com.lottoanalysis.lottoinfoandgames.LottoGame;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,7 +20,7 @@ import java.util.*;
 public class CompanionNumberController {
 
     private int[][] postionalNumbers;
-    private LotteryGame game;
+    private LottoGame game;
     private Map<Integer,String> positionStringNameHolder = new HashMap<>();
     private Map<String,List<Integer>> groupAndNumberHolder = new LinkedHashMap<>();
     private Object[] array = new Object[4];
@@ -60,7 +61,7 @@ public class CompanionNumberController {
         this.postionalNumbers = numbers;
     }
 
-    public void setGame(LotteryGame game)
+    public void setGame(LottoGame game)
     {
         this.game = game;
     }

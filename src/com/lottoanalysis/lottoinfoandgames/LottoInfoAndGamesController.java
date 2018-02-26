@@ -5,7 +5,7 @@ import com.lottoanalysis.screenloader.LottoScreenNavigator;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.common.LotteryGameDaoConstants;
 import com.lottoanalysis.lottodashboard.LottoDashboardController;
-import com.lottoanalysis.lottoinfoandgames.data.DataDownLoader;
+import com.lottoanalysis.lottoinfoandgames.data.DataDownLoaderTask;
 import com.lottoanalysis.utilities.OnlineFileUtility;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,9 +36,9 @@ public class LottoInfoAndGamesController {
     private List<String> itemList = new LinkedList<>();
     private boolean isGamePaneOpen = false;
     private LotteryGameManager lotteryGameManager;
-    private static LotteryGame lotteryGame;
     private static List<Object> values = new ArrayList<>();
     private static Pane staticPane;
+    private static LottoGame lotteryGame;
 
 
     @FXML
@@ -123,10 +122,12 @@ public class LottoInfoAndGamesController {
     @FXML
     private void getAppropriateGameData(ActionEvent event) {
 
-        LotteryGame game = null;
+        LottoGame game = null;
 
         // Get the event source and cast to appropriate object type
         MenuItem item = (MenuItem) event.getSource();
+
+        AbstractFactory factory = FactoryProducer.getFactory("lotteryGameFactory");
 
         FXMLLoader loader = new FXMLLoader( getClass().getResource( LottoScreenNavigator.LOTTO_SCREEN_ONE));
         try {
@@ -150,25 +151,39 @@ public class LottoInfoAndGamesController {
 
                     if (gameName.contains(LotteryGameConstants.FANTASY_FIVE_GAME_NAME)) {
 
-                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.FANTASY_FIVE_DB_NAME, LotteryGameConstants.FIVE_POSITIONS);
+                        LottoGame lottoGame = factory.getLotteryGame("five");
+                        lottoGame.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(lottoGame);
+
                     } else if (gameName.contains(LotteryGameConstants.POWERBALL_GAME_NAME)) {
 
-                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.POWERBALL_DB_NAME, LotteryGameConstants.SIX_POSITIONS);
+                        LottoGame lottoGame = factory.getLotteryGame("five");
+                        lottoGame.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(lottoGame);
+
                     } else if (gameName.contains(LotteryGameConstants.MEGA_MILLIONS_GAME_NAME)) {
 
-                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.MEGA_MILLIONS_DB_NAME, LotteryGameConstants.SIX_POSITIONS);
+                        LottoGame lottoGame = factory.getLotteryGame("five");
+                        lottoGame.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(lottoGame);
+
                     } else if (gameName.contains(LotteryGameConstants.PICK3_GAME_NAME)) {
 
-                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.PICK3_DB_NAME,
-                                LotteryGameConstants.THREE_POSITIONS);
-                        System.out.println(game.drawingData.size());
+                        LottoGame lottoGame = factory.getLotteryGame("THREE");
+                        lottoGame.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(lottoGame);
+
                     } else if (gameName.contains(LotteryGameConstants.PICK4_GAME_NAME)) {
 
-                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.PICK4_DB_NAME,
-                                LotteryGameConstants.FOUR_POSITIONS);
+                        LottoGame lottoGame = factory.getLotteryGame("four");
+                        lottoGame.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(lottoGame);
+
                     } else if (gameName.contains(LotteryGameConstants.SUPER_LOTTO_PLUS_GAME_NAME)) {
 
-                        game = lotteryGameManager.loadLotteryData(gameName, LotteryGameConstants.SUPER_LOTTO_DB_NAME, LotteryGameConstants.SIX_POSITIONS);
+                        LottoGame lottoGame = factory.getLotteryGame("five");
+                        lottoGame.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(lottoGame);
                     }
 
                     // Once we have the selected game from the manager send the data to the table view
@@ -203,7 +218,7 @@ public class LottoInfoAndGamesController {
     public static void setValues(List values) {
         LottoInfoAndGamesController.values = values;
     }
-    private static void setLotteryGame(LotteryGame game){
+    private static void setLotteryGame(LottoGame game){
 
         LottoInfoAndGamesController.lotteryGame = game;
     }
@@ -211,7 +226,7 @@ public class LottoInfoAndGamesController {
      * Returns the current Lottery game being played in the system really helpful when wanting
      * to render chart data
      */
-    public static LotteryGame getCurrentLotteryGameBeingPlayed(){
+    public static LottoGame getCurrentLotteryGameBeingPlayed(){
         return lotteryGame;
     }
 
@@ -222,12 +237,12 @@ public class LottoInfoAndGamesController {
      */
     private void downloadFilesFromInternet() {
 
-        Task<Void> task = new DataDownLoader(OnlineFileUtility.getUrlPaths(), this);
+        Task<Void> task = new DataDownLoaderTask(OnlineFileUtility.getUrlPaths(), this);
         updateProgressBar.progressProperty().bind(task.progressProperty());
         lotteryUpdateLabel.textProperty().bind(task.messageProperty());
         lotteryUpdateLabel.setVisible(true);
 
-        Thread thread = new Thread(task);
+        Thread thread = new Thread(task,"Thread-FileDownload");
         thread.setDaemon(true);
         thread.start();
 

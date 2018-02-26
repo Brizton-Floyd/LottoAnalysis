@@ -1,12 +1,9 @@
 package com.lottoanalysis.lottoinfoandgames;
 
-import com.lottoanalysis.lottoinfoandgames.data.DBConnection;
 import com.lottoanalysis.lottoinfoandgames.data.LotteryGameDao;
 import com.lottoanalysis.lottoinfoandgames.data.LotteryGameDaoImpl;
 import com.lottoanalysis.utilities.FileTweaker;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public class LotteryGameManagerImpl implements LotteryGameManager {
@@ -30,40 +27,32 @@ public class LotteryGameManagerImpl implements LotteryGameManager {
         return getDaoInstance().selectAllGames();
     }
 
-
-    /**
-     * Returns a game instance
-     * @param gagmeID
-     * @param dataBaseName
-     * @param numberOfPositions
-     * @return
-     */
     @Override
-    public LotteryGame loadLotteryData(int gagmeID, String dataBaseName, int numberOfPositions) {
+    public void populateDrawings(LottoGame game) {
 
-        return getDaoInstance().getLotteryGameInstance( gagmeID, dataBaseName, numberOfPositions);
+        getDaoInstance().loadUpDrawings(game);
+
     }
 
     /**
      * Returns a game instance
      * @param game
-     * @param dataBaseName
-     * @param numberOfPositions
      * @return
      */
     @Override
-    public LotteryGame loadLotteryData(String game, String dataBaseName, int numberOfPositions ) {
+    public LottoGame loadLotteryData(LottoGame game) {
 
-        Object[] data = getDaoInstance().retrieveGameId( game );
+        Object[] data = getDaoInstance().retrieveGameId( game.getGameName() );
 
-        LotteryGame newGame = loadLotteryData((int)data[0], dataBaseName, numberOfPositions);
+        game.setGameId((int)data[0]);
+        game.setPositionNumbersAllowed((int)data[3]);
+        game.setMinNumber((int) data[1]);
+        game.setMaxNumber((int) data[2]);
+        game.setGameName( FileTweaker.trimStateAbrrFromGameName( game.getGameName() ) );
 
-        newGame.setPositionNumbersAllowed( numberOfPositions );
-        newGame.setMinNumber((int) data[1]);
-        newGame.setMaxNumber((int) data[2]);
-        newGame.setGameName( FileTweaker.trimStateAbrrFromGameName( game ) );
+        populateDrawings(game);
 
-        return newGame;
+        return game;
     }
 
     private LotteryGameDao getDaoInstance() {

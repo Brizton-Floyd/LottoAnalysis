@@ -6,8 +6,8 @@ public interface LotteryGameManager {
 
     List<String> getAllGames();
 
-    LotteryGame loadLotteryData(int gagmeID, String dataBaseName, int numberOfPositions);
+    void populateDrawings(LottoGame game);
 
-    LotteryGame loadLotteryData( String game, String dataBaseName, int numberOfPositions );
+    LottoGame loadLotteryData( LottoGame game );
 
 }

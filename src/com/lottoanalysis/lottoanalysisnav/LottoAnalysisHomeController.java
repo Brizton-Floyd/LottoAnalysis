@@ -3,6 +3,7 @@ package com.lottoanalysis.lottoanalysisnav;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottodashboard.LottoDashboardController;
+import com.lottoanalysis.lottoinfoandgames.LottoGame;
 import com.lottoanalysis.screenloader.LottoScreenNavigator;
 import com.lottoanalysis.screenloader.MainController;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
@@ -63,7 +64,7 @@ public class LottoAnalysisHomeController  {
     {
 
         // Retrieve the current game that is currently being played
-        LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
         List<Object> drawData = LottoInfoAndGamesController.getValues();
 
         Object[] allData = {game, drawData};
@@ -85,7 +86,7 @@ public class LottoAnalysisHomeController  {
     @FXML
     public void loadGroupChartScreen(ActionEvent event){
         // Retrieve the current game that is currently being played
-        LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
         List<Object> drawData = LottoInfoAndGamesController.getValues();
 
         Object[] allData = {game, drawData};
@@ -112,6 +113,11 @@ public class LottoAnalysisHomeController  {
             LottoScreenNavigator.getMainController().setLottoScreen( LottoInfoAndGamesController.getStaticPane());
     }
 
+    public void loadLotteryDashBoardScreen(){
+
+            LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE, null ,null);
+    }
+
     @FXML
     public void makeGamePanelAppear(ActionEvent event){
 
@@ -123,7 +129,7 @@ public class LottoAnalysisHomeController  {
     public void loadLotteryChartAnalysisScreen(ActionEvent event){
 
         // Retrieve the current game that is currently being played
-        LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
         List<Object> drawData = LottoInfoAndGamesController.getValues();
 
         Object[] allData = {game, drawData};

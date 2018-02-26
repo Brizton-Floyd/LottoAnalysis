@@ -1,6 +1,7 @@
 package com.lottoanalysis.lottoinfoandgames.data;
 
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
+import com.lottoanalysis.lottoinfoandgames.LottoGame;
 
 import java.sql.*;
 import java.util.List;
@@ -15,7 +16,7 @@ public interface LotteryGameDao {
 
     List<String> selectAllGames();
 
-    LotteryGame getLotteryGameInstance(int id, String databaseName, int numPositions);
+    void loadUpDrawings(LottoGame game);
 
     int getCurrentWinningGameNumber(int id);
 

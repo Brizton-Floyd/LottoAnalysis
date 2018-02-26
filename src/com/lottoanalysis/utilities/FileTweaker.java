@@ -1,5 +1,7 @@
 package com.lottoanalysis.utilities;
 
+import com.lottoanalysis.lottoinfoandgames.LotteryGame;
+import com.lottoanalysis.lottoinfoandgames.lottogames.FiveDigitLotteryGame;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import java.io.*;
@@ -12,8 +14,6 @@ import java.time.*;
 public class FileTweaker {
 
     private static List<String> lottoNames;
-    private static String startTime = "19:30:20";
-    private static String endTime = "24:00:00";
 
     public static void removeHeaderAndOverWrite() {
 
@@ -21,13 +21,11 @@ public class FileTweaker {
 
     public static void overWriteFile(String game) throws IOException {
 
-        lottoNames = new ArrayList<>(OnlineFileUtility.getUrlPaths().keySet());
 
-        int lineSkipCount = 1;
+        lottoNames = new ArrayList<>(OnlineFileUtility.getUrlPaths().keySet());
 
         String inputFileName = game + ".txt";
         String outPutFileName = game + "Ver2" + ".txt";
-        int count = 0;
 
         try {
 
@@ -41,31 +39,38 @@ public class FileTweaker {
                 if(!inputFileName.equals("Daily Pick3.txt")) {
                     while ((line = br.readLine()) != null) {
 
-                        if (lineSkipCount < 6) {
-                            lineSkipCount++;
-                            continue;
+                        String[] drawString = line.split("\\s+");
+
+                        if (drawString[0].matches("[0-9]+")) {
+                            bw.write(line);
+                            bw.newLine();
                         }
 
-                        bw.write(line);
-                        bw.newLine();
                     }
                 }else{
 
-                    //if(isTimeBetweenTwoTime(startTime,endTime)) {
-                        while ((line = br.readLine()) != null) {
+                    List<String> pick3EveningHolder = new ArrayList<>();
 
-                            if (lineSkipCount < 6) {
-                                lineSkipCount++;
-                                continue;
-                            }
+                    while ((line = br.readLine()) != null) {
 
-                            if (count % 2 == 0) {
-                                bw.write(line);
-                                bw.newLine();
-                            }
-                            count++;
+                        String[] drawString = line.split("\\s+");
+
+                        if (drawString[0].matches("[0-9]+")) {
+                            if(Integer.parseInt(drawString[0]) % 2 == 1)
+                                pick3EveningHolder.add(line);
                         }
-                   // }
+
+                    }
+
+                    pick3EveningHolder.forEach( string -> {
+                        try {
+                            bw.write(string);
+                            bw.newLine();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    });
                 }
             }
 
@@ -80,54 +85,6 @@ public class FileTweaker {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static boolean isTimeBetweenTwoTime(String initialTime, String finalTime) throws java.text.ParseException {
-
-        boolean valid = false;
-
-        LocalTime date6 = LocalTime.now();
-        String dateAsString = date6.toString();
-        String currentTime = dateAsString.substring(0,dateAsString.lastIndexOf("."));
-
-        String reg = "^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$";
-
-        if (initialTime.matches(reg) && finalTime.matches(reg) && currentTime.matches(reg))
-        {
-
-            //Start Time
-            java.util.Date inTime = new SimpleDateFormat("HH:mm:ss").parse(initialTime);
-            Calendar calendar1 = Calendar.getInstance();
-            calendar1.setTime(inTime);
-
-            //Current Time
-            java.util.Date checkTime = new SimpleDateFormat("HH:mm:ss").parse(currentTime);
-            Calendar calendar3 = Calendar.getInstance();
-            calendar3.setTime(checkTime);
-
-            //End Time
-            java.util.Date finTime = new SimpleDateFormat("HH:mm:ss").parse(finalTime);
-            Calendar calendar2 = Calendar.getInstance();
-            calendar2.setTime(finTime);
-
-            if (finalTime.compareTo(initialTime) < 0)
-            {
-                calendar2.add(Calendar.DATE, 1);
-                calendar3.add(Calendar.DATE, 1);
-            }
-
-            java.util.Date actualTime = calendar3.getTime();
-            if ((actualTime.after(calendar1.getTime()) || actualTime.compareTo(calendar1.getTime()) == 0) && actualTime.before(calendar2.getTime()))
-            {
-                valid = true;
-                return valid;
-
-            } else {
-                throw new IllegalArgumentException("Not a valid time, expecting HH:MM:SS format");
-            }
-        }
-
-        return valid;
     }
 
     public static String trimStateAbrrFromGameName(String gameName) {

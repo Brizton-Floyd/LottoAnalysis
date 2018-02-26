@@ -3,6 +3,7 @@ package com.lottoanalysis.chartanalysis;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.companionnumbers.companionnumberhelpers.CompanionNumberHelper;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
+import com.lottoanalysis.lottoinfoandgames.LottoGame;
 import com.lottoanalysis.utilities.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -23,7 +24,7 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class GroupChartController {
 
-    private LotteryGame lotteryGame;
+    private LottoGame lotteryGame;
     private int[][] drawPositionalNumbers;
     private Map<Integer, String> data;
     private ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
@@ -81,7 +82,7 @@ public class GroupChartController {
         radioBtnAndChartHbox.getChildren().removeIf(obj -> obj instanceof VBox);
     }
 
-    public void initFields(LotteryGame game, int[][] drawPositionalNumbers) {
+    public void initFields(LottoGame game, int[][] drawPositionalNumbers) {
 
         setLotteryGame(game);
         setDrawPositionalNumbers(drawPositionalNumbers);
@@ -182,8 +183,10 @@ public class GroupChartController {
         lblGame.setText("Group Chart Analysis: " + lotteryGame.getGameName());
         groupHitOutlookLabel.setText("Group Hit Outlook Position " + data.get(globalDrawPosition));
 
-        NextProbableGroupFinder.analyze(drawPositionalNumbers);
+       // NextProbableGroupFinder.analyze(drawPositionalNumbers);
        // GameOutViewPatternFinder.analyze(drawPositionalNumbers);;
+
+        PositionalGameOutPositionTracker.analyze(lotteryGame,drawPositionalNumbers);
 
         int[] drawingPos = drawPositionalNumbers[drawPosition];
 
@@ -228,7 +231,7 @@ public class GroupChartController {
 //                CompanionNumberFinder.analyzeIncomingInformation(
 //                      ChartHelperTwo.extractAppropriatePosition( positionData, button.getText())
 //                );
-                LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,button.getText()));
+                //LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,button.getText()));
             });
 
             if(count == 0) {
@@ -271,7 +274,7 @@ public class GroupChartController {
 //                ((RadioButton)group.getToggles().get(0)).getText());
         //LineSpacingHelperTwo.analyze(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
         //CompanionNumberFinder.analyzeIncomingInformation(ChartHelperTwo.extractAppropriatePosition( positionData, "1"));
-        LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
+       // LineSpacingHelper.determineMostProbableLineSpacing(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
 
     }
 
@@ -523,11 +526,11 @@ public class GroupChartController {
         GroupChartController.rowIndex = rowIndex;
     }
 
-    public LotteryGame getLotteryGame() {
+    public LottoGame getLotteryGame() {
         return lotteryGame;
     }
 
-    private void setLotteryGame(LotteryGame lotteryGame) {
+    private void setLotteryGame(LottoGame lotteryGame) {
         this.lotteryGame = lotteryGame;
     }
 
