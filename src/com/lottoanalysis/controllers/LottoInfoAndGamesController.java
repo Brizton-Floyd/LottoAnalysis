@@ -1,8 +1,8 @@
 package com.lottoanalysis.controllers;
 
 import com.lottoanalysis.Main;
-import com.lottoanalysis.factories.AbstractFactory;
-import com.lottoanalysis.factories.producer.FactoryProducer;
+import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
+import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
 import com.lottoanalysis.interfaces.LotteryGame;
 import com.lottoanalysis.interfaces.LotteryGameManager;
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;

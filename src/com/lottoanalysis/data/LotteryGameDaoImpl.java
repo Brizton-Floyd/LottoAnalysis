@@ -2,8 +2,8 @@ package com.lottoanalysis.data;
 
 import com.lottoanalysis.controllers.LottoAnalysisHomeController;
 import com.lottoanalysis.controllers.LottoInfoAndGamesController;
-import com.lottoanalysis.factories.AbstractFactory;
-import com.lottoanalysis.factories.producer.FactoryProducer;
+import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
+import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
 import com.lottoanalysis.lottogames.drawing.Drawing;
 import com.lottoanalysis.interfaces.Database;
 import com.lottoanalysis.interfaces.LotteryGame;

@@ -1,4 +1,4 @@
-package com.lottoanalysis.factories;
+package com.lottoanalysis.factories.abstractfactory;
 
 import com.lottoanalysis.interfaces.Database;
 import com.lottoanalysis.interfaces.LotteryGame;

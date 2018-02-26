@@ -1,6 +1,6 @@
-package com.lottoanalysis.factories.producer;
+package com.lottoanalysis.factories.factoryproducer;
 
-import com.lottoanalysis.factories.AbstractFactory;
+import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.factories.DatabaseFactory;
 import com.lottoanalysis.factories.LotteryGameFactory;
 import com.lottoanalysis.factories.LotteryGameManagerFactory;
