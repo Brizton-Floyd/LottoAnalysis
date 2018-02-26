@@ -1,7 +1,7 @@
 package com.lottoanalysis;
 
-import com.lottoanalysis.screenloader.LottoScreenNavigator;
-import com.lottoanalysis.lottoanalysisnav.LottoAnalysisHomeController;
+import com.lottoanalysis.screenavigator.LottoScreenNavigator;
+import com.lottoanalysis.controllers.LottoAnalysisHomeController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
