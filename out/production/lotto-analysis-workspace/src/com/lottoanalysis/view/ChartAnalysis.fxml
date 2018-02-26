@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="chartAnalysisMainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753" prefWidth="1205" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.chartanalysis.ChartAnalysisController">
+<AnchorPane fx:id="chartAnalysisMainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753" prefWidth="1205" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.ChartAnalysisController">
    <children>
       <VBox layoutX="20.0" layoutY="20.0" prefHeight="752.0" prefWidth="1460.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
