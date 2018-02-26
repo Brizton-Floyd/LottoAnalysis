@@ -3,6 +3,7 @@ package com.lottoanalysis.chartanalysis;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.lottoinfoandgames.LotteryGame;
+import com.lottoanalysis.lottoinfoandgames.LottoGame;
 import com.lottoanalysis.utilities.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,15 +15,15 @@ import java.util.*;
 
 public class ChartAnalysisController {
 
-    private LotteryGame lotteryGame;
+    private LottoGame lotteryGame;
     private int[][] drawNumbers;
     private int initialPosition = 0;
 
-    public LotteryGame getLotteryGame() {
+    public LottoGame getLotteryGame() {
         return lotteryGame;
     }
 
-    public void setLotteryGame(LotteryGame lotteryGame) {
+    public void setLotteryGame(LottoGame lotteryGame) {
         this.lotteryGame = lotteryGame;
     }
 
@@ -226,7 +227,7 @@ public class ChartAnalysisController {
 
             List<Integer> special = ChartHelperTwo.getRepeatedNumberList(points);
             List<List<Integer>> dataPoints = new ArrayList<>();
-            dataPoints.add((special.size() > 100) ? special.subList(special.size() - 60, special.size()) : special);
+            dataPoints.add((points.size() > 100) ? points.subList(points.size() - 60, points.size()) : points);
 
            // if(pointTwo.size() > 0)
                 //dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 30, pointTwo.size()) : pointTwo);

@@ -43,17 +43,17 @@ import java.util.*;
 public class LottoDashboardController  {
 
     private MainController mainController;
-    private LotteryGame lotteryGame;
+    private LottoGame lotteryGame;
     private static int universalCount = 0;
     private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums, lineSpacings, remainder;
-    private static LotteryGame classLevelLotteryGame;
+    private static LottoGame classLevelLotteryGame;
     private static List<Object> numbersForChartDisplay = new ArrayList<>();
 
-    public static LotteryGame getClassLevelLotteryGame() {
+    public static LottoGame getClassLevelLotteryGame() {
         return classLevelLotteryGame;
     }
 
-    private static void setClassLevelLotteryGame(LotteryGame classLevelLotteryGame) {
+    private static void setClassLevelLotteryGame(LottoGame classLevelLotteryGame) {
         LottoDashboardController.classLevelLotteryGame = classLevelLotteryGame;
     }
 
@@ -490,7 +490,7 @@ public class LottoDashboardController  {
      *
      * @param lotteryGame
      */
-    public void setUpTableView(LotteryGame lotteryGame) {
+    public void setUpTableView(LottoGame lotteryGame) {
 
         positionalNumbers = null;
         drawNumberTable.getItems().clear();
@@ -668,7 +668,12 @@ public class LottoDashboardController  {
 
         predictedNumbersLabel.setText("Historical Draw Table For: " + newName);
         lottoDashboard.setText(gameName + "Lotto Dashboard");
-        this.lotteryGame = manager.loadLotteryData(gameName, "fantasy_five_results", 5);
+
+       AbstractFactory factory = FactoryProducer.getFactory("lotteryGameFactory");
+       LottoGame game = factory.getLotteryGame("five");
+       game.setGameName(gameName);
+
+        this.lotteryGame = manager.loadLotteryData(game);
 
         setClassLevelLotteryGame(lotteryGame);
 
@@ -683,7 +688,7 @@ public class LottoDashboardController  {
 
     }
 
-    public LotteryGame getLotteryGame() {
+    public LottoGame getLotteryGame() {
         return lotteryGame;
     }
 

@@ -1,5 +1,6 @@
 package com.lottoanalysis.lottoinfoandgames.data;
 
+import com.lottoanalysis.lottoanalysisnav.LottoAnalysisHomeController;
 import com.lottoanalysis.lottoinfoandgames.*;
 import com.lottoanalysis.lottoinfoandgames.lottogames.FiveDigitLotteryGame;
 import com.lottoanalysis.lottoinfoandgames.lottogames.PickFourLotteryGame;
@@ -7,7 +8,10 @@ import com.lottoanalysis.lottoinfoandgames.lottogames.PickThreeLotteryGame;
 import com.lottoanalysis.lottoinfoandgames.lottogames.SixDigitLotteryGame;
 import com.lottoanalysis.utilities.OnlineFileUtility;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -111,6 +115,9 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
             File file1 = new File(file + "Ver2.txt");
             file1.delete();
         }
+
+        LottoAnalysisHomeController lottoAnalysisHomeController = new LottoAnalysisHomeController();
+        lottoAnalysisHomeController.loadLotteryDashBoardScreen();
     }
 
     @Override
@@ -232,23 +239,22 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
     }
 
     @Override
-    public LotteryGame getLotteryGameInstance(int id, String databaseName, int numPositions) {
+    public void loadUpDrawings(LottoGame game) {
 
         ResultSet rs;
-        List<Drawing> drawData = new LinkedList<>();
+        ObservableList<Drawing> drawData = FXCollections.observableArrayList();
         Drawing drawing = null;
-        LotteryGame game = null;
 
         try (Connection connection = DBConnection.getConnection()) {
 
             PreparedStatement pstmt = connection.prepareStatement(SELECT_APPROPRIATE_GAME_QUERY);
-            pstmt.setInt(1, id);
+            pstmt.setInt(1, game.getGameId());
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
 
-                switch (numPositions) {
+                switch (game.getPositionNumbersAllowed()) {
 
                     case 3:
                         drawing = new Drawing(rs.getInt("DRAW_NUMBER"), rs.getString("DRAW_DATE"),
@@ -278,22 +284,15 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
                 drawData.add(drawing);
             }
 
+            // finally add drawings to game
+            game.setDrawingData(drawData);
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        if (numPositions == 5)
-            return new FiveDigitLotteryGame(id, FXCollections.observableArrayList(drawData));
-        else if (numPositions == 6)
-            return new SixDigitLotteryGame(id, FXCollections.observableArrayList(drawData));
-        else if (numPositions == 4)
-            return new PickFourLotteryGame(id, FXCollections.observableArrayList(drawData));
-        else if (numPositions == 3)
-            return new PickThreeLotteryGame(id, FXCollections.observableArrayList(drawData));
-
-        return null;
     }
 
     @Override
@@ -306,13 +305,14 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
             statement.setString(1, gameName);
 
             ResultSet rs = statement.executeQuery();
-            data = new Object[3];
+            data = new Object[4];
 
             while (rs.next()) {
 
                 data[0] = rs.getInt("ID");
                 data[1] = rs.getInt("GAME_MIN_NUMBER");
                 data[2] = rs.getInt("GAME_MAX_NUMBER");
+                data[3] = rs.getInt("NUMBER_OF_POSITIONS");
 
             }
 
@@ -345,7 +345,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
     }
 
     // Queries
-    private String GAME_ID_QUERY = "SELECT G.ID, G.GAME_MIN_NUMBER, G.GAME_MAX_NUMBER FROM LOTTERY_GAME G " +
+    private String GAME_ID_QUERY = "SELECT G.ID, G.GAME_MIN_NUMBER, G.GAME_MAX_NUMBER, G.NUMBER_OF_POSITIONS FROM LOTTERY_GAME G " +
             "WHERE G.GAME_NAME = ?";
 
     private String SELECT_ALL_GAMES = "SELECT * From LOTTERY_GAME";

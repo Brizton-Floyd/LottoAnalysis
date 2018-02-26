@@ -24,13 +24,14 @@ public abstract class LotteryGame {
         this.drawingData = drawingData;
     }
 
+    public int getPositionNumbersAllowed() {
+        return positionNumbersAllowed;
+    }
+
     public void setPositionNumbersAllowed(int positionNumbersAllowed) {
         this.positionNumbersAllowed = positionNumbersAllowed;
     }
 
-    public int getPositionNumbersAllowed() {
-        return positionNumbersAllowed;
-    }
     public int getMinNumber() {
         return minNumber;
     }
@@ -47,14 +48,6 @@ public abstract class LotteryGame {
         this.maxNumber = maxNumber;
     }
 
-    public int getLottoId() {
-        return lottoId;
-    }
-
-    public void setLottoId(int lottoId) {
-        this.lottoId = lottoId;
-    }
-
     public String getGameName() {
         return gameName;
     }
@@ -65,10 +58,6 @@ public abstract class LotteryGame {
 
     public ObservableList<Drawing> getDrawingData() {
         return drawingData;
-    }
-
-    public void setDrawingData(ObservableList<Drawing> drawingData) {
-        this.drawingData = drawingData;
     }
 
     public abstract void saveLotteryDrawingInformation();

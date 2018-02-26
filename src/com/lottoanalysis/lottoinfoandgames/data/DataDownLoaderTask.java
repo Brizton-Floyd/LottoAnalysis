@@ -21,7 +21,7 @@ import java.util.Map;
  * this will allow the UI to remain responsive
  */
 
-public class DataDownLoader extends Task<Void> {
+public class DataDownLoaderTask extends Task<Void> {
 
     // Url field
     private Map<String, String> filePathsAndLotteryNames;
@@ -31,7 +31,7 @@ public class DataDownLoader extends Task<Void> {
     BufferedReader br = null;
     BufferedWriter bw = null;
 
-    public DataDownLoader(Map<String, String> data, LottoInfoAndGamesController controller) {
+    public DataDownLoaderTask(Map<String, String> data, LottoInfoAndGamesController controller) {
         filePathsAndLotteryNames = data;
         this.controller = controller;
     }
@@ -40,7 +40,7 @@ public class DataDownLoader extends Task<Void> {
     protected Void call() throws Exception {
 
         System.out.print(Thread.currentThread().getName());
-        updateMessage("Establishing Internet Connection...");
+        updateMessage("Gathering Game Files From Internet...");
 
         int n;
         long nread = 0L;
