@@ -49,6 +49,7 @@ public class Drawing {
         monthNumbers.put("Oct","10");
         monthNumbers.put("Nov","11");
         monthNumbers.put("Dec","12");
+
     }
 
     private void initializeNumberPositions(String[] numbers) {
@@ -112,12 +113,20 @@ public class Drawing {
         return posOne;
     }
 
+    public void setPosOne(String posOne) {
+        this.posOne.set(posOne);
+    }
+
     public String getPosTwo() {
         return posTwo.get();
     }
 
     public SimpleStringProperty posTwoProperty() {
         return posTwo;
+    }
+
+    public void setPosTwo(String posTwo) {
+        this.posTwo.set(posTwo);
     }
 
     public String getPosThree() {
@@ -128,12 +137,20 @@ public class Drawing {
         return posThree;
     }
 
+    public void setPosThree(String posThree) {
+        this.posThree.set(posThree);
+    }
+
     public String getPosFour() {
         return posFour.get();
     }
 
     public SimpleStringProperty posFourProperty() {
         return posFour;
+    }
+
+    public void setPosFour(String posFour) {
+        this.posFour.set(posFour);
     }
 
     public String getPosFive() {
@@ -144,12 +161,68 @@ public class Drawing {
         return posFive;
     }
 
+    public void setPosFive(String posFive) {
+        this.posFive.set(posFive);
+    }
+
     public String getBonusNumber() {
         return bonusNumber.get();
     }
 
     public SimpleStringProperty bonusNumberProperty() {
         return bonusNumber;
+    }
+
+    public void setBonusNumber(String bonusNumber) {
+        this.bonusNumber.set(bonusNumber);
+    }
+
+    public String getDrawNumber() {
+        return drawNumber.get();
+    }
+
+    public SimpleStringProperty drawNumberProperty() {
+        return drawNumber;
+    }
+
+    public void setDrawNumber(String drawNumber) {
+        this.drawNumber.set(drawNumber);
+    }
+
+    public String getDrawDate() {
+        return drawDate.get();
+    }
+
+    public SimpleStringProperty drawDateProperty() {
+        return drawDate;
+    }
+
+    public void setDrawDate(String drawDate) {
+        this.drawDate.set(drawDate);
+    }
+
+    public String getDrawSum() {
+        return drawSum.get();
+    }
+
+    public SimpleStringProperty drawSumProperty() {
+        return drawSum;
+    }
+
+    public void setDrawSum(String drawSum) {
+        this.drawSum.set(drawSum);
+    }
+
+    public String getOddEvenRatio() {
+        return oddEvenRatio.get();
+    }
+
+    public SimpleStringProperty oddEvenRatioProperty() {
+        return oddEvenRatio;
+    }
+
+    public void setOddEvenRatio(String oddEvenRatio) {
+        this.oddEvenRatio.set(oddEvenRatio);
     }
 
 }
