@@ -3,13 +3,12 @@ package com.lottoanalysis.factories;
 import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.lottogames.*;
 import com.lottoanalysis.interfaces.Database;
-import com.lottoanalysis.interfaces.LotteryGame;
 import com.lottoanalysis.interfaces.LotteryGameManager;
 
 public class LotteryGameFactory extends AbstractFactory {
 
     @Override
-    public LotteryGame getLotteryGame(String game) {
+    public LottoGame getLotteryGame(String game) {
 
         if(game.equalsIgnoreCase("three")){
 
@@ -17,7 +16,11 @@ public class LotteryGameFactory extends AbstractFactory {
         }
         if(game.equalsIgnoreCase("five")){
 
-            return new FiveDigitLotteryGameImpl();
+            try {
+                return new FiveDigitLotteryGameImpl();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         if(game.equalsIgnoreCase("four")){
 

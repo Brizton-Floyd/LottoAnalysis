@@ -5,8 +5,8 @@ import com.lottoanalysis.Main;
 import com.lottoanalysis.charts.BarChartExt;
 import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.lottogames.drawing.Drawing;
-import com.lottoanalysis.interfaces.LotteryGame;
 import com.lottoanalysis.interfaces.LotteryGameManager;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,20 +41,20 @@ import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
 import java.io.IOException;
 import java.util.*;
 
-public class LottoDashboardController  {
+public class LottoDashboardController {
 
     private MainController mainController;
-    private LotteryGame lotteryGame;
+    private LottoGame lotteryGame;
     private static int universalCount = 0;
     private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums, lineSpacings, remainder;
-    private static LotteryGame classLevelLotteryGame;
+    private static LottoGame classLevelLotteryGame;
     private static List<Object> numbersForChartDisplay = new ArrayList<>();
 
-    public static LotteryGame getClassLevelLotteryGame() {
+    public static LottoGame getClassLevelLotteryGame() {
         return classLevelLotteryGame;
     }
 
-    private static void setClassLevelLotteryGame(LotteryGame classLevelLotteryGame) {
+    private static void setClassLevelLotteryGame(LottoGame classLevelLotteryGame) {
         LottoDashboardController.classLevelLotteryGame = classLevelLotteryGame;
     }
 
@@ -65,6 +65,7 @@ public class LottoDashboardController  {
     private static void setNumbersForChartDisplay(List<Object> numbersForChartDisplay) {
         LottoDashboardController.numbersForChartDisplay = numbersForChartDisplay;
     }
+
     @FXML
     private AnchorPane pane, infoPane, infoPane1, predictedNumbersPane;
 
@@ -190,13 +191,13 @@ public class LottoDashboardController  {
         setUpInfoPanel(res);
 
         List<Object> chartPoints = new ArrayList<>();
-        chartPoints.add( positionalNumbers);
+        chartPoints.add(positionalNumbers);
         chartPoints.add(deltaNumberForLastDraw);
         chartPoints.add(positionalSums);
         chartPoints.add(lineSpacings);
         chartPoints.add(remainder);
 
-        setNumbersForChartDisplay( chartPoints );
+        setNumbersForChartDisplay(chartPoints);
 
         choiceBox.setItems(FXCollections.observableArrayList(choiceBoxItems));
         choiceBox.getSelectionModel().selectFirst();
@@ -491,7 +492,7 @@ public class LottoDashboardController  {
      *
      * @param lotteryGame
      */
-    public void setUpTableView(LotteryGame lotteryGame) {
+    public void setUpTableView(LottoGame lotteryGame) {
 
         positionalNumbers = null;
         drawNumberTable.getItems().clear();
@@ -672,9 +673,11 @@ public class LottoDashboardController  {
         predictedNumbersLabel.setText("Historical Draw Table For: " + newName);
         lottoDashboard.setText(gameName + "Lotto Dashboard");
 
-       AbstractFactory factory = FactoryProducer.getFactory("lotteryGameFactory");
-       LotteryGame game = factory.getLotteryGame("five");
-       game.setGameName(gameName);
+        AbstractFactory factory = FactoryProducer.getFactory("lotteryGameFactory");
+        LottoGame game = factory.getLotteryGame("five");
+
+        game.setGameName(gameName);
+        System.out.println(game.getCurrentEstimatedJackpot());
 
         this.lotteryGame = lotteryGameManager.loadLotteryData(game);
 
@@ -691,7 +694,7 @@ public class LottoDashboardController  {
 
     }
 
-    public LotteryGame getLotteryGame() {
+    public LottoGame getLotteryGame() {
         return lotteryGame;
     }
 

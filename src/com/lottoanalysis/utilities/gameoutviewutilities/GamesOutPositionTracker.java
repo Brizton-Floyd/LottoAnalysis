@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.gameoutviewutilities;
 
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 
 import java.util.*;
 
@@ -16,7 +16,7 @@ public class GamesOutPositionTracker {
     private Map<Integer,Object[]>  analysisForCurrentRow;
     private List<Integer> vals;
 
-    public GamesOutPositionTracker(Set<Integer> allKeyvals, LotteryGame lotteryGame) {
+    public GamesOutPositionTracker(Set<Integer> allKeyvals, LottoGame lotteryGame) {
         vals = new ArrayList<>(allKeyvals);
         for(int i = lotteryGame.getMinNumber(); i <= lotteryGame.getMaxNumber(); i++)
             hitAndLocationTracker.put(i, new Object[]{0,0,0});
@@ -61,7 +61,7 @@ public class GamesOutPositionTracker {
 
     }
 
-    private void determineHowManyPositionsToAnalyze(LotteryGame lotteryGame) {
+    private void determineHowManyPositionsToAnalyze(LottoGame lotteryGame) {
 
         int positions = lotteryGame.getPositionNumbersAllowed();
         int[][] positionsAndNumbers;

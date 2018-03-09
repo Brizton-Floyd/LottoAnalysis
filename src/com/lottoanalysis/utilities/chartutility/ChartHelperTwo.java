@@ -2,7 +2,7 @@ package com.lottoanalysis.utilities.chartutility;
 
 import java.util.*;
 
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
 /**
@@ -20,7 +20,7 @@ public class ChartHelperTwo {
     /**
      *This Method will take in a lottery game instance and all positional hits for a given lottery number position
      */
-    public static void processIncomingData(LotteryGame lotteryGame, int[] drawPositionNumbers, int groupSize){
+    public static void processIncomingData(LottoGame lotteryGame, int[] drawPositionNumbers, int groupSize){
 
         // Deterimine how to split the number for a given lottery game
         splitLotteryGameDrawSizeIntoGroups( lotteryGame, groupSize );
@@ -205,7 +205,7 @@ public class ChartHelperTwo {
      * This method will take in a given lottery game and determine the drawsize. Once draw size is determined distict groups
      * will then be placed into a map.
      */
-    private static void splitLotteryGameDrawSizeIntoGroups(LotteryGame game, int groupSize){
+    private static void splitLotteryGameDrawSizeIntoGroups(LottoGame game, int groupSize){
 
         int minNumber = game.getMinNumber();
         int maxNumber = game.getMaxNumber();

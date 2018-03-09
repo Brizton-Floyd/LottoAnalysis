@@ -1,7 +1,7 @@
 package com.lottoanalysis.utilities.betsliputilities;
 
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.lottogames.drawing.Drawing;
-import com.lottoanalysis.interfaces.LotteryGame;
 import com.lottoanalysis.utilities.gameoutviewutilities.GamesOutPositionTracker;
 import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
 
@@ -23,7 +23,7 @@ public class LottoBetSlipAnalyzer {
 
     private Map<Double, Map<String, Integer[]>> positionalAverageHitsTracker;
 
-    public LottoBetSlipAnalyzer(LotteryGame lotteryGame, int indexInDrawingData) {
+    public LottoBetSlipAnalyzer(LottoGame lotteryGame, int indexInDrawingData) {
 
         allInformationForRowAndPosition = new ArrayList<>();
 
@@ -188,7 +188,7 @@ public class LottoBetSlipAnalyzer {
     public Map<Double, Map<String, Integer[]>> getPositionalAverageHitsTracker() {
         return positionalAverageHitsTracker;
     }
-    private void determineGamesOutForNumbersAndLastPositionNumbersHitIn(LotteryGame lotteryGame) {
+    private void determineGamesOutForNumbersAndLastPositionNumbersHitIn(LottoGame lotteryGame) {
 
         Set<Integer> allKeyvals = new TreeSet<>();
 
@@ -622,7 +622,7 @@ public class LottoBetSlipAnalyzer {
      *
      * @param lotteryGame
      */
-    private void findPositionalAverage(LotteryGame lotteryGame) {
+    private void findPositionalAverage(LottoGame lotteryGame) {
 
         if (numbersInPosition == null)
             numbersInPosition = new LinkedList<>();
@@ -710,7 +710,7 @@ public class LottoBetSlipAnalyzer {
      *
      * @param lotteryGame
      */
-    private void setUpRowsAndColumns(LotteryGame lotteryGame) {
+    private void setUpRowsAndColumns(LottoGame lotteryGame) {
 
         int lowNum;
         int maxNum;

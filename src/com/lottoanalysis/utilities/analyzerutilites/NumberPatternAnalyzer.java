@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.analyzerutilites;
 
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelperTwo;
 
 import java.util.*;
@@ -25,7 +25,7 @@ public class NumberPatternAnalyzer {
      * @param lotteryGame
      * @return
      */
-    public static Map<Integer[], Object[]> findNumberGroupLikelyToHit(int[] positionVals, int length, int minValue, int maxValue, LotteryGame lotteryGame) {
+    public static Map<Integer[], Object[]> findNumberGroupLikelyToHit(int[] positionVals, int length, int minValue, int maxValue, LottoGame lotteryGame) {
 
         int minVal = minValue;
         int maxVal = (maxValue < minVal) ? Math.abs(minVal + (minVal - lotteryGame.getMaxNumber())) : maxValue;

@@ -3,13 +3,13 @@ package com.lottoanalysis.factories;
 import com.lottoanalysis.dbconnections.MySqlDatabaseImpl;
 import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.interfaces.Database;
-import com.lottoanalysis.interfaces.LotteryGame;
 import com.lottoanalysis.interfaces.LotteryGameManager;
+import com.lottoanalysis.lottogames.LottoGame;
 
 public class DatabaseFactory extends AbstractFactory {
 
     @Override
-    public LotteryGame getLotteryGame(String game) {
+    public LottoGame getLotteryGame(String game) {
         return null;
     }
 

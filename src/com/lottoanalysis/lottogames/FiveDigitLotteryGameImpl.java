@@ -1,82 +1,27 @@
 package com.lottoanalysis.lottogames;
 
 
-import com.lottoanalysis.interfaces.LotteryGame;
-import com.lottoanalysis.lottogames.drawing.Drawing;
-import javafx.collections.ObservableList;
+import com.lottoanalysis.interfaces.JackpotRetriever;
+import com.lottoanalysis.interfaces.ThreadCompleteListener;
+import com.lottoanalysis.retrievers.FiveAndSixDigitJackpotRetrieverImpl;
+import com.lottoanalysis.retrievers.NotifyingThread;
 
-public class FiveDigitLotteryGameImpl implements LotteryGame {
+public class FiveDigitLotteryGameImpl extends LottoGame implements ThreadCompleteListener{
 
-    private int lottoId;
-    private String gameName;
-    private int minNumber;
-    private int maxNumber;
-    private int positionNumbersAllowed;
-    private ObservableList<Drawing> drawingData;
+    private JackpotRetriever retriever;
+    NotifyingThread jackpotThread;
+    public FiveDigitLotteryGameImpl() throws InterruptedException {
 
-    @Override
-    public LotteryGame getGame() {
-        return new PickThreeLotteryGameImpl();
+        jackpotThread = new FiveAndSixDigitJackpotRetrieverImpl();
+        jackpotThread.addListener(this);
+        jackpotThread.start();
+        jackpotThread.join();
     }
 
     @Override
-    public int getPositionNumbersAllowed() {
-        return positionNumbersAllowed;
-    }
+    public void notifyOfThreadComplete(Thread thread) {
 
-    @Override
-    public int getGameId() {
-        return lottoId;
+        String val = ((FiveAndSixDigitJackpotRetrieverImpl)jackpotThread).getEstimatedJackpot("");
+        this.setCurrentEstimatedJackpot(val);
     }
-
-    @Override
-    public void setPositionNumbersAllowed(int positionNumbersAllowed) {
-        this.positionNumbersAllowed = positionNumbersAllowed;
-    }
-
-    @Override
-    public int getMinNumber() {
-        return minNumber;
-    }
-
-    @Override
-    public void setMinNumber(int minNumber) {
-        this.minNumber = minNumber;
-    }
-
-    @Override
-    public void setGameId(int id) {
-        this.lottoId = id;
-    }
-
-    @Override
-    public int getMaxNumber() {
-        return maxNumber;
-    }
-
-    @Override
-    public void setMaxNumber(int maxNumber) {
-        this.maxNumber = maxNumber;
-    }
-
-    @Override
-    public String getGameName() {
-        return gameName;
-    }
-
-    @Override
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
-    @Override
-    public ObservableList<Drawing> getDrawingData() {
-        return drawingData;
-    }
-
-    @Override
-    public void setDrawingData(ObservableList<Drawing> data) {
-        this.drawingData = data;
-    }
-
 }

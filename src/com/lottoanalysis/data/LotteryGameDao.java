@@ -1,6 +1,6 @@
 package com.lottoanalysis.data;
 
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface LotteryGameDao {
 
     List<String> selectAllGames();
 
-    void loadUpDrawings(LotteryGame game);
+    void loadUpDrawings(LottoGame game);
 
     int getCurrentWinningGameNumber(int id);
 

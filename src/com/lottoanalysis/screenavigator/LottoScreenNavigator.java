@@ -5,7 +5,7 @@ import com.lottoanalysis.controllers.GroupChartController;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.controllers.CompanionNumberController;
 import com.lottoanalysis.controllers.LottoAnalysisHomeController;
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -79,12 +79,12 @@ public class LottoScreenNavigator {
         if(domainObject != null ){
 
             pane = loader.load( );
-            if( domainObject[0] instanceof LotteryGame){
+            if( domainObject[0] instanceof LottoGame){
 
                 // use the values passed in by the domain object and provide contrller with
                 // appropriate values
                 if(controllerName.equalsIgnoreCase(LotteryGameConstants.CHART_ANALYSIS_CONTROLLER)) {
-                    LotteryGame game = (LotteryGame) domainObject[0];
+                    LottoGame game = (LottoGame) domainObject[0];
 
                     ChartAnalysisController controller = loader.getController();
                     controller.setDrawNumbers((int[][]) ((List<Object>) domainObject[1]).get(0));
@@ -93,7 +93,7 @@ public class LottoScreenNavigator {
                 }
                 else if( controllerName.equalsIgnoreCase(LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER)){
 
-                    LotteryGame game = (LotteryGame) domainObject[0];
+                    LottoGame game = (LottoGame) domainObject[0];
 
                     GroupChartController controller = loader.getController();
                     controller.initFields(game, (int[][])((List<Object>)domainObject[1]).get(0));
@@ -101,7 +101,7 @@ public class LottoScreenNavigator {
                 }
                 else if(controllerName.equalsIgnoreCase(LotteryGameConstants.COMPANION_NUMBER_ANALYSIS_CONTOLLER)){
 
-                    LotteryGame game = (LotteryGame) domainObject[0];
+                    LottoGame game = (LottoGame) domainObject[0];
                     CompanionNumberController controller = loader.getController();
 
                     controller.setPostionalNumbers((int[][])((List<Object>)domainObject[1]).get(0));

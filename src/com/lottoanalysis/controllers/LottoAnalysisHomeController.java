@@ -2,7 +2,7 @@ package com.lottoanalysis.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,7 +59,7 @@ public class LottoAnalysisHomeController  {
     {
 
         // Retrieve the current game that is currently being played
-        LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
         List<Object> drawData = LottoInfoAndGamesController.getValues();
 
         Object[] allData = {game, drawData};
@@ -81,7 +81,7 @@ public class LottoAnalysisHomeController  {
     @FXML
     public void loadGroupChartScreen(ActionEvent event){
         // Retrieve the current game that is currently being played
-        LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
         List<Object> drawData = LottoInfoAndGamesController.getValues();
 
         Object[] allData = {game, drawData};
@@ -124,7 +124,7 @@ public class LottoAnalysisHomeController  {
     public void loadLotteryChartAnalysisScreen(ActionEvent event){
 
         // Retrieve the current game that is currently being played
-        LotteryGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
         List<Object> drawData = LottoInfoAndGamesController.getValues();
 
         Object[] allData = {game, drawData};

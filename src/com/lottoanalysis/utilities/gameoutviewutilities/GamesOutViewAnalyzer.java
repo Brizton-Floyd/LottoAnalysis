@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.gameoutviewutilities;
 
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -12,10 +12,10 @@ import java.util.TreeMap;
 public class GamesOutViewAnalyzer {
 
     private int[][] drawData;
-    private LotteryGame lotteryGame;
+    private LottoGame lotteryGame;
     private int[][] gameRanges;
 
-    public GamesOutViewAnalyzer(int[][] drawData, LotteryGame lotteryGame){
+    public GamesOutViewAnalyzer(int[][] drawData, LottoGame lotteryGame){
 
         this.drawData = drawData;
         this.lotteryGame = lotteryGame;

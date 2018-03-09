@@ -2,8 +2,8 @@ package com.lottoanalysis.managers;
 
 import com.lottoanalysis.data.LotteryGameDao;
 import com.lottoanalysis.data.LotteryGameDaoImpl;
-import com.lottoanalysis.interfaces.LotteryGame;
 import com.lottoanalysis.interfaces.LotteryGameManager;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.utilities.fileutilities.FileTweaker;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class LotteryGameManagerImpl implements LotteryGameManager {
     }
 
     @Override
-    public void populateDrawings(LotteryGame game) {
+    public void populateDrawings(LottoGame game) {
 
         getDaoInstance().loadUpDrawings(game);
 
@@ -35,11 +35,11 @@ public class LotteryGameManagerImpl implements LotteryGameManager {
      * @return
      */
     @Override
-    public LotteryGame loadLotteryData(LotteryGame game) {
+    public LottoGame loadLotteryData(LottoGame game) {
 
         Object[] data = getDaoInstance().retrieveGameId( game.getGameName() );
 
-        game.setGameId((int)data[0]);
+        game.setLottoId((int)data[0]);
         game.setPositionNumbersAllowed((int)data[3]);
         game.setMinNumber((int) data[1]);
         game.setMaxNumber((int) data[2]);

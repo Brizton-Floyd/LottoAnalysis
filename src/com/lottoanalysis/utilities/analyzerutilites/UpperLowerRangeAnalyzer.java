@@ -2,15 +2,15 @@ package com.lottoanalysis.utilities.analyzerutilites;
 
 import java.util.*;
 
-import com.lottoanalysis.interfaces.LotteryGame;
 import com.lottoanalysis.constants.*;
+import com.lottoanalysis.lottogames.LottoGame;
 
 @SuppressWarnings("unchecked")
 public class UpperLowerRangeAnalyzer {
 
     private static Map<Integer[],Object[]> uppperLowerRangeData = new LinkedHashMap<>();
 
-    public static void analyze(int[] drawPositionNumbers, LotteryGame game)
+    public static void analyze(int[] drawPositionNumbers, LottoGame game)
     {
 
         // Clear function so everytime a new position in loaded we only analyze 
@@ -254,7 +254,7 @@ public class UpperLowerRangeAnalyzer {
 
     }
 
-    private static void plugUpperAndLowerHalfRangesIntoMap(LotteryGame game)
+    private static void plugUpperAndLowerHalfRangesIntoMap(LottoGame game)
     {
         int maxNumber = game.getMaxNumber();
         
@@ -287,7 +287,7 @@ public class UpperLowerRangeAnalyzer {
         uppperLowerRangeData.put(upper,new Object[]{0,0,0,0,new ArrayList<Integer>(), lastDigitData[1]});
     }
 
-    private static Map<Integer[],Object[]>[] retriveLastDigitData(LotteryGame game )
+    private static Map<Integer[],Object[]>[] retriveLastDigitData(LottoGame game )
     {
         Map<Integer[],Object[]>[] mainData = new Map[2];
         

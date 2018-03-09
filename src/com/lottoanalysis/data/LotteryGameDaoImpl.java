@@ -4,9 +4,9 @@ import com.lottoanalysis.controllers.LottoAnalysisHomeController;
 import com.lottoanalysis.controllers.LottoInfoAndGamesController;
 import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.lottogames.drawing.Drawing;
 import com.lottoanalysis.interfaces.Database;
-import com.lottoanalysis.interfaces.LotteryGame;
 import com.lottoanalysis.utilities.fileutilities.OnlineFileUtility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -251,7 +251,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
     }
 
     @Override
-    public void loadUpDrawings(LotteryGame game) {
+    public void loadUpDrawings(LottoGame game) {
 
         ResultSet rs;
         ObservableList<Drawing> drawData = FXCollections.observableArrayList();
@@ -263,7 +263,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         try (Connection connection = database.getConnection()) {
 
             PreparedStatement pstmt = connection.prepareStatement(SELECT_APPROPRIATE_GAME_QUERY);
-            pstmt.setInt(1, game.getGameId());
+            pstmt.setInt(1, game.getLottoId());
 
             rs = pstmt.executeQuery();
 
