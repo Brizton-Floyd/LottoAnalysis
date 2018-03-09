@@ -2,7 +2,7 @@ package com.lottoanalysis.controllers;
 
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import com.lottoanalysis.utilities.numberpatternutilities.PatternFinder;
 import com.lottoanalysis.utilities.gameoutviewutilities.PositionalGameOutPositionTracker;
@@ -25,7 +25,7 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class GroupChartController {
 
-    private LotteryGame lotteryGame;
+    private LottoGame lotteryGame;
     private int[][] drawPositionalNumbers;
     private Map<Integer, String> data;
     private ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
@@ -83,7 +83,7 @@ public class GroupChartController {
         radioBtnAndChartHbox.getChildren().removeIf(obj -> obj instanceof VBox);
     }
 
-    public void initFields(LotteryGame game, int[][] drawPositionalNumbers) {
+    public void initFields(LottoGame game, int[][] drawPositionalNumbers) {
 
         setLotteryGame(game);
         setDrawPositionalNumbers(drawPositionalNumbers);
@@ -527,11 +527,11 @@ public class GroupChartController {
         GroupChartController.rowIndex = rowIndex;
     }
 
-    public LotteryGame getLotteryGame() {
+    public LottoGame getLotteryGame() {
         return lotteryGame;
     }
 
-    private void setLotteryGame(LotteryGame lotteryGame) {
+    private void setLotteryGame(LottoGame lotteryGame) {
         this.lotteryGame = lotteryGame;
     }
 

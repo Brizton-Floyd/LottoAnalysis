@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.sumutilities;
 
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 
 import java.util.*;
 
@@ -28,7 +28,7 @@ public class ProbableSumFinder{
 		
 	}
 
-	public static void analyze(int[] winningNumbers, LotteryGame game, int[][] allNumbers){
+	public static void analyze(int[] winningNumbers, LottoGame game, int[][] allNumbers){
 
 		clear();
         listArray = new List[allNumbers.length];
@@ -47,7 +47,7 @@ public class ProbableSumFinder{
 		print();
 	}
 
-    private static void findMostRecentGamesOutForNumbers(LotteryGame game, int[][] allNumbers) {
+    private static void findMostRecentGamesOutForNumbers(LottoGame game, int[][] allNumbers) {
 
 	    for(int i = game.getMinNumber(); i <= game.getMaxNumber(); i++){
 	        lottoNumberActualGameOutHolder.put(i, Integer.MAX_VALUE);
@@ -201,7 +201,7 @@ public class ProbableSumFinder{
 	    
 	}
 	
-	private static void formGroupsBasedAroundCurrentWinningNumber(int[] winningNumbers, LotteryGame game){
+	private static void formGroupsBasedAroundCurrentWinningNumber(int[] winningNumbers, LottoGame game){
 	
 		int min = game.getMinNumber();
 		int max = game.getMaxNumber();

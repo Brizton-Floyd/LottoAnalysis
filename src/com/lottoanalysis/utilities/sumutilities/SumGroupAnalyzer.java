@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.sumutilities;
 
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
 import java.util.*;
@@ -11,7 +11,7 @@ public class SumGroupAnalyzer {
     private static Map<Integer[], Object[]> sumGroupHolder = new LinkedHashMap<>();
     private static Map<Integer, List<Integer>> sumLottoNumberHolder = new TreeMap<>();
 
-    public static void analyze(int[] positionalNumbers, LotteryGame game) {
+    public static void analyze(int[] positionalNumbers, LottoGame game) {
 
         clear();
         injectMapsWithValues(game);
@@ -19,7 +19,7 @@ public class SumGroupAnalyzer {
         analyzeNumbers(positionalNumbers);
     }
 
-    private static void injectMapsWithValues(LotteryGame game) {
+    private static void injectMapsWithValues(LottoGame game) {
 
         populateSumAndNumberHolder(game);
         sumGroupHolder.put(new Integer[]{0, 1, 2, 3}, new Object[]{0, 0, new TreeMap<Integer,Object[]>()});
@@ -57,7 +57,7 @@ public class SumGroupAnalyzer {
         });
     }
 
-    private static void populateSumAndNumberHolder(LotteryGame game) {
+    private static void populateSumAndNumberHolder(LottoGame game) {
 
         int maxNumber = game.getMaxNumber();
 

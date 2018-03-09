@@ -3,7 +3,7 @@ package com.lottoanalysis.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.utilities.chartutility.ChartHelper;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import com.lottoanalysis.utilities.gameoutviewutilities.GamesOutAnalyzerHelper;
@@ -18,7 +18,7 @@ import java.util.*;
 
 public class ChartAnalysisController {
 
-    private LotteryGame lotteryGame;
+    private LottoGame lotteryGame;
     private int[][] drawNumbers;
     private int initialPosition = 0;
     @FXML
@@ -36,11 +36,11 @@ public class ChartAnalysisController {
     @FXML
     private RadioButton rdbFullLottoButton;
 
-    public LotteryGame getLotteryGame() {
+    public LottoGame getLotteryGame() {
         return lotteryGame;
     }
 
-    public void setLotteryGame(LotteryGame lotteryGame) {
+    public void setLotteryGame(LottoGame lotteryGame) {
         this.lotteryGame = lotteryGame;
     }
 

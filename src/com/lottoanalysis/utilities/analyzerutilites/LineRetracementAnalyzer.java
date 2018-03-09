@@ -1,8 +1,7 @@
 package com.lottoanalysis.utilities.analyzerutilites;
 
-import com.lottoanalysis.interfaces.LotteryGame;
-import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
-import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
+import com.lottoanalysis.interfaces.JackpotRetriever;
+import com.lottoanalysis.lottogames.LottoGame;
 import javafx.scene.control.Label;
 
 
@@ -13,7 +12,7 @@ public class LineRetracementAnalyzer {
 
     private static int currentWinningNumber;
     private static int nextWinningNumber;
-    private static LotteryGame game;
+    private static JackpotRetriever game;
     private static List<Integer> numberIndexes;
     private static int[] numbers;
 
@@ -92,7 +91,7 @@ public class LineRetracementAnalyzer {
         aboveLowerTracker.put("Equal", new Integer[]{0, 0});
     }
 
-    public static Object[] populateAbovePreviousRanges(int nextWinningNumber, LotteryGame game) {
+    public static Object[] populateAbovePreviousRanges(int nextWinningNumber, LottoGame game) {
 
         Object[] listData = new Object[2];
         int trueAmountOfGroups;
@@ -141,7 +140,7 @@ public class LineRetracementAnalyzer {
      * @param belowData
      * @return
      */
-    private static boolean analyzeLabelsForCorrectness(List<Label[]> aboveData, List<Label[]> belowData, LotteryGame game) {
+    private static boolean analyzeLabelsForCorrectness(List<Label[]> aboveData, List<Label[]> belowData, LottoGame game) {
         boolean result = false;
         int count = 0;
         for (Iterator<Label[]> label = aboveData.iterator(); label.hasNext(); ) {
@@ -212,7 +211,7 @@ public class LineRetracementAnalyzer {
         return result;
     }
 
-    private static List<Label[]> populateBelowPreviousRanges(int nextWinningNumber, LotteryGame game) {
+    private static List<Label[]> populateBelowPreviousRanges(int nextWinningNumber, LottoGame game) {
 
         int trueAmountOfGroups;
         int difBetweenNumberAndGameMax = Math.abs(game.getMinNumber() - nextWinningNumber);
@@ -247,7 +246,7 @@ public class LineRetracementAnalyzer {
     }
 
     private static void loadLabelsIntoArray(List<Label[]> labelData,
-                                            int nextWinningNumber, String direction, LotteryGame game) {
+                                            int nextWinningNumber, String direction, LottoGame game) {
 
         int startingDigit;
 

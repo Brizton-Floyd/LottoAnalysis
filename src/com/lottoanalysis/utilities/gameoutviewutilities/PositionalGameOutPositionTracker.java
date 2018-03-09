@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.gameoutviewutilities;
 
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class PositionalGameOutPositionTracker {
     private static Map<Integer, Object[]> positonGameOutAndPositionHoleder = new TreeMap<>();
 
 
-    public static void analyze(LotteryGame game, int[][] drawPositions) {
+    public static void analyze(LottoGame game, int[][] drawPositions) {
 
         clear();
         populateLottoNumberHolder(game);
@@ -188,7 +188,7 @@ public class PositionalGameOutPositionTracker {
     /**
      * @param game
      */
-    private static void populateLottoNumberHolder(LotteryGame game) {
+    private static void populateLottoNumberHolder(LottoGame game) {
 
         int minNumber = game.getMinNumber();
         int maxNumber = game.getMaxNumber();

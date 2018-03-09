@@ -1,7 +1,7 @@
 package com.lottoanalysis.interfaces;
 
 import com.lottoanalysis.data.LotteryGameDao;
-import com.lottoanalysis.interfaces.LotteryGame;
+import com.lottoanalysis.lottogames.LottoGame;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ public interface LotteryGameManager {
 
     List<String> getAllGames();
 
-    void populateDrawings(LotteryGame game);
+    void populateDrawings(LottoGame game);
 
-    LotteryGame loadLotteryData(LotteryGame game );
+    LottoGame loadLotteryData(LottoGame game );
 
     LotteryGameDao getDaoInstance();
 

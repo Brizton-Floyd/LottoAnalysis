@@ -3,8 +3,8 @@ package com.lottoanalysis.controllers;
 import com.lottoanalysis.Main;
 import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
-import com.lottoanalysis.interfaces.LotteryGame;
 import com.lottoanalysis.interfaces.LotteryGameManager;
+import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.constants.LotteryGameDaoConstants;
@@ -40,7 +40,7 @@ public class LottoInfoAndGamesController {
     private boolean isGamePaneOpen = false;
     private static List<Object> values = new ArrayList<>();
     private static Pane staticPane;
-    private static LotteryGame lotteryGame;
+    private static LottoGame lotteryGame;
 
 
     @FXML
@@ -124,7 +124,7 @@ public class LottoInfoAndGamesController {
     @FXML
     private void getAppropriateGameData(ActionEvent event) {
 
-        LotteryGame game = null;
+        LottoGame game = null;
 
         // Get the event source and cast to appropriate object type
         MenuItem item = (MenuItem) event.getSource();
@@ -154,37 +154,38 @@ public class LottoInfoAndGamesController {
 
                     if (gameName.contains(LotteryGameConstants.FANTASY_FIVE_GAME_NAME)) {
 
-                        LotteryGame lotteryGame = factory.getLotteryGame("five");
+                        LottoGame lotteryGame = factory.getLotteryGame("five");
                         lotteryGame.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(lotteryGame);
+                        //System.out.println(lotteryGame.getCurrentEstimatedJackpot());
 
                     } else if (gameName.contains(LotteryGameConstants.POWERBALL_GAME_NAME)) {
 
-                        LotteryGame lotteryGame = factory.getLotteryGame("six");
+                        LottoGame lotteryGame = factory.getLotteryGame("six");
                         lotteryGame.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(lotteryGame);
 
                     } else if (gameName.contains(LotteryGameConstants.MEGA_MILLIONS_GAME_NAME)) {
 
-                        LotteryGame lotteryGame = factory.getLotteryGame("six");
+                        LottoGame lotteryGame = factory.getLotteryGame("six");
                         lotteryGame.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(lotteryGame);
 
                     } else if (gameName.contains(LotteryGameConstants.PICK3_GAME_NAME)) {
 
-                        LotteryGame lotteryGame = factory.getLotteryGame("THREE");
+                        LottoGame lotteryGame = factory.getLotteryGame("THREE");
                         lotteryGame.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(lotteryGame);
 
                     } else if (gameName.contains(LotteryGameConstants.PICK4_GAME_NAME)) {
 
-                        LotteryGame lotteryGame = factory.getLotteryGame("four");
+                        LottoGame lotteryGame = factory.getLotteryGame("four");
                         lotteryGame.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(lotteryGame);
 
                     } else if (gameName.contains(LotteryGameConstants.SUPER_LOTTO_PLUS_GAME_NAME)) {
 
-                        LotteryGame lotteryGame = factory.getLotteryGame("six");
+                        LottoGame lotteryGame = factory.getLotteryGame("six");
                         lotteryGame.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(lotteryGame);
                     }
@@ -221,7 +222,7 @@ public class LottoInfoAndGamesController {
     public static void setValues(List values) {
         LottoInfoAndGamesController.values = values;
     }
-    private static void setLotteryGame(LotteryGame game){
+    private static void setLotteryGame(LottoGame game){
 
         LottoInfoAndGamesController.lotteryGame = game;
     }
@@ -229,7 +230,7 @@ public class LottoInfoAndGamesController {
      * Returns the current Lottery game being played in the system really helpful when wanting
      * to render chart data
      */
-    public static LotteryGame getCurrentLotteryGameBeingPlayed(){
+    public static LottoGame getCurrentLotteryGameBeingPlayed(){
         return lotteryGame;
     }
 
