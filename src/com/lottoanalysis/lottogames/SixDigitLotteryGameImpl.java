@@ -16,10 +16,6 @@ public class SixDigitLotteryGameImpl implements LotteryGame {
     private int positionNumbersAllowed;
     private ObservableList<Drawing> drawingData;
 
-    public SixDigitLotteryGameImpl() {
-        this.gameName = "";
-    }
-
     @Override
     public LotteryGame getGame() {
         return new PickThreeLotteryGameImpl();

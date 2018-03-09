@@ -16,12 +16,6 @@ public class PickThreeLotteryGameImpl implements LotteryGame {
     private int positionNumbersAllowed;
     private ObservableList<Drawing> drawingData;
 
-
-    public PickThreeLotteryGameImpl() {
-        this.gameName = "CA: Pick 3";
-        this.positionNumbersAllowed = 3;
-    }
-
     @Override
     public LotteryGame getGame() {
         return new PickThreeLotteryGameImpl();
