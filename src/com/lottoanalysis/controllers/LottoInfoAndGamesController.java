@@ -154,43 +154,51 @@ public class LottoInfoAndGamesController {
 
                     if (gameName.contains(LotteryGameConstants.FANTASY_FIVE_GAME_NAME)) {
 
-                        LottoGame lotteryGame = factory.getLotteryGame("five");
-                        lotteryGame.setGameName(gameName);
-                        game = lotteryGameManager.loadLotteryData(lotteryGame);
-                        //System.out.println(lotteryGame.getCurrentEstimatedJackpot());
+                        game = factory.getLotteryGame("five");
+                        game.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(game);
+                        game.startThreadForJackpotRetrieval();
 
                     } else if (gameName.contains(LotteryGameConstants.POWERBALL_GAME_NAME)) {
 
-                        LottoGame lotteryGame = factory.getLotteryGame("six");
-                        lotteryGame.setGameName(gameName);
-                        game = lotteryGameManager.loadLotteryData(lotteryGame);
+                        game = factory.getLotteryGame("six");
+                        game.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(game);
+                        game.startThreadForJackpotRetrieval();
 
                     } else if (gameName.contains(LotteryGameConstants.MEGA_MILLIONS_GAME_NAME)) {
 
-                        LottoGame lotteryGame = factory.getLotteryGame("six");
-                        lotteryGame.setGameName(gameName);
-                        game = lotteryGameManager.loadLotteryData(lotteryGame);
+                        game = factory.getLotteryGame("six");
+                        game.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(game);
+                        game.startThreadForJackpotRetrieval();
 
                     } else if (gameName.contains(LotteryGameConstants.PICK3_GAME_NAME)) {
 
-                        LottoGame lotteryGame = factory.getLotteryGame("THREE");
-                        lotteryGame.setGameName(gameName);
-                        game = lotteryGameManager.loadLotteryData(lotteryGame);
+                        game= factory.getLotteryGame("THREE");
+                        game.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(game);
 
                     } else if (gameName.contains(LotteryGameConstants.PICK4_GAME_NAME)) {
 
-                        LottoGame lotteryGame = factory.getLotteryGame("four");
-                        lotteryGame.setGameName(gameName);
-                        game = lotteryGameManager.loadLotteryData(lotteryGame);
+                        game = factory.getLotteryGame("four");
+                        game.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(game);
 
                     } else if (gameName.contains(LotteryGameConstants.SUPER_LOTTO_PLUS_GAME_NAME)) {
 
-                        LottoGame lotteryGame = factory.getLotteryGame("six");
-                        lotteryGame.setGameName(gameName);
-                        game = lotteryGameManager.loadLotteryData(lotteryGame);
+                        game = factory.getLotteryGame("six");
+                        game.setGameName(gameName);
+                        game = lotteryGameManager.loadLotteryData(game);
+                        game.startThreadForJackpotRetrieval();
                     }
 
                     // Once we have the selected game from the manager send the data to the table view
+
+                    // Set static lottery game for reference by other classes
+                    setLotteryGame(game);
+                    setLottoDashboardGame(dashboardController,game);
+                    dashboardController.setJackpotLbl(game.getCurrentEstimatedJackpot());
                     dashboardController.setUpTableView(game);
                     dashboardController.loadChoicesIntoChoiceBox();
 
@@ -203,8 +211,7 @@ public class LottoInfoAndGamesController {
 
                     setValues( data );
 
-                    // Set static lottery game for reference by other classes
-                    setLotteryGame(game);
+
 
                     // Prepare view to be rendered in stackpane
                     LottoScreenNavigator.getMainController().setLottoScreen(pane);
@@ -215,6 +222,11 @@ public class LottoInfoAndGamesController {
             e.printStackTrace();
         }
     }
+
+    private void setLottoDashboardGame(LottoDashboardController dashboardController, LottoGame game) {
+        dashboardController.setGame(game);
+    }
+
     public static List<Object> getValues() {
         return values;
     }
@@ -223,6 +235,7 @@ public class LottoInfoAndGamesController {
         LottoInfoAndGamesController.values = values;
     }
     private static void setLotteryGame(LottoGame game){
+
 
         LottoInfoAndGamesController.lotteryGame = game;
     }

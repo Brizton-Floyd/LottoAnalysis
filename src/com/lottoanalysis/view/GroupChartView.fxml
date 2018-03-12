@@ -17,30 +17,18 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="683.0" prefWidth="1214.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.GroupChartController">
    <children>
-      <VBox prefWidth="1214.0" AnchorPane.bottomAnchor="623.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-         <children>
-            <HBox fx:id="headerHbox" spacing="475.0">
-               <children>
-                  <Label fx:id="lblGame" text="Group Chart Analysis: Fantasy Five" textFill="#dac6ac">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblAnalyzedPosition" layoutX="10.0" layoutY="10.0" text="Analyzing Position One" textFill="#dac6ac">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="4.0" prefWidth="1214.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;">
-               <VBox.margin>
-                  <Insets right="10.0" />
-               </VBox.margin>
-            </Pane>
-         </children>
-      </VBox>
-      <HBox fx:id="drawPositionHbox" prefHeight="22.0" prefWidth="1194.0" spacing="40.0" AnchorPane.bottomAnchor="571.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
+      <Label fx:id="lblGame" text="Group Chart Analysis: Fantasy Five" textFill="#dac6ac" AnchorPane.leftAnchor="10.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAnalyzedPosition" prefHeight="35.0" prefWidth="259.0" text="Analyzing Position One" textFill="#dac6ac" AnchorPane.leftAnchor="954.0" AnchorPane.rightAnchor="10.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="4.0" prefWidth="1214.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
+      <HBox fx:id="drawPositionHbox" prefHeight="22.0" prefWidth="1194.0" spacing="40.0" AnchorPane.bottomAnchor="571.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
          <children>
             <RadioButton mnemonicParsing="false" text="Position One" textFill="#dac6ac" />
             <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Position Two" textFill="#dac6ac" />
@@ -92,7 +80,7 @@
             </HBox>
          </children>
       </VBox>
-      <MenuButton fx:id="groupSizeMenuButton" mnemonicParsing="false" text="Group Size" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
+      <MenuButton fx:id="groupSizeMenuButton" mnemonicParsing="false" text="Group Size" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0">
         <items>
             <MenuItem mnemonicParsing="false" text="2" />
           <MenuItem mnemonicParsing="false" text="3" />

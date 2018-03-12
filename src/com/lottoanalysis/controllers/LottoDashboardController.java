@@ -16,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -23,6 +24,8 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +33,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import java.awt.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import com.lottoanalysis.utilities.gameoutviewutilities.GamesOutViewAnalyzer;
@@ -38,8 +42,12 @@ import com.lottoanalysis.utilities.gameoutviewutilities.GamesOutViewDepicter;
 import com.lottoanalysis.utilities.betsliputilities.LottoBetSlipAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.*;
+import java.util.List;
 
 public class LottoDashboardController {
 
@@ -49,6 +57,10 @@ public class LottoDashboardController {
     private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums, lineSpacings, remainder;
     private static LottoGame classLevelLotteryGame;
     private static List<Object> numbersForChartDisplay = new ArrayList<>();
+
+    private BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+    private Graphics2D g = image.createGraphics();
+    private FontMetrics fm = g.getFontMetrics(new Font("System", Font.PLAIN, 24));
 
     public static LottoGame getClassLevelLotteryGame() {
         return classLevelLotteryGame;
@@ -73,7 +85,7 @@ public class LottoDashboardController {
     private JFXButton btn_close;
 
     @FXML
-    private Label lottoDashboard, predictedNumbersLabel;
+    private Label lottoDashboard, predictedNumbersLabel, jackpotLbl;
 
     @FXML
     private TableView<Drawing> drawNumberTable;
@@ -109,12 +121,12 @@ public class LottoDashboardController {
         choiceBox = new ChoiceBox();
         choiceBox.setStyle("-fx-focus-color: transparent;");
         CategoryAxis xAxis = new CategoryAxis();
-        xAxis.tickLabelFontProperty().set(Font.font(8));
+        xAxis.tickLabelFontProperty().set(javafx.scene.text.Font.font(8));
         //xAxis.setTickLabelRotation(20);
         xAxis.setStyle("-fx-tick-label-fill: #dac6ac");
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.tickLabelFontProperty().set(Font.font(8));
+        yAxis.tickLabelFontProperty().set(javafx.scene.text.Font.font(8));
         yAxis.setStyle("-fx-tick-label-fill: #dac6ac");
         yAxis.setAutoRanging(true);
 
@@ -459,6 +471,24 @@ public class LottoDashboardController {
         }
     }
 
+    public void setJackpotLbl(String jackPot){
+
+        if(lotteryGame.getGameName().contains("Pick4") || lotteryGame.getGameName().contains("Pick3"))
+            jackpotLbl.setVisible(false);
+        else
+            jackpotLbl.setVisible(true);
+
+        String t = jackpotLbl.getText().substring(0,jackpotLbl.getText().lastIndexOf(":")+1);
+        jackpotLbl.setText(" ");
+        jackpotLbl.setText(t + " " + jackPot);
+        int w = fm.stringWidth(jackpotLbl.getText());
+        jackpotLbl.setPrefWidth(w);
+
+    }
+
+    public void setGame(LottoGame game){
+        lotteryGame = game;
+    }
     public void setGameLabels(String gameName) {
 
         if (!gameName.equalsIgnoreCase("update database")) {
@@ -675,9 +705,13 @@ public class LottoDashboardController {
 
         AbstractFactory factory = FactoryProducer.getFactory("lotteryGameFactory");
         LottoGame game = factory.getLotteryGame("five");
-
         game.setGameName(gameName);
-        System.out.println(game.getCurrentEstimatedJackpot());
+        game.startThreadForJackpotRetrieval();
+        String t = jackpotLbl.getText().substring(0,jackpotLbl.getText().lastIndexOf(":")+1);
+        jackpotLbl.setText(" ");
+        jackpotLbl.setText(t + " " + game.getCurrentEstimatedJackpot());
+        int w = fm.stringWidth(jackpotLbl.getText());
+        jackpotLbl.setPrefWidth(w);
 
         this.lotteryGame = lotteryGameManager.loadLotteryData(game);
 

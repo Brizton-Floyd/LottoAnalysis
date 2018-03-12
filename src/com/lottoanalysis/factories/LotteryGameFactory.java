@@ -16,11 +16,8 @@ public class LotteryGameFactory extends AbstractFactory {
         }
         if(game.equalsIgnoreCase("five")){
 
-            try {
-                return new FiveDigitLotteryGameImpl();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            return new FiveDigitLotteryGameImpl();
+
         }
         if(game.equalsIgnoreCase("four")){
 

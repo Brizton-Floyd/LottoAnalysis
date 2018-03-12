@@ -15,8 +15,7 @@
          <children>
             <AnchorPane fx:id="predictedNumbersPane" prefHeight="334.0" prefWidth="1165.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;">
                <children>
-                  <Pane prefHeight="4.0" prefWidth="606.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <Label fx:id="predictedNumbersLabel" layoutX="-3.0" layoutY="-49.0" text="Predicted Numbers For Todays Drawing" textFill="#dac6ac">
+                  <Label fx:id="predictedNumbersLabel" text="Predicted Numbers For Todays Drawing" textFill="#dac6ac" AnchorPane.topAnchor="-45.0">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -24,6 +23,15 @@
                         <Insets top="10.0" />
                      </padding>
                   </Label>
+                  <Label fx:id="jackpotLbl" contentDisplay="TOP" layoutY="-41.0" prefHeight="45.0" prefWidth="47.0" text="Current Jackpot: " textAlignment="JUSTIFY" textFill="#dac6ac" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-42.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <Pane prefHeight="4.0" prefWidth="606.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <TableView fx:id="drawNumberTable" layoutX="39.0" layoutY="36.0" prefHeight="271.0" prefWidth="608.0" stylesheets="@../styles/table_view.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
                <VBox.margin>
