@@ -3,9 +3,17 @@ package com.lottoanalysis.controllers;
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.utilities.analyzerutilites.DayGrouperAnalyzer;
+import com.lottoanalysis.utilities.analyzerutilites.TrendLineAnalyzer;
+import com.lottoanalysis.utilities.analyzerutilites.UpperLowerRangeAnalyzer;
+import com.lottoanalysis.utilities.betsliputilities.BetSlipAnalyzer;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
+import com.lottoanalysis.utilities.gameoutviewutilities.GameOutViewPatternFinder;
+import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelperTwo;
+import com.lottoanalysis.utilities.numbergrouputilites.NextProbableGroupFinder;
 import com.lottoanalysis.utilities.numberpatternutilities.PatternFinder;
 import com.lottoanalysis.utilities.gameoutviewutilities.PositionalGameOutPositionTracker;
+import com.lottoanalysis.utilities.sumutilities.ProbableSumFinder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,13 +22,18 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class GroupChartController {
@@ -29,6 +42,9 @@ public class GroupChartController {
     private int[][] drawPositionalNumbers;
     private Map<Integer, String> data;
     private ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+    private BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+    private Graphics2D g = image.createGraphics();
+    private FontMetrics fm = g.getFontMetrics(new Font("System", Font.PLAIN, 24));
 
     private static int globalDrawPosition,rowIndex;
 
@@ -36,7 +52,7 @@ public class GroupChartController {
     private VBox groupRadioButtonVbox;
 
     @FXML
-    private HBox drawPositionHbox, radioBtnAndChartHbox, headerHbox;
+    private HBox drawPositionHbox, radioBtnAndChartHbox;
 
     @FXML
     private MenuButton groupSizeMenuButton;
@@ -160,12 +176,9 @@ public class GroupChartController {
     }
 
     private void setPositionBeingAnalyzedLabel() {
-        if( globalDrawPosition == 2)
-            headerHbox.setSpacing(380);
-        else
-            headerHbox.setSpacing(402);
 
         lblAnalyzedPosition.setText("Analyzing Position " + data.get(globalDrawPosition));
+        lblAnalyzedPosition.setPrefWidth(fm.stringWidth(lblAnalyzedPosition.getText()));
     }
 
     /**
@@ -185,9 +198,9 @@ public class GroupChartController {
         groupHitOutlookLabel.setText("Group Hit Outlook Position " + data.get(globalDrawPosition));
 
        // NextProbableGroupFinder.analyze(drawPositionalNumbers);
-       // GameOutViewPatternFinder.analyze(drawPositionalNumbers);;
+        //GameOutViewPatternFinder.analyze(drawPositionalNumbers);;
 
-        PositionalGameOutPositionTracker.analyze(lotteryGame,drawPositionalNumbers);
+        //PositionalGameOutPositionTracker.analyze(lotteryGame,drawPositionalNumbers);
 
         int[] drawingPos = drawPositionalNumbers[drawPosition];
 
@@ -197,6 +210,9 @@ public class GroupChartController {
 
         //int[] dd = p.stream().mapToInt(i -> i).toArray();
         //UpperLowerRangeAnalyzer.analyze(drawingPos, lotteryGame);
+
+        DayGrouperAnalyzer dayGrouperAnalyzer = new DayGrouperAnalyzer();
+        dayGrouperAnalyzer.analzye(lotteryGame);
 
         ChartHelperTwo.clearGroupHitInformation();
         ChartHelperTwo.processIncomingData(lotteryGame, drawingPos, drawSize);
@@ -219,6 +235,7 @@ public class GroupChartController {
 
             RadioButton button = new RadioButton(iterator.next());
             button.setOnAction(event -> {
+
                 patternTable.getItems().clear();
                 patternTable.getColumns().clear();
                 injectChartWithData(positionData,button.getText());
@@ -226,7 +243,7 @@ public class GroupChartController {
                 setUpGroupHitGridPane(positionData,button.getText(),(List<Integer>) positionData.get(button.getText())[0]);
 
                 int[] num = ( ((List<Integer>) positionData.get(button.getText())[0]) ).stream().mapToInt(Integer::intValue).toArray();
-                //TrendLineAnalyzer.analyzeData(num);
+                TrendLineAnalyzer.analyzeData(num);
 
 //               LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
 //                CompanionNumberFinder.analyzeIncomingInformation(
@@ -270,7 +287,9 @@ public class GroupChartController {
                 (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]);
 
         int[] nums = ((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]).stream().mapToInt(i->i).toArray();
-        //TrendLineAnalyzer.analyzeData(nums);
+        TrendLineAnalyzer.analyzeData(nums);
+        BetSlipAnalyzer betSlipAnalyzer = new BetSlipAnalyzer();
+        betSlipAnalyzer.analyzeDrawData(drawPositionalNumbers, lotteryGame);
 //        setUpPatternChart((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0],
 //                ((RadioButton)group.getToggles().get(0)).getText());
         //LineSpacingHelperTwo.analyze(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));

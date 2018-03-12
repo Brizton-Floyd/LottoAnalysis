@@ -144,7 +144,7 @@ public class TrendLineAnalyzer {
 
             if(!trendlineDirectionData.containsKey(currentDirection + " +" +data[0])){
 
-                trendlineDirectionData.put(currentDirection + " +" +data[0], new Object[]{0,0,new TreeMap<Integer,Integer[]>(),new ArrayList<Integer>(),0,0});
+                trendlineDirectionData.put(currentDirection + " +" +data[0], new Object[]{0,0,new TreeMap<Integer,Integer[]>(),new ArrayList<Integer>(),0,0,new TreeMap<Integer,Object[]>()});
             }
 
             Object[] dataTwo = trendlineDirectionData.get(currentDirection + " +" + data[0]);
@@ -159,19 +159,59 @@ public class TrendLineAnalyzer {
             incrementGamesOut(trendlineDirectionData,currentDirection + " +" +data[0]);
 
             Map<Integer,Integer[]> lineLengthHolderForDirection = (Map<Integer,Integer[]>)trendlineDirectionData.get(currentDirection + " +" + data[0])[2];
-
+            Map<Integer,Object[]> remainderMap = (Map<Integer,Object[]>)trendlineDirectionData.get(currentDirection + " +" + data[0])[6];
             int dif = Math.abs( numberOne - numberTwo );
+
+            // Find remainder
+            int remainder = numberTwo % 2;
 
             if(!lineLengthHolderForDirection.containsKey(numberTwo))
             {
                 lineLengthHolderForDirection.put(numberTwo, new Integer[]{1,0});
                 incrementGamesOut(lineLengthHolderForDirection, numberTwo);
+
+                if(!remainderMap.containsKey(remainder)){
+
+                    Set<Integer> numss = new HashSet<>();
+                    numss.add(numberTwo);
+                    Object[] remainderData = {0,0,numss};
+
+                    remainderMap.put(remainder,remainderData);
+                    incrementGamesOutSpecial(remainderMap,remainder);
+                }
+                else
+                {
+                    Object[] d = remainderMap.get(remainder);
+                    d[0] = (int)d[0] + 1;
+                    d[1] = 0;
+                    ((Set<Integer>)d[2]).add(numberTwo);
+
+                    incrementGamesOutSpecial(remainderMap,remainder);
+                }
+
             }
-            else{
+            else {
                 Integer[] lineLenData = lineLengthHolderForDirection.get(numberTwo);
                 lineLenData[0]++;
                 lineLenData[1] = 0;
                 incrementGamesOut(lineLengthHolderForDirection, numberTwo);
+
+                if (!remainderMap.containsKey(remainder)) {
+
+                    Set<Integer> numss = new HashSet<>();
+                    numss.add(numberTwo);
+                    Object[] remainderData = {0, 0, numss};
+
+                    remainderMap.put(remainder, remainderData);
+                    incrementGamesOutSpecial(remainderMap, remainder);
+                } else {
+                    Object[] d = remainderMap.get(remainder);
+                    d[0] = (int) d[0] + 1;
+                    d[1] = 0;
+                    ((Set<Integer>)d[2]).add(numberTwo);
+                    incrementGamesOutSpecial(remainderMap, remainder);
+                }
+
             }
 
             // reset all other direction back to zero
@@ -186,6 +226,19 @@ public class TrendLineAnalyzer {
         }
 
         directionHolderRetracementMap.put(directionHolderList.get(directionHolderList.size()-1),new LinkedHashMap<>());
+
+    }
+
+    private static void incrementGamesOutSpecial(Map<Integer, Object[]> remainderMap, int remainder) {
+
+        for(Map.Entry<Integer,Object[]> data : remainderMap.entrySet()){
+
+            if(data.getKey() != remainder){
+
+                Object[] d = data.getValue();
+                d[1] = (int)d[1] + 1;
+            }
+        }
 
     }
 

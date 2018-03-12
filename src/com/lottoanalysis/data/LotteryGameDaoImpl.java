@@ -301,6 +301,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
             // finally add drawings to game
             game.setDrawingData(drawData);
+           // game.setDrawingDataWithDayOfWeek(Drawing.getUnModifiedDrawData());
 
         } catch (SQLException e) {
             e.printStackTrace();

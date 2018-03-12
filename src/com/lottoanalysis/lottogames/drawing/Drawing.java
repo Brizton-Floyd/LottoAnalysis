@@ -2,7 +2,9 @@ package com.lottoanalysis.lottogames.drawing;
 
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +18,8 @@ public class Drawing {
     private SimpleStringProperty drawSum;
     private SimpleStringProperty oddEvenRatio;
     private Map<String,String> monthNumbers = new HashMap<>();
+    private static List<Drawing> unModifiedDrawData = new ArrayList<>();
+    private String[] nums;
     public static int drawSize;
 
     public static int getDrawSize() {
@@ -24,16 +28,28 @@ public class Drawing {
 
     public Drawing(int drawNumber, String drawDate, String... numbers) {
 
+        //unModifiedDrawData.clear();
+        //unModifiedDrawData.add(new Drawing(drawNumber,drawDate,numbers));
+
+        nums = numbers;
         loadHashMap();
         this.drawNumber = new SimpleStringProperty("" + drawNumber);
         String[] pp = drawDate.split("\\s");
 
-        this.drawDate = new SimpleStringProperty(String.format("%1s / %2s / %3s",monthNumbers.get(pp[1]),pp[2].substring(0,2),pp[3]));
+        this.drawDate = new SimpleStringProperty(String.format(" %1s %2s / %3s / %4s",pp[0], monthNumbers.get(pp[1]),pp[2].substring(0,2),pp[3]));
         drawSize = numbers.length;
 
 
         initializeNumberPositions(numbers);
         loadData(numbers);
+    }
+
+    public static List<Drawing> getUnModifiedDrawData() {
+        return unModifiedDrawData;
+    }
+
+    public String[] getNums() {
+        return nums;
     }
 
     private void loadHashMap() {

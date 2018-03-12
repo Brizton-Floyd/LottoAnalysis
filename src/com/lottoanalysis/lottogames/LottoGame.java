@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class LottoGame {
+public abstract class LottoGame {
 
     protected int lottoId;
     protected String gameName;
@@ -16,7 +16,6 @@ public class LottoGame {
     protected int maxNumber;
     protected int positionNumbersAllowed;
     protected ObservableList<Drawing> drawingData;
-    protected List<Drawing> drawingDataWithDayOfWeek;
 
     public String getCurrentEstimatedJackpot() {
         return currentEstimatedJackpot;
@@ -74,11 +73,8 @@ public class LottoGame {
         this.drawingData = drawingData;
     }
 
-    public List<Drawing> getDrawingDataWithDayOfWeek() {
-        return drawingDataWithDayOfWeek;
+    public void startThreadForJackpotRetrieval(){
+
     }
 
-    public void setDrawingDataWithDayOfWeek(List<Drawing> drawingDataWithDayOfWeek) {
-        this.drawingDataWithDayOfWeek = drawingDataWithDayOfWeek;
-    }
 }

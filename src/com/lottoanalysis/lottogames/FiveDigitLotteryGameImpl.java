@@ -1,27 +1,33 @@
 package com.lottoanalysis.lottogames;
 
-
-import com.lottoanalysis.interfaces.JackpotRetriever;
 import com.lottoanalysis.interfaces.ThreadCompleteListener;
 import com.lottoanalysis.retrievers.FiveAndSixDigitJackpotRetrieverImpl;
-import com.lottoanalysis.retrievers.NotifyingThread;
+import com.lottoanalysis.tasks.NotifyingThread;
 
 public class FiveDigitLotteryGameImpl extends LottoGame implements ThreadCompleteListener{
 
-    private JackpotRetriever retriever;
-    NotifyingThread jackpotThread;
-    public FiveDigitLotteryGameImpl() throws InterruptedException {
+    private NotifyingThread jackpotThread;
 
-        jackpotThread = new FiveAndSixDigitJackpotRetrieverImpl();
+    @Override
+    public void startThreadForJackpotRetrieval() {
+
+        jackpotThread = new FiveAndSixDigitJackpotRetrieverImpl(gameName);
         jackpotThread.addListener(this);
         jackpotThread.start();
-        jackpotThread.join();
+
+        try {
+            jackpotThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void notifyOfThreadComplete(Thread thread) {
 
+        jackpotThread.removeListener(this);
         String val = ((FiveAndSixDigitJackpotRetrieverImpl)jackpotThread).getEstimatedJackpot("");
-        this.setCurrentEstimatedJackpot(val);
+        setCurrentEstimatedJackpot(val);
+
     }
 }

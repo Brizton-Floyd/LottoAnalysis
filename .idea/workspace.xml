@@ -2,43 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/interfaces/JackpotRetriever.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/interfaces/ThreadCompleteListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/LottoGame.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/retrievers/FiveAndSixDigitJackpotRetrieverImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/retrievers/NotifyingThread.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/interfaces/LotteryGame.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/DayGrouperAnalyzer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipAnalyzer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipDefinitions.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/retrievers/NotifyingThread.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/tasks/NotifyingThread.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lotto-analysis-workspace.iml" afterPath="$PROJECT_DIR$/lotto-analysis-workspace.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/.idea/workspace.xml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/ChartAnalysisController.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/ChartAnalysisController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/CompanionNumberController.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/CompanionNumberController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/com/lottoanalysis/view/GroupChartView.fxml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/com/lottoanalysis/view/GroupChartView.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/com/lottoanalysis/view/LottoDashboard.fxml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/com/lottoanalysis/view/LottoDashboard.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/lotto-analysis-workspace.iml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/lotto-analysis-workspace.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/src/com/lottoanalysis/view/GroupChartView.fxml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/src/com/lottoanalysis/view/GroupChartView.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/src/com/lottoanalysis/view/LottoDashboard.fxml" afterPath="$PROJECT_DIR$/out/production/lotto-analysis-workspace/src/com/lottoanalysis/view/LottoDashboard.fxml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoAnalysisHomeController.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoAnalysisHomeController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDao.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDao.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/factories/DatabaseFactory.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/factories/DatabaseFactory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameFactory.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameManagerFactory.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameManagerFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/factories/abstractfactory/AbstractFactory.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/factories/abstractfactory/AbstractFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/interfaces/LotteryGameManager.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/interfaces/LotteryGameManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/FiveDigitLotteryGameImpl.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/FiveDigitLotteryGameImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/PickFourLotteryGameImpl.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/PickFourLotteryGameImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/PickThreeLotteryGameImpl.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/PickThreeLotteryGameImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/LottoGame.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/LottoGame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/SixDigitLotteryGameImpl.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/SixDigitLotteryGameImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/managers/LotteryGameManagerImpl.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/managers/LotteryGameManagerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/screenavigator/LottoScreenNavigator.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/screenavigator/LottoScreenNavigator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/LineRetracementAnalyzer.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/LineRetracementAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/NumberPatternAnalyzer.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/NumberPatternAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/UpperLowerRangeAnalyzer.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/UpperLowerRangeAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/LottoBetSlipAnalyzer.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/LottoBetSlipAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/chartutility/ChartHelperTwo.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/chartutility/ChartHelperTwo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/GamesOutPositionTracker.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/GamesOutPositionTracker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/GamesOutViewAnalyzer.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/GamesOutViewAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/PositionalGameOutPositionTracker.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/PositionalGameOutPositionTracker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/sumutilities/ProbableSumFinder.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/sumutilities/ProbableSumFinder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/sumutilities/SumGroupAnalyzer.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/sumutilities/SumGroupAnalyzer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/drawing/Drawing.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/drawing/Drawing.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/retrievers/FiveAndSixDigitJackpotRetrieverImpl.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/retrievers/FiveAndSixDigitJackpotRetrieverImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/TrendLineAnalyzer.java" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/TrendLineAnalyzer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/view/GroupChartView.fxml" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/view/GroupChartView.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/lottoanalysis/view/LottoDashboard.fxml" afterPath="$PROJECT_DIR$/src/com/lottoanalysis/view/LottoDashboard.fxml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,6 +39,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/lotto_analysis$Main.coverage" NAME="Main Coverage Results" MODIFIED="1520828133868" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>sample.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/lotto-analysis$Main.coverage" NAME="Main Coverage Results" MODIFIED="1506261670135" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>sample.*</FILTER>
     </SUITE>
@@ -103,54 +94,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="FiveDigitLotteryGameImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/FiveDigitLotteryGameImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="14" column="48" lean-forward="false" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NotifyingThread.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/retrievers/NotifyingThread.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="17" column="47" lean-forward="false" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#387#388#0" expanded="true" />
-                <element signature="e#426#427#0" expanded="true" />
-                <element signature="e#504#505#0" expanded="true" />
-                <element signature="e#546#547#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="LottoDashboardController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="675" column="0" lean-forward="false" selection-start-line="675" selection-start-column="0" selection-end-line="675" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="350">
+              <caret line="475" column="0" lean-forward="false" selection-start-line="475" selection-start-column="0" selection-end-line="475" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#19293#19294#0" expanded="true" />
+                <element signature="e#19327#19328#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LotteryGameManagerFactory.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameManagerFactory.java">
+      <file leaf-file-name="BetSlipAnalyzer.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+            <state relative-caret-position="1315">
+              <caret line="110" column="44" lean-forward="false" selection-start-line="110" selection-start-column="44" selection-end-line="110" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#533#534#0" expanded="true" />
-                <element signature="e#560#561#0" expanded="true" />
+                <element signature="e#763#793#0" expanded="true" />
+                <element signature="e#4855#4885#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LottoBetSlipDefinitions.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/LottoBetSlipDefinitions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-399">
+              <caret line="29" column="28" lean-forward="false" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -158,80 +135,52 @@
       <file leaf-file-name="LottoGame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/LottoGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+            <state relative-caret-position="263">
+              <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#669#670#0" expanded="true" />
-                <element signature="e#715#716#0" expanded="true" />
-                <element signature="e#894#895#0" expanded="true" />
-                <element signature="e#924#925#0" expanded="true" />
-                <element signature="e#967#968#0" expanded="true" />
-                <element signature="e#1005#1006#0" expanded="true" />
-                <element signature="e#1040#1041#0" expanded="true" />
-                <element signature="e#1071#1072#0" expanded="true" />
-                <element signature="e#1119#1120#0" expanded="true" />
-                <element signature="e#1159#1160#0" expanded="true" />
-                <element signature="e#1192#1193#0" expanded="true" />
-                <element signature="e#1224#1225#0" expanded="true" />
-                <element signature="e#1271#1272#0" expanded="true" />
-                <element signature="e#1313#1314#0" expanded="true" />
-                <element signature="e#1346#1347#0" expanded="true" />
-                <element signature="e#1378#1379#0" expanded="true" />
-                <element signature="e#1425#1426#0" expanded="true" />
-                <element signature="e#1467#1468#0" expanded="true" />
-                <element signature="e#1513#1514#0" expanded="true" />
-                <element signature="e#1558#1559#0" expanded="true" />
-                <element signature="e#1754#1755#0" expanded="true" />
-                <element signature="e#1788#1789#0" expanded="true" />
-                <element signature="e#1859#1860#0" expanded="true" />
-                <element signature="e#1905#1906#0" expanded="true" />
-                <element signature="e#1963#1964#0" expanded="true" />
-                <element signature="e#2010#2011#0" expanded="true" />
+                <element signature="e#1026#1027#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LotteryGameDaoImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java">
+      <file leaf-file-name="BetSlipDefinitions.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipDefinitions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="703">
-              <caret line="269" column="31" lean-forward="true" selection-start-line="269" selection-start-column="31" selection-end-line="269" selection-end-column="31" />
+            <state relative-caret-position="841">
+              <caret line="29" column="5" lean-forward="true" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GroupChartController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="291" column="0" lean-forward="false" selection-start-line="291" selection-start-column="0" selection-end-line="291" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FiveAndSixDigitJackpotRetrieverImpl.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/retrievers/FiveAndSixDigitJackpotRetrieverImpl.java">
+      <file leaf-file-name="TrendLineAnalyzer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/TrendLineAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#434#435#0" expanded="true" />
-                <element signature="e#463#464#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LotteryGameFactory.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameFactory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="19" column="54" lean-forward="true" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
+            <state relative-caret-position="51">
+              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LottoInfoAndGamesController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java">
+      <file leaf-file-name="LottoBetSlipAnalyzer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/LottoBetSlipAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="159" column="26" lean-forward="false" selection-start-line="159" selection-start-column="26" selection-end-line="159" selection-end-column="26" />
+            <state relative-caret-position="560">
+              <caret line="14" column="18" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -239,13 +188,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LottoAnalysisHomeController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoAnalysisHomeController.java">
+      <file leaf-file-name="DayGrouperAnalyzer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/DayGrouperAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2107">
-              <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+            <state relative-caret-position="88">
+              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding>
-                <element signature="e#1484#1485#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#1359#1389#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -263,11 +213,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>loadMenuItems</find>
-      <find>ini</find>
-      <find>UPDATE_DB</find>
-      <find>progressAndLabelVbox</find>
-      <find>mainController</find>
       <find>lotteryGame</find>
       <find>onAction</find>
       <find>lineChartWithHover</find>
@@ -293,6 +238,11 @@
       <find>groupInfoTable</find>
       <find>game</find>
       <find>lotteryGameManager</find>
+      <find>headerHbox</find>
+      <find>retrieveDataForChartViewing</find>
+      <find>directionHolderMap</find>
+      <find>trend</find>
+      <find>setGame</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -311,11 +261,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/LottoBetSlipDefinitions.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/GamesOutAnalyzerHelper.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/GamesOutViewDepicter.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/TrendLineAnalyzer.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/NumberAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/NumberGapAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/LineRetracementFinder.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/LineRetracementFinder.java" />
@@ -327,20 +272,17 @@
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/numbergrouputilites/Groupings.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/numbergrouputilites/NextProbableGroupFinder.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/numberpatternutilities/PatternFinder.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/drawing/Drawing.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/PickFourLotteryGameImpl.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/PickThreeLotteryGameImpl.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/factories/abstractfactory/AbstractFactory.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/LottoBetSlipAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/GamesOutPositionTracker.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/managers/LotteryGameManagerImpl.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameManagerFactory.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/factories/DatabaseFactory.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/GamesOutViewAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/PositionalGameOutPositionTracker.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/chartutility/ChartHelperTwo.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/controllers/ChartAnalysisController.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/screenavigator/LottoScreenNavigator.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/controllers/CompanionNumberController.java" />
@@ -351,17 +293,25 @@
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/sumutilities/SumGroupAnalyzer.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/interfaces/LotteryGame.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/interfaces/JackpotRetriever.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/SixDigitLotteryGameImpl.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/retrievers/JackpotRetriverImpl.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/retrievers/JackpotRetrieverImpl.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/LottoGame.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/interfaces/ThreadCompleteListener.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/retrievers/NotifyingThread.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/FiveDigitLotteryGameImpl.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameFactory.java" />
-        <option value="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java" />
         <option value="$PROJECT_DIR$/src/com/lottoanalysis/retrievers/FiveAndSixDigitJackpotRetrieverImpl.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/tasks/NotifyingThread.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/LottoGame.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/FiveDigitLotteryGameImpl.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/SixDigitLotteryGameImpl.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/lottogames/drawing/Drawing.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/DayGrouperAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/TrendLineAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipDefinitions.java" />
+        <option value="$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipAnalyzer.java" />
       </list>
     </option>
   </component>
@@ -378,7 +328,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="PackagesPane" proportions="" version="1">
       <flattenPackages PackagesPane="false" ProjectPane="false" />
       <showMembers />
       <showModules />
@@ -410,20 +360,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="lottoanalysis" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="lotto-analysis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lotto-analysis" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="lottoanalysis" type="462c0819:PsiDirectoryNode" />
-              <item name="interfaces" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lotto-analysis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lotto-analysis" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="lottoanalysis" type="462c0819:PsiDirectoryNode" />
-              <item name="retrievers" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -435,6 +371,49 @@
             <path>
               <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
               <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
+            </path>
+            <path>
+              <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
+              <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
+              <item name="com.lottoanalysis" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
+              <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
+              <item name="com.lottoanalysis" type="1f31426a:PackageElementNode" />
+              <item name="controllers" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
+              <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
+              <item name="com.lottoanalysis" type="1f31426a:PackageElementNode" />
+              <item name="lottogames" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
+              <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
+              <item name="com.lottoanalysis" type="1f31426a:PackageElementNode" />
+              <item name="lottogames" type="1f31426a:PackageElementNode" />
+              <item name="drawing" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
+              <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
+              <item name="com.lottoanalysis" type="1f31426a:PackageElementNode" />
+              <item name="tasks" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
+              <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
+              <item name="com.lottoanalysis" type="1f31426a:PackageElementNode" />
+              <item name="utilities" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="lotto-analysis" type="58d84e3e:PackageViewProjectNode" />
+              <item name="lotto-analysis-workspace" type="616d4139:PackageViewModuleNode" />
+              <item name="com.lottoanalysis" type="1f31426a:PackageElementNode" />
+              <item name="utilities" type="1f31426a:PackageElementNode" />
+              <item name="betsliputilities" type="1f31426a:PackageElementNode" />
             </path>
           </expand>
           <select />
@@ -458,7 +437,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Fusioncharts_javafx" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../jsoup-1.11.2.jar!/" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="SearchEverywhereHistoryKey" value="projectview&#9;ACTION&#9;SelectInProjectView" />
     <property name="settings.editor.selected.configurable" value="configurable.group.language" />
@@ -745,6 +724,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-16" y="-16" width="3872" height="2092" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -754,18 +734,19 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294249" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5427136" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4913456" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5019542" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24411765" sideWeight="0.6703755" order="7" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24411765" sideWeight="0.6703755" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43997768" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12459893" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.49804577" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43048576" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87883866" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994652" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -778,7 +759,6 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32950467" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
     </layout>
@@ -980,7 +960,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>369</line>
+          <line>381</line>
           <properties />
           <option name="timeStamp" value="387" />
         </line-breakpoint>
@@ -1004,19 +984,19 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>705</line>
+          <line>739</line>
           <properties />
           <option name="timeStamp" value="472" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>687</line>
+          <line>721</line>
           <properties />
           <option name="timeStamp" value="476" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>202</line>
+          <line>214</line>
           <properties />
           <option name="timeStamp" value="477" />
         </line-breakpoint>
@@ -1064,13 +1044,13 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>183</line>
+          <line>195</line>
           <properties />
           <option name="timeStamp" value="594" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>219</line>
+          <line>231</line>
           <properties />
           <option name="timeStamp" value="601" />
         </line-breakpoint>
@@ -1130,7 +1110,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>719</line>
+          <line>753</line>
           <properties />
           <option name="timeStamp" value="622" />
         </line-breakpoint>
@@ -1196,31 +1176,31 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java</url>
-          <line>321</line>
+          <line>322</line>
           <properties />
           <option name="timeStamp" value="771" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java</url>
-          <line>315</line>
+          <line>316</line>
           <properties />
           <option name="timeStamp" value="772" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>132</line>
+          <line>144</line>
           <properties />
           <option name="timeStamp" value="785" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java</url>
-          <line>278</line>
+          <line>291</line>
           <properties />
           <option name="timeStamp" value="791" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>463</line>
+          <line>493</line>
           <properties />
           <option name="timeStamp" value="796" />
         </line-breakpoint>
@@ -1244,19 +1224,13 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>125</line>
+          <line>137</line>
           <properties />
           <option name="timeStamp" value="819" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>673</line>
-          <properties />
-          <option name="timeStamp" value="820" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>504</line>
+          <line>534</line>
           <properties />
           <option name="timeStamp" value="831" />
         </line-breakpoint>
@@ -1268,7 +1242,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java</url>
-          <line>246</line>
+          <line>259</line>
           <properties />
           <option name="timeStamp" value="834" />
         </line-breakpoint>
@@ -1432,7 +1406,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java</url>
-          <line>194</line>
+          <line>207</line>
           <properties />
           <option name="timeStamp" value="987" />
         </line-breakpoint>
@@ -1540,7 +1514,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java</url>
-          <line>203</line>
+          <line>219</line>
           <properties />
           <option name="timeStamp" value="1036" />
         </line-breakpoint>
@@ -1558,25 +1532,25 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java</url>
-          <line>224</line>
+          <line>241</line>
           <properties />
           <option name="timeStamp" value="1044" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java</url>
-          <line>265</line>
+          <line>282</line>
           <properties />
           <option name="timeStamp" value="1045" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java</url>
-          <line>138</line>
+          <line>154</line>
           <properties />
           <option name="timeStamp" value="1052" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java</url>
-          <line>461</line>
+          <line>480</line>
           <properties />
           <option name="timeStamp" value="1053" />
         </line-breakpoint>
@@ -1612,15 +1586,9 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java</url>
-          <line>177</line>
+          <line>190</line>
           <properties />
           <option name="timeStamp" value="1075" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/TrendLineAnalyzer.java</url>
-          <line>20</line>
-          <properties />
-          <option name="timeStamp" value="1078" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/companionnumberutilities/CompanionNumberHelper.java</url>
@@ -1648,77 +1616,95 @@
           <properties />
           <option name="timeStamp" value="1093" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoAnalysisHomeController.java</url>
           <line>112</line>
           <properties />
           <option name="timeStamp" value="1097" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java</url>
           <line>129</line>
           <properties />
           <option name="timeStamp" value="1098" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoAnalysisHomeController.java</url>
           <line>104</line>
           <properties />
           <option name="timeStamp" value="1099" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/fileutilities/FileTweaker.java</url>
           <line>6</line>
           <properties />
           <option name="timeStamp" value="1106" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java</url>
           <line>52</line>
           <properties />
           <option name="timeStamp" value="1107" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java</url>
-          <line>193</line>
-          <properties />
-          <option name="timeStamp" value="1112" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>546</line>
+          <line>576</line>
           <properties />
           <option name="timeStamp" value="1116" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java</url>
           <line>259</line>
           <properties />
           <option name="timeStamp" value="1118" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java</url>
           <line>156</line>
           <properties />
           <option name="timeStamp" value="1124" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/FiveDigitLotteryGameImpl.java</url>
-          <line>23</line>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java</url>
+          <line>303</line>
           <properties />
-          <option name="timeStamp" value="1125" />
+          <option name="timeStamp" value="1130" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
+          <line>703</line>
+          <properties />
+          <option name="timeStamp" value="1132" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
+          <line>139</line>
+          <properties />
+          <option name="timeStamp" value="1135" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java</url>
+          <line>200</line>
+          <properties />
+          <option name="timeStamp" value="1137" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java</url>
-          <line>675</line>
+          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipAnalyzer.java</url>
+          <line>19</line>
           <properties />
-          <option name="timeStamp" value="1126" />
+          <option name="timeStamp" value="1159" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipAnalyzer.java</url>
+          <line>96</line>
+          <properties />
+          <option name="timeStamp" value="1160" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="1127" />
+      <option name="time" value="1161" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -1735,82 +1721,11 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/TrendLineAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/NumberAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/NumberGapAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/companionnumberutilities/CompanionNumberHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/GameOutViewPatternFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/linespacingutilities/LineSpacingHelperTwo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/linespacingutilities/LineSpacingHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/companionnumberutilities/CompanionNumberFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/numberpatternutilities/PatternFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="19" column="70" lean-forward="false" selection-start-line="19" selection-start-column="70" selection-end-line="19" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/numbergrouputilites/NextProbableGroupFinder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1862,32 +1777,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/drawing/Drawing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="32" column="0" lean-forward="true" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="method#loadHashMap#0;class#Drawing#0" expanded="false" />
-            <element signature="method#loadData#0;class#Drawing#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/PickThreeLotteryGameImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
           <caret line="9" column="55" lean-forward="false" selection-start-line="9" selection-start-column="55" selection-end-line="9" selection-end-column="55" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/LottoBetSlipAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="199" column="54" lean-forward="false" selection-start-line="199" selection-start-column="54" selection-end-line="199" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1901,22 +1795,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/managers/LotteryGameManagerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="761">
-          <caret line="42" column="24" lean-forward="false" selection-start-line="42" selection-start-column="24" selection-end-line="42" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/factories/DatabaseFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="12" column="20" lean-forward="false" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1927,27 +1811,6 @@
           <caret line="15" column="21" lean-forward="false" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/PositionalGameOutPositionTracker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="191" column="59" lean-forward="false" selection-start-line="191" selection-start-column="59" selection-end-line="191" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="28" column="22" lean-forward="false" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
-          <folding>
-            <element signature="e#19738#19739#0" expanded="true" />
-            <element signature="e#19772#19773#0" expanded="true" />
-            <element signature="e#19830#19831#0" expanded="true" />
-            <element signature="e#19876#19877#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1981,14 +1844,6 @@
             <element signature="e#1608#1609#0" expanded="true" />
             <element signature="e#1654#1655#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/screenavigator/LottoScreenNavigator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="60" column="23" lean-forward="false" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2032,14 +1887,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/SixDigitLotteryGameImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="9" column="12" lean-forward="false" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/interfaces/JackpotRetriever.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -2053,16 +1900,6 @@
         <state relative-caret-position="200">
           <caret line="5" column="7" lean-forward="false" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/factories/abstractfactory/AbstractFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="8" column="30" lean-forward="false" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2092,46 +1929,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/LottoGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#715#716#0" expanded="true" />
-            <element signature="e#894#895#0" expanded="true" />
-            <element signature="e#924#925#0" expanded="true" />
-            <element signature="e#967#968#0" expanded="true" />
-            <element signature="e#1005#1006#0" expanded="true" />
-            <element signature="e#1040#1041#0" expanded="true" />
-            <element signature="e#1071#1072#0" expanded="true" />
-            <element signature="e#1119#1120#0" expanded="true" />
-            <element signature="e#1159#1160#0" expanded="true" />
-            <element signature="e#1192#1193#0" expanded="true" />
-            <element signature="e#1224#1225#0" expanded="true" />
-            <element signature="e#1271#1272#0" expanded="true" />
-            <element signature="e#1313#1314#0" expanded="true" />
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#1378#1379#0" expanded="true" />
-            <element signature="e#1425#1426#0" expanded="true" />
-            <element signature="e#1467#1468#0" expanded="true" />
-            <element signature="e#1513#1514#0" expanded="true" />
-            <element signature="e#1558#1559#0" expanded="true" />
-            <element signature="e#1754#1755#0" expanded="true" />
-            <element signature="e#1788#1789#0" expanded="true" />
-            <element signature="e#1859#1860#0" expanded="true" />
-            <element signature="e#1905#1906#0" expanded="true" />
-            <element signature="e#1963#1964#0" expanded="true" />
-            <element signature="e#2010#2011#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameManagerFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="560">
-          <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+          <caret line="16" column="20" lean-forward="false" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#533#534#0" expanded="true" />
@@ -2150,58 +1951,96 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/factories/abstractfactory/AbstractFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="703">
-          <caret line="269" column="31" lean-forward="true" selection-start-line="269" selection-start-column="31" selection-end-line="269" selection-end-column="31" />
-          <folding />
+        <state relative-caret-position="320">
+          <caret line="8" column="30" lean-forward="false" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/retrievers/NotifyingThread.java">
+    <entry file="jar://$PROJECT_DIR$/../jsoup-1.11.2.jar!/org/jsoup/nodes/Element.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="17" column="47" lean-forward="false" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#387#388#0" expanded="true" />
-            <element signature="e#426#427#0" expanded="true" />
-            <element signature="e#504#505#0" expanded="true" />
-            <element signature="e#546#547#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="580">
+          <caret line="691" column="18" lean-forward="false" selection-start-line="691" selection-start-column="18" selection-end-line="691" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/factories/LotteryGameFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="19" column="54" lean-forward="true" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
+        <state relative-caret-position="561">
+          <caret line="18" column="12" lean-forward="false" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/FiveDigitLotteryGameImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/constants/LotteryGameConstants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="14" column="48" lean-forward="false" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
+        <state relative-caret-position="-67">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="2408" column="0" lean-forward="false" selection-start-line="2408" selection-start-column="0" selection-end-line="2408" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/SixDigitLotteryGameImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1441">
+          <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java">
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/screenavigator/LottoScreenNavigator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="675" column="0" lean-forward="false" selection-start-line="675" selection-start-column="0" selection-end-line="675" selection-end-column="0" />
+        <state relative-caret-position="1241">
+          <caret line="113" column="0" lean-forward="false" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/data/LotteryGameDaoImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="259" column="0" lean-forward="false" selection-start-line="259" selection-start-column="0" selection-end-line="259" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/managers/LotteryGameManagerImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="681">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/gameoutviewutilities/PositionalGameOutPositionTracker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="20" column="27" lean-forward="false" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoInfoAndGamesController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="159" column="26" lean-forward="false" selection-start-line="159" selection-start-column="26" selection-end-line="159" selection-end-column="26" />
+        <state relative-caret-position="337">
+          <caret line="200" column="48" lean-forward="false" selection-start-line="200" selection-start-column="48" selection-end-line="200" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -2210,12 +2049,141 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/retrievers/FiveAndSixDigitJackpotRetrieverImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="1441">
+          <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#434#435#0" expanded="true" />
-            <element signature="e#463#464#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/tasks/NotifyingThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="7" column="54" lean-forward="true" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#384#385#0" expanded="false" />
+            <element signature="e#423#424#0" expanded="false" />
+            <element signature="e#502#503#0" expanded="false" />
+            <element signature="e#544#545#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/FiveDigitLotteryGameImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/drawing/Drawing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1520">
+          <caret line="50" column="31" lean-forward="false" selection-start-line="50" selection-start-column="31" selection-end-line="50" selection-end-column="31" />
+          <folding>
+            <element signature="e#1573#1574#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/DayGrouperAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1359#1389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/LottoBetSlipAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="14" column="18" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/analyzerutilites/TrendLineAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/lottogames/LottoGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding>
+            <element signature="e#1026#1027#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/GroupChartController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="291" column="0" lean-forward="false" selection-start-line="291" selection-start-column="0" selection-end-line="291" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/controllers/LottoDashboardController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="475" column="0" lean-forward="false" selection-start-line="475" selection-start-column="0" selection-end-line="475" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#19293#19294#0" expanded="true" />
+            <element signature="e#19327#19328#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/LottoBetSlipDefinitions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-399">
+          <caret line="29" column="28" lean-forward="false" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipDefinitions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="841">
+          <caret line="29" column="5" lean-forward="true" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/lottoanalysis/utilities/betsliputilities/BetSlipAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1315">
+          <caret line="110" column="44" lean-forward="false" selection-start-line="110" selection-start-column="44" selection-end-line="110" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#763#793#0" expanded="true" />
+            <element signature="e#4855#4885#0" expanded="true" />
           </folding>
         </state>
       </provider>
