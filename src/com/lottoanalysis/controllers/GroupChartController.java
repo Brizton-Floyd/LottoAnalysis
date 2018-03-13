@@ -243,7 +243,7 @@ public class GroupChartController {
                 setUpGroupHitGridPane(positionData,button.getText(),(List<Integer>) positionData.get(button.getText())[0]);
 
                 int[] num = ( ((List<Integer>) positionData.get(button.getText())[0]) ).stream().mapToInt(Integer::intValue).toArray();
-                TrendLineAnalyzer.analyzeData(num);
+                //TrendLineAnalyzer.analyzeData(num);
 
 //               LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
 //                CompanionNumberFinder.analyzeIncomingInformation(
@@ -287,7 +287,7 @@ public class GroupChartController {
                 (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]);
 
         int[] nums = ((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]).stream().mapToInt(i->i).toArray();
-        TrendLineAnalyzer.analyzeData(nums);
+        //TrendLineAnalyzer.analyzeData(nums);
         BetSlipAnalyzer betSlipAnalyzer = new BetSlipAnalyzer();
         betSlipAnalyzer.analyzeDrawData(drawPositionalNumbers, lotteryGame);
 //        setUpPatternChart((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0],

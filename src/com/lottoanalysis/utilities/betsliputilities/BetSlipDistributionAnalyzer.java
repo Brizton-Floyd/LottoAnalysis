@@ -56,8 +56,8 @@ public class BetSlipDistributionAnalyzer{
 
             if(!key.equals(currentFormat)){
 
-                BetSlipDistributionAnalyzer betSlipDistributionAnalyzer = value.getValue();
-                int gamesOut = betSlipDistributionAnalyzer.getFormatGamesOut().intValue();
+                BetSlipDistributionAnalyzer betSlipDistributionAnalyzer = value;
+                int gamesOut = betSlipDistributionAnalyzer.getFormatGamesOut();
                 betSlipDistributionAnalyzer.setFormatGamesOut( ++gamesOut );
             }
         });
@@ -66,11 +66,12 @@ public class BetSlipDistributionAnalyzer{
     *
     * 
     */
-    public void incrementGamesOutForNonWinningAndIncrementWinningDistribution( Map<String, BetSlipDistributionAnalyzer> formats, String winningDistro){
+    public void incrementGamesOutForNonWinning(Map<String, BetSlipDistributionAnalyzer> formats,
+                                               String winningDistro){
 
         formats.forEach( (k,v) -> {
 
-            BetSlipDistributionAnalyzer betSlipDistributionAnalyzer = v.getValue();
+            BetSlipDistributionAnalyzer betSlipDistributionAnalyzer = v;
             Map<String,Integer[]> data = betSlipDistributionAnalyzer.getWinningNumberDistributionHolder();
 
             for(Map.Entry<String, Integer[]> values : data.entrySet()){
@@ -79,12 +80,6 @@ public class BetSlipDistributionAnalyzer{
 
                     Integer[] vals = values.getValue(); 
                     vals[1]++;
-                }
-                else{
-
-                    Integer[] vals = values.getValue(); 
-                    vals[0]++;
-                    vals[1] = 0;                   
                 }
             }
         });
