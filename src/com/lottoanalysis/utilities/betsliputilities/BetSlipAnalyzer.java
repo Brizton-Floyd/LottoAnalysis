@@ -5,6 +5,7 @@ import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 @SuppressWarnings("unchecked")
 public class BetSlipAnalyzer {
@@ -25,10 +26,47 @@ public class BetSlipAnalyzer {
             List<StringBuilder> data = formDrawStrings( drawNumbers );
             Integer[][] betSlipDefinitions = getBetSlipDefinitions( lottoGame );
             findRowAndColumnHits(betSlipDefinitions, data);
+            findWinningNumberCompaionHits();
 
         }
 
-        private void findRowAndColumnHits(Integer[][] betSlipDefinitions, List<StringBuilder> data) {
+    private void findWinningNumberCompaionHits() {
+
+            for(int i = 0; i < columnAndIndexHitAnalyzers.length; i++){
+
+                ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer = columnAndIndexHitAnalyzers[i];
+                Map<Integer,Object[]> data = columnAndIndexHitAnalyzer.getColumnIndexHolder();
+
+                data.forEach( (k,v) -> {
+
+                    List<Integer> numberHitsPatterns = (List<Integer>)v[3];
+                    int currentWinningNumber = numberHitsPatterns.get( numberHitsPatterns.size() - 1 );
+
+                    int[] indicies = IntStream.range(0, numberHitsPatterns.size() - 1)
+                                        .filter( index -> numberHitsPatterns.get(index) == currentWinningNumber).toArray();
+
+                    Map<Integer,Integer[]> companionNumberTracker = (Map<Integer,Integer[]>)v[4];
+
+                    for(int j = 0; j < indicies.length; j++){
+
+                        int nextWinningNumber = numberHitsPatterns.get( indicies[j] + 1 );
+                        if(!companionNumberTracker.containsKey(nextWinningNumber)){
+                            companionNumberTracker.put(nextWinningNumber, new Integer[]{1, 0});
+                            NumberAnalyzer.incrementGamesOut(companionNumberTracker, nextWinningNumber);
+                        }
+                        else{
+
+                            Integer[] values = companionNumberTracker.get(nextWinningNumber);
+                            values[0]++;
+                            values[1] = 0;
+                            NumberAnalyzer.incrementGamesOut(companionNumberTracker, nextWinningNumber);
+                        }
+                    }
+                });
+            }
+    }
+
+    private void findRowAndColumnHits(Integer[][] betSlipDefinitions, List<StringBuilder> data) {
 
             Map<String, BetSlipDistributionAnalyzer> hitAndGameOutTracker = new HashMap<>();
 
@@ -70,7 +108,7 @@ public class BetSlipAnalyzer {
                     if(!colAndIndexData.containsKey( Integer.parseInt( columnIndices[k] ))){
 
                         colAndIndexData.put(Integer.parseInt( columnIndices[k] ), new Object[]{1,0, new TreeMap<Integer,Integer[]>(),
-                                new ArrayList<Integer>()});
+                                new ArrayList<Integer>(), new TreeMap<Integer,Integer[]>()});
 
                         Map<Integer, Integer[]> rowInfo = (Map<Integer, Integer[]>) colAndIndexData.get( Integer.parseInt(columnIndices[k]))[2];
                         columnAndIndexHitAnalyzer.incrementGamesOutForNonWinningColumns( colAndIndexData, columnIndices[k]);
