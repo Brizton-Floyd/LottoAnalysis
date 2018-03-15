@@ -5,7 +5,7 @@ import java.util.*;
 public class ColumnAndIndexHitAnalyzer {
 
     private Map<Integer, Object[]> columnIndexHolder = new TreeMap<>();
-    private List<Map.Entry<Integer,Object[]>> entries = new ArraysList<>();
+    private List<Map.Entry<Integer,Object[]>> entries = new ArrayList<>();
 
     public Map<Integer, Object[]> getColumnIndexHolder() {
         return columnIndexHolder;
