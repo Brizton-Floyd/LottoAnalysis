@@ -10,265 +10,302 @@ import java.util.stream.IntStream;
 @SuppressWarnings("unchecked")
 public class BetSlipAnalyzer {
 
-        private BetSlipDefinitions betSlipDefinitions;
-        private ColumnAndIndexHitAnalyzer[] columnAndIndexHitAnalyzers;
-        private List<Map.Entry<String,BetSlipDistributionAnalyzer>> sortedEntries;
-        private LottoGame lottoGame;
+    private BetSlipDefinitions betSlipDefinitions;
+    private ColumnAndIndexHitAnalyzer[] columnAndIndexHitAnalyzers;
+    private List<Map.Entry<String, BetSlipDistributionAnalyzer>> sortedEntries;
+    private LottoGame lottoGame;
+    private static Set<Integer[]> sumRanges = new LinkedHashSet<>();
+    static {
+        sumRanges.add( new Integer[]{0,5});
+        sumRanges.add( new Integer[]{6,10});
+        sumRanges.add( new Integer[]{11,15});
+        sumRanges.add( new Integer[]{16,20});
+        sumRanges.add( new Integer[]{21,25});
+        sumRanges.add( new Integer[]{26,30});
+        sumRanges.add( new Integer[]{31,35});
+        sumRanges.add( new Integer[]{36,40});
+    }
 
-        public void analyzeDrawData(int[][] drawNumbers, LottoGame lottoGame){
+    public void analyzeDrawData(int[][] drawNumbers, LottoGame lottoGame) {
 
-            this.lottoGame = lottoGame;
+        this.lottoGame = lottoGame;
 
-            columnAndIndexHitAnalyzers = new ColumnAndIndexHitAnalyzer[drawNumbers.length];
-            for(int i = 0; i < columnAndIndexHitAnalyzers.length; i++)
-                columnAndIndexHitAnalyzers[i] = new ColumnAndIndexHitAnalyzer();
+        columnAndIndexHitAnalyzers = new ColumnAndIndexHitAnalyzer[drawNumbers.length];
+        for (int i = 0; i < columnAndIndexHitAnalyzers.length; i++)
+            columnAndIndexHitAnalyzers[i] = new ColumnAndIndexHitAnalyzer();
 
-            List<StringBuilder> data = formDrawStrings( drawNumbers );
-            Integer[][] betSlipDefinitions = getBetSlipDefinitions( lottoGame );
-            findRowAndColumnHits(betSlipDefinitions, data);
-            findWinningNumberCompaionHits();
-            sortColumnAndIndexHits();
+        List<StringBuilder> data = formDrawStrings(drawNumbers);
+        Integer[][] betSlipDefinitions = getBetSlipDefinitions(lottoGame);
+        findRowAndColumnHits(betSlipDefinitions, data);
+        findWinningNumberCompaionHits();
+        sortColumnAndIndexHits();
 
+    }
+
+    private void sortColumnAndIndexHits() {
+
+        Comparator<Map.Entry<Integer,Object[]>> hitComparator = (o1, o2) -> {
+
+            Integer o1Hits = (Integer)o1.getValue()[0];
+            Integer o2Hits = (Integer)o2.getValue()[0];
+
+            int result = o1Hits.compareTo( o2Hits );
+            if(result > 0){return -1;}
+            else if( result < 0){return 1;}
+            else {return 0;}
+
+        };
+
+        for (int k = 0; k < columnAndIndexHitAnalyzers.length; k++) {
+
+            ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer = columnAndIndexHitAnalyzers[k];
+            Map<Integer, Object[]> data = columnAndIndexHitAnalyzer.getColumnIndexHolder();
+            List<Map.Entry<Integer, Object[]>> entryData = columnAndIndexHitAnalyzer.getEntries();
+
+            entryData.addAll(data.entrySet());
+            entryData.sort(hitComparator);
         }
-        private void sortColumnAndIndexHits(){
+    }
 
-            for(int k = 0; k < columnAndIndexHitAnalyzers.length; k++){
-
-                ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer = columnAndIndexHitAnalyzers[k];
-                Map<Integer,Object[]> data = columnAndIndexHitAnalyzer.getColumnIndexHolder();
-                List<Map.Entry<Integer, Object[]>> entryData = columnAndIndexHitAnalyzer.getEntries();
-
-                entryData.addAll( data.entrySet() );
-            }
-        }
     private void findWinningNumberCompaionHits() {
 
-            for(int i = 0; i < columnAndIndexHitAnalyzers.length; i++){
+        for (int i = 0; i < columnAndIndexHitAnalyzers.length; i++) {
 
-                ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer = columnAndIndexHitAnalyzers[i];
-                Map<Integer,Object[]> data = columnAndIndexHitAnalyzer.getColumnIndexHolder();
+            ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer = columnAndIndexHitAnalyzers[i];
+            Map<Integer, Object[]> data = columnAndIndexHitAnalyzer.getColumnIndexHolder();
 
-                data.forEach( (k,v) -> {
+            data.forEach((k, v) -> {
 
-                    List<Integer> numberHitsPatterns = (List<Integer>)v[3];
-                    int currentWinningNumber = numberHitsPatterns.get( numberHitsPatterns.size() - 1 );
+                List<Integer> numberHitsPatterns = (List<Integer>) v[3];
+                int currentWinningNumber = numberHitsPatterns.get(numberHitsPatterns.size() - 1);
 
-                    int[] indicies = IntStream.range(0, numberHitsPatterns.size() - 1)
-                                        .filter( index -> numberHitsPatterns.get(index) == currentWinningNumber).toArray();
+                int[] indicies = IntStream.range(0, numberHitsPatterns.size() - 1)
+                        .filter(index -> numberHitsPatterns.get(index) == currentWinningNumber).toArray();
 
-                    Map<Integer,Integer[]> companionNumberTracker = (Map<Integer,Integer[]>)v[4];
+                Map<Integer, Integer[]> companionNumberTracker = (Map<Integer, Integer[]>) v[4];
 
-                    for(int j = 0; j < indicies.length; j++){
+                for (int j = 0; j < indicies.length; j++) {
 
-                        int nextWinningNumber = numberHitsPatterns.get( indicies[j] + 1 );
-                        if(!companionNumberTracker.containsKey(nextWinningNumber)){
-                            companionNumberTracker.put(nextWinningNumber, new Integer[]{1, 0});
-                            NumberAnalyzer.incrementGamesOut(companionNumberTracker, nextWinningNumber);
-                        }
-                        else{
+                    int nextWinningNumber = numberHitsPatterns.get(indicies[j] + 1);
+                    if (!companionNumberTracker.containsKey(nextWinningNumber)) {
+                        companionNumberTracker.put(nextWinningNumber, new Integer[]{1, 0});
+                        NumberAnalyzer.incrementGamesOut(companionNumberTracker, nextWinningNumber);
+                    } else {
 
-                            Integer[] values = companionNumberTracker.get(nextWinningNumber);
-                            values[0]++;
-                            values[1] = 0;
-                            NumberAnalyzer.incrementGamesOut(companionNumberTracker, nextWinningNumber);
-                        }
+                        Integer[] values = companionNumberTracker.get(nextWinningNumber);
+                        values[0]++;
+                        values[1] = 0;
+                        NumberAnalyzer.incrementGamesOut(companionNumberTracker, nextWinningNumber);
                     }
-                });
-            }
+                }
+            });
+        }
     }
 
     private void findRowAndColumnHits(Integer[][] betSlipDefinitions, List<StringBuilder> data) {
 
-            Map<String, BetSlipDistributionAnalyzer> hitAndGameOutTracker = new HashMap<>();
+        Map<String, BetSlipDistributionAnalyzer> hitAndGameOutTracker = new HashMap<>();
 
-            List<Integer[]> betSlipColumns = new ArrayList<>();
-            betSlipColumns.addAll(Arrays.asList(betSlipDefinitions));
+        List<Integer[]> betSlipColumns = new ArrayList<>();
+        betSlipColumns.addAll(Arrays.asList(betSlipDefinitions));
 
-            for(int i = 0; i < data.size(); i++){
+        for (int i = 0; i < data.size(); i++) {
 
-                String[] drawString = data.get(i).toString().split("-");
+            String[] drawString = data.get(i).toString().split("-");
 
-                StringBuilder columnString = new StringBuilder();
-                StringBuilder rowString = new StringBuilder();
+            StringBuilder columnString = new StringBuilder();
+            StringBuilder rowString = new StringBuilder();
 
-                // now analyze each draw number to see how many rows an columns were needed
-                for(int k = 0; k < drawString.length; k++){
+            // now analyze each draw number to see how many rows an columns were needed
+            for (int k = 0; k < drawString.length; k++) {
 
-                    int number = Integer.parseInt( drawString[k].trim() );
-                    for(int j = 0; j < betSlipColumns.size(); j++) {
+                int number = Integer.parseInt(drawString[k].trim());
+                for (int j = 0; j < betSlipColumns.size(); j++) {
 
-                        if(Arrays.asList(betSlipColumns.get(j)).contains(number)){
-                            columnString.append(j).append(",");
-                            rowString.append( Arrays.asList(betSlipColumns.get(j)).indexOf(number) ).append(",");
-                            break;
-                        }
-                    }
-                }
-
-                columnString.setCharAt(columnString.lastIndexOf(","),' ');
-                rowString.setCharAt(rowString.lastIndexOf(","),' ');
-                Integer[][] betslipMatrix = getBetSlipDefinitions( lottoGame );
-                
-                populateColumnAndIndexHits(columnString, rowString, betslipMatrix);
-                
-                Set<String> columnSet = new HashSet<>( Arrays.asList( columnString.toString().trim().split(",") ));
-                Set<String> rowSet = new HashSet<>( Arrays.asList( rowString.toString().trim().split(",") ));
-
-                String format = columnSet.size() + "Col" + " / " + rowSet.size() +"Row";
-
-                if(!hitAndGameOutTracker.containsKey(format)){
-
-                    hitAndGameOutTracker.put(format, new BetSlipDistributionAnalyzer(1, 0, new HashMap<>()));
-                    BetSlipDistributionAnalyzer betSlipDistributionAnalyzer = hitAndGameOutTracker.get( format ); 
-                    betSlipDistributionAnalyzer.incrementGamesOutForAllOtherFormatOccurences(hitAndGameOutTracker, format);
-
-                    Map<String, Integer[]> winninNumberDistibutionMap = betSlipDistributionAnalyzer.getWinningNumberDistributionHolder(); 
-                    if(!winninNumberDistibutionMap.containsKey( data.get(i).toString() )){
-
-                        winninNumberDistibutionMap.put(data.get(i).toString(), new Integer[]{1,0});
-                        betSlipDistributionAnalyzer.incrementGamesOutForNonWinning(hitAndGameOutTracker, data.get(i).toString());
-                    }
-                    else{
-                        Integer[] innerData = winninNumberDistibutionMap.get( data.get(i).toString() );
-                        innerData[0]++;
-                        innerData[1] = 0;
-                        betSlipDistributionAnalyzer.incrementGamesOutForNonWinning(hitAndGameOutTracker, data.get(i).toString());
-
-                    }
-                }
-                else{
-
-                    BetSlipDistributionAnalyzer betSlipDistributionAnalyzer = hitAndGameOutTracker.get(format);
-                    int hits = betSlipDistributionAnalyzer.getFormatHits();
-                    betSlipDistributionAnalyzer.setFormatHits( ++hits );
-                    betSlipDistributionAnalyzer.setFormatGamesOut( 0 );
-                    betSlipDistributionAnalyzer.incrementGamesOutForAllOtherFormatOccurences(hitAndGameOutTracker, format);
-
-                    Map<String, Integer[]> winninNumberDistibutionMap = betSlipDistributionAnalyzer.getWinningNumberDistributionHolder(); 
-                    if(!winninNumberDistibutionMap.containsKey( data.get(i).toString())){
-
-                        winninNumberDistibutionMap.put(data.get(i).toString(), new Integer[]{1,0});
-                        betSlipDistributionAnalyzer.incrementGamesOutForNonWinning(hitAndGameOutTracker, data.get(i).toString());
-                    }
-                    else{
-
-                        Integer[] innerData = winninNumberDistibutionMap.get( data.get(i).toString() );
-                        innerData[0]++;
-                        innerData[1] = 0;
-                        betSlipDistributionAnalyzer.incrementGamesOutForNonWinning(hitAndGameOutTracker, data.get(i).toString());
+                    if (Arrays.asList(betSlipColumns.get(j)).contains(number)) {
+                        columnString.append(j).append(",");
+                        rowString.append(Arrays.asList(betSlipColumns.get(j)).indexOf(number)).append(",");
+                        break;
                     }
                 }
             }
 
-            sortedEntries = new ArrayList<>(hitAndGameOutTracker.entrySet());
-            sortedEntries.sort(Comparator.comparing(v -> v.getValue().getFormatHits()));
-            Collections.reverse(sortedEntries);
+            columnString.setCharAt(columnString.lastIndexOf(","), ' ');
+            rowString.setCharAt(rowString.lastIndexOf(","), ' ');
+            Integer[][] betslipMatrix = getBetSlipDefinitions(lottoGame);
 
-            sortedEntries.forEach( k -> {
-                System.out.println(String.format("Pattern Helper: %s \tHits: %s \tGames Out: %s",k.getKey(), k.getValue().getFormatHits(), k.getValue().getFormatGamesOut()));
-            });
+            populateColumnAndIndexHits(columnString, rowString, betslipMatrix);
 
-        }
-        
-        private void populateColumnAndIndexHits(StringBuilder columnString, StringBuilder rowString, Integer[][] betslipMatrix){
-           
-            final String[] columnIndices = columnString.toString().trim().split(",");
-            final String[] rowIndices = rowString.toString().trim().split(",");
-           
-            for(int k = 0; k < columnAndIndexHitAnalyzers.length; k++){
+            Set<String> columnSet = new HashSet<>(Arrays.asList(columnString.toString().trim().split(",")));
+            Set<String> rowSet = new HashSet<>(Arrays.asList(rowString.toString().trim().split(",")));
 
-                ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer = columnAndIndexHitAnalyzers[k];
+            String format = columnSet.size() + "Col" + " / " + rowSet.size() + "Row";
 
-                Map<Integer, Object[]> colAndIndexData = columnAndIndexHitAnalyzer.getColumnIndexHolder();
-                if(!colAndIndexData.containsKey( Integer.parseInt( columnIndices[k] ))){
+            if (!hitAndGameOutTracker.containsKey(format)) {
 
-                    colAndIndexData.put(Integer.parseInt( columnIndices[k] ), new Object[]{1,0, new TreeMap<Integer,Integer[]>(),
-                            new ArrayList<Integer>(), new TreeMap<Integer,Integer[]>()});
+                hitAndGameOutTracker.put(format, new BetSlipDistributionAnalyzer(1, 0, new HashMap<>()));
+                BetSlipDistributionAnalyzer betSlipDistributionAnalyzer = hitAndGameOutTracker.get(format);
+                betSlipDistributionAnalyzer.incrementGamesOutForAllOtherFormatOccurences(hitAndGameOutTracker, format);
 
-                    Map<Integer, Integer[]> rowInfo = (Map<Integer, Integer[]>) colAndIndexData.get( Integer.parseInt(columnIndices[k]))[2];
-                    columnAndIndexHitAnalyzer.incrementGamesOutForNonWinningColumns( colAndIndexData, columnIndices[k]);
+                Map<String, Integer[]> winninNumberDistibutionMap = betSlipDistributionAnalyzer.getWinningNumberDistributionHolder();
+                if (!winninNumberDistibutionMap.containsKey(data.get(i).toString())) {
 
-                    Integer[] winnincolumn = betslipMatrix[ Integer.parseInt(columnIndices[k]) ];
-                    int winningDigit = winnincolumn[Integer.parseInt(rowIndices[k])];
+                    winninNumberDistibutionMap.put(data.get(i).toString(), new Integer[]{1, 0});
+                    betSlipDistributionAnalyzer.incrementGamesOutForNonWinning(hitAndGameOutTracker, data.get(i).toString());
+                } else {
+                    Integer[] innerData = winninNumberDistibutionMap.get(data.get(i).toString());
+                    innerData[0]++;
+                    innerData[1] = 0;
+                    betSlipDistributionAnalyzer.incrementGamesOutForNonWinning(hitAndGameOutTracker, data.get(i).toString());
 
-                    if(!rowInfo.containsKey(winningDigit)){
-
-                        List<Integer> winningNumberHolder = (List<Integer>) colAndIndexData.get( Integer.parseInt(columnIndices[k]))[3];
-                        winningNumberHolder.add(winningDigit);
-                        rowInfo.put(winningDigit, new Integer[]{1,0});
-                        NumberAnalyzer.incrementGamesOut(rowInfo, winningDigit);
-                    }
-                    else{
-
-                        List<Integer> winningNumberHolder = (List<Integer>) colAndIndexData.get( Integer.parseInt(columnIndices[k]))[3];
-                        winningNumberHolder.add(winningDigit);
-
-                        Integer[] winningDigitData = rowInfo.get(winningDigit);
-                        winningDigitData[0]++;
-                        winningDigitData[1] = 0;
-                        NumberAnalyzer.incrementGamesOut(rowInfo, winningDigit);
-                    }
                 }
-                else{
+            } else {
 
-                    Object[] colAndIndexDataTwo = colAndIndexData.get( Integer.parseInt(columnIndices[k]) );
-                    colAndIndexDataTwo[0] = (int)colAndIndexDataTwo[0] + 1;
-                    colAndIndexDataTwo[1] = 0;
-                    columnAndIndexHitAnalyzer.incrementGamesOutForNonWinningColumns(colAndIndexData, columnIndices[k]);
-                    Map<Integer, Integer[]> rowInfo = (Map<Integer, Integer[]>) colAndIndexDataTwo[2];
+                BetSlipDistributionAnalyzer betSlipDistributionAnalyzer = hitAndGameOutTracker.get(format);
+                int hits = betSlipDistributionAnalyzer.getFormatHits();
+                betSlipDistributionAnalyzer.setFormatHits(++hits);
+                betSlipDistributionAnalyzer.setFormatGamesOut(0);
+                betSlipDistributionAnalyzer.incrementGamesOutForAllOtherFormatOccurences(hitAndGameOutTracker, format);
 
-                    Integer[] winnincolumn = betslipMatrix[ Integer.parseInt(columnIndices[k]) ];
-                    int winningDigit = winnincolumn[Integer.parseInt(rowIndices[k])];
+                Map<String, Integer[]> winninNumberDistibutionMap = betSlipDistributionAnalyzer.getWinningNumberDistributionHolder();
+                if (!winninNumberDistibutionMap.containsKey(data.get(i).toString())) {
 
-                    if(!rowInfo.containsKey(winningDigit)){
+                    winninNumberDistibutionMap.put(data.get(i).toString(), new Integer[]{1, 0});
+                    betSlipDistributionAnalyzer.incrementGamesOutForNonWinning(hitAndGameOutTracker, data.get(i).toString());
+                } else {
 
-                        List<Integer> winningNumberHolder = (List<Integer>) colAndIndexData.get( Integer.parseInt(columnIndices[k]))[3];
-                        winningNumberHolder.add(winningDigit);
-
-                        rowInfo.put(winningDigit, new Integer[]{1,0});
-                        NumberAnalyzer.incrementGamesOut(rowInfo, winningDigit);
-                    }
-                    else{
-
-                        List<Integer> winningNumberHolder = (List<Integer>) colAndIndexData.get( Integer.parseInt(columnIndices[k]))[3];
-                        winningNumberHolder.add(winningDigit);
-
-                        Integer[] winningDigitData = rowInfo.get(winningDigit);
-                        winningDigitData[0]++;
-                        winningDigitData[1] = 0;
-                        NumberAnalyzer.incrementGamesOut(rowInfo, winningDigit);
-                    }
+                    Integer[] innerData = winninNumberDistibutionMap.get(data.get(i).toString());
+                    innerData[0]++;
+                    innerData[1] = 0;
+                    betSlipDistributionAnalyzer.incrementGamesOutForNonWinning(hitAndGameOutTracker, data.get(i).toString());
                 }
             }
-            
         }
 
-        private Integer[][] getBetSlipDefinitions(LottoGame lottoGame) {
+        sortedEntries = new ArrayList<>(hitAndGameOutTracker.entrySet());
+        sortedEntries.sort(Comparator.comparing(v -> v.getValue().getFormatHits()));
+        Collections.reverse(sortedEntries);
 
-            if( betSlipDefinitions == null)
-                betSlipDefinitions = new BetSlipDefinitions();
+        sortedEntries.forEach(k -> {
+            System.out.println(String.format("Pattern Helper: %s \tHits: %s \tGames Out: %s", k.getKey(), k.getValue().getFormatHits(), k.getValue().getFormatGamesOut()));
+        });
 
-            return betSlipDefinitions.getDefinitionFile( lottoGame.getGameName() );
-        }
+    }
 
-        private List<StringBuilder> formDrawStrings(int[][] drawNumbers) {
+    private void populateColumnAndIndexHits(StringBuilder columnString, StringBuilder rowString, Integer[][] betslipMatrix) {
 
-            List<StringBuilder> data = new ArrayList<>();
+        final String[] columnIndices = columnString.toString().trim().split(",");
+        final String[] rowIndices = rowString.toString().trim().split(",");
 
-            // add string builders to list for access later
-            for(int i = 0; i < drawNumbers[0].length; i++)
-                data.add(new StringBuilder());
+        for (int k = 0; k < columnAndIndexHitAnalyzers.length; k++) {
 
-            for(int i = 0; i < drawNumbers.length; i++){
+            ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer = columnAndIndexHitAnalyzers[k];
 
-                for(int k = 0; k < drawNumbers[i].length; k++){
+            Map<Integer, Object[]> colAndIndexData = columnAndIndexHitAnalyzer.getColumnIndexHolder();
+            if (!colAndIndexData.containsKey(Integer.parseInt(columnIndices[k]))) {
 
-                    StringBuilder builder = data.get(k);
-                    String appendVal = (i < drawNumbers.length - 1) ? " - " : "";
-                    builder.append(drawNumbers[i][k] + appendVal);
+                colAndIndexData.put(Integer.parseInt(columnIndices[k]), new Object[]{1, 0, new TreeMap<Integer, Integer[]>(),
+                        new ArrayList<Integer>(), new TreeMap<Integer, Integer[]>(), new LinkedHashMap<Integer[],Integer[]>()});
+
+                // new code starts here 
+                Map<Integer[],Integer[]> hitSumRangeMap = (Map<Integer[],Integer[]>)colAndIndexData.get(Integer.parseInt(columnIndices[k]))[5];
+
+                if(hitSumRangeMap.size() < 1)
+                    plugSumRangesIntoMap(hitSumRangeMap);
+
+                // Continue to implement hit sum range here
+
+
+
+                Map<Integer, Integer[]> rowInfo = (Map<Integer, Integer[]>) colAndIndexData.get(Integer.parseInt(columnIndices[k]))[2];
+                columnAndIndexHitAnalyzer.incrementGamesOutForNonWinningColumns(colAndIndexData, columnIndices[k]);
+
+                Integer[] winnincolumn = betslipMatrix[Integer.parseInt(columnIndices[k])];
+                int winningDigit = winnincolumn[Integer.parseInt(rowIndices[k])];
+
+                if (!rowInfo.containsKey(winningDigit)) {
+
+                    List<Integer> winningNumberHolder = (List<Integer>) colAndIndexData.get(Integer.parseInt(columnIndices[k]))[3];
+                    winningNumberHolder.add(winningDigit);
+                    rowInfo.put(winningDigit, new Integer[]{1, 0});
+                    NumberAnalyzer.incrementGamesOut(rowInfo, winningDigit);
+                } else {
+
+                    List<Integer> winningNumberHolder = (List<Integer>) colAndIndexData.get(Integer.parseInt(columnIndices[k]))[3];
+                    winningNumberHolder.add(winningDigit);
+
+                    Integer[] winningDigitData = rowInfo.get(winningDigit);
+                    winningDigitData[0]++;
+                    winningDigitData[1] = 0;
+                    NumberAnalyzer.incrementGamesOut(rowInfo, winningDigit);
+                }
+            } else {
+
+                Object[] colAndIndexDataTwo = colAndIndexData.get(Integer.parseInt(columnIndices[k]));
+                colAndIndexDataTwo[0] = (int) colAndIndexDataTwo[0] + 1;
+                colAndIndexDataTwo[1] = 0;
+                columnAndIndexHitAnalyzer.incrementGamesOutForNonWinningColumns(colAndIndexData, columnIndices[k]);
+                Map<Integer, Integer[]> rowInfo = (Map<Integer, Integer[]>) colAndIndexDataTwo[2];
+
+                Integer[] winnincolumn = betslipMatrix[Integer.parseInt(columnIndices[k])];
+                int winningDigit = winnincolumn[Integer.parseInt(rowIndices[k])];
+
+                if (!rowInfo.containsKey(winningDigit)) {
+
+                    List<Integer> winningNumberHolder = (List<Integer>) colAndIndexData.get(Integer.parseInt(columnIndices[k]))[3];
+                    winningNumberHolder.add(winningDigit);
+
+                    rowInfo.put(winningDigit, new Integer[]{1, 0});
+                    NumberAnalyzer.incrementGamesOut(rowInfo, winningDigit);
+                } else {
+
+                    List<Integer> winningNumberHolder = (List<Integer>) colAndIndexData.get(Integer.parseInt(columnIndices[k]))[3];
+                    winningNumberHolder.add(winningDigit);
+
+                    Integer[] winningDigitData = rowInfo.get(winningDigit);
+                    winningDigitData[0]++;
+                    winningDigitData[1] = 0;
+                    NumberAnalyzer.incrementGamesOut(rowInfo, winningDigit);
                 }
             }
-
-            return data;
         }
+
+    }
+
+    private void plugSumRangesIntoMap(Map<Integer[], Integer[]> hitSumRangeMap) {
+
+        for(Iterator<Integer[]> iterator = sumRanges.iterator(); iterator.hasNext();){
+
+            hitSumRangeMap.put(iterator.next(), new Integer[]{0,0});
+        }
+    }
+
+    private Integer[][] getBetSlipDefinitions(LottoGame lottoGame) {
+
+        if (betSlipDefinitions == null)
+            betSlipDefinitions = new BetSlipDefinitions();
+
+        return betSlipDefinitions.getDefinitionFile(lottoGame.getGameName());
+    }
+
+    private List<StringBuilder> formDrawStrings(int[][] drawNumbers) {
+
+        List<StringBuilder> data = new ArrayList<>();
+
+        // add string builders to list for access later
+        for (int i = 0; i < drawNumbers[0].length; i++)
+            data.add(new StringBuilder());
+
+        for (int i = 0; i < drawNumbers.length; i++) {
+
+            for (int k = 0; k < drawNumbers[i].length; k++) {
+
+                StringBuilder builder = data.get(k);
+                String appendVal = (i < drawNumbers.length - 1) ? " - " : "";
+                builder.append(drawNumbers[i][k] + appendVal);
+            }
+        }
+
+        return data;
+    }
 }

@@ -49,8 +49,9 @@ public class BetSlipDefinitions {
     private static Integer[][] pickThreeAnFourDefinitions(){
 
         return new Integer[][]{
-                {0,1,2,5,6,7},
-                {3,4,8,9}
+                {0,1,8,9},
+                {2,3,6,7},
+                {4,5}
         };
     }
     private static Integer[][] powerBallDefinitions(){
