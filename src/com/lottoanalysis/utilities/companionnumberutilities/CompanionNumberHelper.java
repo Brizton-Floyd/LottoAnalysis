@@ -12,25 +12,25 @@ public class CompanionNumberHelper {
     private static List<List<String>> listHolder = new LinkedList<>();
     private static Map<Integer,Integer[]> gameOutHolderMap = new LinkedHashMap<>();
     private static Map<Integer,Integer[]> lastDigitDueHolder = new TreeMap<>();
+    private static Map<Integer,List<Map<Integer,Integer[]>>> gameOutFirstElemetHolder = new TreeMap<>();
 
     public static Map<Integer, Integer[]> getGameOutHolderMap() {
         return gameOutHolderMap;
     }
-
     public static Map<Integer, Integer[]> getLastDigitDueHolder() {
         return lastDigitDueHolder;
     }
-
     public static List<List<String>> getListHolder() {
         return listHolder;
     }
-
     public static Map<Integer, String> getColumnHeaders() {
         return columnHeaders;
     }
-
     public static Map<String, Object[]> getPatternHolder() {
         return patternHolder;
+    }
+    public static Map<Integer, List<Map<Integer, Integer[]>>> getGameOutFirstElemetHolder() {
+        return gameOutFirstElemetHolder;
     }
 
     public static void analyze(int lottoDigit, List<Integer> currentPos, List<Integer> companionNumbers, List<Integer> pairingNumbers){
@@ -38,7 +38,49 @@ public class CompanionNumberHelper {
         clear();
         loadPatternIntoMap(lottoDigit, pairingNumbers);
         analyzePositionData(currentPos,companionNumbers,lottoDigit);
+        populateFirstElementMap();
     }
+
+    private static void populateFirstElementMap() {
+
+        Set<Integer> keys = getGameOutHolderMap().keySet();
+        for(Iterator<Integer> iterator = keys.iterator(); iterator.hasNext();){
+
+            String numAsString = iterator.next() + "";
+            int elementOne = (numAsString.length() > 1) ? Character.getNumericValue( numAsString.charAt(0)) : 0;
+
+            if(!gameOutFirstElemetHolder.containsKey(elementOne)){
+                gameOutFirstElemetHolder.put(elementOne, new ArrayList<>());
+            }
+        }
+
+        gameOutHolderMap.forEach( (k,v) -> {
+
+            String numAsString = k + "";
+            int elementOne = (numAsString.length() > 1) ? Character.getNumericValue( numAsString.charAt(0)) : 0;
+
+            if(gameOutFirstElemetHolder.containsKey(elementOne)){
+
+                List<Map<Integer,Integer[]>> data = gameOutFirstElemetHolder.get(elementOne);
+                Map<Integer,Integer[]> d = new TreeMap<>();
+                d.put(k, v);
+                data.add( d );
+            }
+
+        });
+
+        Comparator<Map<Integer,Integer[]>> comparator = (o1, o2) -> {
+
+            Integer k1 = o1.keySet().iterator().next();
+            Integer k2 = o2.keySet().iterator().next();
+
+            return k1.compareTo(k2);
+        };
+
+        gameOutFirstElemetHolder.forEach( (k,v) -> v.sort(comparator) );
+
+    }
+
     @SuppressWarnings("unchecked")
     private static void analyzePositionData(List<Integer> currentPos, List<Integer> companionNumbers, int lottoDigit) {
 
@@ -137,5 +179,7 @@ public class CompanionNumberHelper {
         listHolder.clear();
         columnHeaders.clear();
         lastDigitDueHolder.clear();
+        getGameOutHolderMap().clear();
+        gameOutFirstElemetHolder.clear();
     }
 }
