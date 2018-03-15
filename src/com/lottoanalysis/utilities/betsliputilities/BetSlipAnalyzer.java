@@ -27,10 +27,20 @@ public class BetSlipAnalyzer {
             Integer[][] betSlipDefinitions = getBetSlipDefinitions( lottoGame );
             findRowAndColumnHits(betSlipDefinitions, data);
             findWinningNumberCompaionHits();
-            
+            sortColumnAndIndexHits();
 
         }
+        private void sortColumnAndIndexHits(){
 
+            for(int k = 0; k < columnAndIndexHitAnalyzers.length; k++){
+
+                ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer = columnAndIndexHitAnalyzers[k];
+                Map<Integer,Object[]> data = columnAndIndexHitAnalyzer.getColumnIndexHolder();
+                List<Map.Entry<Integer, Object[]>> entryData = columnAndIndexHitAnalyzer.getEntries();
+
+                entryData.addAll( data.entrySet() );
+            }
+        }
     private void findWinningNumberCompaionHits() {
 
             for(int i = 0; i < columnAndIndexHitAnalyzers.length; i++){
