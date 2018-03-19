@@ -1,26 +1,31 @@
 package com.lottoanalysis.models;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
 public class SingleDigitRangeTracker {
 
     private Map<String,SingleDigitRangeTracker> data = new LinkedHashMap<>();
     private Map<String,SingleDigitRangeTracker> tracker = new LinkedHashMap<>();
-    private Set<Integer> lottoNumberHolder = new TreeSet<>();
+    private List<Map<Integer,Integer[]>> lottoNumberHolder = new ArrayList<>();
 
-    private int hits = -1;
-    private int gamesOut = -1;
-    private int hitsAtGamesOut = -1;
-    private int gameOutLastAppearance = -1;
+    private int hits;
+    private int gamesOut;
+    private int hitsAtGamesOut;
+    private int gameOutLastAppearance;
 
     public SingleDigitRangeTracker(){
 
+        this.hits = -1;
+        this.gamesOut = -1;
+        this.hitsAtGamesOut = -1;
+        this.gameOutLastAppearance = -1;
     }
 
     // getters and setters
 
-    public Set<Integer> getLottoNumberHolder() {
+    public List<Map<Integer,Integer[]>> getLottoNumberHolder() {
         return lottoNumberHolder;
     }
 
@@ -98,18 +103,51 @@ public class SingleDigitRangeTracker {
             tracker.put(Arrays.toString(data), new SingleDigitRangeTracker());
 
             SingleDigitRangeTracker tracker1 = tracker.get(Arrays.toString(data));
-            tracker1.setHits(1);
+            tracker1.setHits(1); 
             tracker1.setGamesOut(0);
-            tracker1.lottoNumberHolder.add(lottoNumber);
+
+            Map<Integer,Integer[]> lottoNumberHolder = new TreeMap<>();
+            lottoNumberHolder.put(lottoNumber, new Integer[]{0,0});
+
+            tracker1.lottoNumberHolder.add(lottoNumberHolder);
 
             incrementGamesOutForDigitRanges(tracker, data);
         }
         else{
+
+            final Predicate<Integer> keyMatcher = i -> i == lottoNumber;
+
             SingleDigitRangeTracker tracker1= tracker.get(Arrays.toString(data));
             int hits = tracker1.getHits();
             tracker1.setHits(++hits);
             tracker1.setGamesOut(0);
-            tracker1.lottoNumberHolder.add(lottoNumber);
+
+            List<Map<Integer,Integer[]>> lottNumData = tracker1.getLottoNumberHolder();
+            boolean contains = false;
+    
+            for(Map<Integer,Integer[]> val : lottNumData){
+              
+              for(Map.Entry<Integer,Integer[]> valTwo : val.entrySet()){
+                
+                if( valTwo.getKey() == lottoNumber ){
+                  contains = true; 
+                  break;
+                }
+              }
+              
+              if(contains){
+                break;
+              }
+
+            }
+            
+            if(!contains){
+
+                Map<Integer,Integer[]> newNumberMap = new TreeMap<>();
+                newNumberMap.put(lottoNumber, new Integer[]{0,0});
+                lottNumData.add(newNumberMap);
+
+            }
 
             incrementGamesOutForDigitRanges(tracker,data);
         }
