@@ -1,26 +1,29 @@
 package com.lottoanalysis.models;
 
-import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
 public class SingleDigitRangeTracker {
 
     private Map<String,SingleDigitRangeTracker> data = new LinkedHashMap<>();
-    private Map<String,Object[]> tracker = new LinkedHashMap<>();
+    private Map<String,SingleDigitRangeTracker> tracker = new LinkedHashMap<>();
+    private Set<Integer> lottoNumberHolder = new TreeSet<>();
 
-    private int hits;
-    private int gamesOut;
-    private int hitsAtGamesOut;
-    private int gameOutLastAppearance;
+    private int hits = -1;
+    private int gamesOut = -1;
+    private int hitsAtGamesOut = -1;
+    private int gameOutLastAppearance = -1;
 
     public SingleDigitRangeTracker(){
 
     }
 
     // getters and setters
+
+    public Set<Integer> getLottoNumberHolder() {
+        return lottoNumberHolder;
+    }
+
     public Map<String, SingleDigitRangeTracker> getData() {
         return data;
     }
@@ -29,8 +32,12 @@ public class SingleDigitRangeTracker {
         this.data = data;
     }
 
-    public void setTracker(Map<String, Object[]> tracker) {
+    public void setTracker(Map<String, SingleDigitRangeTracker> tracker) {
         this.tracker = tracker;
+    }
+
+    public Map<String, SingleDigitRangeTracker> getTracker() {
+        return tracker;
     }
 
     public int getHits() {
@@ -74,65 +81,47 @@ public class SingleDigitRangeTracker {
 
             SingleDigitRangeTracker tracker1 = data.get( direction );
             tracker1.setTrackerData( keyData, Integer.parseInt(lottoNumber) );
-            tracker1.setGamesOut(0);
-            tracker1.setHits(1);
-
-            // create method to increment games out
-            incrementGamesOut(tracker1.getData(),direction);
-
 
         }else{
 
             SingleDigitRangeTracker tracker1 = data.get(direction);
-            int hits = tracker1.getHits();
-            tracker1.setHits(++hits);
-            tracker1.setGamesOut(0);
 
             Integer[] keyData = getAppropriateKey(lottoNumber);
             tracker1.setTrackerData(keyData,Integer.parseInt(lottoNumber));
 
-            // create method to increment games out
-            incrementGamesOut(tracker1.getData(),direction);
         }
 
     }
     private void setTrackerData(Integer[] data, int lottoNumber) {
 
         if(!tracker.containsKey(Arrays.toString(data))){
-            tracker.put(Arrays.toString(data), new Object[]{1,0, new TreeSet<Integer>()});
-            Set<Integer> vals = (Set<Integer>) tracker.get(Arrays.toString(data))[2];
-            vals.add(lottoNumber);
+            tracker.put(Arrays.toString(data), new SingleDigitRangeTracker());
+
+            SingleDigitRangeTracker tracker1 = tracker.get(Arrays.toString(data));
+            tracker1.setHits(1);
+            tracker1.setGamesOut(0);
+            tracker1.lottoNumberHolder.add(lottoNumber);
 
             incrementGamesOutForDigitRanges(tracker, data);
         }
         else{
-            Object[] d = tracker.get(Arrays.toString(data));
-            d[0] = (int)d[0] + 1;
-            d[1]=0;
-            Set<Integer> vals = (Set<Integer>) tracker.get(Arrays.toString(data))[2];
-            vals.add(lottoNumber);
+            SingleDigitRangeTracker tracker1= tracker.get(Arrays.toString(data));
+            int hits = tracker1.getHits();
+            tracker1.setHits(++hits);
+            tracker1.setGamesOut(0);
+            tracker1.lottoNumberHolder.add(lottoNumber);
 
             incrementGamesOutForDigitRanges(tracker,data);
         }
 
     }
-    private void incrementGamesOut(Map<String,SingleDigitRangeTracker> data, String direction){
-
-        data.forEach((k,v) -> {
-
-            if(!k.equals(direction)){
-
-                int out = v.getGamesOut();
-                v.setGamesOut(++out);
-            }
-        });
-    }
-    private void incrementGamesOutForDigitRanges(Map<String,Object[]> data, Integer[] keys){
+    private void incrementGamesOutForDigitRanges(Map<String,SingleDigitRangeTracker> data, Integer[] keys){
 
         data.forEach( (k,v) -> {
 
             if(!k.equals(Arrays.toString(keys))){
-                v[1] = (int)v[1] + 1;
+                int outs = v.getGamesOut();
+                v.setGamesOut(++outs);
             }
         });
     }
