@@ -298,15 +298,15 @@ public class ChartHelperTwo {
 	            indexHolder.add(count);
 	            indexHolder.add(count+2);
 
-               // list.add(currentWinningNumber);
+                list.add(currentWinningNumber);
 	            list.add(nextWinningNumber);
-	            //list.add(currentWinningNumber);
+	            list.add(currentWinningNumber);
 
 	            count = list.size();
             }
 
         }
-        list.add(currentWinningNumber);
+        //list.add(currentWinningNumber);
        // System.out.println(list.get(list.size() - 2));
 
 //        List<Integer> modList = new ArrayList<>(list);

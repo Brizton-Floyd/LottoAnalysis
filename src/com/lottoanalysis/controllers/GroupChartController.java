@@ -3,17 +3,14 @@ package com.lottoanalysis.controllers;
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.UpperLowerRangeAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.DayGrouperAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.TrendLineAnalyzer;
-import com.lottoanalysis.utilities.analyzerutilites.UpperLowerRangeAnalyzer;
 import com.lottoanalysis.utilities.betsliputilities.BetSlipAnalyzer;
+import com.lottoanalysis.utilities.betsliputilities.ColumnAndIndexHitAnalyzer;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
-import com.lottoanalysis.utilities.gameoutviewutilities.GameOutViewPatternFinder;
-import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelperTwo;
 import com.lottoanalysis.utilities.numbergrouputilites.NextProbableGroupFinder;
 import com.lottoanalysis.utilities.numberpatternutilities.PatternFinder;
-import com.lottoanalysis.utilities.gameoutviewutilities.PositionalGameOutPositionTracker;
-import com.lottoanalysis.utilities.sumutilities.ProbableSumFinder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -45,6 +42,7 @@ public class GroupChartController {
     private BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     private Graphics2D g = image.createGraphics();
     private FontMetrics fm = g.getFontMetrics(new Font("System", Font.PLAIN, 24));
+    private String currentGameName = "";
 
     private static int globalDrawPosition,rowIndex;
 
@@ -204,12 +202,16 @@ public class GroupChartController {
 
         int[] drawingPos = drawPositionalNumbers[drawPosition];
 
+        //NextProbableGroupFinder.analyze( drawPositionalNumbers );
+        //SplitDigitAnalyzer splitDigitAnalyzer = new SplitDigitAnalyzer();
+        //splitDigitAnalyzer.analyze(drawingPos, drawPosition, lotteryGame);
+
         //SumGroupAnalyzer.analyze(drawingPos, lotteryGame);
         //LineSpacingHelperTwo.analyze( Arrays.asList( Arrays.stream(drawingPos).boxed().toArray(Integer[]::new)), false);
         //ProbableSumFinder.analyze(drawingPos, lotteryGame, drawPositionalNumbers);
 
         //int[] dd = p.stream().mapToInt(i -> i).toArray();
-        //UpperLowerRangeAnalyzer.analyze(drawingPos, lotteryGame);
+        UpperLowerRangeAnalyzer upperLowerRangeAnalyzer = new UpperLowerRangeAnalyzer(drawPositionalNumbers,drawPosition,lotteryGame);
 
         DayGrouperAnalyzer dayGrouperAnalyzer = new DayGrouperAnalyzer();
         dayGrouperAnalyzer.analzye(lotteryGame);
@@ -287,9 +289,19 @@ public class GroupChartController {
                 (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]);
 
         int[] nums = ((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]).stream().mapToInt(i->i).toArray();
-        //TrendLineAnalyzer.analyzeData(nums);
-        BetSlipAnalyzer betSlipAnalyzer = new BetSlipAnalyzer();
-        betSlipAnalyzer.analyzeDrawData(drawPositionalNumbers, lotteryGame);
+
+
+       // TrendLineAnalyzer.analyzeData(nums);
+
+//        Object[] data;
+//
+//        if(currentGameName.isEmpty() || !currentGameName.equals(lotteryGame.getGameName())) {
+//            currentGameName = lotteryGame.getGameName();
+//            BetSlipAnalyzer betSlipAnalyzer = new BetSlipAnalyzer();
+//            betSlipAnalyzer.analyzeDrawData(drawPositionalNumbers, lotteryGame);
+//            data = betSlipAnalyzer.getBetSlipData();
+//        }
+        System.out.println();
 //        setUpPatternChart((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0],
 //                ((RadioButton)group.getToggles().get(0)).getText());
         //LineSpacingHelperTwo.analyze(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));
@@ -506,7 +518,7 @@ public class GroupChartController {
 
         List<List<Integer>> dataPoints = new ArrayList<>();
         //dataPoints.add((numList.size() > 150) ? numList.subList(numList.size()-150,numList.size()) : numList);
-        dataPoints.add( (numList.size() > 150) ? numList.subList(numList.size()-150,numList.size()) : numList);
+        dataPoints.add( (specialList.size() > 150) ? specialList.subList(specialList.size()-150,specialList.size()) : specialList);
 
 //        List<Integer> pointTwo = (numList.size() > 0) ? ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber(numList) : new ArrayList<>();
 //

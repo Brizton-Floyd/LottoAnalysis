@@ -7,7 +7,7 @@ public class BetSlipDefinitions {
 
     private static Map<String,Integer[][]> definitinHolder = new HashMap<>();
     static {
-        definitinHolder.put("FantasyFive",fantasyFiveDefinitionsTwo());
+        definitinHolder.put("FantasyFive",fantasyFiveDefinitions());
         definitinHolder.put("Powerball", powerBallDefinitions());
         definitinHolder.put("Pick4", pickThreeAnFourDefinitions());
         definitinHolder.put("Pick3", pickThreeAnFourDefinitions());
@@ -35,6 +35,15 @@ public class BetSlipDefinitions {
                 {2,5,10,13,18,21,26,29,34,37},
                 {3,8,11,16,19,24,27,32,35,39},
                 {4,7,12,15,20,23,28,31,36}
+        };
+    }
+    private static Integer[][] fantasyFiveDefinitionsFour(){
+
+        return new Integer[][]{
+                {1,2,3,4,5,6,7,8,9},
+                {10,11,12,13,14,15,16,17,18,19},
+                {20,21,22,23,24,25,26,27,28,29},
+                {30,31,32,33,34,35,36,37,38,39}
         };
     }
     private static Integer[][] fantasyFiveDefinitionsTwo(){
