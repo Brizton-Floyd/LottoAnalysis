@@ -24,7 +24,7 @@ public class UpperLowerRangeAnalyzer {
     private SingleDigitRangeTracker singleDigitRangeTracker;
     private UpperLowerRangeAnalyzer[] upperLowerRangeAnalyzers;
 
-    public UpperLowerRangeAnalyzer(){
+    private UpperLowerRangeAnalyzer(){
         gameOutHolder = new ArrayList<>();
         lottoNumberTracker = new LottoNumberTracker();
         remainderTracker = new RemainderTracker();
@@ -64,43 +64,33 @@ public class UpperLowerRangeAnalyzer {
     public List<Integer> getGameOutHolder() {
         return gameOutHolder;
     }
-
     public int[] getRange() {
         return range;
     }
-
     public void setRange(int[] range) {
         this.range = range;
     }
-
     public int getRangeHits() {
         return rangeHits;
     }
-
     public void setRangeHits(int rangeHits) {
         this.rangeHits = rangeHits;
     }
-
     public int getRangGamesOut() {
         return rangGamesOut;
     }
-
     public void setRangGamesOut(int rangGamesOut) {
         this.rangGamesOut = rangGamesOut;
     }
-
     public int getRangeHitAtGamesOut() {
         return rangeHitAtGamesOut;
     }
-
     public void setRangeHitAtGamesOut(int rangeHitAtGamesOut) {
         this.rangeHitAtGamesOut = rangeHitAtGamesOut;
     }
-
     public int getGameOutLastAppearance() {
         return gameOutLastAppearance;
     }
-
     public void setGameOutLastAppearance(int gameOutLastAppearance) {
         this.gameOutLastAppearance = gameOutLastAppearance;
     }
