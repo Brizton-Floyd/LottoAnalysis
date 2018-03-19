@@ -72,9 +72,16 @@ public class CompanionNumberHelper {
         Comparator<Map<Integer,Integer[]>> comparator = (o1, o2) -> {
 
             Integer k1 = o1.keySet().iterator().next();
-            Integer k2 = o2.keySet().iterator().next();
+            Integer[] k1Data = o1.get(k1);
 
-            return k1.compareTo(k2);
+            Integer k2 = o2.keySet().iterator().next();
+            Integer[] k2Data = o2.get(k2);
+
+            int result = k1Data[0].compareTo( k2Data[0] );
+            if(result > 0){return -1;}
+            else if( result < 0){return 1;}
+            else {return 0;}
+
         };
 
         gameOutFirstElemetHolder.forEach( (k,v) -> v.sort(comparator) );

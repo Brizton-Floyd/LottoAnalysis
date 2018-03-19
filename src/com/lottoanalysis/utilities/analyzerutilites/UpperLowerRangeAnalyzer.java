@@ -260,8 +260,8 @@ public class UpperLowerRangeAnalyzer {
         
         int half = (game.getMaxNumber() == 9) ? (maxNumber+1)/2 : maxNumber / 2;
         List<List<Integer>> upperLowerNumbers = new LinkedList<>();
-        upperLowerNumbers.add(new ArrayList<Integer>());
-        upperLowerNumbers.add(new ArrayList<Integer>());
+        upperLowerNumbers.add(new ArrayList<>());
+        upperLowerNumbers.add(new ArrayList<>());
 
         for(int i = game.getMinNumber(); i <= maxNumber; i++)
         {
