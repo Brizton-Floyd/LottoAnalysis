@@ -106,10 +106,10 @@ public class SingleDigitRangeTracker {
             tracker1.setHits(1); 
             tracker1.setGamesOut(0);
 
-            Map<Integer,Integer[]> lottoNumberHolder = new TreeMap<>();
-            lottoNumberHolder.put(lottoNumber, new Integer[]{0,0});
+            Map<Integer,Integer[]> holder = new TreeMap<>();
+            holder.put(lottoNumber, new Integer[]{0,0,0,0});
 
-            tracker1.lottoNumberHolder.add(lottoNumberHolder);
+            tracker1.lottoNumberHolder.add(holder);
 
             incrementGamesOutForDigitRanges(tracker, data);
         }
@@ -144,7 +144,7 @@ public class SingleDigitRangeTracker {
             if(!contains){
 
                 Map<Integer,Integer[]> newNumberMap = new TreeMap<>();
-                newNumberMap.put(lottoNumber, new Integer[]{0,0});
+                newNumberMap.put(lottoNumber, new Integer[]{0,0,0,0});
                 lottNumData.add(newNumberMap);
 
             }
