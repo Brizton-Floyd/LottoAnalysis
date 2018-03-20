@@ -7,8 +7,10 @@ import java.util.function.Predicate;
 public class SingleDigitRangeTracker {
 
     private Map<String,SingleDigitRangeTracker> data = new LinkedHashMap<>();
-    private Map<String,SingleDigitRangeTracker> tracker = new LinkedHashMap<>();
+    private Map<String,SingleDigitRangeTracker> tracker = new TreeMap<>();
     private List<Map<Integer,Integer[]>> lottoNumberHolder = new ArrayList<>();
+    private List<Integer> gameOutHolder = new ArrayList<>();
+    private RemainderTracker remainderTracker;
 
     private int hits;
     private int gamesOut;
@@ -17,6 +19,7 @@ public class SingleDigitRangeTracker {
 
     public SingleDigitRangeTracker(){
 
+        remainderTracker = new RemainderTracker();
         this.hits = -1;
         this.gamesOut = -1;
         this.hitsAtGamesOut = -1;
@@ -24,6 +27,15 @@ public class SingleDigitRangeTracker {
     }
 
     // getters and setters
+
+
+    public RemainderTracker getRemainderTracker() {
+        return remainderTracker;
+    }
+
+    public List<Integer> getGameOutHolder() {
+        return gameOutHolder;
+    }
 
     public List<Map<Integer,Integer[]>> getLottoNumberHolder() {
         return lottoNumberHolder;
@@ -99,15 +111,19 @@ public class SingleDigitRangeTracker {
     }
     private void setTrackerData(Integer[] data, int lottoNumber) {
 
+        final int remainder = lottoNumber % 3;
+
         if(!tracker.containsKey(Arrays.toString(data))){
             tracker.put(Arrays.toString(data), new SingleDigitRangeTracker());
 
             SingleDigitRangeTracker tracker1 = tracker.get(Arrays.toString(data));
-            tracker1.setHits(1); 
+            tracker1.setHits(1);
             tracker1.setGamesOut(0);
 
             Map<Integer,Integer[]> holder = new TreeMap<>();
             holder.put(lottoNumber, new Integer[]{0,0,0,0});
+
+            tracker1.remainderTracker.insertRemainderAndLottoNumber(remainder,lottoNumber);
 
             tracker1.lottoNumberHolder.add(holder);
 
@@ -115,12 +131,13 @@ public class SingleDigitRangeTracker {
         }
         else{
 
-            final Predicate<Integer> keyMatcher = i -> i == lottoNumber;
-
             SingleDigitRangeTracker tracker1= tracker.get(Arrays.toString(data));
             int hits = tracker1.getHits();
             tracker1.setHits(++hits);
+            tracker1.gameOutHolder.add(tracker1.getGamesOut());
             tracker1.setGamesOut(0);
+
+            tracker1.remainderTracker.insertRemainderAndLottoNumber(remainder,lottoNumber);
 
             List<Map<Integer,Integer[]>> lottNumData = tracker1.getLottoNumberHolder();
             boolean contains = false;
@@ -172,7 +189,6 @@ public class SingleDigitRangeTracker {
                 Character.getNumericValue(lottoNumber.charAt(0));
 
         if(lowRangeVals.contains(lastWinningDigit)){
-
             return Arrays.stream(lowRangeVals.stream().mapToInt(i ->i).toArray()).boxed().toArray(Integer[]::new);
         }
         else {
