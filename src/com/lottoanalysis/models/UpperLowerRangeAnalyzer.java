@@ -2,6 +2,7 @@ package com.lottoanalysis.models;
 
 import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.utilities.analyzerutilites.SplitDigitAnalyzer;
+import javafx.scene.chart.ValueAxis;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,22 +21,22 @@ public class UpperLowerRangeAnalyzer {
     private List<Integer> gameOutHolder;
 
     private LottoNumberTracker lottoNumberTracker;
-    private RemainderTracker remainderTracker;
     private SingleDigitRangeTracker singleDigitRangeTracker;
     private UpperLowerRangeAnalyzer[] upperLowerRangeAnalyzers;
+    private LottoNumberGameOutTracker lottoNumberGameOutTracker;
 
     private UpperLowerRangeAnalyzer(){
         gameOutHolder = new ArrayList<>();
-        lottoNumberTracker = new LottoNumberTracker();
-        remainderTracker = new RemainderTracker();
         singleDigitRangeTracker = new SingleDigitRangeTracker();
-
     }
     public UpperLowerRangeAnalyzer(int[][] drawData, int drawIndex, LottoGame lottoGame){
 
         this.drawData = drawData;
         this.drawIndex = drawIndex;
         upperLowerRangeAnalyzers = new UpperLowerRangeAnalyzer[]{new UpperLowerRangeAnalyzer(),new UpperLowerRangeAnalyzer()};
+
+        lottoNumberTracker = new LottoNumberTracker();
+        lottoNumberGameOutTracker = new LottoNumberGameOutTracker(drawData);
 
         determineHighAndLowRanges(lottoGame);
         determineRangeLottoNumbersHit();
@@ -46,15 +47,57 @@ public class UpperLowerRangeAnalyzer {
     private void printData() {
 
         String[] directions = {"Lower","Upper"};
+        int[] count = {0};
 
         for( int i = 0; i < upperLowerRangeAnalyzers.length; i++){
 
             UpperLowerRangeAnalyzer analyzer = upperLowerRangeAnalyzers[i];
 
             System.out.printf("\n%s Half Numbers: %s\n",directions[i],Arrays.toString(analyzer.getRange()));
-            System.out.printf("\n%25s %s %15s %s %25s %s %15s\n","Hits:",analyzer.getRangeHits(),"Games Out:",analyzer.getRangGamesOut(),
-                    "Hits At Games Out:", analyzer.getRangeHitAtGamesOut(),"Game Out Last Seen: ");
+            System.out.printf("\n%25s %5s %15s %5s %25s %5s %30s %3s\n","Hits:",analyzer.getRangeHits(),"Games Out:",analyzer.getRangGamesOut(),
+                    "Hits At Games Out:", analyzer.getRangeHitAtGamesOut(),"Game Out Last Appearance:",analyzer.getGameOutLastAppearance());
 
+            Map<String,SingleDigitRangeTracker> data = analyzer.singleDigitRangeTracker.getData();
+            data.forEach( (k,v) -> {
+
+                Map<String,SingleDigitRangeTracker> d = v.getTracker();
+
+                d.forEach((key,value) -> {
+
+                    long hits = value.getGameOutHolder().stream().filter( gOut -> gOut == value.getGamesOut()).count();
+                    int lastSeen = Math.abs(value.getGameOutHolder().size() - value.getGameOutHolder().lastIndexOf(value.getGamesOut()));
+
+                    System.out.printf("\nLAST DIGIT PERFORMANCE WITHIN GROUP %s %s\n",directions[count[0]++].toUpperCase(),key);
+                    System.out.printf("\n %30s %3s %15s %3s %20s %3s %15s %3s\n","Hits:",value.getHits(),"Games Out:",value.getGamesOut(),
+                            "Hits @ Games Out", hits, "Last Seen:",lastSeen);
+
+                    List<Map<Integer,Integer[]>> lottoNumberMap = value.getLottoNumberHolder();
+                    Map<Integer,Integer[]> ss = new TreeMap<>();
+                    for(Map<Integer,Integer[]> dd : lottoNumberMap){
+
+                        dd.forEach((kkk,vvv) -> {
+                            ss.put(kkk,vvv);
+                        });
+                    }
+
+                    List<Map.Entry<Integer,Integer[]>> entries = new ArrayList<>(ss.entrySet());
+                    entries.forEach(map -> {
+                        System.out.printf("\n%15s %4s %20s %4s %30s %4s %25s %4s %25s %3s\n","Lotto #",map.getKey(),"Position Hits:",map.getValue()[0],
+                                "Games Out In Position:",map.getValue()[1],"Actual Games Out:",map.getValue()[2],"Last Hit Position:",map.getValue()[3]);
+                    });
+
+                    System.out.println("\nRemainder Groups Due");
+                    Map<Integer,Object[]> remainderData = value.getRemainderTracker().getRemainderHolder();
+                    remainderData.forEach( (keyTwo,valueTwo)  -> {
+
+                        System.out.printf("%15s %4s %15s %4s %15s %4s %15s %4s\n","Remainder:",keyTwo,"Hits:",valueTwo[0],"Games Out:",valueTwo[1],
+                                "Numbers:",Arrays.toString( ((Set<Integer>)valueTwo[2]).toArray()));
+                    });
+
+                });
+
+                count[0] = 0;
+            });
 
         }
     }
@@ -151,7 +194,6 @@ public class UpperLowerRangeAnalyzer {
         for(int i = 0; i < drawData[drawIndex].length; i++){
 
             String lottNumber = drawData[drawIndex][i] + "";
-            int remainder = Integer.parseInt(lottNumber) % 3;
 
             for (int k = 0; k < upperLowerRangeAnalyzers.length; k++) {
 
@@ -162,19 +204,20 @@ public class UpperLowerRangeAnalyzer {
 
                     direction = (k == 0)? "Lower" : "Upper";
 
+                    UpperLowerRangeAnalyzer analyzer = upperLowerRangeAnalyzers[k];
+
                     int hits = upperLowerRangeAnalyzers[k].getRangeHits();
 
                     List<Integer> gameOutHolder = upperLowerRangeAnalyzers[k].getGameOutHolder();
 
                     gameOutHolder.add(upperLowerRangeAnalyzers[k].getRangGamesOut());
-                    upperLowerRangeAnalyzers[k].setRangeHits(++hits);
-                    upperLowerRangeAnalyzers[k].setRangGamesOut(0);
+                    analyzer.setRangeHits(++hits);
+                    analyzer.setRangGamesOut(0);
 
-                    upperLowerRangeAnalyzers[k].singleDigitRangeTracker.populateDataMap(direction,lottNumber);
-                    upperLowerRangeAnalyzers[k].lottoNumberTracker.insertNumberAndIncrementHits(Integer.parseInt(lottNumber));
-                    upperLowerRangeAnalyzers[k].remainderTracker.insertRemainderAndLottoNumber(remainder,Integer.parseInt(lottNumber));
-
-
+                    analyzer.singleDigitRangeTracker.populateDataMap(direction,lottNumber);
+                    lottoNumberTracker.insertNumberAndIncrementHits(Integer.parseInt(lottNumber));
+                    lottoNumberTracker.insertHitsAndGamesOutForLottoNumbers( analyzer.singleDigitRangeTracker.getData());
+                    lottoNumberGameOutTracker.insertLastHitPositionAndActualGamesOut(analyzer.singleDigitRangeTracker.getData());
 
                 } else {
 

@@ -1,6 +1,8 @@
 package com.lottoanalysis.models;
 
-import java.util.;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class LottoNumberGameOutTracker{
 
@@ -10,6 +12,7 @@ public class LottoNumberGameOutTracker{
     public LottoNumberGameOutTracker( int[][] drawData ){
 
         this.drawData = drawData;
+        findPostionAndGamesOut();
     }
 
     private void findPostionAndGamesOut() {
@@ -24,16 +27,16 @@ public class LottoNumberGameOutTracker{
                 drawArray[j] = drawData[j][i]; //This will form an array containing a result of an actual draw 
             }
 
-            IntStream.range(0, drawArray.length ).forEach( i -> {
+            IntStream.range(0, drawArray.length ).forEach(k -> {
 
-                if( !lottoNumberMap.containsKey( drawArray[i] ) ){
-                    lottoNumberMap.put(drawArray[i], new Integer[]{0, i+1});
+                if( !lottoNumberMap.containsKey( drawArray[k] ) ){
+                    lottoNumberMap.put(drawArray[k], new Integer[]{0, k+1});
                 }
                 else{
 
-                    Integer[] data = lottoNumberMap.get( drawArray[i] );
+                    Integer[] data = lottoNumberMap.get( drawArray[k] );
                     data[0] = 0;
-                    data[1] = i+1;
+                    data[1] = k+1;
                 }
 
             });
@@ -52,7 +55,41 @@ public class LottoNumberGameOutTracker{
         }
     }
 
-    public void insertLastHitPositionAndActualGamesOut(List<Map<Integer,Integer[]>> data){
+    public void insertLastHitPositionAndActualGamesOut(Map<String, SingleDigitRangeTracker> data ){
+
+        for (Map.Entry<String, SingleDigitRangeTracker> d : data.entrySet()) {
+
+            SingleDigitRangeTracker tracker = d.getValue();
+
+            Map<String,SingleDigitRangeTracker> trackerData = tracker.getTracker();
+
+            trackerData.forEach((k,v) -> {
+
+                List<Map<Integer, Integer[]>> dd = v.getLottoNumberHolder();
+
+                dd.forEach( map -> {
+
+                    for (Map.Entry<Integer, Integer[]> entry : map.entrySet()) {
+
+                        if (lottoNumberMap.containsKey(entry.getKey())) {
+
+                            Integer[] hitInfo = lottoNumberMap.get(entry.getKey());
+                            Integer[] incomingInfo = entry.getValue();
+                            incomingInfo[2] = hitInfo[0];
+                            incomingInfo[3] = hitInfo[1];
+                        } else {
+                            Integer[] incomingInfo = entry.getValue();
+                            incomingInfo[2] = -1;
+                            incomingInfo[3] = -1;
+                        }
+                    }
+
+
+                });
+
+            });
+
+        }
 
     }
 

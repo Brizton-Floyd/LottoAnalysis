@@ -12,6 +12,11 @@ public class RemainderTracker {
 
     private Map<Integer, Object[]> remainderHolder = new TreeMap<>();
 
+
+    public Map<Integer, Object[]> getRemainderHolder() {
+        return remainderHolder;
+    }
+
     public void insertRemainderAndLottoNumber(int remainder, int winningLottoNumber){
 
         if(!remainderHolder.containsKey(remainder)){
@@ -26,6 +31,7 @@ public class RemainderTracker {
         {
 
             Object[] data = remainderHolder.get( remainder );
+
             data[0] = (int) data[0] + 1;
             data[1] = 0;
             ((Set<Integer>)data[2]).add(winningLottoNumber);
