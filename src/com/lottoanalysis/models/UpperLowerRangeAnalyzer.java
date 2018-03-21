@@ -28,6 +28,7 @@ public class UpperLowerRangeAnalyzer {
     private UpperLowerRangeAnalyzer(){
         gameOutHolder = new ArrayList<>();
         singleDigitRangeTracker = new SingleDigitRangeTracker();
+        lottoNumberTracker = new LottoNumberTracker();
     }
     public UpperLowerRangeAnalyzer(int[][] drawData, int drawIndex, LottoGame lottoGame){
 
@@ -35,7 +36,6 @@ public class UpperLowerRangeAnalyzer {
         this.drawIndex = drawIndex;
         upperLowerRangeAnalyzers = new UpperLowerRangeAnalyzer[]{new UpperLowerRangeAnalyzer(),new UpperLowerRangeAnalyzer()};
 
-        lottoNumberTracker = new LottoNumberTracker();
         lottoNumberGameOutTracker = new LottoNumberGameOutTracker(drawData);
 
         determineHighAndLowRanges(lottoGame);
@@ -215,8 +215,8 @@ public class UpperLowerRangeAnalyzer {
                     analyzer.setRangGamesOut(0);
 
                     analyzer.singleDigitRangeTracker.populateDataMap(direction,lottNumber);
-                    lottoNumberTracker.insertNumberAndIncrementHits(Integer.parseInt(lottNumber));
-                    lottoNumberTracker.insertHitsAndGamesOutForLottoNumbers( analyzer.singleDigitRangeTracker.getData());
+                    analyzer.lottoNumberTracker.insertNumberAndIncrementHits(Integer.parseInt(lottNumber));
+                    analyzer.lottoNumberTracker.insertHitsAndGamesOutForLottoNumbers( analyzer.singleDigitRangeTracker.getData());
                     lottoNumberGameOutTracker.insertLastHitPositionAndActualGamesOut(analyzer.singleDigitRangeTracker.getData());
 
                 } else {
