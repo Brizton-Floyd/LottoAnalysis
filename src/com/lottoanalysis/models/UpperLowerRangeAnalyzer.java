@@ -13,6 +13,7 @@ public class UpperLowerRangeAnalyzer {
 
     private int drawIndex;
     private int[][] drawData;
+    private LottoGame lottoGame;
     private int[] range;
     private int rangeHits;
     private int rangGamesOut;
@@ -24,6 +25,7 @@ public class UpperLowerRangeAnalyzer {
     private SingleDigitRangeTracker singleDigitRangeTracker;
     private UpperLowerRangeAnalyzer[] upperLowerRangeAnalyzers;
     private LottoNumberGameOutTracker lottoNumberGameOutTracker;
+    private NumberMultipleAnalyzer numberMultipleAnalyzer;
 
     private UpperLowerRangeAnalyzer(){
         gameOutHolder = new ArrayList<>();
@@ -32,6 +34,7 @@ public class UpperLowerRangeAnalyzer {
     }
     public UpperLowerRangeAnalyzer(int[][] drawData, int drawIndex, LottoGame lottoGame){
 
+        this.lottoGame = lottoGame;
         this.drawData = drawData;
         this.drawIndex = drawIndex;
         upperLowerRangeAnalyzers = new UpperLowerRangeAnalyzer[]{new UpperLowerRangeAnalyzer(),new UpperLowerRangeAnalyzer()};
@@ -95,6 +98,8 @@ public class UpperLowerRangeAnalyzer {
                     });
 
                 });
+                analyzer.numberMultipleAnalyzer.computeHitsAtGamesOutAndLastAppearance();
+                analyzer.numberMultipleAnalyzer.print();
 
                 count[0] = 0;
             });
@@ -214,6 +219,10 @@ public class UpperLowerRangeAnalyzer {
                     analyzer.setRangeHits(++hits);
                     analyzer.setRangGamesOut(0);
 
+                    if(analyzer.numberMultipleAnalyzer == null)
+                        analyzer.numberMultipleAnalyzer = new NumberMultipleAnalyzer(lottoGame);
+
+                    analyzer.numberMultipleAnalyzer.analyzeLottoNumber(Integer.parseInt(lottNumber));
                     analyzer.singleDigitRangeTracker.populateDataMap(direction,lottNumber);
                     analyzer.lottoNumberTracker.insertNumberAndIncrementHits(Integer.parseInt(lottNumber));
                     analyzer.lottoNumberTracker.insertHitsAndGamesOutForLottoNumbers( analyzer.singleDigitRangeTracker.getData());
