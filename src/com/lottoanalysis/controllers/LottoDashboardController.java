@@ -3,6 +3,8 @@ package com.lottoanalysis.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.Main;
 import com.lottoanalysis.charts.BarChartExt;
+import com.lottoanalysis.enums.Factory;
+import com.lottoanalysis.enums.LotteryGame;
 import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
 import com.lottoanalysis.lottogames.LottoGame;
@@ -522,6 +524,7 @@ public class LottoDashboardController {
      *
      * @param lotteryGame
      */
+    @SuppressWarnings("unchecked")
     public void setUpTableView(LottoGame lotteryGame) {
 
         positionalNumbers = null;
@@ -617,6 +620,7 @@ public class LottoDashboardController {
         drawNumberTable.setItems(lotteryGame.getDrawingData());
     }
 
+    @SuppressWarnings("unchecked")
     private void setUpCellValueFactories(TableColumn[] tableColumns, int drawSize) {
 
         tableColumns[0].setCellValueFactory(new PropertyValueFactory("drawNumber"));
@@ -677,7 +681,7 @@ public class LottoDashboardController {
 
         choiceBox.getItems().clear();
 
-        AbstractFactory lottoGameManagerFactory = FactoryProducer.getFactory("lotteryGameManagerFactory");
+        AbstractFactory lottoGameManagerFactory = FactoryProducer.getFactory(Factory.ManagerFactory);
         LotteryGameManager lotteryGameManager = lottoGameManagerFactory.getLotteryGameManager();
 
 
@@ -703,8 +707,8 @@ public class LottoDashboardController {
         predictedNumbersLabel.setText("Historical Draw Table For: " + newName);
         lottoDashboard.setText(gameName + "Lotto Dashboard");
 
-        AbstractFactory factory = FactoryProducer.getFactory("lotteryGameFactory");
-        LottoGame game = factory.getLotteryGame("five");
+        AbstractFactory factory = FactoryProducer.getFactory(Factory.LotteryGameFactory);
+        LottoGame game = factory.getLotteryGame(LotteryGame.FiveDigit);
         game.setGameName(gameName);
         game.startThreadForJackpotRetrieval();
         String t = jackpotLbl.getText().substring(0,jackpotLbl.getText().lastIndexOf(":")+1);

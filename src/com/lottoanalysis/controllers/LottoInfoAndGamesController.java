@@ -1,6 +1,8 @@
 package com.lottoanalysis.controllers;
 
 import com.lottoanalysis.Main;
+import com.lottoanalysis.enums.Factory;
+import com.lottoanalysis.enums.LotteryGame;
 import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
 import com.lottoanalysis.interfaces.LotteryGameManager;
@@ -129,7 +131,7 @@ public class LottoInfoAndGamesController {
         // Get the event source and cast to appropriate object type
         MenuItem item = (MenuItem) event.getSource();
 
-        AbstractFactory factory = FactoryProducer.getFactory("lotteryGameFactory");
+        AbstractFactory factory = FactoryProducer.getFactory(Factory.LotteryGameFactory);
 
         FXMLLoader loader = new FXMLLoader( getClass().getResource( LottoScreenNavigator.LOTTO_SCREEN_ONE));
         try {
@@ -138,7 +140,7 @@ public class LottoInfoAndGamesController {
             setStaticPane(pane);
             LottoDashboardController dashboardController = loader.getController();
 
-            AbstractFactory lottoGameManagerFactory = FactoryProducer.getFactory("lotteryGameManagerFactory");
+            AbstractFactory lottoGameManagerFactory = FactoryProducer.getFactory(Factory.ManagerFactory);
             LotteryGameManager lotteryGameManager = lottoGameManagerFactory.getLotteryGameManager();
 
 
@@ -152,42 +154,43 @@ public class LottoInfoAndGamesController {
                     downloadFilesFromInternet();
                 }else {
 
-                    if (gameName.contains(LotteryGameConstants.FANTASY_FIVE_GAME_NAME)) {
+                    if (gameName.contains(LotteryGame.FantasyFive.toString())) {
 
-                        game = factory.getLotteryGame("five");
+                        System.out.println(LotteryGame.FantasyFive.toString());
+                        game = factory.getLotteryGame(LotteryGame.FiveDigit);
                         game.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(game);
                         game.startThreadForJackpotRetrieval();
 
                     } else if (gameName.contains(LotteryGameConstants.POWERBALL_GAME_NAME)) {
 
-                        game = factory.getLotteryGame("six");
+                        game = factory.getLotteryGame(LotteryGame.SixDigit);
                         game.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(game);
                         game.startThreadForJackpotRetrieval();
 
                     } else if (gameName.contains(LotteryGameConstants.MEGA_MILLIONS_GAME_NAME)) {
 
-                        game = factory.getLotteryGame("six");
+                        game = factory.getLotteryGame(LotteryGame.SixDigit);
                         game.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(game);
                         game.startThreadForJackpotRetrieval();
 
                     } else if (gameName.contains(LotteryGameConstants.PICK3_GAME_NAME)) {
 
-                        game= factory.getLotteryGame("THREE");
+                        game= factory.getLotteryGame(LotteryGame.ThreeDigit);
                         game.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(game);
 
                     } else if (gameName.contains(LotteryGameConstants.PICK4_GAME_NAME)) {
 
-                        game = factory.getLotteryGame("four");
+                        game = factory.getLotteryGame(LotteryGame.FourDigit);
                         game.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(game);
 
                     } else if (gameName.contains(LotteryGameConstants.SUPER_LOTTO_PLUS_GAME_NAME)) {
 
-                        game = factory.getLotteryGame("six");
+                        game = factory.getLotteryGame(LotteryGame.SixDigit);
                         game.setGameName(gameName);
                         game = lotteryGameManager.loadLotteryData(game);
                         game.startThreadForJackpotRetrieval();
@@ -271,7 +274,7 @@ public class LottoInfoAndGamesController {
      */
     private void loadMenuItems() {
 
-        AbstractFactory lottoGameManagerFactory = FactoryProducer.getFactory("lotteryGameManagerFactory");
+        AbstractFactory lottoGameManagerFactory = FactoryProducer.getFactory(Factory.ManagerFactory);
         LotteryGameManager lotteryGameManager = lottoGameManagerFactory.getLotteryGameManager();
 
         List<String> menus = lotteryGameManager.getAllGames();
@@ -280,7 +283,7 @@ public class LottoInfoAndGamesController {
             itemList.add(menu);
         }
 
-        itemList.add("Update Database");
+        itemList.add("Update Databases");
         setMenuItemText(itemList);
 
     }

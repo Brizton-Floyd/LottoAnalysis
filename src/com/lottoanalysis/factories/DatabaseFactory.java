@@ -1,6 +1,8 @@
 package com.lottoanalysis.factories;
 
 import com.lottoanalysis.dbconnections.MySqlDatabaseImpl;
+import com.lottoanalysis.enums.Databases;
+import com.lottoanalysis.enums.LotteryGame;
 import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.interfaces.Database;
 import com.lottoanalysis.interfaces.LotteryGameManager;
@@ -9,19 +11,21 @@ import com.lottoanalysis.lottogames.LottoGame;
 public class DatabaseFactory extends AbstractFactory {
 
     @Override
-    public LottoGame getLotteryGame(String game) {
+    public LottoGame getLotteryGame(LotteryGame game) {
         return null;
     }
 
     @Override
-    public Database getDataBase(String dbName) {
+    public Database getDataBase(Databases dbName) {
 
-        if(dbName.equalsIgnoreCase("MySql")){
+        switch (dbName){
+            case MySql:
+                return new MySqlDatabaseImpl();
+            default:
+                return null;
 
-            return new MySqlDatabaseImpl();
         }
 
-        return null;
     }
 
     @Override

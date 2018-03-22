@@ -8,12 +8,13 @@ import com.lottoanalysis.lottogames.LottoGame;
 public class NumberMultipleAnalyzer {
 
     private Map<Integer, NumberMultipleAnalyzer> multipleHitOccurenceHolder = new TreeMap<>();
-    private Map<Integer, Integer[]> lottoNumberHitOccurenceHolder = new TreeMap<>();
+    private Map<Integer, LottoNumber> lottoNumberHitOccurenceHolder = new TreeMap<>();
     private int multipleHits;
     private int multipleGamesOut;
     private int multipleHitsAtGamesOut;
     private int multipleGameOutLastAppearance;
     private List<Integer> gamesOutHolder = new ArrayList<>();
+    private LottoNumber lottoNumber;
 
     private static Map<Integer, List<Integer>> multipleRanges = new LinkedHashMap<>();
 
@@ -30,6 +31,7 @@ public class NumberMultipleAnalyzer {
         this.multipleHits = -1;
         this.multipleHitsAtGamesOut = -1;
         this.multipleGameOutLastAppearance = -1;
+        lottoNumber = new LottoNumber();
     }
 
     public NumberMultipleAnalyzer(LottoGame game) {
@@ -76,7 +78,7 @@ public class NumberMultipleAnalyzer {
         return gamesOutHolder;
     }
 
-    private Map<Integer, Integer[]> getLottoNumberHitOccurenceHolder() {
+    private Map<Integer, LottoNumber> getLottoNumberHitOccurenceHolder() {
         return this.lottoNumberHitOccurenceHolder;
     }
 
@@ -89,9 +91,10 @@ public class NumberMultipleAnalyzer {
 
             System.out.println();
 
-            Map<Integer, Integer[]> numData = v.getLottoNumberHitOccurenceHolder();
+            Map<Integer, LottoNumber> numData = v.getLottoNumberHitOccurenceHolder();
             numData.forEach((lottoNumber, hitHolder) -> {
-                System.out.printf("\nLotto #: %3s %9s %4s %15s %4s", lottoNumber, "Hits:", hitHolder[0], "Games Out:", hitHolder[1]);
+                System.out.printf("\nLotto #: %3s %9s %4s %15s %4s %20s %4s %15s %4s", lottoNumber, "Hits:", hitHolder.getLottoNumberHits(), "Games Out:", hitHolder.lottoNumberGamesOut,
+                        "Hits @ Games Out:", hitHolder.getHitsAtGamesOut(),"Last Seen:",hitHolder.getOutLastSeen());
             });
 
             System.out.println();
@@ -116,10 +119,20 @@ public class NumberMultipleAnalyzer {
                     NumberMultipleAnalyzer analyzer = new NumberMultipleAnalyzer();
                     analyzer.setMultipleHits(1);
                     analyzer.setMultipleGamesOut(0);
+
+                    Map<Integer,LottoNumber> lottoNumData = analyzer.getLottoNumberHitOccurenceHolder();
+                    LottoNumber lottoNumber = new LottoNumber();
+                    lottoNumber.setLottoNumberHits(1);
+                    lottoNumber.setLottoNumberGamesOut(0);
+
+                    lottoNumData.put(number, lottoNumber);
                     multipleHitOccurenceHolder.put(key, analyzer);
+
+                    incrementLottoNumberGamesOut(lottoNumData, number);
                     incrementGamesOut(multipleHitOccurenceHolder, key);
 
-                    analyzer.lottoNumberHitOccurenceHolder.put(number, new Integer[]{1, 0, 0, 0});
+
+
                 } else {
 
                     NumberMultipleAnalyzer analyzer = multipleHitOccurenceHolder.get(key);
@@ -127,19 +140,33 @@ public class NumberMultipleAnalyzer {
                     analyzer.setMultipleHits(++hits);
                     analyzer.gamesOutHolder.add(analyzer.getMultipleGamesOut());
                     analyzer.setMultipleGamesOut(0);
-                    incrementGamesOut(multipleHitOccurenceHolder, key);
 
-                    Map<Integer, Integer[]> lottoNumData = analyzer.getLottoNumberHitOccurenceHolder();
+                    Map<Integer, LottoNumber> lottoNumData = analyzer.getLottoNumberHitOccurenceHolder();
                     if (!lottoNumData.containsKey(number)) {
 
-                        lottoNumData.put(number, new Integer[]{1, 0, 0, 0});
+                        LottoNumber lottoNumber = new LottoNumber();
+                        lottoNumber.setLottoNumberHits(1);
+                        lottoNumber.setLottoNumberGamesOut(0);
+
+                        lottoNumData.put(number, lottoNumber);
+
                         incrementLottoNumberGamesOut(lottoNumData, number);
+
                     } else {
-                        Integer[] numData = lottoNumData.get(number);
-                        numData[0]++;
-                        numData[1] = 0;
+                        LottoNumber numData = lottoNumData.get(number);
+                        int hitss = numData.getLottoNumberHits();
+                        numData.setLottoNumberHits(++hitss);
+
+                        List<Integer> p = numData.getOutHolder();
+                        p.add(numData.getLottoNumberGamesOut());
+
+                        numData.setLottoNumberGamesOut(0);
+
                         incrementLottoNumberGamesOut(lottoNumData, number);
                     }
+
+                    incrementGamesOut(multipleHitOccurenceHolder, key);
+
                 }
 
                 break;
@@ -148,12 +175,13 @@ public class NumberMultipleAnalyzer {
         }
     }
 
-    private void incrementLottoNumberGamesOut(Map<Integer, Integer[]> data, int winningNumber) {
+    private void incrementLottoNumberGamesOut(Map<Integer, LottoNumber> data, int winningNumber) {
 
         data.forEach((k, v) -> {
 
             if (k != winningNumber) {
-                v[1]++;
+                int gamesOut = v.getLottoNumberGamesOut();
+                v.setLottoNumberGamesOut(++gamesOut);
             }
         });
     }
@@ -183,8 +211,19 @@ public class NumberMultipleAnalyzer {
 
             int lastAppear = Math.abs(gameOutHolderr.size() - gameOutHolderr.lastIndexOf(v.getMultipleGamesOut()));
             v.setMultipleGameOutLastAppearance(lastAppear);
+
+            v.lottoNumberHitOccurenceHolder.forEach((key,value) -> {
+
+                long valTwo = value.getOutHolder().stream().filter( i -> i == value.getLottoNumberGamesOut()).count();
+                value.setHitsAtGamesOut((int)valTwo);
+
+                int lastAppearTwo = Math.abs(value.getOutHolder().size() - value.getOutHolder().lastIndexOf(value.getLottoNumberGamesOut()));
+                value.setOutLastSeen(lastAppearTwo);
+            });
         });
+
     }
+
 
     /*
      *
@@ -213,6 +252,43 @@ public class NumberMultipleAnalyzer {
                     break;
                 }
             }
+        }
+    }
+
+    private class LottoNumber{
+        private int lottoNumberHits;
+        private int lottoNumberGamesOut;
+        private int hitsAtGamesOut;
+        private int outLastSeen;
+        private List<Integer> outHolder = new ArrayList<>();
+
+        void setLottoNumberHits(int hits){
+            this.lottoNumberHits = hits;
+        }
+        void setLottoNumberGamesOut(int gamesOut){
+            this.lottoNumberGamesOut = gamesOut;
+        }
+        void setHitsAtGamesOut(int hits){
+            this.hitsAtGamesOut = hits;
+        }
+        void setOutLastSeen(int val){
+            this.outLastSeen = val;
+        }
+        int getLottoNumberHits(){
+            return lottoNumberHits;
+        }
+        int getLottoNumberGamesOut(){
+            return lottoNumberGamesOut;
+        }
+        int getHitsAtGamesOut(){
+            return hitsAtGamesOut;
+        }
+        int getOutLastSeen(){
+            return outLastSeen;
+        }
+
+        List<Integer> getOutHolder() {
+            return outHolder;
         }
     }
 }
