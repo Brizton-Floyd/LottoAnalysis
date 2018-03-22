@@ -2,6 +2,8 @@ package com.lottoanalysis.data;
 
 import com.lottoanalysis.controllers.LottoAnalysisHomeController;
 import com.lottoanalysis.controllers.LottoInfoAndGamesController;
+import com.lottoanalysis.enums.Databases;
+import com.lottoanalysis.enums.Factory;
 import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
 import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
 import com.lottoanalysis.lottogames.LottoGame;
@@ -50,8 +52,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         List<String> allGameFiles = new ArrayList<>(OnlineFileUtility.getUrlPaths().keySet());
         List<Integer> allGameIds = new ArrayList<>();
 
-        AbstractFactory abstractFactory = FactoryProducer.getFactory("DatabaseFactory");
-        Database database = abstractFactory.getDataBase("MySql");
+        AbstractFactory abstractFactory = FactoryProducer.getFactory(Factory.DataBaseFactory);
+        Database database = abstractFactory.getDataBase(Databases.MySql);
 
         ResultSet rs;
         File file = null;
@@ -70,7 +72,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
             String line;
             for (int i = 0; i < allGameFiles.size(); i++) {
 
-                updateMessage("Saving " + allGameFiles.get(i) + " Information To Database");
+                updateMessage("Saving " + allGameFiles.get(i) + " Information To Databases");
 
                 file = new File(allGameFiles.get(i) + "Ver2.txt");
 
@@ -103,7 +105,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
         }
 
-        updateMessage("All Files Saved To Database");
+        updateMessage("All Files Saved To Databases");
 
         return null;
     }
@@ -130,8 +132,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
         String query = "INSERT INTO DRAWING " + queryData[0] + queryData[1];
 
-        AbstractFactory abstractFactory = FactoryProducer.getFactory("DatabaseFactory");
-        Database database = abstractFactory.getDataBase("MySql");
+        AbstractFactory abstractFactory = FactoryProducer.getFactory(Factory.DataBaseFactory);
+        Database database = abstractFactory.getDataBase(Databases.MySql);
 
         try (Connection con = database.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -199,8 +201,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         ResultSet rs;
         int num = 0;
 
-        AbstractFactory abstractFactory = FactoryProducer.getFactory("DatabaseFactory");
-        Database database = abstractFactory.getDataBase("MySql");
+        AbstractFactory abstractFactory = FactoryProducer.getFactory(Factory.DataBaseFactory);
+        Database database = abstractFactory.getDataBase(Databases.MySql);
 
         try (Connection connection = database.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(GET_RECENT_DRAW_NUMBER_QUERY)) {
@@ -229,8 +231,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         ResultSet rs;
         List<String> games = new LinkedList<>();
 
-        AbstractFactory abstractFactory = FactoryProducer.getFactory("DatabaseFactory");
-        Database database = abstractFactory.getDataBase("MySql");
+        AbstractFactory abstractFactory = FactoryProducer.getFactory(Factory.DataBaseFactory);
+        Database database = abstractFactory.getDataBase(Databases.MySql);
 
         try (Connection connection = database.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(SELECT_ALL_GAMES)) {
@@ -257,8 +259,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
         ObservableList<Drawing> drawData = FXCollections.observableArrayList();
         Drawing drawing = null;
 
-        AbstractFactory abstractFactory = FactoryProducer.getFactory("DatabaseFactory");
-        Database database = abstractFactory.getDataBase("MySql");
+        AbstractFactory abstractFactory = FactoryProducer.getFactory(Factory.DataBaseFactory);
+        Database database = abstractFactory.getDataBase(Databases.MySql);
 
         try (Connection connection = database.getConnection()) {
 
@@ -316,8 +318,8 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
         Object[] data = null;
 
-        AbstractFactory abstractFactory = FactoryProducer.getFactory("DatabaseFactory");
-        Database database = abstractFactory.getDataBase("MySql");
+        AbstractFactory abstractFactory = FactoryProducer.getFactory(Factory.DataBaseFactory);
+        Database database = abstractFactory.getDataBase(Databases.MySql);
 
         try (Connection connection = database.getConnection();
              PreparedStatement statement = connection.prepareStatement(GAME_ID_QUERY)) {

@@ -7,7 +7,7 @@ public class LotteryGameDaoConstants {
     // Dao constants
     public static final String UPDATE_DB = "update database";
 
-    // Database name
+    // Databases name
     public static final String DATABASE_CONNECTION = "jdbc:sqlite:LotteryDb.sqlite";
     public static final String MYSQL_DATABASE_CONNECTION = "jdbc:mysql://localhost:3306/mydb?useSSL=true";
     public static final String USER_NAME = "FloydB";//Username of database

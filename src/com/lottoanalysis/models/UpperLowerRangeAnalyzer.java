@@ -47,7 +47,7 @@ public class UpperLowerRangeAnalyzer {
         printData();
     }
 
-    private void printData() {
+    public void printData() {
 
         String[] directions = {"Lower","Upper"};
         int[] count = {0};
@@ -100,7 +100,6 @@ public class UpperLowerRangeAnalyzer {
                 });
                 analyzer.numberMultipleAnalyzer.computeHitsAtGamesOutAndLastAppearance();
                 analyzer.numberMultipleAnalyzer.print();
-
                 count[0] = 0;
             });
 
@@ -141,6 +140,10 @@ public class UpperLowerRangeAnalyzer {
     }
     public void setGameOutLastAppearance(int gameOutLastAppearance) {
         this.gameOutLastAppearance = gameOutLastAppearance;
+    }
+
+    public UpperLowerRangeAnalyzer[] getUpperLowerRangeAnalyzers() {
+        return upperLowerRangeAnalyzers;
     }
 
     // Methods
@@ -237,5 +240,6 @@ public class UpperLowerRangeAnalyzer {
             }
 
         }
+
     }
 }
