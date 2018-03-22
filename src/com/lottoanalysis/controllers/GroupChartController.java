@@ -3,6 +3,8 @@ package com.lottoanalysis.controllers;
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.managers.CacheManager;
+import com.lottoanalysis.models.CachedObject;
 import com.lottoanalysis.models.UpperLowerRangeAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.DayGrouperAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.TrendLineAnalyzer;
@@ -31,6 +33,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @SuppressWarnings("unchecked")
 public class GroupChartController {
@@ -211,7 +214,23 @@ public class GroupChartController {
         //ProbableSumFinder.analyze(drawingPos, lotteryGame, drawPositionalNumbers);
 
         //int[] dd = p.stream().mapToInt(i -> i).toArray();
-        UpperLowerRangeAnalyzer upperLowerRangeAnalyzer = new UpperLowerRangeAnalyzer(drawPositionalNumbers,drawPosition,lotteryGame);
+
+        CachedObject obj = (CachedObject) CacheManager.getCache(lotteryGame.getGameName(),drawPosition);
+        if(obj == null) {
+            UpperLowerRangeAnalyzer upperLowerRangeAnalyzer = new UpperLowerRangeAnalyzer(drawPositionalNumbers, drawPosition, lotteryGame);
+            CachedObject cachedObject = new CachedObject(upperLowerRangeAnalyzer.getUpperLowerRangeAnalyzers(),lotteryGame.getGameName(), drawPosition);
+            CacheManager.putCache(cachedObject,drawPosition);
+        }
+        else{
+
+            UpperLowerRangeAnalyzer[] upperLowerRangeAnalyzers = (UpperLowerRangeAnalyzer[])obj.getObject();
+            IntStream.range(0, upperLowerRangeAnalyzers.length).forEach( i -> {
+
+                upperLowerRangeAnalyzers[i].printData(upperLowerRangeAnalyzers[i], i);
+            });
+            System.out.println();
+        }
+
 
         DayGrouperAnalyzer dayGrouperAnalyzer = new DayGrouperAnalyzer();
         dayGrouperAnalyzer.analzye(lotteryGame);

@@ -1,5 +1,7 @@
 package com.lottoanalysis.models;
 
+import com.lottoanalysis.interfaces.Cacheable;
+
 import java.util.*;
 
 public class CachedObject implements Cacheable {

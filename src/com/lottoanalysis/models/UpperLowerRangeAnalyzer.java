@@ -47,6 +47,60 @@ public class UpperLowerRangeAnalyzer {
         printData();
     }
 
+    public void printData( UpperLowerRangeAnalyzer analyzerr, int index){
+
+        String[] directions = {"Lower","Upper"};
+        int[] count = {0};
+
+        UpperLowerRangeAnalyzer analyzer = analyzerr;
+
+        System.out.printf("\n%s Half Numbers: %s\n",directions[index],Arrays.toString(analyzer.getRange()));
+        System.out.printf("\n%25s %5s %15s %5s %25s %5s %30s %3s\n","Hits:",analyzer.getRangeHits(),"Games Out:",analyzer.getRangGamesOut(),
+                "Hits At Games Out:", analyzer.getRangeHitAtGamesOut(),"Game Out Last Appearance:",analyzer.getGameOutLastAppearance());
+
+        Map<String,SingleDigitRangeTracker> data = analyzer.singleDigitRangeTracker.getData();
+        data.forEach( (k,v) -> {
+
+            Map<String,SingleDigitRangeTracker> d = v.getTracker();
+
+            d.forEach((key,value) -> {
+
+                long hits = value.getGameOutHolder().stream().filter( gOut -> gOut == value.getGamesOut()).count();
+                int lastSeen = Math.abs(value.getGameOutHolder().size() - value.getGameOutHolder().lastIndexOf(value.getGamesOut()));
+
+                System.out.printf("\nLAST DIGIT PERFORMANCE WITHIN GROUP %s %s\n",directions[count[0]++].toUpperCase(),key);
+                System.out.printf("\n %30s %3s %15s %3s %20s %3s %15s %3s\n","Hits:",value.getHits(),"Games Out:",value.getGamesOut(),
+                        "Hits @ Games Out", hits, "Last Seen:",lastSeen);
+
+                List<Map<Integer,Integer[]>> lottoNumberMap = value.getLottoNumberHolder();
+                Map<Integer,Integer[]> ss = new TreeMap<>();
+                for(Map<Integer,Integer[]> dd : lottoNumberMap){
+
+                    dd.forEach((kkk,vvv) -> {
+                        ss.put(kkk,vvv);
+                    });
+                }
+
+                List<Map.Entry<Integer,Integer[]>> entries = new ArrayList<>(ss.entrySet());
+                entries.forEach(map -> {
+                    System.out.printf("\n%15s %4s %20s %4s %30s %4s %25s %4s %25s %3s\n","Lotto #",map.getKey(),"Position Hits:",map.getValue()[0],
+                            "Games Out In Position:",map.getValue()[1],"Actual Games Out:",map.getValue()[2],"Last Hit Position:",map.getValue()[3]);
+                });
+
+                System.out.println("\nRemainder Groups Due");
+                Map<Integer,Object[]> remainderData = value.getRemainderTracker().getRemainderHolder();
+                remainderData.forEach( (keyTwo,valueTwo)  -> {
+
+                    System.out.printf("%15s %4s %15s %4s %15s %4s %15s %4s\n","Remainder:",keyTwo,"Hits:",valueTwo[0],"Games Out:",valueTwo[1],
+                            "Numbers:",Arrays.toString( ((Set<Integer>)valueTwo[2]).toArray()));
+                });
+
+            });
+            analyzer.numberMultipleAnalyzer.computeHitsAtGamesOutAndLastAppearance();
+            analyzer.numberMultipleAnalyzer.print();
+            count[0] = 0;
+        });
+    }
     public void printData() {
 
         String[] directions = {"Lower","Upper"};
