@@ -1,4 +1,4 @@
-package com.lottoanalysis.models;
+package com.lottoanalysis.models.numbertracking;
 
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
