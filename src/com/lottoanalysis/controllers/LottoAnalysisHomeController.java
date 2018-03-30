@@ -121,6 +121,11 @@ public class LottoAnalysisHomeController  {
     }
 
     @FXML
+    public void loadGameOutView( ActionEvent event){
+        LottoInfoAndGamesController.makeGamePanelAppear(event);
+    }
+
+    @FXML
     public void loadLotteryChartAnalysisScreen(ActionEvent event){
 
         // Retrieve the current game that is currently being played

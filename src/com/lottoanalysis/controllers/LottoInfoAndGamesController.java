@@ -283,7 +283,7 @@ public class LottoInfoAndGamesController {
             itemList.add(menu);
         }
 
-        itemList.add("Update Databases");
+        itemList.add("Update Database");
         setMenuItemText(itemList);
 
     }

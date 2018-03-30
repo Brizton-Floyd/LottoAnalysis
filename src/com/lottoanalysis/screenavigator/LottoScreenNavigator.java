@@ -87,7 +87,7 @@ public class LottoScreenNavigator {
                     LottoGame game = (LottoGame) domainObject[0];
 
                     ChartAnalysisController controller = loader.getController();
-                    controller.setDrawNumbers((int[][]) ((List<Object>) domainObject[1]).get(0));
+                    controller.setDrawNumbers((int[][]) ((List<Object>) domainObject[1]).get(3));
                     controller.setLotteryGame(game);
                     controller.start();
                 }

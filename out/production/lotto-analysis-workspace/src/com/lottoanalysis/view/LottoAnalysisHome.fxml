@@ -65,7 +65,7 @@
                               <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_NEUTRAL" size="15" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="btn_lengthy" alignment="BASELINE_LEFT" focusTraversable="false" maxWidth="178.0" minWidth="178.0" prefHeight="33.0" prefWidth="178.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Lengthy Lotto Analysis" textAlignment="CENTER" textFill="#dac6ac">
+                        <JFXButton fx:id="btn_lengthy" alignment="BASELINE_LEFT" focusTraversable="false" maxWidth="178.0" minWidth="178.0" onAction="#loadGameOutView" prefHeight="33.0" prefWidth="178.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Game Out View" textAlignment="CENTER" textFill="#dac6ac">
                            <graphic>
                               <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_UP" size="15" />
                            </graphic>

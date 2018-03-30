@@ -1,8 +1,6 @@
-package com.lottoanalysis.models;
+package com.lottoanalysis.models.numbertracking;
 
 import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.utilities.analyzerutilites.SplitDigitAnalyzer;
-import javafx.scene.chart.ValueAxis;
 
 import java.util.*;
 import java.util.stream.Collectors;

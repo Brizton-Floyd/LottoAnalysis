@@ -1,7 +1,6 @@
-package com.lottoanalysis.models;
+package com.lottoanalysis.models.numbertracking;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
 public class SingleDigitRangeTracker {

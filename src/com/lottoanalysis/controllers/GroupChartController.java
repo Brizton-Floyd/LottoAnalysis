@@ -3,15 +3,10 @@ package com.lottoanalysis.controllers;
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.managers.CacheManager;
-import com.lottoanalysis.models.CachedObject;
-import com.lottoanalysis.models.UpperLowerRangeAnalyzer;
+import com.lottoanalysis.models.toplevelcharting.ChartDataBuilder;
 import com.lottoanalysis.utilities.analyzerutilites.DayGrouperAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.TrendLineAnalyzer;
-import com.lottoanalysis.utilities.betsliputilities.BetSlipAnalyzer;
-import com.lottoanalysis.utilities.betsliputilities.ColumnAndIndexHitAnalyzer;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
-import com.lottoanalysis.utilities.numbergrouputilites.NextProbableGroupFinder;
 import com.lottoanalysis.utilities.numberpatternutilities.PatternFinder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -20,8 +15,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -33,7 +28,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @SuppressWarnings("unchecked")
 public class GroupChartController {
@@ -214,23 +208,24 @@ public class GroupChartController {
         //ProbableSumFinder.analyze(drawingPos, lotteryGame, drawPositionalNumbers);
 
         //int[] dd = p.stream().mapToInt(i -> i).toArray();
+//
+//        CachedObject obj = (CachedObject) CacheManager.getCache(lotteryGame.getGameName(),drawPosition);
+//        if(obj == null) {
+//            UpperLowerRangeAnalyzer upperLowerRangeAnalyzer = new UpperLowerRangeAnalyzer(drawPositionalNumbers, drawPosition, lotteryGame);
+//            CachedObject cachedObject = new CachedObject(upperLowerRangeAnalyzer.getUpperLowerRangeAnalyzers(),lotteryGame.getGameName(), drawPosition);
+//            CacheManager.putCache(cachedObject,drawPosition);
+//        }
+//        else{
+//
+//            UpperLowerRangeAnalyzer[] upperLowerRangeAnalyzers = (UpperLowerRangeAnalyzer[])obj.getObject();
+//            IntStream.range(0, upperLowerRangeAnalyzers.length).forEach( i -> {
+//
+//                upperLowerRangeAnalyzers[i].printData(upperLowerRangeAnalyzers[i], i);
+//            });
+//            System.out.println();
+//        }
 
-        CachedObject obj = (CachedObject) CacheManager.getCache(lotteryGame.getGameName(),drawPosition);
-        if(obj == null) {
-            UpperLowerRangeAnalyzer upperLowerRangeAnalyzer = new UpperLowerRangeAnalyzer(drawPositionalNumbers, drawPosition, lotteryGame);
-            CachedObject cachedObject = new CachedObject(upperLowerRangeAnalyzer.getUpperLowerRangeAnalyzers(),lotteryGame.getGameName(), drawPosition);
-            CacheManager.putCache(cachedObject,drawPosition);
-        }
-        else{
-
-            UpperLowerRangeAnalyzer[] upperLowerRangeAnalyzers = (UpperLowerRangeAnalyzer[])obj.getObject();
-            IntStream.range(0, upperLowerRangeAnalyzers.length).forEach( i -> {
-
-                upperLowerRangeAnalyzers[i].printData(upperLowerRangeAnalyzers[i], i);
-            });
-            System.out.println();
-        }
-
+        ChartDataBuilder chartDataBuilder = new ChartDataBuilder(drawingPos);
 
         DayGrouperAnalyzer dayGrouperAnalyzer = new DayGrouperAnalyzer();
         dayGrouperAnalyzer.analzye(lotteryGame);
@@ -264,7 +259,7 @@ public class GroupChartController {
                 setUpGroupHitGridPane(positionData,button.getText(),(List<Integer>) positionData.get(button.getText())[0]);
 
                 int[] num = ( ((List<Integer>) positionData.get(button.getText())[0]) ).stream().mapToInt(Integer::intValue).toArray();
-                //TrendLineAnalyzer.analyzeData(num);
+                TrendLineAnalyzer.analyzeData(num);
 
 //               LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
 //                CompanionNumberFinder.analyzeIncomingInformation(
@@ -501,7 +496,7 @@ public class GroupChartController {
         }
 
         groupInfoTable.setItems(dataItems);
-      //  groupInfoTable.scrollTo(size - 1);
+        //  groupInfoTable.scrollTo(size - 1);
 
         setUpPatternChart(points,text);
     }

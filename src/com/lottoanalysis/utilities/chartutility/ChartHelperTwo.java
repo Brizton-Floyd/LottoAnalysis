@@ -301,7 +301,7 @@ public class ChartHelperTwo {
                 list.add(currentWinningNumber);
 	            list.add(nextWinningNumber);
 	            list.add(currentWinningNumber);
-
+//
 	            count = list.size();
             }
 
