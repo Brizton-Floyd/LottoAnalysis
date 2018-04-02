@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="683.0" prefWidth="1214.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.GroupChartController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="1214.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.GroupChartController">
    <children>
       <Label fx:id="lblGame" text="Group Chart Analysis: Fantasy Five" textFill="#dac6ac" AnchorPane.leftAnchor="10.0">
          <font>
@@ -96,41 +96,59 @@
       </MenuButton>
       <HBox layoutY="381.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="297.0" prefWidth="1193.0" spacing="20.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="400.0">
          <children>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="297.0" prefWidth="0.0" style="-fx-background-color: black;">
+            <VBox prefHeight="278.0" prefWidth="743.0">
                <children>
-                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="211.0" prefWidth="789.0" style="-fx-background-color: black;">
                      <children>
-                        <Label fx:id="groupHitOutlookLabel" prefHeight="27.0" prefWidth="705.0" textFill="#efa747">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <padding>
-                              <Insets left="250.0" />
-                           </padding>
-                        </Label>
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                           <children>
+                              <Label fx:id="groupHitOutlookLabel" prefHeight="27.0" prefWidth="705.0" textFill="#efa747">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="250.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="groupInfoTable" stylesheets="@../styles/table_view.css" />
                      </children>
-                  </AnchorPane>
-                  <TableView fx:id="groupInfoTable" stylesheets="@../styles/table_view.css" />
-               </children>
-            </VBox>
-            <VBox style="-fx-background-color: black;">
-               <children>
-                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                  </VBox>
+                  <VBox prefHeight="218.0" prefWidth="789.0" style="-fx-background-color: black;">
                      <children>
-                        <Label fx:id="patternOutlookLabel" prefHeight="27.0" prefWidth="468.0" text="Pattern Table" textFill="#efa747">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <padding>
-                              <Insets left="200.0" />
-                           </padding>
-                        </Label>
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                           <children>
+                              <Label fx:id="patternOutlookLabel" prefHeight="27.0" prefWidth="787.0" text="Pattern Table" textFill="#efa747">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="200.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="patternTable" stylesheets="@../styles/table_view.css" />
                      </children>
-                  </AnchorPane>
-                  <TableView fx:id="patternTable" stylesheets="@../styles/table_view.css" />
+                  </VBox>
                </children>
             </VBox>
          </children>
       </HBox>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="272.0" prefWidth="432.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="800.0" AnchorPane.topAnchor="400.0">
+         <children>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="420.0" style="-fx-background-color: black;">
+               <children>
+                  <Label fx:id="gameOutPerfLabel" prefHeight="27.0" prefWidth="430.0" text="Game Out Performance Table" textFill="#efa747">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <TableView fx:id="tbl_gameOutPerformance" stylesheets="@../styles/table_view.css" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

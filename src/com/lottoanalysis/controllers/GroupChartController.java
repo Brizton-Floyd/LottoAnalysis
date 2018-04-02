@@ -3,10 +3,10 @@ package com.lottoanalysis.controllers;
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.models.toplevelcharting.ChartDataBuilder;
-import com.lottoanalysis.utilities.analyzerutilites.DayGrouperAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.TrendLineAnalyzer;
+import com.lottoanalysis.utilities.chartutility.ChartHelper;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
+import com.lottoanalysis.utilities.gameoutviewutilities.GameOutLottoHitFinder;
 import com.lottoanalysis.utilities.numberpatternutilities.PatternFinder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -53,13 +53,13 @@ public class GroupChartController {
     private MenuButton groupSizeMenuButton;
 
     @FXML
-    private Label lblGame, lblAnalyzedPosition,groupHitOutlookLabel,patternOutlookLabel;
+    private Label lblGame, lblAnalyzedPosition,groupHitOutlookLabel,patternOutlookLabel,gameOutPerfLabel;
 
     @FXML
     private GridPane groupGridPane;
 
     @FXML
-    private TableView groupInfoTable, patternTable;
+    private TableView groupInfoTable, patternTable, tbl_gameOutPerformance;
 
     @FXML
     public void initialize() {
@@ -191,6 +191,8 @@ public class GroupChartController {
         clearVbox();
         lblGame.setText("Group Chart Analysis: " + lotteryGame.getGameName());
         groupHitOutlookLabel.setText("Group Hit Outlook Position " + data.get(globalDrawPosition));
+        patternOutlookLabel.setText(String.format("%40s",patternOutlookLabel.getText()));
+        gameOutPerfLabel.setText(String.format("%45s",gameOutPerfLabel.getText()));
 
        // NextProbableGroupFinder.analyze(drawPositionalNumbers);
         //GameOutViewPatternFinder.analyze(drawPositionalNumbers);;
@@ -225,10 +227,10 @@ public class GroupChartController {
 //            System.out.println();
 //        }
 
-        ChartDataBuilder chartDataBuilder = new ChartDataBuilder(drawingPos);
-
-        DayGrouperAnalyzer dayGrouperAnalyzer = new DayGrouperAnalyzer();
-        dayGrouperAnalyzer.analzye(lotteryGame);
+//        ChartDataBuilder chartDataBuilder = new ChartDataBuilder(drawingPos);
+//
+//        DayGrouperAnalyzer dayGrouperAnalyzer = new DayGrouperAnalyzer();
+//        dayGrouperAnalyzer.analzye(lotteryGame);
 
         ChartHelperTwo.clearGroupHitInformation();
         ChartHelperTwo.processIncomingData(lotteryGame, drawingPos, drawSize);
@@ -255,10 +257,13 @@ public class GroupChartController {
                 patternTable.getItems().clear();
                 patternTable.getColumns().clear();
                 injectChartWithData(positionData,button.getText());
-                List<Integer> specialList = ChartHelperTwo.getRepeatedNumberList((List<Integer>) positionData.get(button.getText())[0]);
+                List<Integer> specialList = (List<Integer>) ChartHelperTwo.getRepeatedNumberList( (List<Integer>) positionData.get(button.getText())[0] )[0];
                 setUpGroupHitGridPane(positionData,button.getText(),(List<Integer>) positionData.get(button.getText())[0]);
 
                 int[] num = ( ((List<Integer>) positionData.get(button.getText())[0]) ).stream().mapToInt(Integer::intValue).toArray();
+
+
+
                 TrendLineAnalyzer.analyzeData(num);
 
 //               LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
@@ -296,8 +301,8 @@ public class GroupChartController {
 
         radioBtnAndChartHbox.setSpacing(20);
         injectChartWithData(positionData,((RadioButton)group.getToggles().get(0)).getText());
-        List<Integer> specialList = ChartHelperTwo.getRepeatedNumberList(
-                (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]);
+        List<Integer> specialList = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(
+                (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0])[0];
 
         setUpGroupHitGridPane(positionData, ((RadioButton)group.getToggles().get(0)).getText(),
                 (List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]);
@@ -305,7 +310,7 @@ public class GroupChartController {
         int[] nums = ((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0]).stream().mapToInt(i->i).toArray();
 
 
-       // TrendLineAnalyzer.analyzeData(nums);
+       TrendLineAnalyzer.analyzeData(nums);
 
 //        Object[] data;
 //
@@ -525,14 +530,21 @@ public class GroupChartController {
         String[] colors = {"#FF0000", "#FF0000"};
 
         List<Integer> numList = (List<Integer>)positionData.get(text)[0];
+
+        // Set up data for game out hit info table
+        String[] minMaxValues = ChartHelperTwo.getMinMax(text);
+
+        GameOutLottoHitFinder gameOutLottoHitFinder = new GameOutLottoHitFinder(Integer.parseInt(minMaxValues[0]), Integer.parseInt(minMaxValues[1]), numList);
+        setUpGameOutPatternChart( gameOutLottoHitFinder.getLottoNumberHitTracker() );
+
         List<Integer> numListTwo = new ArrayList<>(numList);
         Collections.sort(numListTwo);
 
-        List<Integer> specialList = ChartHelperTwo.getRepeatedNumberList(numList);
+        List<Integer> specialList = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(numList)[0];
 
         List<List<Integer>> dataPoints = new ArrayList<>();
-        //dataPoints.add((numList.size() > 150) ? numList.subList(numList.size()-150,numList.size()) : numList);
-        dataPoints.add( (specialList.size() > 150) ? specialList.subList(specialList.size()-150,specialList.size()) : specialList);
+        dataPoints.add((numList.size() > 100) ? numList.subList(numList.size()-100,numList.size()) : numList);
+        //dataPoints.add( (specialList.size() > 100) ? specialList.subList(specialList.size()-100,specialList.size()) : specialList);
 
 //        List<Integer> pointTwo = (numList.size() > 0) ? ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber(numList) : new ArrayList<>();
 //
@@ -557,7 +569,100 @@ public class GroupChartController {
                 minValue,
                 maxValue, unique.toString(), text,996,263);
 
+//        System.out.println();
+//        Map<Integer,Integer[]> lineSpacingMap = (Map<Integer,Integer[]>)ChartHelperTwo.getRepeatedNumberList(numList)[1];
+//
+//
+//        lineSpacingMap.forEach((k,vv) -> {
+//
+//            System.out.printf("Multiple %s %15s %3s %15s %3s\n",k,"Hits:",vv[0],"Games Out:",vv[1]);
+//        });
+
         radioBtnAndChartHbox.getChildren().add(lc.getLineChart());
+
+    }
+
+    private void setUpGameOutPatternChart(Map<Integer, Integer[]> lottoNumberHitTracker) {
+
+        tbl_gameOutPerformance.refresh();
+
+        tbl_gameOutPerformance.getItems().clear();
+        tbl_gameOutPerformance.getColumns().clear();
+
+        // Create columns
+        String[] colNames = {"Lotto #","Hits","Games Out","Game Out Hits","Game Out Lst Ht"};
+        for(int i = 0; i < colNames.length; i++){
+
+            final int j = i;
+            TableColumn col = new TableColumn(colNames[i]);
+            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+
+                @Override
+                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+                    return new TableCell<ObservableList, String>() {
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!isEmpty()) {
+
+                                setText(item);
+                                this.setTextFill(Color.BEIGE);
+                                // System.out.println(param.getText());
+
+                                ObservableList observableList = getTableView().getItems().get(getIndex());
+                                if (observableList.get(2).toString().equalsIgnoreCase("0")) {
+                                    getTableView().getSelectionModel().select(getIndex());
+
+                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+
+                                        this.setTextFill(Color.valueOf("#76FF03"));
+                                    }
+
+                                    //System.out.println(getItem());
+                                    // Get fancy and change color based on data
+                                    //if (item.contains("X"))
+                                    //this.setTextFill(Color.valueOf("#EFA747"));
+                                }
+                            }
+                        }
+                    };
+                }
+            });
+
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+
+
+
+            );
+
+            col.setSortable(false);
+            tbl_gameOutPerformance.getColumns().addAll(col);
+        }
+
+        ObservableList<ObservableList> items = FXCollections.observableArrayList();
+        /********************************
+         * Data added to ObservableList *
+         ********************************/
+        for(Map.Entry<Integer,Integer[]> data : lottoNumberHitTracker.entrySet()){
+
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+
+            Integer key = data.getKey();
+            Integer[] values = data.getValue();
+
+            row.add(key+"");
+            row.add(values[0]+"");
+            row.add(values[1]+"");
+            row.add(values[2]+"");
+            row.add(values[3]+"");
+
+            items.add(row);
+        }
+
+        tbl_gameOutPerformance.setItems(items);
 
     }
 

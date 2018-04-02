@@ -25,7 +25,7 @@ public class NumberMultipleAnalyzer {
         multipleRanges.put(1, new ArrayList<>());
     }
 
-    private NumberMultipleAnalyzer() {
+    public NumberMultipleAnalyzer() {
         this.multipleGamesOut = -1;
         this.multipleHits = -1;
         this.multipleHitsAtGamesOut = -1;
@@ -40,6 +40,10 @@ public class NumberMultipleAnalyzer {
 
     // getters and setters
 
+
+    public static Map<Integer, List<Integer>> getMultipleRanges() {
+        return multipleRanges;
+    }
 
     public void setMultipleHits(int val) {
         this.multipleHits = val;
@@ -252,6 +256,19 @@ public class NumberMultipleAnalyzer {
                 }
             }
         }
+    }
+
+    public Integer getMultiple(int nextWinningNumber) {
+
+        for(Map.Entry<Integer,List<Integer>> vals : multipleRanges.entrySet()){
+
+            if( vals.getValue().contains( nextWinningNumber )){
+                return vals.getKey();
+            }
+
+        }
+
+        return null;
     }
 
     private class LottoNumber{

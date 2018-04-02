@@ -1,8 +1,10 @@
 package com.lottoanalysis.utilities.chartutility;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.numbertracking.NumberMultipleAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
 /**
@@ -17,10 +19,14 @@ public class ChartHelperTwo {
     // and the fifth element will be an arraylist holding all game out data.
     private static Map<Integer[],Object[]> groupHitInformation = new LinkedHashMap<>();
 
+    private static LottoGame lottoGame;
+
     /**
      *This Method will take in a lottery game instance and all positional hits for a given lottery number position
      */
     public static void processIncomingData(LottoGame lotteryGame, int[] drawPositionNumbers, int groupSize){
+
+        lottoGame = lotteryGame;
 
         // Deterimine how to split the number for a given lottery game
         splitLotteryGameDrawSizeIntoGroups( lotteryGame, groupSize );
@@ -279,59 +285,61 @@ public class ChartHelperTwo {
 		return numbers;
 	}
 
-	public static List<Integer> getRepeatedNumberList(List<Integer> values){
+	public static Object[] getRepeatedNumberList(List<Integer> values){
 
 	    if(values.size() < 2)
-	        return new ArrayList<>();
+	        return new Object[]{new ArrayList<>()};
 
 	    int currentWinningNumber = values.get(values.size()-1);
 	    List<Integer> list = new ArrayList<>();
         List<Integer> indexHolder = new ArrayList<>();
-        int count = 0;
+
+        NumberMultipleAnalyzer  numberMultipleAnalyzer = new NumberMultipleAnalyzer( lottoGame );
 
 	    for(int i = 0; i < values.size()-1; i++){
 
 	        if(values.get(i) == currentWinningNumber){
 
 	            int nextWinningNumber = values.get(i +1);
-
-	            indexHolder.add(count);
-	            indexHolder.add(count+2);
+                //Integer[] data = new Integer[]{currentWinningNumber,nextWinningNumber};
+                Integer num = numberMultipleAnalyzer.getMultiple( nextWinningNumber );
+                if(num != null)
+                    indexHolder.add( num );
 
                 list.add(currentWinningNumber);
 	            list.add(nextWinningNumber);
 	            list.add(currentWinningNumber);
-//
-	            count = list.size();
+
             }
 
         }
-        //list.add(currentWinningNumber);
-       // System.out.println(list.get(list.size() - 2));
 
-//        List<Integer> modList = new ArrayList<>(list);
+//        NumberMultipleAnalyzer.getMultipleRanges().forEach((k,v) -> {
 //
-//        for(int i = 0; i < indexHolder.size(); i++){
-//
-//            int index = indexHolder.get(i);
-//            modList.remove(index);
-//            modList.add(index,-1);
-//        }
-//
-//        for(Iterator<Integer> iterator = modList.iterator(); iterator.hasNext();){
-//
-//            int n = iterator.next();
-//            if(n < 0)
-//                iterator.remove();
-//
-//
-//        }
-       // modList.removeAll(indexHolder);
+//	        System.out.printf("Multiple: %s %15s %4s\n",k,"Values:",Arrays.toString(v.toArray()));
+//        });
 
-        // pass values to retracement class for access later in application
-        //LineRetracementFinder.analyze(currentWinningNumber, modList.stream().mapToInt(i -> i).toArray() );
 
-	    return list;
+        Map<Integer,Integer[]> lineSpacingMap = new TreeMap<>();
+        indexHolder.forEach( array -> {
+
+              //  int difference = Math.abs( array[number] - array[number - 1] );
+                if(!lineSpacingMap.containsKey( array ))
+                {
+                    lineSpacingMap.put( array, new Integer[]{1,0});
+                    NumberAnalyzer.incrementGamesOut(lineSpacingMap,array);
+                }
+                else
+                {
+                    Integer[] mapData = lineSpacingMap.get( array );
+                    mapData[0]++;
+                    mapData[1] = 0;
+                    NumberAnalyzer.incrementGamesOut(lineSpacingMap, array);
+                }
+        });
+
+        Object[] vals = new Object[]{list,lineSpacingMap};
+	    return vals;
     }
 
     public static Map<String,Object[]> getPatternData(List<Integer> integers,String text) {
@@ -404,7 +412,7 @@ public class ChartHelperTwo {
 	    return data;
     }
 
-    private static String[] getMinMax(String text) {
+    public static String[] getMinMax(String text) {
         StringBuilder builder = new StringBuilder(text);
         int i = builder.indexOf("[");
         int ii = builder.indexOf("]");
