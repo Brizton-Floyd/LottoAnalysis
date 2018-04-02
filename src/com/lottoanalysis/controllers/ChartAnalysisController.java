@@ -222,7 +222,7 @@ public class ChartAnalysisController {
             if(points.size() > 0)
              ChartHelper.plugNumbersIntoRecentWinningNumberCompanionMap(points);
 
-            List<Integer> special = ChartHelperTwo.getRepeatedNumberList(points);
+            List<Integer> special = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(points)[0];
             List<List<Integer>> dataPoints = new ArrayList<>();
             dataPoints.add((points.size() > 100) ? points.subList(points.size() - 60, points.size()) : points);
 

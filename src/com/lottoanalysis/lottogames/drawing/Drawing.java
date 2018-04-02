@@ -20,6 +20,8 @@ public class Drawing {
     private Map<String,String> monthNumbers = new HashMap<>();
     private static List<Drawing> unModifiedDrawData = new ArrayList<>();
     private String[] nums;
+    private List<String[]> drawNumbers = new ArrayList<>();
+
     public static int drawSize;
 
     public static int getDrawSize() {
@@ -30,7 +32,6 @@ public class Drawing {
 
         //unModifiedDrawData.clear();
         //unModifiedDrawData.add(new Drawing(drawNumber,drawDate,numbers));
-
         nums = numbers;
         loadHashMap();
         this.drawNumber = new SimpleStringProperty("" + drawNumber);
