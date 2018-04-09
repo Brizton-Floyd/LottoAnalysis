@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="683.0" prefWidth="1214.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.GameOutController">
+   <children>
+      <Pane layoutY="41.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="4.0" prefWidth="1214.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Label layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="492.0" text="Game Out View Chart" textFill="#dac6ac" AnchorPane.leftAnchor="10.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="posLabel" layoutX="20.0" layoutY="10.0" prefHeight="35.0" prefWidth="445.0" text="Current Analyzing Position Three" textFill="#dac6ac" AnchorPane.rightAnchor="10.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <padding>
+            <Insets left="80.0" />
+         </padding>
+      </Label>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
+         <children>
+            <VBox prefHeight="603.0" prefWidth="513.0">
+               <children>
+                  <VBox prefHeight="52.0" prefWidth="507.0" spacing="5.0" style="-fx-border-color: black;">
+                     <children>
+                        <Label prefHeight="35.0" prefWidth="492.0" text="Draw Positions" textFill="#dac6ac">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <HBox fx:id="drawPositoinHbox" prefHeight="46.0" prefWidth="507.0" spacing="20.0">
+                           <children>
+                              <RadioButton mnemonicParsing="false" text="P1" textFill="#dac6ac" />
+                              <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="P2" textFill="#dac6ac" />
+                              <RadioButton layoutX="45.0" layoutY="10.0" mnemonicParsing="false" text="P3" textFill="#dac6ac" />
+                              <RadioButton layoutX="120.0" layoutY="10.0" mnemonicParsing="false" text="P4" textFill="#dac6ac" />
+                              <RadioButton layoutX="175.0" layoutY="10.0" mnemonicParsing="false" text="P5" textFill="#dac6ac" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="179.0" prefWidth="507.0">
+                     <children>
+                        <HBox prefHeight="52.0" prefWidth="507.0" style="-fx-border-color: black;">
+                           <children>
+                              <Label prefHeight="35.0" prefWidth="114.0" text="Group Range:" textFill="#dac6ac">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="rangeComboBox" prefHeight="8.0" prefWidth="150.0" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" top="20.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <TableView fx:id="rangeHitTable" prefHeight="131.0" prefWidth="513.0" stylesheets="@../styles/table_view.css">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="189.0" prefWidth="513.0">
+                     <children>
+                        <Label prefHeight="37.0" prefWidth="526.0" text="Game Out Hit Range Table" textFill="#dac6ac">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="10.0" left="120.0" />
+                           </padding>
+                        </Label>
+                        <TableView prefHeight="118.0" prefWidth="513.0" stylesheets="@../styles/table_view.css">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                     </children>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="241.0" prefHeight="189.0" prefWidth="513.0">
+                     <children>
+                        <Label prefHeight="37.0" prefWidth="526.0" text="Individual Game Out Performance" textFill="#dac6ac">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="10.0" left="120.0" />
+                           </padding>
+                        </Label>
+                        <TableView prefHeight="118.0" prefWidth="513.0" stylesheets="@../styles/table_view.css">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="C1" />
+                              <TableColumn prefWidth="75.0" text="C2" />
+                           </columns>
+                        </TableView>
+                     </children>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <TableView fx:id="patternTable" stylesheets="@../styles/table_view.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
+   </children>
+</AnchorPane>

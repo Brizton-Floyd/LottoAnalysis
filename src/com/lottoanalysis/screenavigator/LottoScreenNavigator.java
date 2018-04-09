@@ -24,6 +24,7 @@ public class LottoScreenNavigator {
     public static final String LOTTO_SCREEN_FOUR = "/com/lottoanalysis/view/GroupChartView.fxml";
     public static final String LOTTO_SCREEN_FIVE = "/com/lottoanalysis/view/CompanionNumber.fxml";
     public static final String LOTTO_SCREEN_SIX = "/com/lottoanalysis/view/GameOutView.fxml";
+    public static final String LOTTO_SCREEN_SEVEN = "/com/lottoanalysis/view/GameOutViewTwo.fxml";
 
     /** The main application layout controller. */
     private static LottoAnalysisHomeController mainController;
@@ -105,7 +106,7 @@ public class LottoScreenNavigator {
                     LottoGame game = (LottoGame) domainObject[0];
                     CompanionNumberController controller = loader.getController();
 
-                    controller.setPostionalNumbers((int[][])((List<Object>)domainObject[1]).get(1));
+                    controller.setPostionalNumbers((int[][])((List<Object>)domainObject[1]).get(0));
                     controller.setGame(game);
                     controller.initComponents();
                 }

@@ -25,7 +25,7 @@ import java.util.List;
  * class will invoke all events that allow the overall application to work accordingly. (i.e. calling other controllers via
  * event handlers etc..
  */
-public class LottoAnalysisHomeController  {
+public class LottoAnalysisHomeController {
 
 
     private MainController mainController;
@@ -41,7 +41,9 @@ public class LottoAnalysisHomeController  {
     @FXML
     private AnchorPane mainPane;
 
-    /** Holder of a switchable lotto screens. */
+    /**
+     * Holder of a switchable lotto screens.
+     */
     @FXML
     private StackPane screenHolder;
 
@@ -55,21 +57,20 @@ public class LottoAnalysisHomeController  {
     }
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         stylingAndVisibilityEvents();
     }
 
-    public LottoAnalysisHomeController(){
+    public LottoAnalysisHomeController() {
 
     }
 
     @FXML
-    public void loadCompanionNumberScreen(ActionEvent event)
-    {
+    public void loadCompanionNumberScreen(ActionEvent event) {
 
         enableOtherButtons();
         JFXButton button = (JFXButton) event.getSource();
-        buttons.add( button );
+        buttons.add(button);
         button.setDisable(true);
         // Retrieve the current game that is currently being played
         LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
@@ -77,15 +78,14 @@ public class LottoAnalysisHomeController  {
 
         Object[] allData = {game, drawData};
 
-        if(game == null || drawData == null) {
+        if (game == null || drawData == null) {
 
             game = LottoDashboardController.getClassLevelLotteryGame();
             drawData = LottoDashboardController.getNumbersForChartDisplay();
             allData = new Object[]{game, drawData};
 
             LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FIVE, LotteryGameConstants.COMPANION_NUMBER_ANALYSIS_CONTOLLER, allData);
-        }
-        else{
+        } else {
             LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FIVE, LotteryGameConstants.COMPANION_NUMBER_ANALYSIS_CONTOLLER, allData);
 
         }
@@ -93,7 +93,7 @@ public class LottoAnalysisHomeController  {
 
     private void enableOtherButtons() {
 
-        for(Iterator<JFXButton> jfxButtonIterator = buttons.iterator(); jfxButtonIterator.hasNext();){
+        for (Iterator<JFXButton> jfxButtonIterator = buttons.iterator(); jfxButtonIterator.hasNext(); ) {
 
             JFXButton button = jfxButtonIterator.next();
             button.setDisable(false);
@@ -102,11 +102,11 @@ public class LottoAnalysisHomeController  {
     }
 
     @FXML
-    public void loadGroupChartScreen(ActionEvent event){
+    public void loadGroupChartScreen(ActionEvent event) {
 
         enableOtherButtons();
         JFXButton button = (JFXButton) event.getSource();
-        buttons.add( button );
+        buttons.add(button);
         button.setDisable(true);
 
         // Retrieve the current game that is currently being played
@@ -115,54 +115,55 @@ public class LottoAnalysisHomeController  {
 
         Object[] allData = {game, drawData};
 
-        if(game == null || drawData == null){
+        if (game == null || drawData == null) {
 
             game = LottoDashboardController.getClassLevelLotteryGame();
             drawData = LottoDashboardController.getNumbersForChartDisplay();
             allData = new Object[]{game, drawData};
 
             LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FOUR, LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER, allData);
-        }else{
+        } else {
 
-            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FOUR, LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER,allData);
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_FOUR, LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER, allData);
         }
 
     }
+
     @FXML
-    public void loadLotteryDashBoardScreen(ActionEvent event){
+    public void loadLotteryDashBoardScreen(ActionEvent event) {
 
         enableOtherButtons();
         JFXButton button = (JFXButton) event.getSource();
-        buttons.add( button );
+        buttons.add(button);
         button.setDisable(true);
 
-        if(LottoInfoAndGamesController.getStaticPane() == null)
-            LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE, null ,null);
+        if (LottoInfoAndGamesController.getStaticPane() == null)
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_ONE, null, null);
         else
-            LottoScreenNavigator.getMainController().setLottoScreen( LottoInfoAndGamesController.getStaticPane());
+            LottoScreenNavigator.getMainController().setLottoScreen(LottoInfoAndGamesController.getStaticPane());
     }
 
-    public void loadLotteryDashBoardScreen(){
+    public void loadLotteryDashBoardScreen() {
 
-            LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE, null ,null);
+        LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_ONE, null, null);
     }
 
     @FXML
-    public void makeGamePanelAppear(ActionEvent event){
+    public void makeGamePanelAppear(ActionEvent event) {
 
         //JFXButton jfxButton = buttons.iterator().next();
         //jfxButton.setDisable(false);
 
-        LottoInfoAndGamesController.makeGamePanelAppear( event );
+        LottoInfoAndGamesController.makeGamePanelAppear(event);
 
     }
 
     @FXML
-    public void loadGameOutView( ActionEvent event){
+    public void loadGameOutView(ActionEvent event) {
 
         enableOtherButtons();
         JFXButton button = (JFXButton) event.getSource();
-        buttons.add( button );
+        buttons.add(button);
         button.setDisable(true);
 
         // Retrieve the current game that is currently being played
@@ -171,7 +172,7 @@ public class LottoAnalysisHomeController  {
 
         Object[] allData = {game, drawData};
 
-        if(game == null || drawData == null){
+        if (game == null || drawData == null) {
 
             game = LottoDashboardController.getClassLevelLotteryGame();
             drawData = LottoDashboardController.getNumbersForChartDisplay();
@@ -186,9 +187,9 @@ public class LottoAnalysisHomeController  {
             AnchorPane pane = loader.load();
 
             NumberMultipleController numberMultipleController = loader.getController();
-            numberMultipleController.init( allData );
+            numberMultipleController.init(allData);
 
-            Scene scene = new Scene(pane,1500,750);
+            Scene scene = new Scene(pane, 1500, 750);
             Stage stage = new Stage();
 
             stage.setOnHiding(event1 -> {
@@ -208,11 +209,11 @@ public class LottoAnalysisHomeController  {
     }
 
     @FXML
-    public void loadLotteryChartAnalysisScreen(ActionEvent event){
+    public void loadGameOutChart(ActionEvent event) {
 
         enableOtherButtons();
         JFXButton button = (JFXButton) event.getSource();
-        buttons.add( button );
+        buttons.add(button);
         button.setDisable(true);
 
         // Retrieve the current game that is currently being played
@@ -221,16 +222,65 @@ public class LottoAnalysisHomeController  {
 
         Object[] allData = {game, drawData};
 
-        if(game == null || drawData == null){
+        if (game == null || drawData == null) {
+
+            game = LottoDashboardController.getClassLevelLotteryGame();
+            drawData = LottoDashboardController.getNumbersForChartDisplay();
+            allData = new Object[]{game, drawData};
+        }
+
+        try {
+            gameOutBtn.setDisable(true);
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_SEVEN));
+            AnchorPane pane = loader.load();
+
+            GameOutController gameOutController = loader.getController();
+            gameOutController.init( allData );
+
+            Scene scene = new Scene(pane, 1500, 750);
+            Stage stage = new Stage();
+
+            stage.setOnHiding(event1 -> {
+                gameOutBtn.setDisable(false);
+            });
+
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setTitle("Game Out Chart " + game.getGameName());
+            stage.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void loadLotteryChartAnalysisScreen(ActionEvent event) {
+
+        enableOtherButtons();
+        JFXButton button = (JFXButton) event.getSource();
+        buttons.add(button);
+        button.setDisable(true);
+
+        // Retrieve the current game that is currently being played
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        List<Object> drawData = LottoInfoAndGamesController.getValues();
+
+        Object[] allData = {game, drawData};
+
+        if (game == null || drawData == null) {
 
             game = LottoDashboardController.getClassLevelLotteryGame();
             drawData = LottoDashboardController.getNumbersForChartDisplay();
             allData = new Object[]{game, drawData};
 
             LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, LotteryGameConstants.CHART_ANALYSIS_CONTROLLER, allData);
-        }else{
+        } else {
 
-            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, LotteryGameConstants.CHART_ANALYSIS_CONTROLLER,allData);
+            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, LotteryGameConstants.CHART_ANALYSIS_CONTROLLER, allData);
         }
 
     }
@@ -240,25 +290,54 @@ public class LottoAnalysisHomeController  {
      */
     private void stylingAndVisibilityEvents() {
 
-        btn_lottoDashboard.setOnMouseExited(e -> {btn_lottoDashboard.setStyle("-fx-font-size: 13px;");});
-        btn_lottoDashboard.setOnMouseEntered(e -> {btn_lottoDashboard.setStyle("-fx-font-size: 13px;" +
-                "-fx-background-color: #515B51;" +
-                "-fx-text-fill: #EFA747;");});
-        btn_charAnalysis.setOnMouseExited(e -> {btn_charAnalysis.setStyle("-fx-font-size: 13px;");});
-        btn_charAnalysis.setOnMouseEntered(e -> {btn_charAnalysis.setStyle("-fx-font-size: 13px;" +
-                "-fx-background-color: #515B51;" +
-                "-fx-text-fill: #EFA747;");});
-        btn_compLottoAnalysis.setOnMouseExited(e -> {btn_compLottoAnalysis.setStyle("-fx-font-size: 13px;");});
-        btn_compLottoAnalysis.setOnMouseEntered(e -> {btn_compLottoAnalysis.setStyle("-fx-font-size: 13px;" +
-                "-fx-background-color: #515B51;" +
-                "-fx-text-fill: #EFA747;");});
-        btn_neutral.setOnMouseExited(e -> {btn_neutral.setStyle("-fx-font-size: 13px;");});
-        btn_neutral.setOnMouseEntered(e -> {btn_neutral.setStyle("-fx-font-size: 13px;" +
-                "-fx-background-color: #515B51;" +
-                "-fx-text-fill: #EFA747;");});
-        btn_lengthy.setOnMouseExited(e -> {btn_lengthy.setStyle("-fx-font-size: 13px;");});
-        btn_lengthy.setOnMouseEntered(e -> {btn_lengthy.setStyle("-fx-font-size: 13px;" +
-                "-fx-background-color: #515B51;" +
-                "-fx-text-fill: #EFA747;");});
+        btn_lottoDashboard.setOnMouseExited(e -> {
+            btn_lottoDashboard.setStyle("-fx-font-size: 13px;");
+        });
+        btn_lottoDashboard.setOnMouseEntered(e -> {
+            btn_lottoDashboard.setStyle("-fx-font-size: 13px;" +
+                    "-fx-background-color: #515B51;" +
+                    "-fx-text-fill: #EFA747;");
+        });
+        btn_charAnalysis.setOnMouseExited(e -> {
+            btn_charAnalysis.setStyle("-fx-font-size: 13px;");
+        });
+        btn_charAnalysis.setOnMouseEntered(e -> {
+            btn_charAnalysis.setStyle("-fx-font-size: 13px;" +
+                    "-fx-background-color: #515B51;" +
+                    "-fx-text-fill: #EFA747;");
+        });
+        btn_compLottoAnalysis.setOnMouseExited(e -> {
+            btn_compLottoAnalysis.setStyle("-fx-font-size: 13px;");
+        });
+        btn_compLottoAnalysis.setOnMouseEntered(e -> {
+            btn_compLottoAnalysis.setStyle("-fx-font-size: 13px;" +
+                    "-fx-background-color: #515B51;" +
+                    "-fx-text-fill: #EFA747;");
+        });
+        btn_neutral.setOnMouseExited(e -> {
+            btn_neutral.setStyle("-fx-font-size: 13px;");
+        });
+        btn_neutral.setOnMouseEntered(e -> {
+            btn_neutral.setStyle("-fx-font-size: 13px;" +
+                    "-fx-background-color: #515B51;" +
+                    "-fx-text-fill: #EFA747;");
+        });
+        btn_lengthy.setOnMouseExited(e -> {
+            btn_lengthy.setStyle("-fx-font-size: 13px;");
+        });
+        btn_lengthy.setOnMouseEntered(e -> {
+            btn_lengthy.setStyle("-fx-font-size: 13px;" +
+                    "-fx-background-color: #515B51;" +
+                    "-fx-text-fill: #EFA747;");
+        });
+
+        gameOutBtn.setOnMouseExited(e -> {
+            gameOutBtn.setStyle("-fx-font-size: 13px;");
+        });
+        gameOutBtn.setOnMouseEntered(e -> {
+            gameOutBtn.setStyle("-fx-font-size: 13px;" +
+                    "-fx-background-color: #515B51;" +
+                    "-fx-text-fill: #EFA747;");
+        });
     }
 }
