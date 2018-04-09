@@ -219,7 +219,7 @@ public class ChartHelperTwo {
         int currentNumberInIteration = 0;
 
         // get the max number which will determine how to split the group size.
-        int groupDivisor = (maxNumber > groupSize) ? groupSize : maxNumber / 2 ;
+        int groupDivisor = (maxNumber >= groupSize) ? groupSize : maxNumber / 2 ;
 
         List<Integer> numberHolderList = new ArrayList<>();
 
