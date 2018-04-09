@@ -3,11 +3,9 @@ package com.lottoanalysis.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.Main;
 import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.enums.LotteryGame;
 import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +32,8 @@ public class LottoAnalysisHomeController  {
     private List<JFXButton> buttons = new ArrayList<>();
 
     @FXML
-    private JFXButton btn_game, btn_lottoModalCloser, help_button, btn_search, btn_lottoDashboard, btn_charAnalysis, btn_compLottoAnalysis, btn_neutral, btn_gameOutView;
+    private JFXButton btn_game, btn_lottoModalCloser, help_button, btn_search, btn_lottoDashboard, btn_charAnalysis, btn_compLottoAnalysis, btn_neutral,
+            btn_lengthy, gameOutBtn;
 
     @FXML
     private Label lbl_game_hover, lbl_game_help, lbl_search;
@@ -152,6 +150,9 @@ public class LottoAnalysisHomeController  {
     @FXML
     public void makeGamePanelAppear(ActionEvent event){
 
+        //JFXButton jfxButton = buttons.iterator().next();
+        //jfxButton.setDisable(false);
+
         LottoInfoAndGamesController.makeGamePanelAppear( event );
 
     }
@@ -164,31 +165,39 @@ public class LottoAnalysisHomeController  {
         buttons.add( button );
         button.setDisable(true);
 
+        // Retrieve the current game that is currently being played
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        List<Object> drawData = LottoInfoAndGamesController.getValues();
+
+        Object[] allData = {game, drawData};
+
+        if(game == null || drawData == null){
+
+            game = LottoDashboardController.getClassLevelLotteryGame();
+            drawData = LottoDashboardController.getNumbersForChartDisplay();
+            allData = new Object[]{game, drawData};
+        }
+
         try {
-            btn_gameOutView.setDisable(true);
+            btn_lengthy.setDisable(true);
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_SIX));
             AnchorPane pane = loader.load();
 
-            LottoGame lotteryGame = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
-            if(lotteryGame == null){
-                lotteryGame = LottoDashboardController.getClassLevelLotteryGame();
-            }
-
-            GameOutViewController gameOutViewController = loader.getController();
-            gameOutViewController.init( lotteryGame );
+            NumberMultipleController numberMultipleController = loader.getController();
+            numberMultipleController.init( allData );
 
             Scene scene = new Scene(pane,1500,750);
             Stage stage = new Stage();
 
             stage.setOnHiding(event1 -> {
-                btn_gameOutView.setDisable(false);
+                btn_lengthy.setDisable(false);
             });
 
             stage.setScene(scene);
             stage.setResizable(false);
-            stage.setTitle("Game Out View");
+            stage.setTitle("Number Multiple Analyzer Chart " + game.getGameName());
             stage.show();
 
 
@@ -247,8 +256,8 @@ public class LottoAnalysisHomeController  {
         btn_neutral.setOnMouseEntered(e -> {btn_neutral.setStyle("-fx-font-size: 13px;" +
                 "-fx-background-color: #515B51;" +
                 "-fx-text-fill: #EFA747;");});
-        btn_gameOutView.setOnMouseExited(e -> {btn_gameOutView.setStyle("-fx-font-size: 13px;");});
-        btn_gameOutView.setOnMouseEntered(e -> {btn_gameOutView.setStyle("-fx-font-size: 13px;" +
+        btn_lengthy.setOnMouseExited(e -> {btn_lengthy.setStyle("-fx-font-size: 13px;");});
+        btn_lengthy.setOnMouseEntered(e -> {btn_lengthy.setStyle("-fx-font-size: 13px;" +
                 "-fx-background-color: #515B51;" +
                 "-fx-text-fill: #EFA747;");});
     }

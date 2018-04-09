@@ -1,11 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1500.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.GameOutViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1500.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.NumberMultipleController">
    <children>
-      <TableView fx:id="tbl_lottoNumberPattern" layoutX="278.0" layoutY="100.0" prefHeight="360.0" prefWidth="1460.0" stylesheets="@../styles/table_view.css" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+      <Pane layoutX="10.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="2.0" prefWidth="1450.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Label layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="369.0" text="Number Multiple Analysis Chart" textFill="#dac6ac" AnchorPane.leftAnchor="10.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_analyzedPosistion" layoutX="1041.0" layoutY="9.0" prefHeight="35.0" prefWidth="367.0" text="Currently Analyzing Position Three" textFill="#dac6ac" AnchorPane.rightAnchor="10.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <HBox fx:id="components" layoutX="10.0" layoutY="70.0" prefHeight="297.0" prefWidth="1480.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0">
+         <children>
+            <VBox prefHeight="85.0" prefWidth="332.0" spacing="10.0">
+               <children>
+                  <Label prefHeight="35.0" prefWidth="369.0" text="Positional Numbers" textFill="#dac6ac">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <HBox fx:id="positionButtonHbox" spacing="15.0">
+                     <children>
+                        <RadioButton mnemonicParsing="false" text="P1" textFill="#dac6ac">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="P2" textFill="#dac6ac">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton layoutX="51.0" layoutY="10.0" mnemonicParsing="false" text="P3" textFill="#dac6ac">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton layoutX="92.0" layoutY="10.0" mnemonicParsing="false" text="P4" textFill="#dac6ac">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton layoutX="133.0" layoutY="10.0" mnemonicParsing="false" text="P5" textFill="#dac6ac">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </HBox>
+                  <Label layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="369.0" text="Number Multiples" textFill="#dac6ac">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="120.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox fx:id="positionButtonHbox1" layoutX="10.0" layoutY="55.0" spacing="15.0">
+                     <children>
+                        <RadioButton fx:id="group" graphicTextGap="0.0" mnemonicParsing="false" selected="true" text="7m" textFill="#dac6ac">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="multipleToggle" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton graphicTextGap="0.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="5m" textFill="#dac6ac" toggleGroup="$multipleToggle">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton graphicTextGap="0.0" layoutX="51.0" layoutY="10.0" mnemonicParsing="false" text="3m" textFill="#dac6ac" toggleGroup="$multipleToggle">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton graphicTextGap="0.0" layoutX="92.0" layoutY="10.0" mnemonicParsing="false" text="2m" textFill="#dac6ac" toggleGroup="$multipleToggle">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton graphicTextGap="0.0" layoutX="133.0" layoutY="10.0" mnemonicParsing="false" text="1m" textFill="#dac6ac" toggleGroup="$multipleToggle">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <LineChart prefHeight="297.0" prefWidth="1223.0" stylesheets="@../styles/line_chart.css">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+         </children>
+      </HBox>
+      <VBox layoutX="10.0" layoutY="443.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <HBox prefHeight="46.0" prefWidth="1480.0">
+               <children>
+                  <Label prefHeight="35.0" prefWidth="114.0" text="Group Range" textFill="#dac6ac">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </Label>
+                  <ComboBox fx:id="rangeComboBox" prefHeight="8.0" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="297.0" prefWidth="1193.0" spacing="20.0">
+               <children>
+                  <VBox style="-fx-background-color: black;">
+                     <children>
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                           <children>
+                              <Label fx:id="groupHitOutlookLabel" prefHeight="27.0" prefWidth="705.0" text="Group Hit Outlook Position One" textFill="#efa747">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="250.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="groupInfoTable" prefHeight="270.0" prefWidth="710.0" stylesheets="@../styles/table_view.css" />
+                     </children>
+                  </VBox>
+                  <VBox style="-fx-background-color: black;">
+                     <children>
+                        <TextArea fx:id="multipleHitTextArea" editable="false" prefHeight="200.0" prefWidth="756.0" />
+                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                           <children>
+                              <Label fx:id="patternOutlookLabel" prefHeight="27.0" prefWidth="756.0" text="Game Out Information Table" textFill="#efa747">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="275.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="gameOutTable" prefHeight="315.0" prefWidth="756.0" stylesheets="@../styles/table_view.css" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

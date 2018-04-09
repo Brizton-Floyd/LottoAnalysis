@@ -285,6 +285,43 @@ public class ChartHelperTwo {
 		return numbers;
 	}
 
+	public static void formCompanionHitTrio( List<Integer> values)
+    {
+        int currentWinningNumber = values.get( values.size() - 1);
+        int previousWinningNumber = values.get( values.size() - 2);
+        Integer[] holder = {previousWinningNumber, currentWinningNumber};
+        List<Integer[]> patternHolder = new ArrayList<>();
+
+        Map<Integer[],Integer> f = new HashMap<>();
+        f.put( new Integer[]{previousWinningNumber , currentWinningNumber}, 0);
+
+        for(int i = 0; i < values.size() - 2; i++)
+        {
+
+            if(holder[0] == values.get(i) && holder[1] == values.get( i + 1)){
+
+                Integer[] d = new Integer[holder.length + 1];
+                d[0] = holder[0];
+                d[1] = holder[1];
+                d[2] = values.get(i + 2);
+                patternHolder.add(d);
+//
+//                for(Map.Entry<Integer[],Integer> p : f.entrySet()){
+//
+//                    if(Arrays.equals( p.getKey(), holder)){
+//
+//                        Integer val = p.getValue();
+//                        val++;
+//
+//                        f.put(p.getKey(), val );
+//                    }
+//                }
+
+            }
+
+        }
+    }
+
 	public static Object[] getRepeatedNumberList(List<Integer> values){
 
 	    if(values.size() < 2)
@@ -313,6 +350,7 @@ public class ChartHelperTwo {
             }
 
         }
+       // list.add(currentWinningNumber);
 
 //        NumberMultipleAnalyzer.getMultipleRanges().forEach((k,v) -> {
 //

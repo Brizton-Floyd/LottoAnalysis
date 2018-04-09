@@ -88,7 +88,7 @@ public class LottoScreenNavigator {
                     LottoGame game = (LottoGame) domainObject[0];
 
                     ChartAnalysisController controller = loader.getController();
-                    controller.setDrawNumbers((int[][]) ((List<Object>) domainObject[1]).get(3));
+                    controller.setDrawNumbers((int[][]) ((List<Object>) domainObject[1]).get(0) );
                     controller.setLotteryGame(game);
                     controller.start();
                 }
@@ -97,7 +97,7 @@ public class LottoScreenNavigator {
                     LottoGame game = (LottoGame) domainObject[0];
 
                     GroupChartController controller = loader.getController();
-                    controller.initFields(game, (int[][])((List<Object>)domainObject[1]).get(0));
+                    controller.initFields(game, (List<Object>)domainObject[1]);
                     controller.startSceneLayoutSequence();
                 }
                 else if(controllerName.equalsIgnoreCase(LotteryGameConstants.COMPANION_NUMBER_ANALYSIS_CONTOLLER)){
@@ -105,7 +105,7 @@ public class LottoScreenNavigator {
                     LottoGame game = (LottoGame) domainObject[0];
                     CompanionNumberController controller = loader.getController();
 
-                    controller.setPostionalNumbers((int[][])((List<Object>)domainObject[1]).get(0));
+                    controller.setPostionalNumbers((int[][])((List<Object>)domainObject[1]).get(1));
                     controller.setGame(game);
                     controller.initComponents();
                 }

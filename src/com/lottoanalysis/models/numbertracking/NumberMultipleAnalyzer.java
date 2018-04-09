@@ -8,6 +8,8 @@ public class NumberMultipleAnalyzer {
 
     private Map<Integer, NumberMultipleAnalyzer> multipleHitOccurenceHolder = new TreeMap<>();
     private Map<Integer, LottoNumber> lottoNumberHitOccurenceHolder = new TreeMap<>();
+    private Map<Integer, List<Integer>> multipleHolderMap = new HashMap<>();
+
     private int multipleHits;
     private int multipleGamesOut;
     private int multipleHitsAtGamesOut;
@@ -69,6 +71,10 @@ public class NumberMultipleAnalyzer {
         return this.multipleGamesOut;
     }
 
+    public Map<Integer, List<Integer>> getMultipleHolderMap() {
+        return multipleHolderMap;
+    }
+
     public int getMultipleHitsAtGamesOut() {
         return this.multipleHitsAtGamesOut;
     }
@@ -81,10 +87,25 @@ public class NumberMultipleAnalyzer {
         return gamesOutHolder;
     }
 
+    public Map<Integer, NumberMultipleAnalyzer> getMultipleHitOccurenceHolder() {
+        return multipleHitOccurenceHolder;
+    }
+
     private Map<Integer, LottoNumber> getLottoNumberHitOccurenceHolder() {
         return this.lottoNumberHitOccurenceHolder;
     }
 
+    public String getFormattedOutPut(){
+
+        String[] result = {""};
+        multipleHitOccurenceHolder.forEach( (k,v) -> {
+
+            result[0] += String.format("<----- Multiple: %5s %10s %5d %15s %5d %20s %5d %15s %5d ----->\n", k, "Hits:", v.getMultipleHits(), "Games Out:", v.getMultipleGamesOut(),
+                    "Hits @ G Out:", v.getMultipleHitsAtGamesOut(), "Last Seen:", v.getMultipleGameOutLastAppearance());
+        });
+
+        return result[0];
+    }
     public void print() {
 
         multipleHitOccurenceHolder.forEach((k, v) -> {
@@ -103,12 +124,16 @@ public class NumberMultipleAnalyzer {
             System.out.println();
         });
     }
+    public void clear(){
+        multipleHitOccurenceHolder.clear();
+    }
 
     /**
      * Method will take in a lotto number and analyze it for the multiple it represents and then that value will be added to map
      * for storage
      */
     public void analyzeLottoNumber(final int number) {
+
 
         Set<Integer> keys = new LinkedHashSet<>(multipleRanges.keySet());
         for (Iterator<Integer> data = keys.iterator(); data.hasNext(); ) {
@@ -227,6 +252,39 @@ public class NumberMultipleAnalyzer {
 
     }
 
+    public void analyzeDrawData( int[] numbers ){
+
+        multipleHolderMap.clear();
+
+        final Set<Integer> set = new LinkedHashSet<>(multipleRanges.keySet());
+
+        for (int num : numbers) {
+
+            for (Iterator<Integer> multiple = set.iterator(); multiple.hasNext(); ) {
+
+                int mult = multiple.next();
+                int remainder = num % mult;
+
+                if (remainder == 0) {
+
+                    if( !multipleHolderMap.containsKey(mult) ){
+
+                        List<Integer> data = new ArrayList<>();
+                        data.add(num);
+
+                        multipleHolderMap.put( mult, data);
+                    }
+                    else{
+
+                        List<Integer> data = multipleHolderMap.get( mult );
+                        data.add(num);
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
 
     /*
      *

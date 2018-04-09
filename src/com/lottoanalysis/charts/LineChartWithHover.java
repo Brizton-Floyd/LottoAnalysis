@@ -66,7 +66,7 @@ public class LineChartWithHover {
 
         for( int i = 0; i < dataPoints.size(); i++){
 
-            ObservableList<XYChart.Data<Integer,Integer>> dataSet = FXCollections.observableArrayList(plot(dataPoints.get(i)));
+            ObservableList<XYChart.Data<Integer,Integer>> dataSet = FXCollections.observableArrayList(plot( dataPoints.get(i), i ));
             XYChart.Series<Integer,Integer> data = new XYChart.Series("", dataSet );
             lineChart.getData().add( data );
         }
@@ -79,7 +79,7 @@ public class LineChartWithHover {
     /**
      * @return plotted y values for monotonically increasing integer x values, starting from x=1
      */
-    private ObservableList<XYChart.Data<Integer, Integer>> plot(List<Integer> y) {
+    private ObservableList<XYChart.Data<Integer, Integer>> plot(List<Integer> y, int index) {
 
         final ObservableList<XYChart.Data<Integer, Integer>> dataset = FXCollections.observableArrayList();
 
@@ -88,12 +88,13 @@ public class LineChartWithHover {
             final XYChart.Data<Integer, Integer> data = new XYChart.Data<>(i + 1, y.get(i));
             //final XYChart.Data<Integer, Integer> datatwo = new XYChart.Data<>(i + 1, 15);
 
-            data.setNode(
+            //if( index != 1)
+                data.setNode(
                     new HoveredThresholdNode(
                             (i == 0) ? 0 : y.get(i -1),
                             y.get(i)
                     )
-            );
+                 );
 
             dataset.add(data);
             //dataset.add(datatwo);
@@ -109,7 +110,7 @@ public class LineChartWithHover {
      */
     class HoveredThresholdNode extends StackPane {
         HoveredThresholdNode(int priorValue, int value) {
-            setPrefSize(12, 12);
+            setPrefSize(10, 10);
 
             final Label label = createDataThresholdLabel(priorValue, value);
 

@@ -4,7 +4,6 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -65,18 +64,16 @@
                               <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_NEUTRAL" size="15" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="btn_gameOutView" alignment="BASELINE_LEFT" focusTraversable="false" maxWidth="178.0" minWidth="178.0" onAction="#loadGameOutView" prefHeight="33.0" prefWidth="178.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Game Out View" textAlignment="CENTER" textFill="#dac6ac">
+                        <JFXButton fx:id="btn_lengthy" alignment="BASELINE_LEFT" focusTraversable="false" maxWidth="178.0" minWidth="178.0" onAction="#loadGameOutView" prefHeight="33.0" prefWidth="178.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Multiple Chart" textAlignment="CENTER" textFill="#dac6ac">
                            <graphic>
                               <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_UP" size="15" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="btn_lottoModalCloser" focusTraversable="false" prefHeight="27.0" prefWidth="69.0" text="Close" textFill="#dac6ac" visible="false">
+                        <JFXButton fx:id="gameOutBtn" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="10.0" layoutY="142.0" maxWidth="178.0" minWidth="178.0" onAction="#loadGameOutView" prefHeight="33.0" prefWidth="178.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Game Out Chart" textAlignment="CENTER" textFill="#dac6ac">
                            <graphic>
-                              <FontAwesomeIconView fill="#dac6ac" glyphName="CLOSE" size="15" />
+                              <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_UP" size="15" />
                            </graphic>
                         </JFXButton>
-                        <Label fx:id="lbl_game_hover" prefHeight="17.0" prefWidth="85.0" text="Games &amp; Info" textFill="#dac6ac" visible="false" />
-                        <Label fx:id="lbl_game_help" prefHeight="17.0" prefWidth="29.0" text="Help" textFill="#dac6ac" visible="false" />
                      </children>
                   </VBox>
 
