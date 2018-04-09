@@ -4,7 +4,7 @@ import java.util.*;
 
 public class GameOutHitGrouper {
 
-    Map<String,Integer[]> gameOutGroupHolderMap = new TreeMap<>();
+    Map<Integer,Integer[]> gameOutGroupHolderMap = new TreeMap<>();
 
     public GameOutHitGrouper(){
 
@@ -12,45 +12,26 @@ public class GameOutHitGrouper {
 
     }
 
-    public Map<String, Integer[]> getGameOutGroupHolderMap() {
+    public Map<Integer, Integer[]> getGameOutGroupHolderMap() {
         return gameOutGroupHolderMap;
     }
 
     public void checkValueAgainstMap(int val){
 
-        gameOutGroupHolderMap.forEach( (k,v) -> {
+        if( gameOutGroupHolderMap.containsKey(val) ){
 
-            String[] data = k.split(",");
-
-            if(data.length > 1){
-
-                int digitOne = Integer.parseInt( data[0] );
-                int digitTwo = Integer.parseInt( data[1] );
-
-                if( val >= digitOne && val <= digitTwo ){
-
-                    v[0]++;
-                    v[1] = 0;
-                    incrementGamesOut(gameOutGroupHolderMap, k);
-                }
-            }
-            else{
-
-                if( val >= Integer.parseInt(data[0]) ){
-
-                    v[0]++;
-                    v[1]=0;
-                    incrementGamesOut(gameOutGroupHolderMap,k);
-                }
-            }
-        });
+            Integer[] data = gameOutGroupHolderMap.get( val );
+            data[0]++;
+            data[1] = 0;
+            incrementGamesOut(gameOutGroupHolderMap, val);
+        }
     }
 
-    private void incrementGamesOut(Map<String,Integer[]> gameOutGroupHolderMap, String range){
+    private void incrementGamesOut(Map<Integer,Integer[]> data, int winningGameOut){
 
-        gameOutGroupHolderMap.forEach((k,v) -> {
+        data.forEach((k,v) -> {
 
-            if(!k.equals(range)){
+            if(k != winningGameOut){
 
                 v[1]++;
             }
@@ -58,13 +39,11 @@ public class GameOutHitGrouper {
     }
     private void populateMap() {
 
-        gameOutGroupHolderMap.put("0,3",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("4,7",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("8,11",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("12,16",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("17,20",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("21",new Integer[]{0,0});
-    }
 
+        for(int i = 0; i <= 100; i++){
+
+            gameOutGroupHolderMap.put(i, new Integer[]{0,0});
+        }
+    }
 
 }
