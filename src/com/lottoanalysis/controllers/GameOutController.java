@@ -1,6 +1,9 @@
 package com.lottoanalysis.controllers;
 
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.lottogames.PickFourLotteryGameImpl;
+import com.lottoanalysis.lottogames.PickThreeLotteryGameImpl;
+import com.lottoanalysis.models.gameoutanalyzers.GameOutHitGrouper;
 import com.lottoanalysis.models.gameoutanalyzers.GameOutMapper;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import javafx.beans.property.SimpleStringProperty;
@@ -37,7 +40,7 @@ public class GameOutController {
     private ComboBox rangeComboBox;
 
     @FXML
-    private TableView rangeHitTable, patternTable;
+    private TableView rangeHitTable, patternTable, gameOutHitTable, individualGameOutTable;
 
     @FXML
     private Label posLabel;
@@ -53,7 +56,7 @@ public class GameOutController {
 
         addDrawPositionRadioButtons(((int[][])lottoDrawData.get(0)).length);
 
-        int[][]data = (int[][])lottoDrawData.get(0);
+        int[][]data = (int[][])lottoDrawData.get(5);
 
         gameOutMapper = new GameOutMapper( lottoGame , data );
 
@@ -62,6 +65,10 @@ public class GameOutController {
 
         Map<String, Object[]> positionData = ChartHelperTwo.getGroupHitInformation();
         populateGroupHitTable(positionData);
+
+        GameOutHitGrouper gameOutHitGrouper = gameOutMapper.getGameOutHitGrouper( currentDrawPosition );
+        Map<String,Integer[]> gameOutHitGrouperData = gameOutHitGrouper.getGameOutGroupHolderMap();
+        populateGameOutTable( gameOutHitGrouperData );
     }
 
     private void addDrawPositionRadioButtons(int length) {
@@ -79,17 +86,24 @@ public class GameOutController {
             final int pos = i;
             radioButton.setOnAction( action -> {
 
-                rangeComboBox.getSelectionModel().select(1);
+                if(lottoGame instanceof PickFourLotteryGameImpl || lottoGame instanceof PickThreeLotteryGameImpl)
+                    rangeComboBox.getSelectionModel().select(1);
+                else
+                    rangeComboBox.getSelectionModel().select(7);
 
                 currentDrawPosition = pos;
 
-                int[][]data = (int[][])lottoDrawData.get(0);
+                int[][]data = (int[][])lottoDrawData.get(5);
 
                 ChartHelperTwo.clearGroupHitInformation();
                 ChartHelperTwo.processIncomingData(lottoGame, data[currentDrawPosition], DEFAULT_DRAW_SIZE);
 
                 Map<String, Object[]> positionData = ChartHelperTwo.getGroupHitInformation();
                 populateGroupHitTable(positionData);
+
+                GameOutHitGrouper gameOutHitGrouper = gameOutMapper.getGameOutHitGrouper( currentDrawPosition );
+                Map<String,Integer[]> gameOutHitGrouperData = gameOutHitGrouper.getGameOutGroupHolderMap();
+                populateGameOutTable( gameOutHitGrouperData );
 
                 String poss = "";
                 switch (currentDrawPosition){
@@ -119,6 +133,203 @@ public class GameOutController {
 
         currentDrawPosition = 0;
         toggleGroup.getToggles().get(0).setSelected(true);
+    }
+
+    private void populateGameOutTable(Map<String, Integer[]> gameOutHitGrouperData) {
+
+        gameOutHitTable.refresh();
+        gameOutHitTable.getItems().clear();
+        gameOutHitTable.getColumns().clear();
+
+        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+
+        // Create columns
+        String[] colNames = {"Out Group","Group Hits","Games Out"};
+        for(int i = 0; i < colNames.length; i++){
+
+            final int j = i;
+            TableColumn col = new TableColumn(colNames[i]);
+            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+
+                @Override
+                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+
+                    return new TableCell<ObservableList, String>() {
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!isEmpty()) {
+
+                                setText(item);
+                                this.setTextFill(Color.BEIGE);
+
+
+                                // System.out.println(param.getText());
+
+                                ObservableList observableList = getTableView().getItems().get(getIndex());
+                                if (observableList.get(2).toString().equalsIgnoreCase("0")) {
+                                    getTableView().getSelectionModel().select(getIndex());
+
+                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+
+                                        this.setTextFill(Color.valueOf("#76FF03"));
+                                    }
+
+                                    //System.out.println(getItem());
+                                    // Get fancy and change color based on data
+                                    //if (item.contains("X"))
+                                    //this.setTextFill(Color.valueOf("#EFA747"));
+                                }
+
+                                observableList.forEach( val -> {
+
+                                    if(val.toString().contains(",")){
+
+                                        this.setOnMouseClicked( event -> {
+
+                                            GameOutHitGrouper gameOutHitGrouper = gameOutMapper.getGameOutHitGrouper(currentDrawPosition);
+                                            Map<Integer,Integer[]> gameOutHitGrouperData = gameOutHitGrouper.getGameOutTracker( val.toString() );
+                                            populateIndividualLottonumberTable( gameOutHitGrouperData );
+                                        });
+                                    }
+                                });
+                            }
+                        }
+
+                    };
+                }
+            });
+
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+            );
+
+            col.setSortable(false);
+            gameOutHitTable.getColumns().addAll(col);
+        }
+
+
+        /********************************
+         * Data added to ObservableList *
+         ********************************/
+        //int size = positionData.size();
+        for(Map.Entry<String,Integer[]> data : gameOutHitGrouperData.entrySet()){
+
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+
+            String key = data.getKey();
+            Integer[] values = data.getValue();
+
+            row.add(key);
+            row.add(values[0]+"");
+            row.add(values[1]+"");
+
+            dataItems.add(row);
+        }
+
+        gameOutHitTable.setItems(dataItems);
+        //groupInfoTable.scrollTo(size - 1);
+
+    }
+
+    private void populateIndividualLottonumberTable(Map<Integer, Integer[]> gameOutHitGrouperData) {
+
+        individualGameOutTable.refresh();
+        individualGameOutTable.getItems().clear();
+        individualGameOutTable.getColumns().clear();
+
+        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+
+        // Create columns
+        String[] colNames = {"Out Digit","Out Hits","Games Out"};
+        for(int i = 0; i < colNames.length; i++){
+
+            final int j = i;
+            TableColumn col = new TableColumn(colNames[i]);
+            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+
+                @Override
+                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+
+                    return new TableCell<ObservableList, String>() {
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!isEmpty()) {
+
+                                setText(item);
+                                this.setTextFill(Color.BEIGE);
+
+
+                                // System.out.println(param.getText());
+
+                                ObservableList observableList = getTableView().getItems().get(getIndex());
+                                if (observableList.get(2).toString().equalsIgnoreCase("0")) {
+                                    getTableView().getSelectionModel().select(getIndex());
+
+                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+
+                                        this.setTextFill(Color.valueOf("#76FF03"));
+                                    }
+
+                                    //System.out.println(getItem());
+                                    // Get fancy and change color based on data
+                                    //if (item.contains("X"))
+                                    //this.setTextFill(Color.valueOf("#EFA747"));
+                                }
+
+                                observableList.forEach( val -> {
+
+                                    if(val.toString().contains(",") ){
+
+                                        this.setOnMouseClicked( event -> {
+
+                                            GameOutHitGrouper gameOutHitGrouper = gameOutMapper.getGameOutHitGrouper(currentDrawPosition);
+                                            Map<Integer,Integer[]> gameOutHitGrouperData = gameOutHitGrouper.getGameOutTracker( val.toString() );
+                                            populateIndividualLottonumberTable( gameOutHitGrouperData );
+                                        });
+                                    }
+                                });
+                            }
+                        }
+
+                    };
+                }
+            });
+
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+            );
+
+            col.setSortable(false);
+            individualGameOutTable.getColumns().addAll(col);
+        }
+
+
+        /********************************
+         * Data added to ObservableList *
+         ********************************/
+        //int size = positionData.size();
+        for(Map.Entry<Integer,Integer[]> data : gameOutHitGrouperData.entrySet()){
+
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+
+            Integer key = data.getKey();
+            Integer[] values = data.getValue();
+
+            row.add(key+"");
+            row.add(values[0]+"");
+            row.add(values[1]+"");
+
+            dataItems.add(row);
+        }
+
+        individualGameOutTable.setItems(dataItems);
+        //groupInfoTable.scrollTo(size - 1);
     }
 
     private void populatePatternMap(List<List<String>> values, String range){
@@ -160,6 +371,8 @@ public class GameOutController {
 
                                 if(item.equals("##"))
                                     this.setTextFill(Color.YELLOW);
+                                else if( item.contains("P"))
+                                    this.setTextFill(Color.valueOf("#409EB2"));
                                 else
                                     this.setTextFill(Color.BEIGE);
 
@@ -273,6 +486,7 @@ public class GameOutController {
 
                                             List<List<String>> values = gameOutMapper.processDataRequest( val.toString(), currentDrawPosition );
                                             populatePatternMap(values, val.toString());
+
                                         });
                                     }
                                 });
@@ -330,15 +544,21 @@ public class GameOutController {
     public void initialzie(){
         rangeHitTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         patternTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        gameOutHitTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        individualGameOutTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         drawPositoinHbox.getChildren().clear();
 
         rangeComboBox.getItems().addAll(2,3,5,6,7,8,9,10,15,16,20,24,30);
-        rangeComboBox.getSelectionModel().select(1);
+
+        if(lottoGame instanceof PickFourLotteryGameImpl || lottoGame instanceof PickThreeLotteryGameImpl)
+            rangeComboBox.getSelectionModel().select(1);
+        else
+            rangeComboBox.getSelectionModel().select(7);
 
         rangeComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 
-            int[][]data = (int[][])lottoDrawData.get(0);
+            int[][]data = (int[][])lottoDrawData.get(5);
 
             ChartHelperTwo.clearGroupHitInformation();
             ChartHelperTwo.processIncomingData(lottoGame, data[currentDrawPosition], (int)newValue);

@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.lottogames.PickFourLotteryGameImpl;
+import com.lottoanalysis.lottogames.PickThreeLotteryGameImpl;
 import com.lottoanalysis.models.numbertracking.NumberMultipleAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
@@ -217,14 +219,29 @@ public class ChartHelperTwo {
         int maxNumber = game.getMaxNumber();
         int count = 0;
         int currentNumberInIteration = 0;
+        boolean numbersRemaining = true;
 
         // get the max number which will determine how to split the group size.
-        int groupDivisor = (maxNumber >= groupSize) ? groupSize : maxNumber / 2 ;
+        int groupDivisor;
 
+        if(lottoGame instanceof PickThreeLotteryGameImpl || lottoGame instanceof PickFourLotteryGameImpl){
+
+            if(groupSize > maxNumber){
+
+                groupDivisor = groupSize;
+                numbersRemaining = false;
+            }
+            else{
+                groupDivisor = (maxNumber >= groupSize) ? groupSize : maxNumber / 2;
+            }
+        }
+        else {
+            groupDivisor = (maxNumber >= groupSize) ? groupSize : maxNumber / 2;
+        }
         List<Integer> numberHolderList = new ArrayList<>();
 
         // start setting up to populate group hit map
-        for(int i = minNumber; i < maxNumber; i++){
+        for(int i = 0; i <= maxNumber + 1; i++){
 
             if(count == groupDivisor){
 
@@ -249,16 +266,19 @@ public class ChartHelperTwo {
             numberHolderList.add( i );
             count++;
         }
-        // plug in last remaining numbers if there are any;
-        int dif = Math.abs( currentNumberInIteration - maxNumber );
-        Integer[] groupArray = new Integer[dif];
-        for(int i = 0; i < groupArray.length; i++){
-            currentNumberInIteration++;
-            groupArray[i] = currentNumberInIteration;
+
+        if(numbersRemaining) {
+            // plug in last remaining numbers if there are any;
+            int dif = Math.abs(currentNumberInIteration - maxNumber);
+            Integer[] groupArray = new Integer[dif];
+            for (int i = 0; i < groupArray.length; i++) {
+                currentNumberInIteration++;
+                groupArray[i] = currentNumberInIteration;
+            }
+
+            groupHitInformation.put(groupArray,new Object[]{new ArrayList<Integer>(),0,0,0,new ArrayList<Integer>(),0.0,0,0,0,0});
+
         }
-
-        groupHitInformation.put(groupArray,new Object[]{new ArrayList<Integer>(),0,0,0,new ArrayList<Integer>(),0.0,0,0,0,0});
-
     }
 	
 	public static List<Integer> extractAppropriatePosition(Map<String,Object[]> data, String group){

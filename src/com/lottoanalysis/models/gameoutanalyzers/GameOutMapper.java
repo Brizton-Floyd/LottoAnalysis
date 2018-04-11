@@ -9,15 +9,23 @@ import java.util.stream.IntStream;
 public class GameOutMapper {
 
     private Map<Integer, Map<Integer, LottoNumber>> lottoNumberTrackerMap = new TreeMap<>();
-    private Map<Integer, Integer> lottoNumberTrackerMapTwo = new TreeMap<>();
-    private GameOutHitGrouper gameOutHitGrouper;
+    private Map<Integer, Integer[]> lottoNumberTrackerMapTwo = new TreeMap<>();
+    private GameOutHitGrouper[] gameOutHitGrouper;
 
     public GameOutMapper(LottoGame game, int[][] drawData ){
 
-        gameOutHitGrouper = new GameOutHitGrouper();
+        gameOutHitGrouper = new GameOutHitGrouper[drawData.length];
+
         populateMap( drawData.length, game);
 
         analyzeData( drawData );
+
+        for(GameOutHitGrouper gameOutHitGrouperOne: gameOutHitGrouper)
+            gameOutHitGrouperOne.getGameOutGroupHolderMap();
+    }
+
+    public GameOutHitGrouper getGameOutHitGrouper(int index) {
+        return gameOutHitGrouper[index];
     }
 
     public List<List<String>> processDataRequest(String value, int index){
@@ -56,15 +64,38 @@ public class GameOutMapper {
             }
 
             List<Integer> winningNumberList = Arrays.stream( recentWinningNumbers ).boxed().collect(Collectors.toList());
+            Map<Integer,Integer> numberHitIndex = new LinkedHashMap<>();
+            IntStream.range(0,winningNumberList.size()).forEach( num -> {
+
+                numberHitIndex.put(winningNumberList.get(num), num+1);
+            });
+
+            lottoNumberTrackerMapTwo.forEach( (k,v) -> {
+
+                if(winningNumberList.contains(k)){
+
+                    v[0] = 0;
+                    v[1] = numberHitIndex.get( k );
+                    lottoNumberTrackerMapTwo.put(k,v);
+                }
+                else{
+                    v[0]++;
+                    lottoNumberTrackerMapTwo.put(k,v);
+                }
+            });
 
             IntStream.range(0, winningNumberList.size()).forEach( num -> {
+
 
                 Map<Integer,LottoNumber> positionData = lottoNumberTrackerMap.get( num );
                 LottoNumber lottoNumber = positionData.get( winningNumberList.get(num) );
 
-                gameOutHitGrouper.checkValueAgainstMap( lottoNumber.getLottoNumberGamesOut() );
+                if(gameOutHitGrouper[num] == null)
+                    gameOutHitGrouper[num] = new GameOutHitGrouper();
 
-                lottoNumber.setLottoNumberGamesOut(0);
+                gameOutHitGrouper[num].checkValueAgainstMap( lottoNumber.getLottoNumberGamesOut() );
+
+                lottoNumber.setLottoNumberGamesOut( lottoNumberTrackerMapTwo.get( winningNumberList.get(num) )[0]);
                 int lottoNumberHits = lottoNumber.getLottoNumberHits();
                 lottoNumber.setLottoNumberHits( ++lottoNumberHits );
 
@@ -83,8 +114,9 @@ public class GameOutMapper {
             if(k != winningNumber ){
 
                 int gamesOut = v.getLottoNumberGamesOut();
-                v.setLottoNumberGamesOut( ++gamesOut );
-                v.setGameOutPatternHolder(Integer.toString(v.getLottoNumberGamesOut()));
+                v.setLottoNumberGamesOut(lottoNumberTrackerMapTwo.get( k )[0] );
+                v.setGameOutPatternHolder( (Integer.toString(v.getLottoNumberGamesOut()).equals( "0") ) ?
+                                                                 "P" + lottoNumberTrackerMapTwo.get(k)[1] : Integer.toString(v.getLottoNumberGamesOut()) );
 
             }
         });
@@ -96,12 +128,12 @@ public class GameOutMapper {
         for(int i = 0; i < length; i ++){
 
             data = new TreeMap<>();
-            for(int j = game.getMinNumber(); j<= game.getMaxNumber(); j++) {
+            for(int j = 0; j<= game.getMaxNumber(); j++) {
 
                 data.put(j, new LottoNumber());
 
                 if(i == 0)
-                    lottoNumberTrackerMapTwo.put(i+1, 0);
+                    lottoNumberTrackerMapTwo.put(j, new Integer[]{0,0});
             }
 
             lottoNumberTrackerMap.put(i, data);

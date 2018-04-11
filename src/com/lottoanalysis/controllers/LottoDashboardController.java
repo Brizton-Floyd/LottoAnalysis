@@ -53,6 +53,16 @@ import java.util.List;
 
 public class LottoDashboardController {
 
+    private static Map<Integer, List<Integer>> multipleRanges = new LinkedHashMap<>();
+
+    static {
+        multipleRanges.put(7, new ArrayList<>());
+        multipleRanges.put(5, new ArrayList<>());
+        multipleRanges.put(3, new ArrayList<>());
+        multipleRanges.put(2, new ArrayList<>());
+        multipleRanges.put(1, new ArrayList<>());
+    }
+
     private MainController mainController;
     private LottoGame lotteryGame;
     private static int universalCount = 0;
@@ -199,6 +209,9 @@ public class LottoDashboardController {
         positionalSums = NumberPatternAnalyzer.findPositionalSums(positionalNumbers);
         lineSpacings = NumberPatternAnalyzer.lineSpacings(positionalNumbers);
         remainder = NumberPatternAnalyzer.computeRemainders(positionalNumbers);
+        popluateRangeBuckets(lotteryGame.getMinNumber(), lotteryGame.getMaxNumber());
+
+        int [][] multiples = findMultiples( positionalNumbers );
 
         GamesOutViewAnalyzer gamesOutViewAnalyzer = new GamesOutViewAnalyzer(positionalNumbers, lotteryGame);
         Map<String, Map<String, Integer[]>> res = gamesOutViewAnalyzer.analyzeWinningNumberDistrubution();
@@ -210,11 +223,63 @@ public class LottoDashboardController {
         chartPoints.add(positionalSums);
         chartPoints.add(lineSpacings);
         chartPoints.add(remainder);
+        chartPoints.add(multiples);
 
         setNumbersForChartDisplay(chartPoints);
 
         choiceBox.setItems(FXCollections.observableArrayList(choiceBoxItems));
         choiceBox.getSelectionModel().selectFirst();
+    }
+
+    private int[][] findMultiples(int[][] positionalNumbers) {
+        int[][] data = new int[positionalNumbers.length][positionalNumbers[0].length];
+        for(int i = 0; i < positionalNumbers.length; i++){
+
+            for(int j = 0; j < positionalNumbers[i].length; j++){
+
+                data[i][j] = getMultiple( positionalNumbers[i][j]);
+            }
+        }
+
+        return data;
+    }
+
+    private int getMultiple(int i) {
+
+        for(Map.Entry<Integer,List<Integer>> entry : multipleRanges.entrySet()){
+
+            if(entry.getValue().contains( i) ) {
+                return entry.getKey();
+            }
+        }
+
+        return -1;
+    }
+
+    private void popluateRangeBuckets(int min, int max) {
+
+        List<Integer> gameNumRangeHolder = new ArrayList<>();
+
+        for (int i = min; i <= max; i++) {
+            gameNumRangeHolder.add(i);
+        }
+
+        final Set<Integer> set = new LinkedHashSet<>(multipleRanges.keySet());
+
+        for (int num : gameNumRangeHolder) {
+
+            for (Iterator<Integer> multiple = set.iterator(); multiple.hasNext(); ) {
+
+                int mult = multiple.next();
+                int remainder = num % mult;
+                if (remainder == 0) {
+
+                    List<Integer> holder = multipleRanges.get(mult);
+                    holder.add(num);
+                    break;
+                }
+            }
+        }
     }
 
     public void performOperationOnChoiceboxValue() {

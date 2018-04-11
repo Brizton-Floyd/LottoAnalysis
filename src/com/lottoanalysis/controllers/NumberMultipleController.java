@@ -57,7 +57,7 @@ public class NumberMultipleController {
         numberMultipleAnalyzer = new NumberMultipleAnalyzer(this.lottoGame);
 
         int drawPositions = ((int[][])lottoDrawData.get(1)).length;
-        this.allPositionNumbers = (int[][])lottoDrawData.get(2);
+        this.allPositionNumbers = (int[][])lottoDrawData.get(0);
 
         populateDrawPositionsIntoHBox( drawPositions );
         initialize();

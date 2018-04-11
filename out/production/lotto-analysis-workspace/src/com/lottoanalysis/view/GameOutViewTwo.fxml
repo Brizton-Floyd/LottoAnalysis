@@ -98,7 +98,7 @@
                               <Insets bottom="10.0" left="120.0" />
                            </padding>
                         </Label>
-                        <TableView prefHeight="118.0" prefWidth="513.0" stylesheets="@../styles/table_view.css">
+                        <TableView fx:id="gameOutHitTable" prefHeight="118.0" prefWidth="513.0" stylesheets="@../styles/table_view.css">
                           <columns>
                             <TableColumn prefWidth="75.0" text="C1" />
                             <TableColumn prefWidth="75.0" text="C2" />
@@ -119,7 +119,7 @@
                               <Insets bottom="10.0" left="120.0" />
                            </padding>
                         </Label>
-                        <TableView prefHeight="118.0" prefWidth="513.0" stylesheets="@../styles/table_view.css">
+                        <TableView fx:id="individualGameOutTable" prefHeight="118.0" prefWidth="513.0" stylesheets="@../styles/table_view.css">
                            <columns>
                               <TableColumn prefWidth="75.0" text="C1" />
                               <TableColumn prefWidth="75.0" text="C2" />
