@@ -3,10 +3,16 @@ package com.lottoanalysis.controllers;
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.managers.CacheManager;
+import com.lottoanalysis.models.CachedObject;
 import com.lottoanalysis.models.numbertracking.NumberMultipleAnalyzer;
+import com.lottoanalysis.models.numbertracking.UpperLowerRangeAnalyzer;
+import com.lottoanalysis.utilities.analyzerutilites.SplitDigitAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.TrendLineAnalyzer;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import com.lottoanalysis.utilities.gameoutviewutilities.GameOutLottoHitFinder;
+import com.lottoanalysis.utilities.gameoutviewutilities.GameOutViewPatternFinder;
+import com.lottoanalysis.utilities.numbergrouputilites.NextProbableGroupFinder;
 import com.lottoanalysis.utilities.numberpatternutilities.PatternFinder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -29,6 +35,7 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @SuppressWarnings("unchecked")
 public class GroupChartController {
@@ -104,7 +111,7 @@ public class GroupChartController {
         this.allGameData = drawPositionalNumbers;
         setLotteryGame(game);
         setDrawPositionalNumbers( (int[][]) allGameData.get(0));
-        PatternFinder.analyze(this.drawPositionalNumbers);
+        //PatternFinder.analyze(this.drawPositionalNumbers);
 
         numberMultipleAnalyzer = new NumberMultipleAnalyzer( game );
 
@@ -202,7 +209,7 @@ public class GroupChartController {
         patternOutlookLabel.setText(String.format("%40s",patternOutlookLabel.getText()));
         gameOutPerfLabel.setText(String.format("%45s",gameOutPerfLabel.getText()));
 
-       // NextProbableGroupFinder.analyze(drawPositionalNumbers);
+        NextProbableGroupFinder.analyze(drawPositionalNumbers);
         //GameOutViewPatternFinder.analyze(drawPositionalNumbers);;
 
         //PositionalGameOutPositionTracker.analyze(lotteryGame,drawPositionalNumbers);
@@ -212,34 +219,34 @@ public class GroupChartController {
         for (int num : drawingPos)
             numberMultipleAnalyzer.analyzeLottoNumber(num);
 
-        numberMultipleAnalyzer.computeHitsAtGamesOutAndLastAppearance();
-        numberMultipleAnalyzer.print();
+//        numberMultipleAnalyzer.computeHitsAtGamesOutAndLastAppearance();
+//        numberMultipleAnalyzer.print();
 
         //NextProbableGroupFinder.analyze( drawPositionalNumbers );
-        //SplitDigitAnalyzer splitDigitAnalyzer = new SplitDigitAnalyzer();
-        //splitDigitAnalyzer.analyze(drawingPos, drawPosition, lotteryGame);
+//        SplitDigitAnalyzer splitDigitAnalyzer = new SplitDigitAnalyzer();
+//        splitDigitAnalyzer.analyze(drawingPos, drawPosition, lotteryGame);
 
         //SumGroupAnalyzer.analyze(drawingPos, lotteryGame);
         //LineSpacingHelperTwo.analyze( Arrays.asList( Arrays.stream(drawingPos).boxed().toArray(Integer[]::new)), false);
         //ProbableSumFinder.analyze(drawingPos, lotteryGame, drawPositionalNumbers);
 
         //int[] dd = p.stream().mapToInt(i -> i).toArray();
-//
-//        CachedObject obj = (CachedObject) CacheManager.getCache(lotteryGame.getGameName(),drawPosition);
-//        if(obj == null) {
-//            UpperLowerRangeAnalyzer upperLowerRangeAnalyzer = new UpperLowerRangeAnalyzer(drawPositionalNumbers, drawPosition, lotteryGame);
-//            CachedObject cachedObject = new CachedObject(upperLowerRangeAnalyzer.getUpperLowerRangeAnalyzers(),lotteryGame.getGameName(), drawPosition);
-//            CacheManager.putCache(cachedObject,drawPosition);
-//        }
-//        else{
-//
-//            UpperLowerRangeAnalyzer[] upperLowerRangeAnalyzers = (UpperLowerRangeAnalyzer[])obj.getObject();
-//            IntStream.range(0, upperLowerRangeAnalyzers.length).forEach( i -> {
-//
-//                upperLowerRangeAnalyzers[i].printData(upperLowerRangeAnalyzers[i], i);
-//            });
-//            System.out.println();
-//        }
+
+        CachedObject obj = (CachedObject) CacheManager.getCache(lotteryGame.getGameName(),drawPosition);
+        if(obj == null) {
+            UpperLowerRangeAnalyzer upperLowerRangeAnalyzer = new UpperLowerRangeAnalyzer(drawPositionalNumbers, drawPosition, lotteryGame);
+            CachedObject cachedObject = new CachedObject(upperLowerRangeAnalyzer.getUpperLowerRangeAnalyzers(),lotteryGame.getGameName(), drawPosition);
+            CacheManager.putCache(cachedObject,drawPosition);
+        }
+        else{
+
+            UpperLowerRangeAnalyzer[] upperLowerRangeAnalyzers = (UpperLowerRangeAnalyzer[])obj.getObject();
+            IntStream.range(0, upperLowerRangeAnalyzers.length).forEach(i -> {
+
+                upperLowerRangeAnalyzers[i].printData(upperLowerRangeAnalyzers[i], i);
+            });
+            System.out.println();
+        }
 
 //        ChartDataBuilder chartDataBuilder = new ChartDataBuilder(drawingPos);
 //
@@ -562,19 +569,19 @@ public class GroupChartController {
         setUpGameOutPatternChart( gameOutLottoHitFinder.getLottoNumberHitTracker() );
 
         List<List<Integer>> dataPoints = new ArrayList<>();
-        //List<Integer> movingAverages = calculateMovingAverage( specialList );
+        List<Integer> movingAverages = calculateMovingAverage( specialList );
 
        // TrioNumberPatternFinder trioNumberPatternFinder = new TrioNumberPatternFinder(numList);
 
 //        BollingerBand bollingerBand = new BollingerBand(numList,14,150);
 //        List<List<Integer>> data = bollingerBand.getBollingerBands();
 
-        dataPoints.add((specialList.size() > 300) ? specialList.subList(specialList.size()-300,specialList.size()) : specialList);
+        dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size()-100,specialList.size()) : specialList);
 //        data.forEach( val -> {
 //
 //            dataPoints.add( val );
 //        });
-        //dataPoints.add( (movingAverages.size() > 150) ? movingAverages.subList(movingAverages.size()-150,movingAverages.size()) : movingAverages);
+       // dataPoints.add( (movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size()-100,movingAverages.size()) : movingAverages);
 
 //        List<Integer> pointTwo = (numList.size() > 0) ? ChartHelper.getListOfNumbersBasedOnCurrentWinningNumber(numList) : new ArrayList<>();
 //
@@ -620,24 +627,24 @@ public class GroupChartController {
 
         for(int i = 0; i < numList.size()-1; i++)
         {
-            if( threePeriodHolder.size() >= 15 )
-            {
+//            if( threePeriodHolder.size() >= 15 )
+//            {
+//
+//                Double doubles = new Double(threePeriodHolder.stream().collect(Collectors.averagingInt( j -> j )));
+//                int average = doubles.intValue();
+//                movingAverages.add( average );
+//
+//                threePeriodHolder.remove(0);
+//                threePeriodHolder.add( numList.get(i +1));
+//            }
+//            else
+//            {
+//                threePeriodHolder.add( numList.get(i) );
+//            }
 
-                Double doubles = new Double(threePeriodHolder.stream().collect(Collectors.averagingInt( j -> j )));
-                int average = doubles.intValue();
-                movingAverages.add( average );
-
-                threePeriodHolder.remove(0);
-                threePeriodHolder.add( numList.get(i +1));
-            }
-            else
-            {
-                threePeriodHolder.add( numList.get(i) );
-            }
-
-//            float ema = calculateMovingAverage(numList.get(i), 20, yesterdayEMA);
-//            movingAverages.add( (int)ema);
-//            yesterdayEMA = ema;
+            float ema = calculateMovingAverage(numList.get(i), 15, yesterdayEMA);
+            movingAverages.add( (int)ema);
+            yesterdayEMA = ema;
         }
 
         return movingAverages;

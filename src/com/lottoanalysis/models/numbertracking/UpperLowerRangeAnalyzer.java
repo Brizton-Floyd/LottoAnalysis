@@ -94,8 +94,8 @@ public class UpperLowerRangeAnalyzer {
                 });
 
             });
-            analyzer.numberMultipleAnalyzer.computeHitsAtGamesOutAndLastAppearance();
-            analyzer.numberMultipleAnalyzer.print();
+//            analyzer.numberMultipleAnalyzer.computeHitsAtGamesOutAndLastAppearance();
+//            analyzer.numberMultipleAnalyzer.print();
             count[0] = 0;
         });
     }

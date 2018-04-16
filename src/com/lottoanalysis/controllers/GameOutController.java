@@ -56,7 +56,7 @@ public class GameOutController {
 
         addDrawPositionRadioButtons(((int[][])lottoDrawData.get(0)).length);
 
-        int[][]data = (int[][])lottoDrawData.get(5);
+        int[][]data = (int[][])lottoDrawData.get(0);
 
         gameOutMapper = new GameOutMapper( lottoGame , data );
 
@@ -93,7 +93,7 @@ public class GameOutController {
 
                 currentDrawPosition = pos;
 
-                int[][]data = (int[][])lottoDrawData.get(5);
+                int[][]data = (int[][])lottoDrawData.get(0);
 
                 ChartHelperTwo.clearGroupHitInformation();
                 ChartHelperTwo.processIncomingData(lottoGame, data[currentDrawPosition], DEFAULT_DRAW_SIZE);
@@ -558,7 +558,7 @@ public class GameOutController {
 
         rangeComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 
-            int[][]data = (int[][])lottoDrawData.get(5);
+            int[][]data = (int[][])lottoDrawData.get(0);
 
             ChartHelperTwo.clearGroupHitInformation();
             ChartHelperTwo.processIncomingData(lottoGame, data[currentDrawPosition], (int)newValue);
