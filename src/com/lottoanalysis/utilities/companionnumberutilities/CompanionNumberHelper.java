@@ -41,6 +41,16 @@ public class CompanionNumberHelper {
         populateFirstElementMap();
     }
 
+    public static String[] stripBrackets( String value ){
+
+        StringBuilder builder = new StringBuilder(value);
+        builder.setCharAt(0,' ');
+        builder.setCharAt(value.length() -1, ' ');
+
+        String[] rangeValues = builder.toString().split(",");
+
+        return rangeValues;
+    }
     private static void populateFirstElementMap() {
 
         Set<Integer> keys = getGameOutHolderMap().keySet();

@@ -722,4 +722,21 @@ public class NumberPatternAnalyzer {
 
         return data;
     }
+
+    public static int[][] getLastDigits(int[][] positionalNumbers) {
+
+        int[][] lastDigits = new int[positionalNumbers.length][positionalNumbers[0].length];
+
+        for(int i = 0; i < positionalNumbers.length; i++){
+
+            for(int j = 0; j < positionalNumbers[i].length; j++){
+
+                String numAsString = positionalNumbers[i][j] + "";
+                lastDigits[i][j] = (numAsString.length() >  1) ? Character.getNumericValue( numAsString.charAt(1)) :
+                        Character.getNumericValue(numAsString.charAt(0));
+            }
+        }
+
+        return lastDigits;
+    }
 }

@@ -1,5 +1,6 @@
 package com.lottoanalysis.lottogames.drawing;
 
+import com.lottoanalysis.lottogames.LottoGame;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.ArrayList;
@@ -242,4 +243,15 @@ public class Drawing {
         this.oddEvenRatio.set(oddEvenRatio);
     }
 
+    public static List<Integer> extractBonusNumbersFromDrawing(LottoGame lottoGame) {
+
+        List<Integer> bonusNumbers = new ArrayList<>();
+
+        lottoGame.getDrawingData().forEach( val -> {
+
+            bonusNumbers.add( Integer.parseInt(val.getBonusNumber()) );
+        });
+
+        return bonusNumbers;
+    }
 }

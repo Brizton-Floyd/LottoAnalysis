@@ -9,6 +9,7 @@ import com.lottoanalysis.models.numbertracking.NumberMultipleAnalyzer;
 import com.lottoanalysis.models.numbertracking.UpperLowerRangeAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.SplitDigitAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.TrendLineAnalyzer;
+import com.lottoanalysis.utilities.betsliputilities.BetSlipAnalyzer;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import com.lottoanalysis.utilities.gameoutviewutilities.GameOutLottoHitFinder;
 import com.lottoanalysis.utilities.gameoutviewutilities.GameOutViewPatternFinder;
@@ -333,15 +334,15 @@ public class GroupChartController {
 
        //TrendLineAnalyzer.analyzeData(nums);
 
-//        Object[] data;
-//
-//        if(currentGameName.isEmpty() || !currentGameName.equals(lotteryGame.getGameName())) {
-//            currentGameName = lotteryGame.getGameName();
-//            BetSlipAnalyzer betSlipAnalyzer = new BetSlipAnalyzer();
-//            betSlipAnalyzer.analyzeDrawData(drawPositionalNumbers, lotteryGame);
-//            data = betSlipAnalyzer.getBetSlipData();
-//        }
-        System.out.println();
+        Object[] data = null;
+
+        if(currentGameName.isEmpty() || !currentGameName.equals(lotteryGame.getGameName())) {
+            currentGameName = lotteryGame.getGameName();
+            BetSlipAnalyzer betSlipAnalyzer = new BetSlipAnalyzer();
+            betSlipAnalyzer.analyzeDrawData(drawPositionalNumbers, lotteryGame);
+            data = betSlipAnalyzer.getBetSlipData();
+        }
+        System.out.println(Arrays.toString(data));
 //        setUpPatternChart((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0],
 //                ((RadioButton)group.getToggles().get(0)).getText());
         //LineSpacingHelperTwo.analyze(ChartHelperTwo.extractAppropriatePosition(positionData,"1"));

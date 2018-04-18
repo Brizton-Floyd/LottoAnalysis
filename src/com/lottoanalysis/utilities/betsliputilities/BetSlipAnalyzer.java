@@ -38,9 +38,13 @@ public class BetSlipAnalyzer {
         for (int i = 0; i < columnAndIndexHitAnalyzers.length; i++)
             columnAndIndexHitAnalyzers[i] = new ColumnAndIndexHitAnalyzer();
 
-        List<StringBuilder> data = formDrawStrings(drawNumbers);
-        Integer[][] betSlipDefinitions = getBetSlipDefinitions(lottoGame);
-        findRowAndColumnHits(betSlipDefinitions, data);
+        for(int i = 0; i < drawNumbers[0].length; i++) {
+
+            List<StringBuilder> data = formDrawStrings(drawNumbers, i);
+            Integer[][] betSlipDefinitions = getBetSlipDefinitions(lottoGame);
+            findRowAndColumnHits(betSlipDefinitions, data);
+
+        }
         findWinningNumberCompaionHits();
         sortColumnAndIndexHits();
 
@@ -304,22 +308,25 @@ public class BetSlipAnalyzer {
         return betSlipDefinitions.getDefinitionFile(lottoGame.getGameName());
     }
 
-    private List<StringBuilder> formDrawStrings(int[][] drawNumbers) {
+    private List<StringBuilder> formDrawStrings(int[][] drawNumbers, int index) {
 
         List<StringBuilder> data = new ArrayList<>();
 
         // add string builders to list for access later
-        for (int i = 0; i < drawNumbers[0].length; i++)
+        for (int i = 0; i < 1; i++)
             data.add(new StringBuilder());
 
-        for (int i = 0; i < drawNumbers.length; i++) {
+        for (int i = 0; i < 1; i++) {
 
-            for (int k = 0; k < drawNumbers[i].length; k++) {
+            StringBuilder builder = data.get(i);
+            String appendVal;
+            for (int k = 0; k < drawNumbers.length; k++) {
 
-                StringBuilder builder = data.get(k);
-                String appendVal = (i < drawNumbers.length - 1) ? " - " : "";
-                builder.append(drawNumbers[i][k]).append(appendVal);
+
+                builder.append(drawNumbers[k][index]).append("-");
             }
+
+         builder.setCharAt( builder.toString().length()-1 , ' ');
         }
 
         return data;

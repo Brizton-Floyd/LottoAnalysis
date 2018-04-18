@@ -32,7 +32,7 @@ public class LottoAnalysisHomeController {
     private List<JFXButton> buttons = new ArrayList<>();
 
     @FXML
-    private JFXButton btn_game, btn_lottoModalCloser, help_button, btn_search, btn_lottoDashboard, btn_charAnalysis, btn_compLottoAnalysis, btn_neutral,
+    private JFXButton btn_game, btn_lottoModalCloser, help_button, btn_search, btn_gapSpacing,btn_lottoDashboard, btn_charAnalysis, btn_compLottoAnalysis, btn_neutral,
             btn_lengthy, gameOutBtn;
 
     @FXML
@@ -258,6 +258,55 @@ public class LottoAnalysisHomeController {
     }
 
     @FXML
+    public void loadGapSpacingChart( ActionEvent event ){
+
+        enableOtherButtons();
+        JFXButton button = (JFXButton) event.getSource();
+        buttons.add(button);
+        button.setDisable(true);
+
+        // Retrieve the current game that is currently being played
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        List<Object> drawData = LottoInfoAndGamesController.getValues();
+
+        Object[] allData = {game, drawData};
+
+        if (game == null || drawData == null) {
+
+            game = LottoDashboardController.getClassLevelLotteryGame();
+            drawData = LottoDashboardController.getNumbersForChartDisplay();
+            allData = new Object[]{game, drawData};
+        }
+
+        try {
+            btn_gapSpacing.setDisable(true);
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_EIGHT));
+            AnchorPane pane = loader.load();
+
+            GapSpacingController gameOutController = loader.getController();
+            gameOutController.init( allData );
+
+            Scene scene = new Scene(pane, 1500, 750);
+            Stage stage = new Stage();
+
+            stage.setOnHiding(event1 -> {
+                btn_gapSpacing.setDisable(false);
+            });
+
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setTitle("Gap Spacing Chart " + game.getGameName());
+            stage.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void loadLotteryChartAnalysisScreen(ActionEvent event) {
 
         enableOtherButtons();
@@ -336,6 +385,14 @@ public class LottoAnalysisHomeController {
         });
         gameOutBtn.setOnMouseEntered(e -> {
             gameOutBtn.setStyle("-fx-font-size: 13px;" +
+                    "-fx-background-color: #515B51;" +
+                    "-fx-text-fill: #EFA747;");
+        });
+        btn_gapSpacing.setOnMouseExited(e -> {
+            btn_gapSpacing.setStyle("-fx-font-size: 13px;");
+        });
+        btn_gapSpacing.setOnMouseEntered(e -> {
+            btn_gapSpacing.setStyle("-fx-font-size: 13px;" +
                     "-fx-background-color: #515B51;" +
                     "-fx-text-fill: #EFA747;");
         });
