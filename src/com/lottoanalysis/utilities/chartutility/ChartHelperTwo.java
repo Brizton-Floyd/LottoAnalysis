@@ -363,14 +363,14 @@ public class ChartHelperTwo {
                 if(num != null)
                     indexHolder.add( num );
 
-                //list.add(currentWinningNumber);
+                list.add(currentWinningNumber);
 	            list.add(nextWinningNumber);
-	           // list.add(currentWinningNumber);
+	            list.add(currentWinningNumber);
 
             }
 
         }
-        list.add(currentWinningNumber);
+        //list.add(currentWinningNumber);
 
 //        NumberMultipleAnalyzer.getMultipleRanges().forEach((k,v) -> {
 //

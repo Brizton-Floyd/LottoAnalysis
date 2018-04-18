@@ -66,9 +66,9 @@ public class LottoDashboardController {
     private MainController mainController;
     private LottoGame lotteryGame;
     private static int universalCount = 0;
-    private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums, lineSpacings, remainder;
+    private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums, lineSpacings, remainder, lastDigits;
     private static LottoGame classLevelLotteryGame;
-    private static List<Object> numbersForChartDisplay = new ArrayList<>();
+    private static List<Object> numbersForChartDisplay = new LinkedList<>();
 
     private BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
     private Graphics2D g = image.createGraphics();
@@ -169,6 +169,10 @@ public class LottoDashboardController {
         universalCount = val;
     }
 
+    public int[][] getLastDigits() {
+        return lastDigits;
+    }
+
     public int[][] getRemainder() {
         return remainder;
     }
@@ -209,6 +213,7 @@ public class LottoDashboardController {
         positionalSums = NumberPatternAnalyzer.findPositionalSums(positionalNumbers);
         lineSpacings = NumberPatternAnalyzer.lineSpacings(positionalNumbers);
         remainder = NumberPatternAnalyzer.computeRemainders(positionalNumbers);
+        lastDigits = NumberPatternAnalyzer.getLastDigits(positionalNumbers);
         popluateRangeBuckets(lotteryGame.getMinNumber(), lotteryGame.getMaxNumber());
 
         int [][] multiples = findMultiples( positionalNumbers );
@@ -223,6 +228,7 @@ public class LottoDashboardController {
         chartPoints.add(positionalSums);
         chartPoints.add(lineSpacings);
         chartPoints.add(remainder);
+        chartPoints.add(lastDigits);
         chartPoints.add(multiples);
 
         setNumbersForChartDisplay(chartPoints);

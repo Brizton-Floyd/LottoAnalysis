@@ -25,6 +25,7 @@ public class LottoScreenNavigator {
     public static final String LOTTO_SCREEN_FIVE = "/com/lottoanalysis/view/CompanionNumber.fxml";
     public static final String LOTTO_SCREEN_SIX = "/com/lottoanalysis/view/GameOutView.fxml";
     public static final String LOTTO_SCREEN_SEVEN = "/com/lottoanalysis/view/GameOutViewTwo.fxml";
+    public static final String LOTTO_SCREEN_EIGHT = "/com/lottoanalysis/view/GapSpacingView.fxml";
 
     /** The main application layout controller. */
     private static LottoAnalysisHomeController mainController;
