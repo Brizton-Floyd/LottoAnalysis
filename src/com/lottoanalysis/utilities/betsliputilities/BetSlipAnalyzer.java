@@ -14,6 +14,8 @@ public class BetSlipAnalyzer {
     private ColumnAndIndexHitAnalyzer[] columnAndIndexHitAnalyzers;
     private List<Map.Entry<String, BetSlipDistributionAnalyzer>> sortedEntries;
     private LottoGame lottoGame;
+    private List<List<Integer>> posData = new ArrayList<>();
+
     private static Set<Integer[]> sumRanges = new LinkedHashSet<>();
     static {
         sumRanges.add( new Integer[]{0,5});
@@ -35,19 +37,105 @@ public class BetSlipAnalyzer {
         this.lottoGame = lottoGame;
 
         columnAndIndexHitAnalyzers = new ColumnAndIndexHitAnalyzer[drawNumbers.length];
-        for (int i = 0; i < columnAndIndexHitAnalyzers.length; i++)
+        for (int i = 0; i < columnAndIndexHitAnalyzers.length; i++){
             columnAndIndexHitAnalyzers[i] = new ColumnAndIndexHitAnalyzer();
+            posData.add( new ArrayList<>() );
+        }
+
 
         for(int i = 0; i < drawNumbers[0].length; i++) {
 
-            List<StringBuilder> data = formDrawStrings(drawNumbers, i);
-            Integer[][] betSlipDefinitions = getBetSlipDefinitions(lottoGame);
-            findRowAndColumnHits(betSlipDefinitions, data);
+            if( posData.get(0).size() >= 20)
+            {
+                List<StringBuilder> data = formDrawStrings(drawNumbers, i);
+                Integer[][] betSlipDefinitions = makeCustomBetSlip( convertPosDataToArrayOfArrays(posData) );
+                findRowAndColumnHits(betSlipDefinitions, data);
+                
+                // remove first index from each list so it stays at a size of 20
+                posData.forEach( list -> {
 
+                    list.remove(0);
+                });
+            }
+            else
+            {
+                for(int j = 0; j < posData.size(); j++ ){
+
+                    List<Integer> listData = posData.get( j );
+                    listData.add( drawNumbers[j][i] );
+                }
+            }
         }
         findWinningNumberCompaionHits();
         sortColumnAndIndexHits();
 
+    }
+
+    private int[][] convertPosDataToArrayOfArrays( List<List<Integer>> data ){
+
+        int[][] dataToReturn = new int[data.size()][data.get(0).size()];
+
+        for(int i = 0; i < data.size(); i++){
+
+            int[] dat = new int[data.get(0).size()];
+            for(int j = 0; j < data.get(i).size(); j++){
+
+                dat[j] = data.get(i).get(j);
+            }
+            dataToReturn[i] = dat;
+        }
+
+        return dataToReturn;
+    }
+
+    private Integer[][] makeCustomBetSlip( int[][] numbers ){
+
+        List<List<Integer>> columnData = new ArrayList<>();
+
+        Set<Integer> modedColumnData = new TreeSet<>();
+        for( int i = 0; i < numbers.length; i++){
+
+            for( int j = 0; j < numbers[i].length; j++){
+
+                modedColumnData.add( numbers[i][j] );
+
+            }
+
+            List<Integer> data = new ArrayList<>();
+            data.addAll( modedColumnData );
+            columnData.add( data );
+            modedColumnData.clear();
+        }
+        
+        for(int i = 1; i < columnData.size(); i++){
+
+            List<Integer> listData = columnData.get( i );
+            Iterator<Integer> lIterator = listData.iterator();
+
+            while( lIterator.hasNext() ){
+
+                if( columnData.get( i - 1 ).contains( lIterator.next()) ){
+
+                    lIterator.remove();
+                }
+            }
+        }
+        
+        Integer[][] customBetSlip = new Integer[columnData.size()][];
+        int[] index = {0};
+        columnData.forEach( list -> {
+
+            Integer[] col = new Integer[list.size()];
+            for(int i = 0; i < list.size(); i++){
+
+                col[i] = list.get(i);
+            }
+            Arrays.sort(col);
+            customBetSlip[index++] = col;
+        });
+
+
+        return customBetSlip;
     }
 
     private void sortColumnAndIndexHits() {
