@@ -1,6 +1,7 @@
 package com.lottoanalysis.utilities.chartutility;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.lottoanalysis.lottogames.LottoGame;
@@ -8,6 +9,8 @@ import com.lottoanalysis.lottogames.PickFourLotteryGameImpl;
 import com.lottoanalysis.lottogames.PickThreeLotteryGameImpl;
 import com.lottoanalysis.models.numbertracking.NumberMultipleAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
+import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
+import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelperTwo;
 
 /**
  *
@@ -350,54 +353,94 @@ public class ChartHelperTwo {
 	    int currentWinningNumber = values.get(values.size()-1);
 	    List<Integer> list = new ArrayList<>();
         List<Integer> indexHolder = new ArrayList<>();
-
-        NumberMultipleAnalyzer  numberMultipleAnalyzer = new NumberMultipleAnalyzer( lottoGame );
+        Map<String,Integer[]> patternHolderMap = new LinkedHashMap<>();
+        List<String> patterns = new ArrayList<>();
 
 	    for(int i = 0; i < values.size()-1; i++){
 
 	        if(values.get(i) == currentWinningNumber){
 
 	            int nextWinningNumber = values.get(i +1);
-                //Integer[] data = new Integer[]{currentWinningNumber,nextWinningNumber};
-                Integer num = numberMultipleAnalyzer.getMultiple( nextWinningNumber );
-                if(num != null)
-                    indexHolder.add( num );
+	            String pattern = String.format("%s-%s",currentWinningNumber,nextWinningNumber);
+	            patterns.add(pattern);
 
-                list.add(currentWinningNumber);
+                //list.add(currentWinningNumber);
 	            list.add(nextWinningNumber);
-	            list.add(currentWinningNumber);
-
             }
 
         }
-        //list.add(currentWinningNumber);
 
-//        NumberMultipleAnalyzer.getMultipleRanges().forEach((k,v) -> {
-//
-//	        System.out.printf("Multiple: %s %15s %4s\n",k,"Values:",Arrays.toString(v.toArray()));
-//        });
+        String[] output = {""};
+
+        String currentWinningPattern = patterns.get( patterns.size() - 1);
+        int[] indexes = IntStream.range(0, patterns.size() - 1).filter( pat -> patterns.get(pat).equals(currentWinningPattern)).toArray();
+
+        for(int indx : indexes){
 
 
-        Map<Integer,Integer[]> lineSpacingMap = new TreeMap<>();
-        indexHolder.forEach( array -> {
+            String nextWinningPattern = patterns.get( indx + 1);
 
-              //  int difference = Math.abs( array[number] - array[number - 1] );
-                if(!lineSpacingMap.containsKey( array ))
-                {
-                    lineSpacingMap.put( array, new Integer[]{1,0});
-                    NumberAnalyzer.incrementGamesOut(lineSpacingMap,array);
-                }
-                else
-                {
-                    Integer[] mapData = lineSpacingMap.get( array );
-                    mapData[0]++;
-                    mapData[1] = 0;
-                    NumberAnalyzer.incrementGamesOut(lineSpacingMap, array);
-                }
+            if(!patternHolderMap.containsKey(nextWinningPattern)){
+
+                patternHolderMap.put(nextWinningPattern, new Integer[]{1,0});
+                NumberPatternAnalyzer.incrementGamesOutForMatrix(patternHolderMap, nextWinningPattern);
+            }
+            else{
+
+                Integer[] data = patternHolderMap.get( nextWinningPattern );
+                data[0]++;
+                data[1] = 0;
+                NumberPatternAnalyzer.incrementGamesOutForMatrix(patternHolderMap, nextWinningPattern);
+
+            }
+        }
+
+        List<Map.Entry<String,Integer[]>> sorted = new ArrayList<>(patternHolderMap.entrySet());
+        sorted.sort( ((o1, o2) -> {
+
+            Integer o1Hits = o1.getValue()[0];
+            Integer o2Hits = o2.getValue()[0];
+
+            int result = o1Hits.compareTo( o2Hits );
+            if(result > 0){return -1;}
+            else if( result < 0){return 1;}
+            else {return 0;}
+
+        }));
+
+        patternHolderMap.clear();
+
+        sorted.forEach( val -> {
+
+            patternHolderMap.put(val.getKey(), val.getValue());
         });
 
-        Object[] vals = new Object[]{list,lineSpacingMap};
+
+        output[0] += String.format("%s %15s %20s","Pattern","Hits","Games Out");
+        patternHolderMap.forEach( (k,v) -> {
+
+            output[0] += String.format("\n%5s %15s %20s",k,v[0],v[1]);
+        });
+
+        Object[] vals = new Object[]{list,output[0]};
+
 	    return vals;
+    }
+
+    private static void incrementApproriateRange(Map<String, Integer[]> gapSpacingRanges, int dif) {
+
+	    gapSpacingRanges.forEach((k,v) -> {
+
+	        List<Integer> list = Arrays.stream( k.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+	        if(list.contains(dif)){
+
+	            v[0]++;
+	            v[1] = 0;
+                NumberPatternAnalyzer.incrementGamesOutForMatrix(gapSpacingRanges,k);
+
+            }
+
+        });
     }
 
     public static Map<String,Object[]> getPatternData(List<Integer> integers,String text) {

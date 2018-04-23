@@ -212,6 +212,7 @@ public class LottoInfoAndGamesController {
                     data.add(dashboardController.getLineSpacings());
                     data.add(dashboardController.getRemainder());
                     data.add(dashboardController.getLastDigits());
+                    data.add(dashboardController.getMultiples());
 
                     setValues( data );
 

@@ -1,10 +1,12 @@
 package com.lottoanalysis.controllers;
 
-import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.lottogames.PickFourLotteryGameImpl;
-import com.lottoanalysis.lottogames.PickThreeLotteryGameImpl;
+import com.lottoanalysis.charts.LineChartWithHover;
+import com.lottoanalysis.lottogames.*;
 import com.lottoanalysis.models.gameoutanalyzers.GameOutHitGrouper;
 import com.lottoanalysis.models.gameoutanalyzers.GameOutMapper;
+import com.lottoanalysis.models.technicalindicators.BollingerBand;
+import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
+import com.lottoanalysis.utilities.analyzerutilites.TrendLineAnalyzer;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -13,11 +15,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
+import org.omg.PortableInterceptor.INACTIVE;
 
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.GenericArrayType;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -45,6 +49,9 @@ public class GameOutController {
     @FXML
     private Label posLabel;
 
+    @FXML
+    private StackPane chartStackPane,numberMultpleTextArea;
+
     public void init(Object[] lottoGameData){
 
         this.lottoGame = (LottoGame)lottoGameData[0];
@@ -67,7 +74,7 @@ public class GameOutController {
         populateGroupHitTable(positionData);
 
         GameOutHitGrouper gameOutHitGrouper = gameOutMapper.getGameOutHitGrouper( currentDrawPosition );
-        Map<String,Integer[]> gameOutHitGrouperData = gameOutHitGrouper.getGameOutGroupHolderMap();
+        Map<String,Object[]> gameOutHitGrouperData = gameOutHitGrouper.getGameOutGroupHolderMap();
         populateGameOutTable( gameOutHitGrouperData );
     }
 
@@ -102,7 +109,7 @@ public class GameOutController {
                 populateGroupHitTable(positionData);
 
                 GameOutHitGrouper gameOutHitGrouper = gameOutMapper.getGameOutHitGrouper( currentDrawPosition );
-                Map<String,Integer[]> gameOutHitGrouperData = gameOutHitGrouper.getGameOutGroupHolderMap();
+                Map<String,Object[]> gameOutHitGrouperData = gameOutHitGrouper.getGameOutGroupHolderMap();
                 populateGameOutTable( gameOutHitGrouperData );
 
                 String poss = "";
@@ -135,7 +142,8 @@ public class GameOutController {
         toggleGroup.getToggles().get(0).setSelected(true);
     }
 
-    private void populateGameOutTable(Map<String, Integer[]> gameOutHitGrouperData) {
+
+    private void populateGameOutTable(Map<String, Object[]> gameOutHitGrouperData) {
 
         gameOutHitTable.refresh();
         gameOutHitTable.getItems().clear();
@@ -191,6 +199,11 @@ public class GameOutController {
                                             GameOutHitGrouper gameOutHitGrouper = gameOutMapper.getGameOutHitGrouper(currentDrawPosition);
                                             Map<Integer,Integer[]> gameOutHitGrouperData = gameOutHitGrouper.getGameOutTracker( val.toString() );
                                             populateIndividualLottonumberTable( gameOutHitGrouperData );
+
+                                            List<Integer> chartPoints = (List<Integer>) gameOutHitGrouper.getGameOutGroupHolderMap().get(val.toString())[2];
+                                            injectChartWithData( chartPoints );
+
+
                                         });
                                     }
                                 });
@@ -214,13 +227,13 @@ public class GameOutController {
          * Data added to ObservableList *
          ********************************/
         //int size = positionData.size();
-        for(Map.Entry<String,Integer[]> data : gameOutHitGrouperData.entrySet()){
+        for(Map.Entry<String,Object[]> data : gameOutHitGrouperData.entrySet()){
 
             //Iterate Row
             ObservableList<String> row = FXCollections.observableArrayList();
 
             String key = data.getKey();
-            Integer[] values = data.getValue();
+            Object[] values = data.getValue();
 
             row.add(key);
             row.add(values[0]+"");
@@ -232,6 +245,43 @@ public class GameOutController {
         gameOutHitTable.setItems(dataItems);
         //groupInfoTable.scrollTo(size - 1);
 
+    }
+
+    private void injectChartWithData(List<Integer> chartPoints) {
+
+
+        int[] nums = chartPoints.stream().mapToInt(Integer::intValue).toArray();
+       // TrendLineAnalyzer.analyzeData(nums);
+
+        List<List<Integer>> dataPoints = new ArrayList<>();
+
+        Set<Integer> unique = new HashSet<>(chartPoints);
+        List<Integer> minMaxVals = new ArrayList<>(chartPoints);
+        Collections.sort(minMaxVals);
+
+        Object[] data = ChartHelperTwo.getRepeatedNumberList(chartPoints);
+
+        List<Integer> specialList = (List<Integer>)data[0];
+
+
+        //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(specialList);
+//        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
+//        List<List<Integer>> data = bollingerBand.getBollingerBands();
+
+
+//        data.forEach( val -> {
+//            dataPoints.add(val);
+//        });
+        dataPoints.add((specialList.size() > 150) ? specialList.subList(specialList.size()- 150,specialList.size()) : specialList);
+       // dataPoints.add((movingAverages.size() > 150) ? movingAverages.subList(movingAverages.size()-150,movingAverages.size()) : movingAverages);
+
+        LineChartWithHover lc = new LineChartWithHover(dataPoints,
+                null,
+                minMaxVals.get(0),
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart",654,346);
+
+        chartStackPane.getChildren().setAll( lc.getLineChart() );
+        numberMultpleTextArea.getChildren().setAll(new TextArea((String)data[1]));
     }
 
     private void populateIndividualLottonumberTable(Map<Integer, Integer[]> gameOutHitGrouperData) {
@@ -337,14 +387,11 @@ public class GameOutController {
         patternTable.getItems().clear();
         patternTable.getColumns().clear();
 
-        StringBuilder builder = new StringBuilder(range);
-        builder.setCharAt(0,' ');
-        builder.setCharAt(range.length() -1, ' ');
+        int[] rangeValues = computeRange(range);
 
-        String[] rangeValues = builder.toString().split(",");
+        int minVal = rangeValues[0];
 
-        final int minVal = Integer.parseInt( rangeValues[0].trim() );
-        final int maxVal = Integer.parseInt( rangeValues[1].trim() );
+        final int maxVal = rangeValues[1];
 
         ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
 
@@ -439,6 +486,7 @@ public class GameOutController {
 
         ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
 
+        String range = positionData.keySet().iterator().next();
         // Create columns
         String[] colNames = {"Group","Hits","Gms Out","Hts At", "Avg Skps", "Hits Abv","Hits Blw","Eql To","Lst Seen"};
         for(int i = 0; i < colNames.length; i++){
@@ -485,7 +533,13 @@ public class GameOutController {
                                         this.setOnMouseClicked( event -> {
 
                                             List<List<String>> values = gameOutMapper.processDataRequest( val.toString(), currentDrawPosition );
+                                            values.removeIf(list -> list.get(list.size() - 1).equals(Integer.toString(list.size())));
+
                                             populatePatternMap(values, val.toString());
+
+                                            Map<Integer,Map<String,Integer[]>> currentGameOutCompanionMap =
+                                                    getCurrentGameOutCompanionHits( values, computeRange(val.toString()) );
+
 
                                         });
                                     }
@@ -531,14 +585,103 @@ public class GameOutController {
             dataItems.add(row);
         }
 
-        String range = positionData.keySet().iterator().next();
+
 
         List<List<String>> values = gameOutMapper.processDataRequest( range, currentDrawPosition );
+        values.removeIf(list -> list.get(list.size() - 1).equals(Integer.toString(list.size())));
+
         populatePatternMap(values, range);
+        Map<Integer,Map<String,Integer[]>> currentGameOutCompanionMap = getCurrentGameOutCompanionHits( values, computeRange(range) );
 
         rangeHitTable.setItems(dataItems);
         //  groupInfoTable.scrollTo(size - 1);
 
+    }
+
+    private int[] computeRange(String range) {
+
+        int[] rangeTwo = new int[2];
+
+        StringBuilder builder = new StringBuilder(range);
+        builder.setCharAt(0,' ');
+        builder.setCharAt(range.length() -1, ' ');
+
+        String[] rangeValues = builder.toString().split(",");
+        rangeTwo[0] = Integer.parseInt(rangeValues[0].trim());
+        rangeTwo[1] = Integer.parseInt(rangeValues[1].trim());
+
+        if(lottoGame instanceof PickFourLotteryGameImpl || lottoGame instanceof PickThreeLotteryGameImpl)
+            rangeTwo[0] = 0;
+        else{
+
+            if(rangeTwo[0] == 0)
+                rangeTwo[0] = 1;
+
+        }
+
+        rangeValues[0] = rangeTwo[0]+"";
+        rangeValues[1] = rangeTwo[1]+"";
+
+        return Arrays.stream(rangeValues).map(String::trim).mapToInt(Integer::parseInt).toArray();
+    }
+
+    private Map<Integer,Map<String,Integer[]>> getCurrentGameOutCompanionHits(List<List<String>> values, int[] range) {
+
+        List<String> gameOutHolder = new ArrayList<>();
+
+        List<Integer[]> indexHolderList = new ArrayList<>();
+        for(List<String> list : values){
+
+            String currentPattern = list.get( list.size() - 1);
+            int[] indexes = IntStream.range(0,list.size() - 1).filter( pat -> list.get(pat).equals(currentPattern)).toArray();
+            indexHolderList.add(Arrays.stream( indexes ).boxed().toArray(Integer[]::new));
+        }
+
+        Map<Integer, Map<String,Integer[]>> data = new LinkedHashMap<>();
+
+        for(int i = range[0]; i <= range[1]; i++){
+
+            if(!data.containsKey(i)){
+
+                Map<String,Integer[]> innerData = new LinkedHashMap<>();
+
+                data.put(i, innerData);
+            }
+        }
+
+        int indexer = 0;
+        for(Map.Entry<Integer,Map<String,Integer[]>> stringEntry : data.entrySet()){
+
+            Map<String,Integer[]> valuess = stringEntry.getValue();
+            Integer[] hitIndexes = indexHolderList.get(indexer);
+
+            for(int i = 0; i < hitIndexes.length; i++){
+
+                String val = values.get(indexer).get( hitIndexes[i] + 1);
+                if(!valuess.containsKey(val)){
+
+                    valuess.put(val, new Integer[]{1,0});
+                    NumberPatternAnalyzer.incrementGamesOutForMatrix(valuess,val);
+                }
+                else
+                {
+                    Integer[] d = valuess.get( val );
+
+                    if(val.equals("##")){
+
+                        gameOutHolder.add(d[1]+"");
+                    }
+
+                    d[0]++;
+                    d[1] = 0;
+                    NumberPatternAnalyzer.incrementGamesOutForMatrix(valuess,val);
+                }
+            }
+
+            indexer++;
+        }
+
+        return data;
     }
 
     public void initialzie(){

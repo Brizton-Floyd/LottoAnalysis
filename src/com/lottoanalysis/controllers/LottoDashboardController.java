@@ -66,7 +66,7 @@ public class LottoDashboardController {
     private MainController mainController;
     private LottoGame lotteryGame;
     private static int universalCount = 0;
-    private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums, lineSpacings, remainder, lastDigits;
+    private int[][] positionalNumbers, deltaNumberForLastDraw, positionalSums, lineSpacings, remainder, lastDigits, multiples;
     private static LottoGame classLevelLotteryGame;
     private static List<Object> numbersForChartDisplay = new LinkedList<>();
 
@@ -152,6 +152,10 @@ public class LottoDashboardController {
         loadDefaultGameForView();
     }
 
+    public int[][] getMultiples() {
+        return multiples;
+    }
+
     public int[][] getDeltaNumberForLastDraw() {
         return deltaNumberForLastDraw;
     }
@@ -216,7 +220,7 @@ public class LottoDashboardController {
         lastDigits = NumberPatternAnalyzer.getLastDigits(positionalNumbers);
         popluateRangeBuckets(lotteryGame.getMinNumber(), lotteryGame.getMaxNumber());
 
-        int [][] multiples = findMultiples( positionalNumbers );
+        multiples = findMultiples( positionalNumbers );
 
         GamesOutViewAnalyzer gamesOutViewAnalyzer = new GamesOutViewAnalyzer(positionalNumbers, lotteryGame);
         Map<String, Map<String, Integer[]>> res = gamesOutViewAnalyzer.analyzeWinningNumberDistrubution();

@@ -1,11 +1,32 @@
 package com.lottoanalysis.utilities.betsliputilities;
 
+import com.lottoanalysis.models.numbertracking.FirstDigitTracker;
+
 import java.util.*;
 
 public class ColumnAndIndexHitAnalyzer {
 
     private Map<Integer, Object[]> columnIndexHolder = new TreeMap<>();
     private List<Map.Entry<Integer,Object[]>> entries = new ArrayList<>();
+    private List<Integer> columnHitTracker = new ArrayList<>();
+    private FirstDigitTracker firstDigitTracker = new FirstDigitTracker();
+    private List<Integer> digitHolder = new ArrayList<>();
+
+    public List<Integer> getColumnHitTracker() {
+        return columnHitTracker;
+    }
+
+    public List<Integer> getDigitHolder() {
+        return digitHolder;
+    }
+
+    public void setDigitHolder(int digit) {
+        this.digitHolder.add(digit);
+    }
+
+    public FirstDigitTracker getFirstDigitTracker() {
+        return firstDigitTracker;
+    }
 
     public Map<Integer, Object[]> getColumnIndexHolder() {
         return columnIndexHolder;

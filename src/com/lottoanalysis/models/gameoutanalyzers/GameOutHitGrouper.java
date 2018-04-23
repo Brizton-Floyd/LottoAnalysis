@@ -4,10 +4,11 @@ import com.lottoanalysis.comparators.HitComparator;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class GameOutHitGrouper {
 
-    Map<String,Integer[]> gameOutGroupHolderMap = new LinkedHashMap<>();
+    Map<String,Object[]> gameOutGroupHolderMap = new LinkedHashMap<>();
     Map<Integer,Integer[]> gameOutTracker = new LinkedHashMap<>();
 
     public GameOutHitGrouper(){
@@ -58,13 +59,13 @@ public class GameOutHitGrouper {
         return modifiedData;
     }
 
-    public Map<String, Integer[]> getGameOutGroupHolderMap() {
+    public Map<String, Object[]> getGameOutGroupHolderMap() {
 
-        List<Map.Entry<String,Integer[]>> sorted = new ArrayList<>(gameOutGroupHolderMap.entrySet());
+        List<Map.Entry<String,Object[]>> sorted = new ArrayList<>(gameOutGroupHolderMap.entrySet());
         sorted.sort((o1, o2) -> {
 
-            Integer o1Hits = o1.getValue()[0];
-            Integer o2Hits = o2.getValue()[0];
+            Integer o1Hits = (Integer) o1.getValue()[0];
+            Integer o2Hits = (Integer) o2.getValue()[0];
 
             int result = o1Hits.compareTo( o2Hits );
             if(result > 0){return -1;}
@@ -87,6 +88,8 @@ public class GameOutHitGrouper {
 
         gameOutGroupHolderMap.forEach( (k,v) -> {
 
+            List<Integer> outHitHolder = (List<Integer>)v[2];
+
             String[] data = k.split(",");
 
             if(data.length > 1){
@@ -96,7 +99,8 @@ public class GameOutHitGrouper {
 
                 if( val >= digitOne && val <= digitTwo ){
 
-                    v[0]++;
+                    outHitHolder.add(val);
+                    v[0] = (int)v[0] + 1;
                     v[1] = 0;
                     incrementGamesOut(gameOutGroupHolderMap, k);
                 }
@@ -105,7 +109,8 @@ public class GameOutHitGrouper {
 
                 if( val >= Integer.parseInt(data[0]) ){
 
-                    v[0]++;
+                    outHitHolder.add(val);
+                    v[0] = (int) v[0] + 1;
                     v[1]=0;
                     incrementGamesOut(gameOutGroupHolderMap,k);
                 }
@@ -128,24 +133,22 @@ public class GameOutHitGrouper {
         }
     }
 
-    private void incrementGamesOut(Map<String,Integer[]> gameOutGroupHolderMap, String range){
+    private void incrementGamesOut(Map<String,Object[]> gameOutGroupHolderMap, String range){
 
         gameOutGroupHolderMap.forEach((k,v) -> {
 
             if(!k.equals(range)){
 
-                v[1]++;
+                v[1] = (int)v[1] + 1;
             }
         });
     }
     private void populateMap() {
 
-        gameOutGroupHolderMap.put("0,5",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("6,11",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("12,17",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("18,23",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("24,29",new Integer[]{0,0});
-        gameOutGroupHolderMap.put("30,",new Integer[]{0,0});
+        gameOutGroupHolderMap.put("0,20",new Object[]{0,0, new ArrayList<Integer>()});
+        gameOutGroupHolderMap.put("21,40",new Object[]{0,0, new ArrayList<Integer>()});
+        gameOutGroupHolderMap.put("41,60",new Object[]{0,0, new ArrayList<Integer>()});
+        gameOutGroupHolderMap.put("61,",new Object[]{0,0, new ArrayList<Integer>()});
     }
 
 

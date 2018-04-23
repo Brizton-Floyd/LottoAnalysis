@@ -58,7 +58,7 @@ public class LineChartWithHover {
         yAxis.setLowerBound(lower-1);
         yAxis.setUpperBound(upper+1);
 
-        yAxis.setTickUnit(3);
+        yAxis.setTickUnit(7);
 
     }
 

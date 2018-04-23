@@ -286,7 +286,7 @@ public class GroupChartController {
 
 
 
-                //TrendLineAnalyzer.analyzeData(num);
+                //fLineAnalyzer.analyzeData(num);
 
 //               LineSpacingHelperTwo.analyze( ChartHelperTwo.extractAppropriatePosition(positionData, button.getText()));
 //                CompanionNumberFinder.analyzeIncomingInformation(
@@ -620,7 +620,7 @@ public class GroupChartController {
 
     }
 
-    private List<Integer> calculateMovingAverage(List<Integer> numList) {
+    public static List<Integer> calculateMovingAverage(List<Integer> numList) {
 
         float yesterdayEMA = numList.get(0);
         List<Integer> movingAverages = new ArrayList<>();
@@ -643,7 +643,7 @@ public class GroupChartController {
 //                threePeriodHolder.add( numList.get(i) );
 //            }
 
-            float ema = calculateMovingAverage(numList.get(i), 15, yesterdayEMA);
+            float ema = calculateMovingAverage(numList.get(i), 20, yesterdayEMA);
             movingAverages.add( (int)ema);
             yesterdayEMA = ema;
         }
@@ -651,7 +651,7 @@ public class GroupChartController {
         return movingAverages;
     }
 
-    private float calculateMovingAverage(float todayWinningNumber, float numberOfDays, float yesterdayEMA) {
+    private static float calculateMovingAverage(float todayWinningNumber, float numberOfDays, float yesterdayEMA) {
 
         float k = 2 / (numberOfDays + 1);
         return todayWinningNumber * k + yesterdayEMA * (1-k);

@@ -1,14 +1,19 @@
 package com.lottoanalysis.models.numbertracking;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
+import com.lottoanalysis.comparators.HitComparator;
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
+import org.omg.PortableInterceptor.INACTIVE;
 
 public class NumberMultipleAnalyzer {
 
     private Map<Integer, NumberMultipleAnalyzer> multipleHitOccurenceHolder = new TreeMap<>();
     private Map<Integer, LottoNumber> lottoNumberHitOccurenceHolder = new TreeMap<>();
     private Map<Integer, List<Integer>> multipleHolderMap = new HashMap<>();
+    private List<Integer> currentMultipleStateHolder = new ArrayList<>();
 
     private int multipleHits;
     private int multipleGamesOut;
@@ -42,6 +47,14 @@ public class NumberMultipleAnalyzer {
 
     // getters and setters
 
+
+    public List<Integer> getCurrentMultipleStateHolder() {
+        return currentMultipleStateHolder;
+    }
+
+    public void setCurrentMultipleStateHolder(List<Integer> currentMultipleStateHolder) {
+        this.currentMultipleStateHolder = currentMultipleStateHolder;
+    }
 
     public static Map<Integer, List<Integer>> getMultipleRanges() {
         return multipleRanges;
@@ -104,6 +117,41 @@ public class NumberMultipleAnalyzer {
                     "Hits @ G Out:", v.getMultipleHitsAtGamesOut(), "Last Seen:", v.getMultipleGameOutLastAppearance());
         });
 
+        int currentWinningMult = currentMultipleStateHolder.get( currentMultipleStateHolder.size()-1);
+        int[] hitIndexes = IntStream.range(0,currentMultipleStateHolder.size() - 1 ).filter( i -> currentMultipleStateHolder.get(i) == currentWinningMult).toArray();
+
+        Map<Integer,Integer[]> companionHitMultiples = new LinkedHashMap<>();
+        for(int num : hitIndexes){
+
+            int nextWinninMult = getCurrentMultipleStateHolder().get( num + 1);
+            if(!companionHitMultiples.containsKey(nextWinninMult)){
+                companionHitMultiples.put(nextWinninMult, new Integer[]{1,0});
+                NumberAnalyzer.incrementGamesOut(companionHitMultiples, nextWinninMult);
+            }
+            else{
+
+                Integer[] data = companionHitMultiples.get( nextWinninMult );
+                data[0]++;
+                data[1] = 0;
+                NumberAnalyzer.incrementGamesOut(companionHitMultiples, nextWinninMult);
+            }
+        }
+
+        List<Map.Entry<Integer,Integer[]>> sorted = new ArrayList<>(companionHitMultiples.entrySet());
+        sorted.sort( new HitComparator());
+
+        companionHitMultiples.clear();
+
+        for (Map.Entry<Integer, Integer[]> integerEntry : sorted) {
+
+            companionHitMultiples.put(integerEntry.getKey(), integerEntry.getValue());
+        }
+
+        result[0] += String.format("\nCurrent Winning Multiple %s Companion Multiple Hits\n", currentWinningMult);
+        companionHitMultiples.forEach( (k,v) -> {
+
+            result[0] += String.format("<----- Multiple: %5s %10s %5d %15s %5d  ----->\n",k,"Hits:",v[0],"Games Out:",v[1]);
+        });
         return result[0];
     }
     public void print() {
@@ -144,6 +192,7 @@ public class NumberMultipleAnalyzer {
 
                 if (!multipleHitOccurenceHolder.containsKey(key)) {
 
+                    currentMultipleStateHolder.add(key);
                     NumberMultipleAnalyzer analyzer = new NumberMultipleAnalyzer();
                     analyzer.setMultipleHits(1);
                     analyzer.setMultipleGamesOut(0);
@@ -163,6 +212,7 @@ public class NumberMultipleAnalyzer {
 
                 } else {
 
+                    currentMultipleStateHolder.add(key);
                     NumberMultipleAnalyzer analyzer = multipleHitOccurenceHolder.get(key);
                     int hits = analyzer.getMultipleHits();
                     analyzer.setMultipleHits(++hits);
@@ -252,6 +302,16 @@ public class NumberMultipleAnalyzer {
 
     }
 
+    public void createDummySetOfRanges(){
+
+        int[] data = new int[100];
+        for(int i = 0; i < 100; i++){
+
+            data[i] = i;
+        }
+
+        analyzeDrawData(data);
+    }
     public void analyzeDrawData( int[] numbers ){
 
         multipleHolderMap.clear();
