@@ -126,7 +126,8 @@ public class NumberMultipleController {
 
         List<Integer> list = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(values)[0];
 
-        dataPoints.add( (list.size() > 250) ? list.subList(list.size() - 200,list.size()) : list );
+        dataPoints.add( (list.size() > 250) ? list.subList(list.size() - 250,list.size()) : list );
+        //dataPoints.add( (values.size() > 250) ? values.subList(values.size() - 250,values.size()) : values );
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,

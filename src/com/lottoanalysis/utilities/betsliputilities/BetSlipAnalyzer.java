@@ -1,8 +1,8 @@
 package com.lottoanalysis.utilities.betsliputilities;
 
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.numbertracking.FirstDigitTracker;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
-import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,27 +13,24 @@ public class BetSlipAnalyzer {
 
     private BetSlipDefinitions betSlipDefinitions;
     private ColumnAndIndexHitAnalyzer[] columnAndIndexHitAnalyzers;
-    private List<Map.Entry<String, BetSlipDistributionAnalyzer>> sortedEntries;
+    List<Map.Entry<String, BetSlipDistributionAnalyzer>> sortedEntries;
     private LottoGame lottoGame;
     private List<List<Integer>> posData = new ArrayList<>();
-    private Map<String, BetSlipDistributionAnalyzer> hitAndGameOutTracker = new HashMap<>();
-    private Integer[][] customBetSlip;
-    private int betSlipRange = 15;
+    private Map<String, BetSlipDistributionAnalyzer> hitAndGameOutTracker = new LinkedHashMap<>();
+    private Map<Integer,Integer[]> totalNumberPresentTracker = new TreeMap<>();
 
-    private static Set<Integer[]> sumRanges = new LinkedHashSet<>();
+    private Integer[][] customBetSlip;
+    private int betSlipRange = 10;
+
+    private static Set<Integer[]> lastDigitHolder = new LinkedHashSet<>();
     static {
-        sumRanges.add( new Integer[]{0,5});
-        sumRanges.add( new Integer[]{6,10});
-        sumRanges.add( new Integer[]{11,15});
-        sumRanges.add( new Integer[]{16,20});
-        sumRanges.add( new Integer[]{21,25});
-        sumRanges.add( new Integer[]{26,30});
-        sumRanges.add( new Integer[]{31,35});
-        sumRanges.add( new Integer[]{36,40});
+        lastDigitHolder.add( new Integer[]{0,4});
+        lastDigitHolder.add( new Integer[]{5,9});
+        lastDigitHolder.add( new Integer[]{10,17});
     }
 
     public Object[] getBetSlipData() {
-        return new Object[]{columnAndIndexHitAnalyzers, sortedEntries};
+        return new Object[]{columnAndIndexHitAnalyzers, hitAndGameOutTracker};
     }
 
     public void analyzeDrawData(int[][] drawNumbers, LottoGame lottoGame) {
@@ -52,13 +49,16 @@ public class BetSlipAnalyzer {
 
             if( posData.get(0).size() >= betSlipRange)
             {
+
                 List<StringBuilder> data = formDrawStrings(drawNumbers, i);
 //                if(data.get(0).toString().trim().equals("2-7-17-19-36"))
 //                    System.out.println("yes");
 
                 Integer[][] betSlipDefinitions = makeCustomBetSlip( convertPosDataToArrayOfArrays(posData) );
                 findRowAndColumnHits(betSlipDefinitions, data);
-                
+
+                int numbersPresent = scanPastResultsForHits( data );
+                populateNumbersPresentMap(numbersPresent);
                 // remove first index from each list so it stays at a size of 20
                 posData.forEach( list -> {
 
@@ -89,8 +89,99 @@ public class BetSlipAnalyzer {
         }
         storeCurrentRelevantNumbers();
         findWinningNumberCompaionHits();
+        analyzeFirstDigits();
         sortColumnAndIndexHits();
+        populateLastDigitHolder();
         sortData();
+    }
+
+    private void analyzeFirstDigits() {
+
+        for(ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer : columnAndIndexHitAnalyzers){
+
+            List<Integer> numHolder =columnAndIndexHitAnalyzer.getDigitHolder();
+            FirstDigitTracker tracker = columnAndIndexHitAnalyzer.getFirstDigitTracker();
+            for(int num : numHolder){
+
+                tracker.analyzeFirstDigitAndInsert( num );
+            }
+        }
+    }
+
+    private int scanPastResultsForHits(List<StringBuilder> data) {
+
+        int[] count = {0};
+        String[] results = data.get(0).toString().trim().split("-");
+
+        Iterator<String> iterator = Arrays.stream(results).collect(Collectors.toList()).iterator();
+
+        while (iterator.hasNext()){
+
+            int val = Integer.parseInt( iterator.next() );
+
+            for(List list : posData){
+
+                if(list.contains(val)){
+
+                    count[0]++;
+                    break;
+                }
+            }
+
+        }
+
+        return count[0];
+
+    }
+
+    private void populateLastDigitHolder() {
+
+
+        for(ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer : columnAndIndexHitAnalyzers){
+
+            ColumnAndIndexHitAnalyzer analyzer = columnAndIndexHitAnalyzer;
+            Map<Integer, Object[]> colAndIndexData = analyzer.getColumnIndexHolder();
+
+            colAndIndexData.forEach((k,v) -> {
+
+                List<Integer> listData = (List<Integer>)v[3];
+                listData.forEach( num -> {
+
+                    System.out.println(listData.get(listData.size()-1));
+                    String numString = Integer.toString(num);
+                    int winninDigitSum = (numString.length() > 1) ? Character.getNumericValue(numString.charAt(0)) +
+                            Character.getNumericValue(numString.charAt(1)): Integer.parseInt(numString);
+
+                    Map<Integer[],Integer[]> hitSumRangeMap = (Map<Integer[],Integer[]>)v[5];
+
+                    for(Map.Entry<Integer[],Integer[]> entry : hitSumRangeMap.entrySet() ){
+
+                        if(winninDigitSum >= entry.getKey()[0] && winninDigitSum <= entry.getKey()[1]) {
+
+                            Integer[] data = entry.getValue();
+                            data[0]++;
+                            data[1] = 0;
+
+                            incrementGamesOut(hitSumRangeMap, entry.getKey());
+                        }
+                    }
+                });
+
+            });
+        }
+
+    }
+
+    private void incrementGamesOut(Map<Integer[], Integer[]> hitSumRangeMap, Integer[] key) {
+
+
+        hitSumRangeMap.forEach((k,v) -> {
+
+            if(!Arrays.equals(k,key)){
+
+                v[1]++;
+            }
+        });
     }
 
     private void storeCurrentRelevantNumbers() {
@@ -172,6 +263,8 @@ public class BetSlipAnalyzer {
             columnData.add(data);
         }
 
+        extractRepeatedNumbers( columnData );
+
         customBetSlip = new Integer[columnData.size()][];
         int[] index = {0};
         columnData.forEach( list -> {
@@ -187,6 +280,23 @@ public class BetSlipAnalyzer {
 
 
         return customBetSlip;
+    }
+
+    private void extractRepeatedNumbers(List<List<Integer>> columnData) {
+
+        for(int i = 1; i < columnData.size(); i++){
+
+            List<Integer> data = columnData.get(i-1);
+            for(int k = 0; k < data.size(); k++){
+
+                if(columnData.get(i).contains(data.get(k)) && data.get(k) != -1){
+
+                    int index = data.indexOf( data.get(k));
+                    data.set(index, -1);
+                }
+            }
+
+        }
     }
 
     private void sortColumnAndIndexHits() {
@@ -261,6 +371,7 @@ public class BetSlipAnalyzer {
             StringBuilder columnString = new StringBuilder();
             StringBuilder rowString = new StringBuilder();
             int[] index = null;
+
             // now analyze each draw number to see how many rows an columns were needed
             for (int k = 0; k < drawString.length; k++) {
 
@@ -357,6 +468,7 @@ public class BetSlipAnalyzer {
 
                     dataToReturn[indexer++] = i + 1;
                     dataToReturn[indexer] = hitIndex;
+                    break;
 
                 }
 
@@ -364,6 +476,7 @@ public class BetSlipAnalyzer {
             }
 
         }
+
         // now check to see which col has the most recent hit occurence of number
         List<Integer> values = Arrays.stream(dataToReturn).boxed().collect(Collectors.toList());
         if(values.get(0) < 0)
@@ -372,8 +485,70 @@ public class BetSlipAnalyzer {
         return dataToReturn;
     }
 
+    private void populateNumbersPresentMap(int hitCounter) {
+
+        List<Integer> vals = null;
+
+        if(hitCounter > 0)
+            vals = IntStream.range(1, hitCounter + 1).boxed().collect(Collectors.toList());
+        else
+            vals = IntStream.of(0).boxed().collect(Collectors.toList());
+
+        if(hitCounter > 0) {
+
+            for (int i = hitCounter; i > 0; i--) {
+
+                if (!totalNumberPresentTracker.containsKey(i))
+                {
+
+                    totalNumberPresentTracker.put(i, new Integer[]{1, 0});
+                    specialGamesOutIncrementer( totalNumberPresentTracker, vals);
+
+                }
+                else
+                {
+
+                    Integer[] data = totalNumberPresentTracker.get(i);
+                    data[0]++;
+                    specialGamesOutIncrementer(totalNumberPresentTracker, vals);
+
+                }
+            }
+        }
+        else
+        {
+
+            if(!totalNumberPresentTracker.containsKey(hitCounter)){
+
+                totalNumberPresentTracker.put(hitCounter, new Integer[]{1,0});
+                specialGamesOutIncrementer(totalNumberPresentTracker, vals);
+            }
+            else{
+
+                Integer[] data = totalNumberPresentTracker.get( hitCounter );
+                data[0]++;
+                specialGamesOutIncrementer(totalNumberPresentTracker, vals);
+            }
+        }
+    }
+
+    private void specialGamesOutIncrementer(Map<Integer, Integer[]> totalNumberPresentTracker, List<Integer> vals) {
+
+        totalNumberPresentTracker.forEach( (k,v) -> {
+
+            if(!vals.contains(k)){
+
+                v[1] ++;
+            }
+            else{
+                v[1] = 0;
+            }
+        });
+    }
+
     private void sortData() {
-        sortedEntries = new ArrayList<>(hitAndGameOutTracker.entrySet());
+
+        sortedEntries= new ArrayList<>(hitAndGameOutTracker.entrySet());
         sortedEntries.sort((o1, o2) -> {
 
             Integer o1Hits = o1.getValue().getFormatHits();
@@ -382,14 +557,10 @@ public class BetSlipAnalyzer {
             int result = o1Hits.compareTo( o2Hits );
             if(result > 0){return -1;}
             else if( result < 0){return 1;}
-            else {return 0;}    }
-            );
-
-        //Collections.reverse(sortedEntries);
-
-        sortedEntries.forEach(k -> {
-            System.out.println(String.format("Pattern Helper: %s \tHits: %s \tGames Out: %s", k.getKey(), k.getValue().getFormatHits(), k.getValue().getFormatGamesOut()));
+            else {return 0;}
         });
+
+
     }
 
 
@@ -402,13 +573,18 @@ public class BetSlipAnalyzer {
         for (int k = 0; k < columnAndIndexHitAnalyzers.length; k++) {
 
             ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer = columnAndIndexHitAnalyzers[k];
+            List<Integer> columnHitHolder = columnAndIndexHitAnalyzer.getColumnHitTracker();
 
             Map<Integer, Object[]> colAndIndexData = columnAndIndexHitAnalyzer.getColumnIndexHolder();
+            List<Integer> digitHolder = columnAndIndexHitAnalyzer.getDigitHolder();
 
-            if (!colAndIndexData.containsKey(Integer.parseInt(columnIndices[columIndexConter++]))) {
+            if (!colAndIndexData.containsKey(Integer.parseInt(columnIndices[k]))) {
 
+                columnHitHolder.add(Integer.parseInt(columnIndices[k]));
                 colAndIndexData.put(Integer.parseInt(columnIndices[k]), new Object[]{1, 0, new LinkedHashMap<Integer,Integer[]>(),
                         new ArrayList<Integer>(), new TreeMap<Integer, Integer[]>(), new LinkedHashMap<Integer[],Integer[]>()});
+
+
 
                 // new code starts here
                 Map<Integer[],Integer[]> hitSumRangeMap = (Map<Integer[],Integer[]>)colAndIndexData.get(Integer.parseInt(columnIndices[k]))[5];
@@ -421,6 +597,8 @@ public class BetSlipAnalyzer {
 
                 Integer[] winnincolumn = betslipMatrix[Integer.parseInt(columnIndices[k])-1];
                 int winningDigit = winnincolumn[Integer.parseInt(rowIndices[k])];
+
+                digitHolder.add(winningDigit);
 
                 if (!rowInfo.containsKey(winningDigit)) {
 
@@ -440,6 +618,8 @@ public class BetSlipAnalyzer {
                 }
             } else {
 
+                columnHitHolder.add(Integer.parseInt(columnIndices[k]));
+
                 Object[] colAndIndexDataTwo = colAndIndexData.get(Integer.parseInt(columnIndices[k]));
                 colAndIndexDataTwo[0] = (int) colAndIndexDataTwo[0] + 1;
                 colAndIndexDataTwo[1] = 0;
@@ -448,6 +628,8 @@ public class BetSlipAnalyzer {
 
                 Integer[] winnincolumn = betslipMatrix[Integer.parseInt(columnIndices[k])-1];
                 int winningDigit = winnincolumn[Integer.parseInt(rowIndices[k])];
+
+                digitHolder.add(winningDigit);
 
                 if (!rowInfo.containsKey(winningDigit)) {
 
@@ -473,7 +655,7 @@ public class BetSlipAnalyzer {
 
     private void plugSumRangesIntoMap(Map<Integer[], Integer[]> hitSumRangeMap) {
 
-        for(Iterator<Integer[]> iterator = sumRanges.iterator(); iterator.hasNext();){
+        for(Iterator<Integer[]> iterator = lastDigitHolder.iterator(); iterator.hasNext();){
 
             hitSumRangeMap.put(iterator.next(), new Integer[]{0,0});
         }

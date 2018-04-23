@@ -12,5 +12,7 @@ public class HitComparator implements Comparator<Map.Entry<Integer,Integer[]>> {
         int result = o1Hits.compareTo( o2Hits );
         if(result > 0){return -1;}
         else if( result < 0){return 1;}
-        else {return 0;}    }
+        else {return 0;}
+
+    }
 }

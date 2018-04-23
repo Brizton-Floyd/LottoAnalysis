@@ -103,7 +103,7 @@ public class GapSpacingController {
 
         ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
 
-        String[] colNames = {"ID","Spacing Range","Hits","Games Out"};
+        String[] colNames = {"ID","Spacing Range","Hits","Games Out","Hits @ Games Out","Out Last Seen"};
 
         for(int i = 0; i < colNames.length; i++){
 
@@ -151,7 +151,7 @@ public class GapSpacingController {
 
                                                 GapSpacingAnalyzer.GameSpacingHitTracker da = (GapSpacingAnalyzer.GameSpacingHitTracker) v[0];
 
-                                                if(da.getLineSpacingHitTracker().containsKey(Integer.parseInt( values[0].trim() ))){
+                                                if(da.getLineSpacingHitTracker().getLineSpacingHitTracker().containsKey(Integer.parseInt( values[0].trim() ))){
 
                                                     setUpSpacingTable(da);
 
@@ -195,6 +195,8 @@ public class GapSpacingController {
             row.add(Arrays.toString(range.toArray()));
             row.add(gapSpacingAnlz.getHits() + "");
             row.add(gapSpacingAnlz.getGamesOut() + "");
+            row.add(gapSpacingAnlz.getHitsAtGamesOut() + "");
+            row.add(gapSpacingAnlz.getOutLastSeen() + "");
 
             dataItems.add(row);
         }
@@ -212,7 +214,7 @@ public class GapSpacingController {
 
         ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
 
-        String[] colNames = {"Spacing","Hits","Games Out"};
+        String[] colNames = {"Spacing","Hits","Games Out","Hits @ Games Out","Out Last Seen"};
 
         for(int i = 0; i < colNames.length; i++){
 
@@ -268,8 +270,8 @@ public class GapSpacingController {
         /********************************
          * Data added to ObservableList *
          ********************************/
-        int size = da.getLineSpacingHitTracker().size();
-        for(Map.Entry<Integer,Integer[]> data : da.getLineSpacingHitTracker().entrySet()){
+        int size = da.getLineSpacingHitTracker().getLineSpacingHitTracker().size();
+        for(Map.Entry<Integer,GapSpacingAnalyzer.LineSpacingHitTracker> data : da.getLineSpacingHitTracker().getLineSpacingHitTracker().entrySet()){
 
             //Iterate Row
             ObservableList<String> row = FXCollections.observableArrayList();
@@ -278,8 +280,10 @@ public class GapSpacingController {
             String id = data.getKey() + "";
 
             row.add(id);
-            row.add(data.getValue()[0] + "");
-            row.add(data.getValue()[1] + "");
+            row.add(data.getValue().getHits() + "");
+            row.add(data.getValue().getGamesOut() + "");
+            row.add(data.getValue().getHitsAtGamesOut() + "");
+            row.add(data.getValue().getLastSeen() + "");
 
             dataItems.add(row);
         }
@@ -309,8 +313,8 @@ public class GapSpacingController {
 //        data.forEach( val -> {
 //            dataPoints.add(val);
 //        });
-        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size()-100,specialList.size()) : specialList);
-        dataPoints.add((bucketHitHolder.size() > 180) ? bucketHitHolder.subList(bucketHitHolder.size()-180,bucketHitHolder.size()) : bucketHitHolder);
+        dataPoints.add((specialList.size() > 180) ? specialList.subList(specialList.size()-180,specialList.size()) : specialList);
+        //dataPoints.add((bucketHitHolder.size() > 180) ? bucketHitHolder.subList(bucketHitHolder.size()-180,bucketHitHolder.size()) : bucketHitHolder);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
@@ -517,7 +521,7 @@ public class GapSpacingController {
 
         Menu rangeMenu = new Menu("Range");
         for(int i = 5; i <= 70; i++){
-            if(i % 5 == 0){
+            if(i % 5 == 0 ){
 
                 MenuItem item = new MenuItem(i + "");
                 item.setOnAction( e -> {
