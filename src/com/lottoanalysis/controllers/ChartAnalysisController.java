@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 import java.util.*;
 
@@ -21,6 +22,9 @@ public class ChartAnalysisController {
     private LottoGame lotteryGame;
     private int[][] drawNumbers;
     private int initialPosition = 0;
+
+    private List<Object> lottoDrawData;
+
     @FXML
     private Label gameTitle, analyzedPosition, hotHits, hotOut, warmHits, warmOut, coldHits, coldOut, warmHitsAtGamesOut,
             hotHitsAtGamesOut, coldHitsAtGamesOut, hotOutLastSeen, warmOutLastSeen, coldOutLastSeen, hotOutLastSeenHits,
@@ -28,7 +32,7 @@ public class ChartAnalysisController {
     @FXML
     private Label lastHitPos, lottoGamesOut, posHits, lottoNum;
     @FXML
-    private AnchorPane chartOneAnchorPane, chartTwoAnchorPane, chartThreeAnchorPane, areaChartAnchorPane;
+    private StackPane chartOneAnchorPane, chartTwoAnchorPane, chartThreeAnchorPane, areaChartAnchorPane;
     @FXML
     private HBox buttonHbox;
     @FXML
@@ -48,8 +52,12 @@ public class ChartAnalysisController {
         return drawNumbers;
     }
 
-    public void setDrawNumbers(int[][] drawNumbers) {
-        this.drawNumbers = drawNumbers;
+    public void init(Object[] drawNumbers) {
+        this.lotteryGame = (LottoGame)drawNumbers[0];
+        this.lottoDrawData = (List<Object>)drawNumbers[1];
+
+        this.drawNumbers =  (int[][]) lottoDrawData.get(1);
+
     }
 
     @FXML
@@ -89,7 +97,7 @@ public class ChartAnalysisController {
         getDataForTopChartRendering(positionArray);
 
         // print recent winning number companion hits
-        print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
+        //print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
     }
 
     private void getDataForTopChartRendering(int[] posisitionArray) {
@@ -106,7 +114,7 @@ public class ChartAnalysisController {
                             ChartHelper.clearStaticCharts();
                             int[] eleOneData = ChartHelper.returnNumbersAtIndex(posisitionArray, "0");
                             List<Object[]> upperChartData = ChartHelper.setUpTopLevelCharts(eleOneData,"1");
-                            Groupings.analyze( posisitionArray );
+                            //Groupings.analyze( posisitionArray );
                             setUpTopCharts(upperChartData);
 
                             //print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
@@ -117,7 +125,7 @@ public class ChartAnalysisController {
                             ChartHelper.clearStaticCharts();
                             int[] eleTwoData = ChartHelper.returnNumbersAtIndex(posisitionArray, "1");
                             List<Object[]> upperChartDataTwo = ChartHelper.setUpTopLevelCharts(eleTwoData,"1");
-                            Groupings.analyze( posisitionArray );
+                            //Groupings.analyze( posisitionArray );
                             setUpTopCharts(upperChartDataTwo);
 
                            // print(ChartHelper.getRecentWinningNumberCompanionHitTracker());
@@ -203,7 +211,7 @@ public class ChartAnalysisController {
     @SuppressWarnings("unchecked")
     private void setUpTopCharts(List<Object[]> upperChartData) {
 
-        AnchorPane[] panes = {chartOneAnchorPane, chartTwoAnchorPane, chartThreeAnchorPane};
+        StackPane[] panes = {chartOneAnchorPane, chartTwoAnchorPane, chartThreeAnchorPane};
         Label[][] labelData = {{hotHits, hotOut}, {warmHits, warmOut}, {coldHits, coldOut}};
         Label[] hitAtGamesOut = {hotHitsAtGamesOut, warmHitsAtGamesOut, coldHitsAtGamesOut};
         Label[] outLastSeen = {hotOutLastSeen, warmOutLastSeen, coldOutLastSeen};
@@ -224,7 +232,7 @@ public class ChartAnalysisController {
 
             List<Integer> special = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(points)[0];
             List<List<Integer>> dataPoints = new ArrayList<>();
-            dataPoints.add((points.size() > 100) ? points.subList(points.size() - 60, points.size()) : points);
+            dataPoints.add((points.size() > 200) ? points.subList(points.size() - 200, points.size()) : points);
 
            // if(pointTwo.size() > 0)
                 //dataPoints.add((pointTwo.size() > 100) ? pointTwo.subList(pointTwo.size() - 30, pointTwo.size()) : pointTwo);
@@ -235,7 +243,7 @@ public class ChartAnalysisController {
             LineChartWithHover lc = new LineChartWithHover(dataPoints,
                     colors[i],
                     (int) upperChartData.get(i)[3],
-                    (int) upperChartData.get(i)[4], unique.toString(),null,374,248);
+                    (int) upperChartData.get(i)[4], unique.toString(),null,374,248,6);
 
             Label[] currentLabel = labelData[i];
             currentLabel[0].setText(upperChartData.get(i)[0] + "");
@@ -246,8 +254,7 @@ public class ChartAnalysisController {
             outLastSeen[i].setText(upperChartData.get(i)[7] + "");
             outLastSeenHits[i].setText(upperChartData.get(i)[8] + "");
 
-            panes[i].getChildren().clear();
-            panes[i].getChildren().add(lc.getLineChart());
+            panes[i].getChildren().setAll(lc.getLineChart());
         }
     }
 

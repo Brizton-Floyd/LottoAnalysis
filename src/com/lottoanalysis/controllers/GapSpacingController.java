@@ -306,8 +306,8 @@ public class GapSpacingController {
 
         List<Integer> specialList = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(bucketHitHolder)[0];
 
-        BollingerBand bollingerBand = new BollingerBand(bucketHitHolder,5,100);
-        List<List<Integer>> data = bollingerBand.getBollingerBands();
+//        BollingerBand bollingerBand = new BollingerBand(bucketHitHolder,5,100);
+//        List<List<Integer>> data = bollingerBand.getBollingerBands();
 
 
 //        data.forEach( val -> {
@@ -319,7 +319,7 @@ public class GapSpacingController {
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Line Spacing Hit ID Chart",789,364);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Line Spacing Hit ID Chart",789,364,6);
 
         chartPane.getChildren().setAll( lc.getLineChart() );
     }

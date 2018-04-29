@@ -5,7 +5,7 @@ import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class FirstDigitTracker {
+public class FirstLastDigitTracker {
 
     private Map<Integer,Integer[]> digitTracker = new TreeMap<>();
 

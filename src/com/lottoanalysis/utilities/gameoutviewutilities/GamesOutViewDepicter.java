@@ -1,7 +1,12 @@
 package com.lottoanalysis.utilities.gameoutviewutilities;
 
 // Games Out Of View Algorithm
+import com.lottoanalysis.models.gapspacings.GameOutSpacing;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @SuppressWarnings("unchecked")
 public class GamesOutViewDepicter{
@@ -187,4 +192,28 @@ public class GamesOutViewDepicter{
         }
     }
 
+    public static Map<Integer,GameOutSpacing> analyzeData(List<Integer> numbers) {
+
+        Map<Integer,GameOutSpacing> gameOutSpacingMap = new TreeMap<>();
+        Set<Integer> lottoNumbers = new TreeSet<>(numbers);
+
+        int currentWinningNumber = numbers.get( numbers.size() - 1);
+
+        Iterator<Integer> iterator = lottoNumbers.iterator();
+//        while (iterator.hasNext()){
+//
+//            gameOutSpacingMap.put(iterator.next(), new GameOutSpacing(Boolean.TRUE));
+//        }
+
+        gameOutSpacingMap.put(currentWinningNumber, new GameOutSpacing(Boolean.TRUE));
+
+        gameOutSpacingMap.forEach((k,v) -> {
+
+            int[] numberHitIndexes = IntStream.range(0, numbers.size() - 1).filter( num -> numbers.get(num) == k).toArray();
+            v.populateDirectionMap(numberHitIndexes, k, numbers);
+            System.out.println(numberHitIndexes.length);
+        });
+
+        return gameOutSpacingMap;
+    }
 }

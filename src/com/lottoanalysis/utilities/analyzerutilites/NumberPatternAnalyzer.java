@@ -739,4 +739,19 @@ public class NumberPatternAnalyzer {
 
         return lastDigits;
     }
+
+    public static List<Integer> getLastDigits(List<Integer> positionalNumbers) {
+
+        List<Integer> data = new ArrayList<>();
+
+        for(int i = 0; i < positionalNumbers.size(); i++){
+
+                String numAsString = positionalNumbers.get(i) + "";
+                int val = (numAsString.length() >  1) ? Character.getNumericValue( numAsString.charAt(1)) :
+                        Character.getNumericValue(numAsString.charAt(0));
+                data.add(val);
+        }
+
+        return data;
+    }
 }

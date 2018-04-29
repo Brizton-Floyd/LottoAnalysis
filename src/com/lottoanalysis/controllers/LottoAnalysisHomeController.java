@@ -33,7 +33,7 @@ public class LottoAnalysisHomeController {
 
     @FXML
     private JFXButton btn_game, btn_lottoModalCloser, help_button, btn_search, btn_gapSpacing,btn_lottoDashboard, btn_charAnalysis, btn_compLottoAnalysis, btn_neutral,
-            btn_lengthy, gameOutBtn;
+            btn_lengthy, gameOutBtn,betSlipBtn,gamePanelBtn;
 
     @FXML
     private Label lbl_game_hover, lbl_game_help, lbl_search;
@@ -325,15 +325,87 @@ public class LottoAnalysisHomeController {
             game = LottoDashboardController.getClassLevelLotteryGame();
             drawData = LottoDashboardController.getNumbersForChartDisplay();
             allData = new Object[]{game, drawData};
+        }
 
-            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, LotteryGameConstants.CHART_ANALYSIS_CONTROLLER, allData);
-        } else {
+        try {
+            btn_charAnalysis.setDisable(true);
 
-            LottoScreenNavigator.loadLottoScreen(LottoScreenNavigator.LOTTO_SCREEN_TWO, LotteryGameConstants.CHART_ANALYSIS_CONTROLLER, allData);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_TWO));
+            AnchorPane pane = loader.load();
+
+            ChartAnalysisController gameOutController = loader.getController();
+            gameOutController.init( allData );
+            gameOutController.start();
+
+            Scene scene = new Scene(pane, 1500, 750);
+            Stage stage = new Stage();
+
+            stage.setOnHiding(event1 -> {
+                btn_charAnalysis.setDisable(false);
+            });
+
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setTitle("Three Chart Analysis Screen " + game.getGameName());
+            stage.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
 
+    @FXML
+    public void loadBetSlipAnalysisView(ActionEvent event){
+
+        enableOtherButtons();
+        JFXButton button = (JFXButton) event.getSource();
+        buttons.add(button);
+        button.setDisable(true);
+
+        // Retrieve the current game that is currently being played
+        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
+        List<Object> drawData = LottoInfoAndGamesController.getValues();
+
+        Object[] allData = {game, drawData};
+
+        if (game == null || drawData == null) {
+
+            game = LottoDashboardController.getClassLevelLotteryGame();
+            drawData = LottoDashboardController.getNumbersForChartDisplay();
+            allData = new Object[]{game, drawData};
+        }
+
+        try {
+            betSlipBtn.setDisable(true);
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_NINE));
+            AnchorPane pane = loader.load();
+
+            BetSlipChartController gameOutController = loader.getController();
+            gameOutController.init( allData );
+
+            Scene scene = new Scene(pane, 1500, 750);
+            Stage stage = new Stage();
+
+            stage.setOnHiding(event1 -> {
+                betSlipBtn.setDisable(false);
+            });
+
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setTitle("Bet Slip Analysis Chart " + game.getGameName());
+            stage.show();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     /**
      * Events to handle styling and visibility of UI Elements
      */
@@ -396,5 +468,22 @@ public class LottoAnalysisHomeController {
                     "-fx-background-color: #515B51;" +
                     "-fx-text-fill: #EFA747;");
         });
+        betSlipBtn.setOnMouseExited(e -> {
+            betSlipBtn.setStyle("-fx-font-size: 13px;");
+        });
+        betSlipBtn.setOnMouseEntered(e -> {
+            betSlipBtn.setStyle("-fx-font-size: 13px;" +
+                    "-fx-background-color: #515B51;" +
+                    "-fx-text-fill: #EFA747;");
+        });
+        gamePanelBtn.setOnMouseExited(e -> {
+            gamePanelBtn.setStyle("-fx-font-size: 13px;");
+        });
+        gamePanelBtn.setOnMouseEntered(e -> {
+            gamePanelBtn.setStyle("-fx-font-size: 13px;" +
+                    "-fx-background-color: #515B51;" +
+                    "-fx-text-fill: #EFA747;");
+        });
+
     }
 }

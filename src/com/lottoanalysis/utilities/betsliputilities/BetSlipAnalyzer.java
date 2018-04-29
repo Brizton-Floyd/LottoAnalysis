@@ -1,7 +1,7 @@
 package com.lottoanalysis.utilities.betsliputilities;
 
 import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.models.numbertracking.FirstDigitTracker;
+import com.lottoanalysis.models.numbertracking.FirstLastDigitTracker;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
 import java.util.*;
@@ -18,25 +18,33 @@ public class BetSlipAnalyzer {
     private List<List<Integer>> posData = new ArrayList<>();
     private Map<String, BetSlipDistributionAnalyzer> hitAndGameOutTracker = new LinkedHashMap<>();
     private Map<Integer,Integer[]> totalNumberPresentTracker = new TreeMap<>();
+    private List<Integer> avgValueHolder = new ArrayList<>();
 
     private Integer[][] customBetSlip;
-    private int betSlipRange = 10;
+    private int betSlipRange = 5;
+    private double avgHits;
 
     private static Set<Integer[]> lastDigitHolder = new LinkedHashSet<>();
     static {
-        lastDigitHolder.add( new Integer[]{0,4});
-        lastDigitHolder.add( new Integer[]{5,9});
-        lastDigitHolder.add( new Integer[]{10,17});
+        lastDigitHolder.add( new Integer[]{0,1});
+        lastDigitHolder.add( new Integer[]{2,3});
+        lastDigitHolder.add( new Integer[]{4,5});
+        lastDigitHolder.add( new Integer[]{6,7});
+        lastDigitHolder.add( new Integer[]{8,9});
+    }
+
+    public ColumnAndIndexHitAnalyzer[] getColumnAndIndexHitAnalyzers() {
+        return columnAndIndexHitAnalyzers;
     }
 
     public Object[] getBetSlipData() {
         return new Object[]{columnAndIndexHitAnalyzers, hitAndGameOutTracker};
     }
 
-    public void analyzeDrawData(int[][] drawNumbers, LottoGame lottoGame) {
+    public void analyzeDrawData(int[][] drawNumbers, LottoGame lottoGame, int span) {
 
         this.lottoGame = lottoGame;
-        hitAndGameOutTracker.clear();
+        betSlipRange = span;
 
         columnAndIndexHitAnalyzers = new ColumnAndIndexHitAnalyzer[drawNumbers.length];
         for (int i = 0; i < columnAndIndexHitAnalyzers.length; i++){
@@ -58,6 +66,7 @@ public class BetSlipAnalyzer {
                 findRowAndColumnHits(betSlipDefinitions, data);
 
                 int numbersPresent = scanPastResultsForHits( data );
+                avgValueHolder.add(numbersPresent);
                 populateNumbersPresentMap(numbersPresent);
                 // remove first index from each list so it stays at a size of 20
                 posData.forEach( list -> {
@@ -93,6 +102,25 @@ public class BetSlipAnalyzer {
         sortColumnAndIndexHits();
         populateLastDigitHolder();
         sortData();
+        computeAvgHits();
+    }
+
+    public double getAvgHits() {
+        return avgHits;
+    }
+
+    public Map<Integer, Integer[]> getTotalNumberPresentTracker() {
+        return totalNumberPresentTracker;
+    }
+
+    private void computeAvgHits() {
+
+        int sum = 0;
+       // double roundOff = (double) Math.round(a * 100) / 100;
+        sum = avgValueHolder.stream().mapToInt(Integer::intValue).sum();
+
+        avgHits =  (double) sum / avgValueHolder.size();
+        avgHits =  (double) Math.round(avgHits * 100) / 100;
     }
 
     private void analyzeFirstDigits() {
@@ -100,7 +128,7 @@ public class BetSlipAnalyzer {
         for(ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer : columnAndIndexHitAnalyzers){
 
             List<Integer> numHolder =columnAndIndexHitAnalyzer.getDigitHolder();
-            FirstDigitTracker tracker = columnAndIndexHitAnalyzer.getFirstDigitTracker();
+            FirstLastDigitTracker tracker = columnAndIndexHitAnalyzer.getFirstLastDigitTracker();
             for(int num : numHolder){
 
                 tracker.analyzeFirstDigitAndInsert( num );
@@ -147,16 +175,19 @@ public class BetSlipAnalyzer {
                 List<Integer> listData = (List<Integer>)v[3];
                 listData.forEach( num -> {
 
-                    System.out.println(listData.get(listData.size()-1));
+                   // System.out.println(listData.get(listData.size()-1));
                     String numString = Integer.toString(num);
                     int winninDigitSum = (numString.length() > 1) ? Character.getNumericValue(numString.charAt(0)) +
                             Character.getNumericValue(numString.charAt(1)): Integer.parseInt(numString);
+
+                    int lastDigitOfWinningSum = (Integer.toString(num).length() > 1) ? Character.getNumericValue((num+"").charAt(1)):
+                            Character.getNumericValue(Integer.toString(num).charAt(0));
 
                     Map<Integer[],Integer[]> hitSumRangeMap = (Map<Integer[],Integer[]>)v[5];
 
                     for(Map.Entry<Integer[],Integer[]> entry : hitSumRangeMap.entrySet() ){
 
-                        if(winninDigitSum >= entry.getKey()[0] && winninDigitSum <= entry.getKey()[1]) {
+                        if(lastDigitOfWinningSum >= entry.getKey()[0] && lastDigitOfWinningSum <= entry.getKey()[1]) {
 
                             Integer[] data = entry.getValue();
                             data[0]++;
@@ -286,16 +317,17 @@ public class BetSlipAnalyzer {
 
         for(int i = 1; i < columnData.size(); i++){
 
-            List<Integer> data = columnData.get(i-1);
-            for(int k = 0; k < data.size(); k++){
+            List<Integer> previousList = columnData.get(i-1);
+            List<Integer> currentList = columnData.get(i);
 
-                if(columnData.get(i).contains(data.get(k)) && data.get(k) != -1){
+            for(int k = 0; k < previousList.size(); k++){
 
-                    int index = data.indexOf( data.get(k));
-                    data.set(index, -1);
+                if(currentList.contains(previousList.get(k)) && previousList.get(k) != -1){
+
+                    int index = previousList.indexOf( previousList.get(k));
+                    previousList.set(index, -1);
                 }
             }
-
         }
     }
 
@@ -577,6 +609,7 @@ public class BetSlipAnalyzer {
 
             Map<Integer, Object[]> colAndIndexData = columnAndIndexHitAnalyzer.getColumnIndexHolder();
             List<Integer> digitHolder = columnAndIndexHitAnalyzer.getDigitHolder();
+            List<Integer> lastDigitHolder = columnAndIndexHitAnalyzer.getLastDigitHolder();
 
             if (!colAndIndexData.containsKey(Integer.parseInt(columnIndices[k]))) {
 
@@ -597,8 +630,11 @@ public class BetSlipAnalyzer {
 
                 Integer[] winnincolumn = betslipMatrix[Integer.parseInt(columnIndices[k])-1];
                 int winningDigit = winnincolumn[Integer.parseInt(rowIndices[k])];
+                int lastDigit = (Integer.toString(winningDigit).length() > 1) ? Character.getNumericValue(Integer.toString(winningDigit).charAt(1)):
+                        Character.getNumericValue(Integer.toString(winningDigit).charAt(0));
 
                 digitHolder.add(winningDigit);
+                lastDigitHolder.add(lastDigit);
 
                 if (!rowInfo.containsKey(winningDigit)) {
 
@@ -628,8 +664,11 @@ public class BetSlipAnalyzer {
 
                 Integer[] winnincolumn = betslipMatrix[Integer.parseInt(columnIndices[k])-1];
                 int winningDigit = winnincolumn[Integer.parseInt(rowIndices[k])];
+                int lastDigit = (Integer.toString(winningDigit).length() > 1) ? Character.getNumericValue(Integer.toString(winningDigit).charAt(1)):
+                        Character.getNumericValue(Integer.toString(winningDigit).charAt(0));
 
                 digitHolder.add(winningDigit);
+                lastDigitHolder.add(lastDigit);
 
                 if (!rowInfo.containsKey(winningDigit)) {
 
