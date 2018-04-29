@@ -26,6 +26,7 @@ public class LottoScreenNavigator {
     public static final String LOTTO_SCREEN_SIX = "/com/lottoanalysis/view/GameOutView.fxml";
     public static final String LOTTO_SCREEN_SEVEN = "/com/lottoanalysis/view/GameOutViewTwo.fxml";
     public static final String LOTTO_SCREEN_EIGHT = "/com/lottoanalysis/view/GapSpacingView.fxml";
+    public static final String LOTTO_SCREEN_NINE = "/com/lottoanalysis/view/BetSlipChartView.fxml";
 
     /** The main application layout controller. */
     private static LottoAnalysisHomeController mainController;
@@ -86,15 +87,7 @@ public class LottoScreenNavigator {
 
                 // use the values passed in by the domain object and provide contrller with
                 // appropriate values
-                if(controllerName.equalsIgnoreCase(LotteryGameConstants.CHART_ANALYSIS_CONTROLLER)) {
-                    LottoGame game = (LottoGame) domainObject[0];
-
-                    ChartAnalysisController controller = loader.getController();
-                    controller.setDrawNumbers((int[][]) ((List<Object>) domainObject[1]).get(0) );
-                    controller.setLotteryGame(game);
-                    controller.start();
-                }
-                else if( controllerName.equalsIgnoreCase(LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER)){
+                if( controllerName.equalsIgnoreCase(LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER)){
 
                     LottoGame game = (LottoGame) domainObject[0];
 

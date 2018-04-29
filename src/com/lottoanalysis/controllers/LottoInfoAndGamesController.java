@@ -79,7 +79,7 @@ public class LottoInfoAndGamesController {
 
             Button button = (Button) e.getSource();
 
-            if (button.getId().equals("btn_game")) {
+            if (button.getId().equals("gamePanelBtn")) {
 //                game_pane.setVisible(true);
 //                isGamePaneOpen = true;
                 // load view

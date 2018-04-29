@@ -39,6 +39,7 @@ public class GameOutMapper {
         String[] rangeValues = builder.toString().split(",");
 
         Map<Integer,LottoNumber> values = lottoNumberTrackerMap.get(index);
+        //System.out.println(values.get(3).gameOutPatternHolder.get(values.get(3).gameOutPatternHolder.size() - 1));
 
         final int minVal = Integer.parseInt( rangeValues[0].trim() );
         final int maxVal = Integer.parseInt( rangeValues[1].trim() );

@@ -27,7 +27,8 @@ public class LineChartWithHover {
     private int lower, upper;
 
 
-    public LineChartWithHover(List<List<Integer>> dataPoints, String lineColor, int lower, int upper, String nums,String title, int width, int height) {
+    public LineChartWithHover(List<List<Integer>> dataPoints, String lineColor, int lower, int upper, String nums,String title, int width, int height,
+                              int tickunit) {
 
         this.lineColor = lineColor;
         this.lower = lower;
@@ -58,7 +59,7 @@ public class LineChartWithHover {
         yAxis.setLowerBound(lower-1);
         yAxis.setUpperBound(upper+1);
 
-        yAxis.setTickUnit(7);
+        yAxis.setTickUnit(tickunit);
 
     }
 

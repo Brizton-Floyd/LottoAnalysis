@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,26 +13,6 @@
    <children>
       <HBox prefHeight="753.0" prefWidth="1453.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="700.0" prefWidth="68.0" style="-fx-background-color: #515B51;">
-               <children>
-                  <JFXButton fx:id="btn_search" alignment="BASELINE_LEFT" contentDisplay="CENTER" ellipsisString=".." focusTraversable="false" layoutX="24.0" layoutY="132.0" lineSpacing="3.0" prefHeight="25.0" prefWidth="32.0" text="Lotto Dashboard" textAlignment="CENTER" textFill="#dac6ac">
-                     <graphic>
-                        <FontAwesomeIconView fill="#dac6ac" glyphName="SEARCH" size="15" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="btn_game" alignment="BASELINE_LEFT" contentDisplay="CENTER" ellipsisString="." focusTraversable="false" layoutX="15.0" layoutY="592.0" onAction="#makeGamePanelAppear" prefHeight="20.0" prefWidth="31.0" text="Lotto Dashboard" textAlignment="CENTER" textFill="#dac6ac">
-                     <graphic>
-                        <FontAwesomeIconView fill="#dac6ac" glyphName="NAVICON" size="15" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="help_button" alignment="BASELINE_LEFT" contentDisplay="GRAPHIC_ONLY" ellipsisString="." focusTraversable="false" layoutX="16.0" layoutY="635.0" prefHeight="29.0" prefWidth="30.0" text="Lotto Dashboard" textAlignment="CENTER" textFill="#dac6ac">
-                     <graphic>
-                        <FontAwesomeIconView fill="#dac6ac" glyphName="QUESTION" size="15" />
-                     </graphic>
-                  </JFXButton>
-                  <FontAwesomeIconView fill="#dac6ac" glyphName="XING" layoutX="31.0" layoutY="68.0" size="30" />
-               </children>
-            </AnchorPane>
             <AnchorPane prefHeight="700.0" prefWidth="178.0" style="-fx-background-color: #10000C;">
                <children>
                   <VBox maxWidth="178.0" minWidth="178.0" prefWidth="178.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -79,6 +58,16 @@
                               <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_UP" size="15" />
                            </graphic>
                         </JFXButton>
+                        <JFXButton fx:id="betSlipBtn" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="10.0" layoutY="208.0" maxWidth="178.0" minWidth="178.0" onAction="#loadBetSlipAnalysisView" prefHeight="33.0" prefWidth="178.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Bet Slip Analysis" textAlignment="CENTER" textFill="#dac6ac">
+                           <graphic>
+                              <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_UP" size="15" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="gamePanelBtn" alignment="BASELINE_LEFT" focusTraversable="false" layoutX="10.0" layoutY="241.0" maxWidth="178.0" minWidth="178.0" onAction="#makeGamePanelAppear" prefHeight="33.0" prefWidth="178.0" style="-fx-font-family: 'Encode Sans Semi Condensed', sans-serif;;" text="Load Game Panel" textAlignment="CENTER" textFill="#dac6ac">
+                           <graphic>
+                              <MaterialDesignIconView fill="#dac6ac" glyphName="TRENDING_UP" size="15" />
+                           </graphic>
+                        </JFXButton>
                      </children>
                   </VBox>
 
@@ -88,11 +77,9 @@
                <HBox.margin>
                   <Insets right="-10.0" />
                </HBox.margin>
-               <children>
-                  <StackPane fx:id="screenHolder" maxHeight="755.0" maxWidth="1214.0" minHeight="755.0" minWidth="1214.0" prefHeight="755.0" prefWidth="1214.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
             </AnchorPane>
          </children>
       </HBox>
+      <StackPane fx:id="screenHolder" alignment="TOP_LEFT" layoutX="178.0" maxHeight="753.0" maxWidth="1254.0" minHeight="753.0" minWidth="1254.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="753.0" prefWidth="1254.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="178.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>

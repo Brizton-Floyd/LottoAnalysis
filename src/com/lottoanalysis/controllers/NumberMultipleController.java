@@ -126,13 +126,13 @@ public class NumberMultipleController {
 
         List<Integer> list = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(values)[0];
 
-        dataPoints.add( (list.size() > 250) ? list.subList(list.size() - 250,list.size()) : list );
+        dataPoints.add( (list.size() > 100) ? list.subList(list.size() - 100,list.size()) : list );
         //dataPoints.add( (values.size() > 250) ? values.subList(values.size() - 250,values.size()) : values );
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 lottoGame.getMinNumber(),
-                lottoGame.getMaxNumber(), range.toString(), title + " Multiple",1223,297);
+                lottoGame.getMaxNumber(), range.toString(), title + " Multiple",1223,297,6);
 
 
         components.getChildren().add( lc.getLineChart());

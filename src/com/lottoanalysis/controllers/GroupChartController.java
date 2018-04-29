@@ -336,12 +336,12 @@ public class GroupChartController {
 
         Object[] data = null;
 
-        if(currentGameName.isEmpty() || !currentGameName.equals(lotteryGame.getGameName())) {
-            currentGameName = lotteryGame.getGameName();
-            BetSlipAnalyzer betSlipAnalyzer = new BetSlipAnalyzer();
-            betSlipAnalyzer.analyzeDrawData(drawPositionalNumbers, lotteryGame);
-            data = betSlipAnalyzer.getBetSlipData();
-        }
+//        if(currentGameName.isEmpty() || !currentGameName.equals(lotteryGame.getGameName())) {
+//            currentGameName = lotteryGame.getGameName();
+//            BetSlipAnalyzer betSlipAnalyzer = new BetSlipAnalyzer();
+//            betSlipAnalyzer.analyzeDrawData(drawPositionalNumbers, lotteryGame);
+//            data = betSlipAnalyzer.getBetSlipData();
+//        }
         System.out.println(Arrays.toString(data));
 //        setUpPatternChart((List<Integer>)positionData.get(((RadioButton)group.getToggles().get(0)).getText())[0],
 //                ((RadioButton)group.getToggles().get(0)).getText());
@@ -605,7 +605,7 @@ public class GroupChartController {
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minValue,
-                maxValue, unique.toString(), text,996,263);
+                maxValue, unique.toString(), text,996,263,6);
 
 //        System.out.println();
 //        Map<Integer,Integer[]> lineSpacingMap = (Map<Integer,Integer[]>)ChartHelperTwo.getRepeatedNumberList(numList)[1];
@@ -643,7 +643,7 @@ public class GroupChartController {
 //                threePeriodHolder.add( numList.get(i) );
 //            }
 
-            float ema = calculateMovingAverage(numList.get(i), 20, yesterdayEMA);
+            float ema = calculateMovingAverage(numList.get(i), 30, yesterdayEMA);
             movingAverages.add( (int)ema);
             yesterdayEMA = ema;
         }
