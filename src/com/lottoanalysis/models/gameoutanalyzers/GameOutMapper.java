@@ -116,9 +116,10 @@ public class GameOutMapper {
 
                 int gamesOut = v.getLottoNumberGamesOut();
                 v.setLottoNumberGamesOut(lottoNumberTrackerMapTwo.get( k )[0] );
-                v.setGameOutPatternHolder( (Integer.toString(v.getLottoNumberGamesOut()).equals( "0") ) ?
-                                                                 "P" + lottoNumberTrackerMapTwo.get(k)[1] : Integer.toString(v.getLottoNumberGamesOut()) );
+//                v.setGameOutPatternHolder( (Integer.toString(v.getLottoNumberGamesOut()).equals( "0") ) ?
+//                                                                 "P" + lottoNumberTrackerMapTwo.get(k)[1] : Integer.toString(v.getLottoNumberGamesOut()) );
 
+                v.setGameOutPatternHolder(v.getLottoNumberGamesOut() + "");
             }
         });
     }

@@ -1,7 +1,9 @@
 package com.lottoanalysis.controllers;
 
+import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import com.lottoanalysis.utilities.companionnumberutilities.CompanionNumberHelper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -9,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
@@ -31,6 +34,9 @@ public class CompanionNumberController {
 
     @FXML
     private Button analyzeBtn;
+
+    @FXML
+    private StackPane chartPane;
 
     @FXML
     private TableView companionTable, statTable, lastDigitDueTable;
@@ -156,6 +162,59 @@ public class CompanionNumberController {
         companionTable.scrollTo(size - 1);
 
         setUpStatTable(CompanionNumberHelper.getPatternHolder());
+
+        setUpChart(points, CompanionNumberHelper.getColumnHeaders());
+    }
+
+    private void setUpChart(List<List<String>> points, Map<Integer, String> columnHeaders) {
+
+        List<Integer> chartDataPoints = new ArrayList<>();
+        for(int i = 0; i < points.get(0).size(); i++){
+
+            for(int j = 0; j < points.size(); j++){
+
+                String sysmbol = points.get(j).get(i);
+                if(sysmbol.equals("X")){
+
+                    int listIndex = points.indexOf( points.get(j) );
+                    String pattern = columnHeaders.get(listIndex);
+                    int val = Integer.parseInt( pattern.split("-")[1]);
+                    chartDataPoints.add(val);
+                }
+            }
+        }
+
+        injectChartWithData( chartDataPoints );
+    }
+
+    private void injectChartWithData(List<Integer> chartDataPoints) {
+
+        List<List<Integer>> dataPoints = new ArrayList<>();
+
+        Set<Integer> unique = new HashSet<>(chartDataPoints);
+        List<Integer> minMaxVals = new ArrayList<>(chartDataPoints);
+        Collections.sort(minMaxVals);
+
+        List<Integer> specialList = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(chartDataPoints)[0];
+        // List<Integer> movingAverages = GroupChartController.calculateMovingAverage( lastDigitHolder );
+
+//        BollingerBand bollingerBand = new BollingerBand(bucketHitHolder,5,100);
+//        List<List<Integer>> data = bollingerBand.getBollingerBands();
+
+
+//        data.forEach( val -> {
+//            dataPoints.add(val);
+//        });
+        dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        dataPoints.add( (chartDataPoints.size() > 100) ? chartDataPoints.subList(chartDataPoints.size()-100,chartDataPoints.size()) : chartDataPoints);
+
+        LineChartWithHover lc = new LineChartWithHover(dataPoints,
+                null,
+                minMaxVals.get(0),
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Companion Number Trend Direction Chart", 602, 257, 4);
+
+        chartPane.getChildren().setAll(lc.getLineChart());
+
     }
 
     private void setUpStatTable(Map<String, Object[]> patternHolder) {

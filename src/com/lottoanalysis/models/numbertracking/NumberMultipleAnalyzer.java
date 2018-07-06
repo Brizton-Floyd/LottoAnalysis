@@ -14,6 +14,7 @@ public class NumberMultipleAnalyzer {
     private Map<Integer, LottoNumber> lottoNumberHitOccurenceHolder = new TreeMap<>();
     private Map<Integer, List<Integer>> multipleHolderMap = new HashMap<>();
     private List<Integer> currentMultipleStateHolder = new ArrayList<>();
+    private static List<Integer> multipleList = new ArrayList<>();
 
     private int multipleHits;
     private int multipleGamesOut;
@@ -54,6 +55,10 @@ public class NumberMultipleAnalyzer {
 
     public void setCurrentMultipleStateHolder(List<Integer> currentMultipleStateHolder) {
         this.currentMultipleStateHolder = currentMultipleStateHolder;
+    }
+
+    public static List<Integer> getMultipleList() {
+        return multipleList;
     }
 
     public static Map<Integer, List<Integer>> getMultipleRanges() {
@@ -190,6 +195,7 @@ public class NumberMultipleAnalyzer {
             List<Integer> numbersHolder = multipleRanges.get(key);
             if (numbersHolder.contains(number)) {
 
+                multipleList.add(key);
                 if (!multipleHitOccurenceHolder.containsKey(key)) {
 
                     currentMultipleStateHolder.add(key);

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -12,74 +9,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="1214.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.GroupChartController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="770.0" prefWidth="1270.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.GroupChartController">
    <children>
       <Label fx:id="lblGame" text="Group Chart Analysis: Fantasy Five" textFill="#dac6ac" AnchorPane.leftAnchor="10.0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="lblAnalyzedPosition" prefHeight="35.0" prefWidth="259.0" text="Analyzing Position One" textFill="#dac6ac" AnchorPane.leftAnchor="954.0" AnchorPane.rightAnchor="10.0">
+      <Label fx:id="lblAnalyzedPosition" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="259.0" text="Analyzing Position One" textFill="#dac6ac" AnchorPane.leftAnchor="954.0" AnchorPane.rightAnchor="10.0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="4.0" prefWidth="1214.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
-      <HBox fx:id="drawPositionHbox" prefHeight="22.0" prefWidth="1194.0" spacing="40.0" AnchorPane.bottomAnchor="571.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
-         <children>
-            <RadioButton mnemonicParsing="false" text="Position One" textFill="#dac6ac" />
-            <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Position Two" textFill="#dac6ac" />
-            <RadioButton layoutX="99.0" layoutY="10.0" mnemonicParsing="false" text="Position Three" textFill="#dac6ac" />
-            <RadioButton layoutX="188.0" layoutY="10.0" mnemonicParsing="false" text="Position Four" textFill="#dac6ac" />
-            <RadioButton layoutX="277.0" layoutY="10.0" mnemonicParsing="false" text="Position Five" textFill="#dac6ac" />
-         </children>
-      </HBox>
-      <VBox layoutX="10.0" layoutY="130.0" prefHeight="264.0" prefWidth="1194.0" AnchorPane.topAnchor="110.0">
-         <children>
-            <HBox fx:id="radioBtnAndChartHbox" prefHeight="326.0" prefWidth="1194.0" spacing="20.0">
-               <children>
-                  <VBox fx:id="groupRadioButtonVbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="292.0" prefWidth="82.0" spacing="20.0">
-                     <children>
-                        <RadioButton mnemonicParsing="false" text="[1,10]" textFill="#dac6ac">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
-                        </RadioButton>
-                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="108.0" text="[11,20]" textFill="#dac6ac" />
-                        <RadioButton layoutX="10.0" layoutY="27.0" mnemonicParsing="false" text="[21,30]" textFill="#dac6ac" />
-                        <RadioButton layoutX="10.0" layoutY="44.0" mnemonicParsing="false" text="[31,39]" textFill="#dac6ac" />
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </VBox>
-                  <VBox fx:id="groupRadioButtonVbox1" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="264.0" prefWidth="73.0" spacing="20.0" visible="false">
-                     <children>
-                        <RadioButton mnemonicParsing="false" text="[1,10]" textFill="#dac6ac">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
-                        </RadioButton>
-                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="[11,20]" textFill="#dac6ac" />
-                        <RadioButton layoutX="10.0" layoutY="27.0" mnemonicParsing="false" text="[21,30]" textFill="#dac6ac" />
-                        <RadioButton layoutX="10.0" layoutY="44.0" mnemonicParsing="false" text="[31,39]" textFill="#dac6ac" />
-                     </children>
-                  </VBox>
-                  <LineChart prefHeight="264.0" prefWidth="996.0" stylesheets="@../styles/line_chart.css" title="Range 1 - 10">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </LineChart>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
       <MenuButton fx:id="groupSizeMenuButton" mnemonicParsing="false" text="Group Size" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0">
         <items>
             <MenuItem mnemonicParsing="false" text="2" />
@@ -94,15 +39,67 @@
             <MenuItem mnemonicParsing="false" text="20" />
         </items>
       </MenuButton>
-      <HBox layoutY="381.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="297.0" prefWidth="1193.0" spacing="20.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="400.0">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="4.0" prefWidth="1214.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0" />
+      <HBox fx:id="drawPositionHbox" prefHeight="24.0" prefWidth="1124.0" spacing="40.0" AnchorPane.bottomAnchor="679.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="50.0">
          <children>
-            <VBox prefHeight="278.0" prefWidth="743.0">
+            <RadioButton mnemonicParsing="false" text="Position One" textFill="#dac6ac" />
+            <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Position Two" textFill="#dac6ac" />
+            <RadioButton layoutX="99.0" layoutY="10.0" mnemonicParsing="false" text="Position Three" textFill="#dac6ac" />
+            <RadioButton layoutX="188.0" layoutY="10.0" mnemonicParsing="false" text="Position Four" textFill="#dac6ac" />
+            <RadioButton layoutX="277.0" layoutY="10.0" mnemonicParsing="false" text="Position Five" textFill="#dac6ac" />
+         </children>
+      </HBox>
+      <HBox fx:id="radioBtnAndChartHbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="258.0" prefWidth="1194.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="110.0">
+         <children>
+            <VBox fx:id="groupRadioButtonVbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="321.0" prefWidth="175.0" spacing="20.0" HBox.hgrow="NEVER">
                <children>
-                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="211.0" prefWidth="789.0" style="-fx-background-color: black;">
+                  <RadioButton mnemonicParsing="false" text="[1,10]" textFill="#dac6ac">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="108.0" text="[11,20]" textFill="#dac6ac" />
+                  <RadioButton layoutX="10.0" layoutY="27.0" mnemonicParsing="false" text="[21,30]" textFill="#dac6ac" />
+                  <RadioButton layoutX="10.0" layoutY="44.0" mnemonicParsing="false" text="[31,39]" textFill="#dac6ac" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <VBox fx:id="groupRadioButtonVbox1" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="264.0" prefWidth="73.0" spacing="20.0" visible="false" HBox.hgrow="NEVER">
+               <children>
+                  <RadioButton mnemonicParsing="false" text="[1,10]" textFill="#dac6ac">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="[11,20]" textFill="#dac6ac" />
+                  <RadioButton layoutX="10.0" layoutY="27.0" mnemonicParsing="false" text="[21,30]" textFill="#dac6ac" />
+                  <RadioButton layoutX="10.0" layoutY="44.0" mnemonicParsing="false" text="[31,39]" textFill="#dac6ac" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <VBox layoutX="204.0" layoutY="104.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="1056.0" spacing="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="104.0">
+         <children>
+            <StackPane fx:id="chartPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="171.0" prefWidth="1056.0" style="-fx-background-color: black;" />
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="187.0" prefWidth="1056.0" spacing="10.0" stylesheets="@../styles/table_view.css">
+               <children>
+                  <StackPane fx:id="gapSpacingPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="188.0" prefWidth="565.0" style="-fx-background-color: black;" />
+                  <StackPane fx:id="lottoNumberPane" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="188.0" prefWidth="482.0" style="-fx-background-color: black;" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox layoutY="486.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="274.0" prefWidth="1250.0" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="486.0">
+         <children>
+            <VBox prefHeight="278.0" prefWidth="500.0">
+               <children>
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="211.0" prefWidth="789.0" style="-fx-background-color: black;">
                      <children>
                         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
                            <children>
-                              <Label fx:id="groupHitOutlookLabel" prefHeight="27.0" prefWidth="705.0" textFill="#efa747">
+                              <Label fx:id="groupHitOutlookLabel" prefHeight="27.0" prefWidth="705.0" textFill="#efa747" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -115,40 +112,47 @@
                         <TableView fx:id="groupInfoTable" stylesheets="@../styles/table_view.css" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="218.0" prefWidth="789.0" style="-fx-background-color: black;">
+                  <VBox prefHeight="143.0" prefWidth="789.0" style="-fx-background-color: black;">
                      <children>
-                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
                            <children>
-                              <Label fx:id="patternOutlookLabel" prefHeight="27.0" prefWidth="787.0" text="Pattern Table" textFill="#efa747">
+                              <Label fx:id="patternOutlookLabel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="27.0" prefWidth="787.0" text="Pattern Table" textFill="#efa747" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
-                                 <padding>
-                                    <Insets left="200.0" />
-                                 </padding>
                               </Label>
                            </children>
                         </AnchorPane>
-                        <TableView fx:id="patternTable" stylesheets="@../styles/table_view.css" />
+                        <TableView fx:id="patternTable" prefHeight="121.0" prefWidth="789.0" stylesheets="@../styles/table_view.css" />
                      </children>
                   </VBox>
                </children>
             </VBox>
+            <VBox prefHeight="360.0" prefWidth="446.0" style="-fx-background-color: black;" stylesheets="@../styles/table_view.css">
+               <children>
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="420.0" style="-fx-background-color: black;">
+                     <children>
+                        <Label fx:id="gameOutPerfLabel" alignment="CENTER" prefHeight="27.0" prefWidth="430.0" text="Game Out Performance Table" textFill="#efa747" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="tbl_gameOutPerformance" prefHeight="333.0" prefWidth="465.0" stylesheets="@../styles/table_view.css" />
+                  <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="420.0" style="-fx-background-color: black;">
+                     <children>
+                        <Label fx:id="gameOutPerfLabel1" alignment="CENTER" prefHeight="27.0" prefWidth="430.0" text="Gap ID Spacing Table" textFill="#efa747" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <StackPane fx:id="gapSpacingInfoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="144.0" prefWidth="441.0" style="-fx-background-color: black;" />
+               </children>
+            </VBox>
          </children>
       </HBox>
-      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="272.0" prefWidth="432.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="800.0" AnchorPane.topAnchor="400.0">
-         <children>
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="420.0" style="-fx-background-color: black;">
-               <children>
-                  <Label fx:id="gameOutPerfLabel" prefHeight="27.0" prefWidth="430.0" text="Game Out Performance Table" textFill="#efa747">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-            <TableView fx:id="tbl_gameOutPerformance" stylesheets="@../styles/table_view.css" />
-         </children>
-      </VBox>
    </children>
 </AnchorPane>

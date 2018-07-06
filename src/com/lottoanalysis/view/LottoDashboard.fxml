@@ -13,7 +13,7 @@
    <children>
       <VBox prefHeight="743.0" prefWidth="608.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <children>
-            <AnchorPane fx:id="predictedNumbersPane" prefHeight="334.0" prefWidth="1165.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;">
+            <AnchorPane fx:id="predictedNumbersPane" prefHeight="334.0" prefWidth="1165.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;" VBox.vgrow="NEVER">
                <children>
                   <Label fx:id="predictedNumbersLabel" text="Predicted Numbers For Todays Drawing" textFill="#dac6ac" AnchorPane.topAnchor="-45.0">
                      <font>
@@ -38,9 +38,9 @@
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
             </AnchorPane>
-            <HBox prefHeight="380.0" prefWidth="1205.0" spacing="175.0">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="1205.0" spacing="175.0" VBox.vgrow="NEVER">
                <children>
-                  <VBox>
+                  <VBox HBox.hgrow="NEVER">
                      <children>
                         <Label fx:id="lottoDashboard" text="Best Numbers For Next Drawing" textFill="#dac6ac">
                            <font>
@@ -50,12 +50,12 @@
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Label>
-                        <AnchorPane prefHeight="271.0" prefWidth="606.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;">
+                        <AnchorPane prefHeight="271.0" prefWidth="606.0" style="-fx-text-fill: #dac6ac; -fx-border-color: #10000C;" VBox.vgrow="NEVER">
                            <children>
                               <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                               <VBox fx:id="vBox" layoutX="2.0" layoutY="2.0" prefHeight="270.0" prefWidth="604.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <HBox fx:id="hBox" prefHeight="273.0" prefWidth="610.0">
+                                    <HBox fx:id="hBox" prefHeight="273.0" prefWidth="610.0" VBox.vgrow="NEVER">
                                        <VBox.margin>
                                           <Insets bottom="-30.0" />
                                        </VBox.margin>
@@ -72,9 +72,9 @@
                         <Insets top="50.0" />
                      </HBox.margin>
                   </VBox>
-                  <VBox prefHeight="375.0" prefWidth="380.0">
+                  <VBox prefHeight="375.0" prefWidth="380.0" HBox.hgrow="NEVER">
                      <children>
-                        <Label fx:id="lottoDashboard1" text="Betslip Analysis" textFill="#dac6ac">
+                        <Label fx:id="lottoDashboard1" text="Betslip Analysis" textFill="#dac6ac" VBox.vgrow="NEVER">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -82,12 +82,12 @@
                               <Insets top="50.0" />
                            </VBox.margin>
                         </Label>
-                        <AnchorPane fx:id="infoPane1" prefHeight="275.0" prefWidth="463.0" style="-fx-border-color: #10000C;">
+                        <AnchorPane fx:id="infoPane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="275.0" prefWidth="463.0" style="-fx-border-color: #10000C;" VBox.vgrow="NEVER">
                            <children>
                               <Pane prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                            <VBox.margin>
-                              <Insets bottom="15.0" />
+                              <Insets bottom="15.0" right="20.0" />
                            </VBox.margin>
                         </AnchorPane>
                      </children>

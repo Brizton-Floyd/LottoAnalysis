@@ -6,14 +6,12 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="750.0" prefWidth="1500.0" style="-fx-background-color: #515B51;" stylesheets="@../styles/table_view.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.BetSlipChartController">
+<AnchorPane prefHeight="770.0" prefWidth="1270.0" style="-fx-background-color: #515B51;" stylesheets="@../styles/table_view.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.BetSlipChartController">
    <children>
       <MenuBar fx:id="menuBar" style="-fx-background-color: #dac6ac;" stylesheets="@../styles/menubar.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -59,27 +57,19 @@
             </StackPane>
          </children>
       </VBox>
-      <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="679.0" prefWidth="1014.0" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="65.0">
+      <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="645.0" prefWidth="793.0" spacing="10.0" stylesheets="@../styles/table_view.css" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <StackPane fx:id="columnHitStackPane" alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="316.0" prefWidth="1014.0" style="-fx-background-color: black;">
+            <StackPane fx:id="columnHitStackPane" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="176.0" prefWidth="793.0" style="-fx-background-color: black;">
                <VBox.margin>
-                  <Insets top="35.0" />
+                  <Insets />
                </VBox.margin>
             </StackPane>
-            <StackPane fx:id="lottoNumberStackPane" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="314.0" prefWidth="1014.0" style="-fx-background-color: black;">
+            <StackPane fx:id="lottoNumberStackPane" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="231.0" prefWidth="793.0" style="-fx-background-color: black;">
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets />
                </VBox.margin>
             </StackPane>
-            <HBox spacing="10.0">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-               <children>
-                  <StackPane fx:id="lastDigitPane" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="314.0" prefWidth="1014.0" style="-fx-background-color: black;" />
-                  <StackPane fx:id="directionStackPane" prefHeight="208.0" prefWidth="768.0" style="-fx-background-color: black;" />
-               </children>
-            </HBox>
+            <StackPane fx:id="lastDigitPane" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="232.0" prefWidth="793.0" style="-fx-background-color: black;" />
          </children>
       </VBox>
    </children>

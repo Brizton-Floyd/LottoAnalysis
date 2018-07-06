@@ -93,7 +93,7 @@ public class LineChartWithHover {
                 data.setNode(
                     new HoveredThresholdNode(
                             (i == 0) ? 0 : y.get(i -1),
-                            y.get(i)
+                            y.get(i), index
                     )
                  );
 
@@ -110,9 +110,13 @@ public class LineChartWithHover {
      * a node which displays a value on hover, but is otherwise empty
      */
     class HoveredThresholdNode extends StackPane {
-        HoveredThresholdNode(int priorValue, int value) {
+
+        int index;
+
+        HoveredThresholdNode(int priorValue, int value, int index) {
             setPrefSize(10, 10);
 
+            this.index = index;
             final Label label = createDataThresholdLabel(priorValue, value);
 
             setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -136,13 +140,14 @@ public class LineChartWithHover {
 
             final Label label = new Label(value + "");
             label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
-            label.setStyle("-fx-font-size: 10; -fx-font-weight: bold;");
+            label.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
 
             if(lineColor != null)
                 label.setTextFill(Color.valueOf(lineColor));
+            if(index == 0)
+                label.setTextFill(Color.BLACK);
             else
-                label.setTextFill(Color.valueOf("#FF0000"));
-
+                label.setTextFill(Color.valueOf("#76FF03"));
             label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
             return label;
         }

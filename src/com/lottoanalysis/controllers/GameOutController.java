@@ -10,6 +10,7 @@ import com.lottoanalysis.models.toplevelcharting.ChartDataBuilder;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
+import com.lottoanalysis.utilities.gameoutviewutilities.GameOutLottoHitFinder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -64,7 +65,7 @@ public class GameOutController {
         addDrawPositionRadioButtons(((int[][]) lottoDrawData.get(0)).length);
 
         int[][] data = (int[][]) lottoDrawData.get(0);
-        ChartDataBuilder dataBuilder = new ChartDataBuilder(data[0]);
+       // ChartDataBuilder dataBuilder = new ChartDataBuilder(data[0]);
 
         gameOutMapper = new GameOutMapper(lottoGame, data);
 
@@ -270,7 +271,98 @@ public class GameOutController {
                 minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 7);
 
         chartStackPane.getChildren().setAll(lc.getLineChart());
+
+        setUpRecentWinningNumberDirectionChart(chartPoints);
     }
+
+    private void setUpRecentWinningNumberDirectionChart(List<Integer> lastDigitHolder) {
+
+        final int min = lastDigitHolder.stream().min(Integer::compare).get();
+        final int max = lastDigitHolder.stream().max(Integer::compare).get();
+
+        TableView tableView = new TableView();
+        //tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        GameOutLottoHitFinder lottoNumberHitTracker = new GameOutLottoHitFinder(min,max , lastDigitHolder);
+
+        // Create columns
+        String[] colNames = {"Lotto#", "Hits", "Prv G Out", "Gms Out", "Gm Out Hts", "Game Out Lst Ht"};
+        for (int i = 0; i < colNames.length; i++) {
+
+            final int j = i;
+            TableColumn col = new TableColumn(colNames[i]);
+            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+
+                @Override
+                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+                    return new TableCell<ObservableList, String>() {
+
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (!isEmpty()) {
+
+                                setText(item);
+                                this.setTextFill(Color.BEIGE);
+                                // System.out.println(param.getText());
+
+                                ObservableList observableList = getTableView().getItems().get(getIndex());
+                                if (observableList.get(3).toString().equalsIgnoreCase("0")) {
+                                    getTableView().getSelectionModel().select(getIndex());
+
+                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+
+                                        this.setTextFill(Color.valueOf("#76FF03"));
+                                    }
+
+                                    //System.out.println(getItem());
+                                    // Get fancy and change color based on data
+                                    //if (item.contains("X"))
+                                    //this.setTextFill(Color.valueOf("#EFA747"));
+                                }
+                            }
+                        }
+                    };
+                }
+            });
+
+            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+
+
+            );
+
+            col.setSortable(false);
+            tableView.getColumns().addAll(col);
+        }
+
+        ObservableList<ObservableList> items = FXCollections.observableArrayList();
+
+
+        for (Map.Entry<Integer, Integer[]> data : lottoNumberHitTracker.getLottoNumberHitTracker().entrySet()) {
+
+            //Iterate Row
+            ObservableList<String> row = FXCollections.observableArrayList();
+
+            Integer key = data.getKey();
+            Integer[] values = data.getValue();
+
+            row.add(key + "");
+            row.add(values[0] + "");
+            row.add(values[4] + "");
+            row.add(values[1] + "");
+            row.add(values[2] + "");
+            row.add(values[3] + "");
+
+            items.add(row);
+        }
+
+        tableView.setItems(items);
+
+        lottoColumnInfoPane.getChildren().setAll(tableView);
+
+        //setUpRecentWinninNumberTable();
+    }
+
 
     private void populateIndividualLottonumberTable(Map<Integer, Integer[]> gameOutHitGrouperData) {
 
@@ -461,7 +553,7 @@ public class GameOutController {
                 row.add(values.get(j).get(i));
             }
 
-            if( i == values.get(0).size() - 1){
+            if (i == values.get(0).size() - 1) {
                 System.out.println(row);
             }
             dataItems.add(row);
@@ -584,7 +676,7 @@ public class GameOutController {
         List<List<String>> values = gameOutMapper.processDataRequest(range, currentDrawPosition);
         values.removeIf(list -> list.get(list.size() - 1).equals(Integer.toString(list.size())));
 
-       // System.out.println(values.get(3).get(values.get(3).size() -1));
+        // System.out.println(values.get(3).get(values.get(3).size() -1));
         populatePatternMap(values, range);
         Object[] currentGameOutCompanionMap = getCurrentGameOutCompanionHits(values, computeRange(range));
         populateColumnInfoPane(currentGameOutCompanionMap);
@@ -598,97 +690,97 @@ public class GameOutController {
     private void populateColumnInfoPane(Object[] currentGameOutCompanionMap) {
 
         ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
-        HitRangeGrouper[] hitRangeGrouper = (HitRangeGrouper[]) currentGameOutCompanionMap[1];
-        Map<Integer, Map<String, Integer[]>> columnInfoData = (Map<Integer, Map<String, Integer[]>>) currentGameOutCompanionMap[0];
+        HitRangeGrouper[] hitRangeGrouper = (HitRangeGrouper[]) currentGameOutCompanionMap[0];
+       // Map<Integer, Map<String, Integer[]>> columnInfoData = (Map<Integer, Map<String, Integer[]>>) currentGameOutCompanionMap[0];
 
         //Map<Integer, Integer[]> totalNumberPresentTracker = betSlipAnalyzer.getTotalNumberPresentTracker();
 
-        TableView tableView = new TableView();
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        String[] colNames = {"Lotto Number", "Hit Pattern", "Hits", "Games Out"};
-
-        for (int i = 0; i < colNames.length; i++) {
-
-            final int j = i;
-            TableColumn col = new TableColumn(colNames[i]);
-            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
-
-                @Override
-                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
-                    return new TableCell<ObservableList, String>() {
-
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (!isEmpty()) {
-
-                                setText(item);
-                                this.setTextFill(Color.BEIGE);
-                                // System.out.println(param.getText());
-
-//                                ObservableList observableList = getTableView().getItems().get(getIndex());
-//                                if (observableList.get(2).toString().equalsIgnoreCase("0")) {
-//                                    getTableView().getSelectionModel().select(getIndex());
+//        TableView tableView = new TableView();
+//        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 //
-//                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+//        String[] colNames = {"Lotto Number", "Hit Pattern", "Hits", "Games Out"};
 //
-//                                        this.setTextFill(Color.valueOf("#76FF03"));
-//                                    }
+//        for (int i = 0; i < colNames.length; i++) {
 //
-//                                    //System.out.println(getItem());
-//                                    // Get fancy and change color based on data
-//                                    //if (item.contains("X"))
-//                                    //this.setTextFill(Color.valueOf("#EFA747"));
-//                                }
-
-                            }
-                        }
-                    };
-                }
-            });
-
-            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
-                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
-
-
-            );
-
-            col.setSortable(false);
-            tableView.getColumns().addAll(col);
-        }
-
-        /********************************
-         * Data added to ObservableList *
-         ********************************/
-        int size = columnInfoData.size();
-        for (Map.Entry<Integer, Map<String, Integer[]>> data : columnInfoData.entrySet()) {
-
-            //Iterate Row
-            ObservableList<String> row = FXCollections.observableArrayList();
-
-            if (data.getValue().keySet().contains("##")) {
-
-                Integer[] colData = data.getValue().get("##");
-                String pattern = "##";
-
-                Integer lottoNumber = data.getKey();
-
-                row.add(String.format("%s", lottoNumber));
-                row.add(pattern);
-                row.add(colData[0] + "");
-                row.add(colData[1] + "");
-
-
-                dataItems.add(row);
-
-            }
-
-        }
-
-        tableView.setItems(dataItems);
-        //tableView.scrollTo(tableView.getItems().size() - 1);
-        lottoColumnInfoPane.getChildren().setAll(tableView);
+//            final int j = i;
+//            TableColumn col = new TableColumn(colNames[i]);
+//            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+//
+//                @Override
+//                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+//                    return new TableCell<ObservableList, String>() {
+//
+//                        @Override
+//                        public void updateItem(String item, boolean empty) {
+//                            super.updateItem(item, empty);
+//                            if (!isEmpty()) {
+//
+//                                setText(item);
+//                                this.setTextFill(Color.BEIGE);
+//                                // System.out.println(param.getText());
+//
+////                                ObservableList observableList = getTableView().getItems().get(getIndex());
+////                                if (observableList.get(2).toString().equalsIgnoreCase("0")) {
+////                                    getTableView().getSelectionModel().select(getIndex());
+////
+////                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+////
+////                                        this.setTextFill(Color.valueOf("#76FF03"));
+////                                    }
+////
+////                                    //System.out.println(getItem());
+////                                    // Get fancy and change color based on data
+////                                    //if (item.contains("X"))
+////                                    //this.setTextFill(Color.valueOf("#EFA747"));
+////                                }
+//
+//                            }
+//                        }
+//                    };
+//                }
+//            });
+//
+//            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+//                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+//
+//
+//            );
+//
+//            col.setSortable(false);
+//            tableView.getColumns().addAll(col);
+//        }
+//
+//        /********************************
+//         * Data added to ObservableList *
+//         ********************************/
+//        int size = columnInfoData.size();
+//        for (Map.Entry<Integer, Map<String, Integer[]>> data : columnInfoData.entrySet()) {
+//
+//            //Iterate Row
+//            ObservableList<String> row = FXCollections.observableArrayList();
+//
+//            if (data.getValue().keySet().contains("##")) {
+//
+//                Integer[] colData = data.getValue().get("##");
+//                String pattern = "##";
+//
+//                Integer lottoNumber = data.getKey();
+//
+//                row.add(String.format("%s", lottoNumber));
+//                row.add(pattern);
+//                row.add(colData[0] + "");
+//                row.add(colData[1] + "");
+//
+//
+//                dataItems.add(row);
+//
+//            }
+//
+//        }
+//
+//        tableView.setItems(dataItems);
+//        //tableView.scrollTo(tableView.getItems().size() - 1);
+//        lottoColumnInfoPane.getChildren().setAll(tableView);
 
         setupHitRangeGrouperPane(hitRangeGrouper);
     }
@@ -745,11 +837,11 @@ public class GameOutController {
                                         this.setOnMouseClicked(event -> {
 
                                             String vall = val.toString();
-                                            for(HitRangeGrouper hitRangeGrouper : hitRangeGroupers){
+                                            for (HitRangeGrouper hitRangeGrouper : hitRangeGroupers) {
 
                                                 String range = hitRangeGrouper.getRange();
 
-                                                if(range.equals(vall)){
+                                                if (range.equals(vall)) {
 
                                                     List<Integer> list = new ArrayList<>(hitRangeGrouper.getIndividualOutHolderList());
                                                     injectChartWithData(list);
@@ -785,10 +877,10 @@ public class GameOutController {
             ObservableList<String> row = FXCollections.observableArrayList();
 
             row.add(hitRangeGrouper1.getRange());
-            row.add(hitRangeGrouper1.getHits()+"");
-            row.add(hitRangeGrouper1.getGamesOut()+"");
-            row.add(hitRangeGrouper1.getHitsAtGamesOut()+"");
-            row.add(hitRangeGrouper1.getLastSeen()+"");
+            row.add(hitRangeGrouper1.getHits() + "");
+            row.add(hitRangeGrouper1.getGamesOut() + "");
+            row.add(hitRangeGrouper1.getHitsAtGamesOut() + "");
+            row.add(hitRangeGrouper1.getLastSeen() + "");
 
             dataItems.add(row);
 
@@ -831,69 +923,88 @@ public class GameOutController {
 
         List<Integer> gameOutHolder = new ArrayList<>();
 
-        List<Integer[]> indexHolderList = new ArrayList<>();
-        for (List<String> list : values) {
+        for(int i = 0; i < values.get(0).size(); i++)
+        {
+            for(int j = 0; j < values.size(); j++)
+            {
 
-            String currentPattern = list.get(list.size() - 1);
-            int[] indexes = IntStream.range(0, list.size() - 1).filter(pat -> list.get(pat).equals(currentPattern)).toArray();
-            indexHolderList.add(Arrays.stream(indexes).boxed().toArray(Integer[]::new));
-        }
+                if(values.get(j).get(i).equals("##"))
+                {
 
-        Map<Integer, Map<String, Integer[]>> data = new LinkedHashMap<>();
-        for (int i = range[0]; i <= range[1]; i++) {
+                    if(i == 0)
+                        gameOutHolder.add(0);
 
-            if (!data.containsKey(i)) {
-
-                Map<String, Integer[]> innerData = new LinkedHashMap<>();
-
-                data.put(i, innerData);
-            }
-        }
-
-        int indexer = 0;
-        for (Map.Entry<Integer, Map<String, Integer[]>> stringEntry : data.entrySet()) {
-
-            Map<String, Integer[]> valuess = stringEntry.getValue();
-            Integer[] hitIndexes = null;
-
-            if(indexer < indexHolderList.size())
-                hitIndexes = indexHolderList.get(indexer);
-            else
-                break;
-
-            for (int i = 0; i < hitIndexes.length; i++) {
-
-                String val = values.get(indexer).get(hitIndexes[i] + 1);
-                if (!valuess.containsKey(val)) {
-
-                    valuess.put(val, new Integer[]{1, 0});
-                    NumberPatternAnalyzer.incrementGamesOutForMatrix(valuess, val);
-                } else {
-                    Integer[] d = valuess.get(val);
-
-                    if (val.equals("##")) {
-
-                        gameOutHolder.add(d[1]);
+                    else {
+                        int gameOutValue = (values.get(j).get(i - 1).equals("##")) ? 0 : Integer.parseInt(values.get(j).get(i - 1));
+                        gameOutHolder.add(gameOutValue);
                     }
-
-                    d[0]++;
-                    d[1] = 0;
-                    NumberPatternAnalyzer.incrementGamesOutForMatrix(valuess, val);
                 }
             }
-
-            indexer++;
         }
+
+//        List<Integer[]> indexHolderList = new ArrayList<>();
+//        for (List<String> list : values) {
+//
+//            String currentPattern = list.get(list.size() - 1);
+//            int[] indexes = IntStream.range(0, list.size() - 1).filter(pat -> list.get(pat).equals(currentPattern)).toArray();
+//            indexHolderList.add(Arrays.stream(indexes).boxed().toArray(Integer[]::new));
+//        }
+//
+//        Map<Integer, Map<String, Integer[]>> data = new LinkedHashMap<>();
+//        for (int i = range[0]; i <= range[1]; i++) {
+//
+//            if (!data.containsKey(i)) {
+//
+//                Map<String, Integer[]> innerData = new LinkedHashMap<>();
+//
+//                data.put(i, innerData);
+//            }
+//        }
+//
+//        int indexer = 0;
+//        for (Map.Entry<Integer, Map<String, Integer[]>> stringEntry : data.entrySet()) {
+//
+//            Map<String, Integer[]> valuess = stringEntry.getValue();
+//            Integer[] hitIndexes = null;
+//
+//            if (indexer < indexHolderList.size())
+//                hitIndexes = indexHolderList.get(indexer);
+//            else
+//                break;
+//
+//            for (int i = 0; i < hitIndexes.length; i++) {
+//
+//                String val = values.get(indexer).get(hitIndexes[i] + 1);
+//                if (!valuess.containsKey(val)) {
+//
+//                    valuess.put(val, new Integer[]{1, 0});
+//                    NumberPatternAnalyzer.incrementGamesOutForMatrix(valuess, val);
+//                } else {
+//                    Integer[] d = valuess.get(val);
+//
+//                    if (val.equals("##")) {
+//
+//                        gameOutHolder.add(d[1]);
+//                    }
+//
+//                    d[0]++;
+//                    d[1] = 0;
+//                    NumberPatternAnalyzer.incrementGamesOutForMatrix(valuess, val);
+//                }
+//            }
+//
+//            indexer++;
+//        }
 
         HitRangeGrouper[] hitRangeGroupers = populateHitRanges(gameOutHolder);
 
-        return new Object[]{data, hitRangeGroupers};
+        return new Object[]{hitRangeGroupers};
     }
 
     private HitRangeGrouper[] populateHitRanges(List<Integer> gameOutHolder) {
 
         HitRangeGrouper[] hitRangeGroupers = new HitRangeGrouper[7];
-        int[][] ranges = {{0, 10}, {11, 20}, {21, 30}, {31, 40}, {41,50},{51,60},{61}};
+        int[][] ranges = {{0, 10}, {11, 20}, {21, 30}, {31, 40}, {41, 50}, {51, 60}, {61}};
 
         for (int i = 0; i < ranges.length; i++) {
             HitRangeGrouper hitRangeGrouper = new HitRangeGrouper();
@@ -943,7 +1054,7 @@ public class GameOutController {
             }
         }
 
-        for(HitRangeGrouper hitRangeGrouper : hitRangeGroupers){
+        for (HitRangeGrouper hitRangeGrouper : hitRangeGroupers) {
 
             Long count = hitRangeGrouper.getOutHolderList().stream().filter(num -> num == hitRangeGrouper.getGamesOut()).count();
             hitRangeGrouper.setHitsAtGamesOut(count.intValue());
@@ -951,8 +1062,8 @@ public class GameOutController {
             int index = hitRangeGrouper.getOutHolderList().lastIndexOf(hitRangeGrouper.getGamesOut());
             int lastSeen;
 
-            if(index > -1)
-                lastSeen = Math.abs( index - hitRangeGrouper.getOutHolderList().size());
+            if (index > -1)
+                lastSeen = Math.abs(index - hitRangeGrouper.getOutHolderList().size());
             else
                 lastSeen = -1;
 
@@ -1100,4 +1211,5 @@ public class GameOutController {
             }
         }
     }
+
 }

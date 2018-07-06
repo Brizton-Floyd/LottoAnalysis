@@ -8,10 +8,12 @@ import com.lottoanalysis.screenavigator.LottoScreenNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -53,6 +55,7 @@ public class LottoAnalysisHomeController {
      * @param node the vista node to be swapped in.
      */
     public void setLottoScreen(Node node) {
+
         screenHolder.getChildren().setAll(node);
     }
 
@@ -153,6 +156,10 @@ public class LottoAnalysisHomeController {
 
         //JFXButton jfxButton = buttons.iterator().next();
         //jfxButton.setDisable(false);
+        enableOtherButtons();
+        JFXButton button = (JFXButton) event.getSource();
+        buttons.add(button);
+        button.setDisable(true);
 
         LottoInfoAndGamesController.makeGamePanelAppear(event);
 
@@ -186,20 +193,24 @@ public class LottoAnalysisHomeController {
             loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_SIX));
             AnchorPane pane = loader.load();
 
+            pane.setManaged(false);
+            pane.managedProperty().bind(pane.visibleProperty());
             NumberMultipleController numberMultipleController = loader.getController();
             numberMultipleController.init(allData);
 
-            Scene scene = new Scene(pane, 1500, 750);
-            Stage stage = new Stage();
+            setLottoScreen(pane);
 
-            stage.setOnHiding(event1 -> {
-                btn_lengthy.setDisable(false);
-            });
-
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.setTitle("Number Multiple Analyzer Chart " + game.getGameName());
-            stage.show();
+//            Scene scene = new Scene(pane, 1500, 750);
+//            Stage stage = new Stage();
+//
+//            stage.setOnHiding(event1 -> {
+//                btn_lengthy.setDisable(false);
+//            });
+//
+//            stage.setScene(scene);
+//            stage.setResizable(false);
+//            stage.setTitle("Number Multiple Analyzer Chart " + game.getGameName());
+//            stage.show();
 
 
         } catch (IOException e) {
@@ -239,17 +250,10 @@ public class LottoAnalysisHomeController {
             GameOutController gameOutController = loader.getController();
             gameOutController.init( allData );
 
-            Scene scene = new Scene(pane, 1500, 750);
-            Stage stage = new Stage();
+            pane.setManaged(false);
+            pane.managedProperty().bind(pane.visibleProperty());
+            setLottoScreen(pane);
 
-            stage.setOnHiding(event1 -> {
-                gameOutBtn.setDisable(false);
-            });
-
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.setTitle("Game Out Chart " + game.getGameName());
-            stage.show();
 
 
         } catch (IOException e) {
@@ -288,18 +292,10 @@ public class LottoAnalysisHomeController {
             GapSpacingController gameOutController = loader.getController();
             gameOutController.init( allData );
 
-            Scene scene = new Scene(pane, 1500, 750);
-            Stage stage = new Stage();
+            pane.setManaged(false);
+            pane.managedProperty().bind(pane.visibleProperty());
 
-            stage.setOnHiding(event1 -> {
-                btn_gapSpacing.setDisable(false);
-            });
-
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.setTitle("Gap Spacing Chart " + game.getGameName());
-            stage.show();
-
+            setLottoScreen(pane);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -333,22 +329,25 @@ public class LottoAnalysisHomeController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_TWO));
             AnchorPane pane = loader.load();
+            pane.setManaged(false);
+            pane.managedProperty().bind(pane.visibleProperty());
 
             ChartAnalysisController gameOutController = loader.getController();
             gameOutController.init( allData );
             gameOutController.start();
 
-            Scene scene = new Scene(pane, 1500, 750);
-            Stage stage = new Stage();
+            setLottoScreen(pane);
+//            Scene scene = new Scene(pane, 1500, 750);
+//            Stage stage = new Stage();
+//
+//            stage.setOnHiding(event1 -> {
+//                btn_charAnalysis.setDisable(false);
+//            });
 
-            stage.setOnHiding(event1 -> {
-                btn_charAnalysis.setDisable(false);
-            });
-
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.setTitle("Three Chart Analysis Screen " + game.getGameName());
-            stage.show();
+//            stage.setScene(scene);
+//            stage.setResizable(false);
+//            stage.setTitle("Three Chart Analysis Screen " + game.getGameName());
+//            //stage.show();
 
 
         } catch (IOException e) {
@@ -388,18 +387,10 @@ public class LottoAnalysisHomeController {
             BetSlipChartController gameOutController = loader.getController();
             gameOutController.init( allData );
 
-            Scene scene = new Scene(pane, 1500, 750);
-            Stage stage = new Stage();
+            pane.setManaged(false);
+            pane.managedProperty().bind(pane.visibleProperty());
 
-            stage.setOnHiding(event1 -> {
-                betSlipBtn.setDisable(false);
-            });
-
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.setTitle("Bet Slip Analysis Chart " + game.getGameName());
-            stage.show();
-
+            setLottoScreen(pane);
 
         } catch (IOException e) {
             e.printStackTrace();

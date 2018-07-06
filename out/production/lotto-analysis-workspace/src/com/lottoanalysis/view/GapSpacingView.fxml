@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="750.0" prefWidth="1500.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.GapSpacingController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="770.0" prefWidth="1272.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.GapSpacingController">
    <children>
       <MenuBar fx:id="gameMenuBar" layoutX="190.0" layoutY="55.0" style="-fx-background-color: #dac6ac;" stylesheets="@../styles/menubar.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -46,9 +45,9 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <HBox layoutX="10.0" layoutY="96.0" spacing="25.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="96.0">
+      <HBox layoutX="10.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="664.0" prefWidth="1435.0" spacing="25.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="96.0">
          <children>
-            <VBox prefHeight="644.0" prefWidth="789.0">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="645.0" prefWidth="600.0">
                <children>
                   <Label fx:id="lbl_analyzedNumber" prefHeight="17.0" prefWidth="559.0" text="Label" textFill="#dac6ac" />
                   <StackPane fx:id="chartPane" prefHeight="364.0" prefWidth="789.0">
@@ -56,11 +55,11 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </StackPane>
-                  <VBox style="-fx-background-color: black;">
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="594.0" style="-fx-background-color: black;">
                      <children>
                         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
                            <children>
-                              <Label fx:id="groupHitOutlookLabel" prefHeight="27.0" prefWidth="705.0" text="Group Hit Outlook Position One" textFill="#efa747">
+                              <Label fx:id="groupHitOutlookLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="594.0" text="Group Hit Outlook Position One" textFill="#efa747">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -75,13 +74,13 @@
                   </VBox>
                </children>
             </VBox>
-            <VBox>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="664.0" prefWidth="628.0">
                <children>
-                  <VBox prefHeight="413.0" prefWidth="705.0" style="-fx-background-color: black;">
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="348.0" prefWidth="623.0" style="-fx-background-color: black;">
                      <children>
                         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
                            <children>
-                              <Label prefHeight="27.0" prefWidth="705.0" text="Spcing Group Hit Table" textFill="#efa747">
+                              <Label prefHeight="27.0" prefWidth="622.0" text="Spcing Group Hit Table" textFill="#efa747">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -91,12 +90,12 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                        <TableView fx:id="spacingTable" stylesheets="@../styles/table_view.css" />
+                        <TableView fx:id="spacingTable" prefWidth="623.0" stylesheets="@../styles/table_view.css" />
                      </children>
                   </VBox>
-                  <VBox layoutX="10.0" layoutY="10.0" prefHeight="341.0" prefWidth="705.0" style="-fx-background-color: black;">
+                  <VBox layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="626.0" style="-fx-background-color: black;">
                      <children>
-                        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="27.0" prefWidth="789.0" style="-fx-background-color: black;">
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="623.0" style="-fx-background-color: black;">
                            <children>
                               <Label prefHeight="27.0" prefWidth="705.0" text="Individual Spacing Hit Chart" textFill="#efa747">
                                  <font>
@@ -108,7 +107,7 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                        <TableView fx:id="lineSpacingTable" prefHeight="270.0" prefWidth="710.0" stylesheets="@../styles/table_view.css" />
+                        <TableView fx:id="lineSpacingTable" stylesheets="@../styles/table_view.css" />
                      </children>
                      <VBox.margin>
                         <Insets top="20.0" />

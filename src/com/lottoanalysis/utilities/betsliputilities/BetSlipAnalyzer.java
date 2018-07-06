@@ -19,6 +19,7 @@ public class BetSlipAnalyzer {
     private Map<String, BetSlipDistributionAnalyzer> hitAndGameOutTracker = new LinkedHashMap<>();
     private Map<Integer,Integer[]> totalNumberPresentTracker = new TreeMap<>();
     private List<Integer> avgValueHolder = new ArrayList<>();
+    private int drawDataLength = 0;
 
     private Integer[][] customBetSlip;
     private int betSlipRange = 5;
@@ -37,6 +38,10 @@ public class BetSlipAnalyzer {
         return columnAndIndexHitAnalyzers;
     }
 
+    public List<List<Integer>> getPosData() {
+        return posData;
+    }
+
     public Object[] getBetSlipData() {
         return new Object[]{columnAndIndexHitAnalyzers, hitAndGameOutTracker};
     }
@@ -45,6 +50,7 @@ public class BetSlipAnalyzer {
 
         this.lottoGame = lottoGame;
         betSlipRange = span;
+        drawDataLength = drawNumbers[0].length;
 
         columnAndIndexHitAnalyzers = new ColumnAndIndexHitAnalyzer[drawNumbers.length];
         for (int i = 0; i < columnAndIndexHitAnalyzers.length; i++){
@@ -62,10 +68,11 @@ public class BetSlipAnalyzer {
 //                if(data.get(0).toString().trim().equals("2-7-17-19-36"))
 //                    System.out.println("yes");
 
-                Integer[][] betSlipDefinitions = makeCustomBetSlip( convertPosDataToArrayOfArrays(posData) );
+                //Integer[][] betSlipDefinitions = makeCustomBetSlip( convertPosDataToArrayOfArrays(posData) );
+                Integer[][] betSlipDefinitions = BetSlipDefinitions.getDefinitionFile(lottoGame.getGameName());
                 findRowAndColumnHits(betSlipDefinitions, data);
 
-                int numbersPresent = scanPastResultsForHits( data );
+                int numbersPresent = scanPastResultsForHits( data);
                 avgValueHolder.add(numbersPresent);
                 populateNumbersPresentMap(numbersPresent);
                 // remove first index from each list so it stays at a size of 20
@@ -96,6 +103,7 @@ public class BetSlipAnalyzer {
                 i--;
             }
         }
+        customBetSlip = BetSlipDefinitions.getDefinitionFile(lottoGame.getGameName());
         storeCurrentRelevantNumbers();
         findWinningNumberCompaionHits();
         analyzeFirstDigits();

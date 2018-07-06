@@ -26,7 +26,7 @@ public class LineSpacingHelperTwo {
         int currentWinningNumber = positionNumbers.get(positionNumbers.size() - 1);
         List<String> patternHolder = new ArrayList<>();
 
-        for (int i = 0; i < positionNumbers.size(); i++) {
+        for (int i = 0; i < positionNumbers.size()-1; i++) {
 
             int lineSpacing;
 

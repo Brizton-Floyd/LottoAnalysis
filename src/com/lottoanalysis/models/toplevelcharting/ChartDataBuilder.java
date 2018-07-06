@@ -1,6 +1,8 @@
 package com.lottoanalysis.models.toplevelcharting;
 
 import com.lottoanalysis.comparators.ChartDataComparator;
+import com.lottoanalysis.constants.LotteryGameConstants;
+import com.lottoanalysis.lottogames.LottoGame;
 
 import java.util.*;
 
@@ -8,21 +10,90 @@ public class ChartDataBuilder {
 
     private int[] positionalWinningNumbers;
     private Map<Set<Integer>, ChartData> lastDigitMapHolder = new LinkedHashMap<>();
+    private static List<Integer> gameOutHolderList = new ArrayList<>();
 
-    public ChartDataBuilder( int[] positionalWinningNumbers ) {
-
-        this.positionalWinningNumbers = positionalWinningNumbers;
+    public ChartDataBuilder( ) {
 
         lastDigitMapHolder.put(new TreeSet<>(Arrays.asList(0, 1, 2, 3)), new ChartData());
         lastDigitMapHolder.put(new TreeSet<>(Arrays.asList(4, 5, 6)), new ChartData());
         lastDigitMapHolder.put(new TreeSet<>(Arrays.asList(7, 8, 9)), new ChartData());
 
+    }
+
+    public static  List<Integer> getGameOutHolderList() {
+
+        return gameOutHolderList;
+    }
+
+    public List<ChartData> getChartData(){
+
+        List<ChartData> chartDataList = new ArrayList<>();
+
+        lastDigitMapHolder.forEach((k,v) -> {
+
+            chartDataList.add(v);
+        });
+
+        return chartDataList;
+    }
+
+    public void processData(int[] data, String elementToProcess){
+
+        gameOutHolderList.clear();
+        lastDigitMapHolder.forEach((k,v) ->{
+
+            v.clearData();
+        });
+
+        switch (elementToProcess){
+
+            case LotteryGameConstants.ELE_ONE:
+                positionalWinningNumbers = processElementOneData(data);
+                break;
+            case LotteryGameConstants.ELE_TWO:
+                positionalWinningNumbers = processElementTwoData(data);
+                break;
+            default:
+                positionalWinningNumbers = data;
+                break;
+        }
+
         analyzeDrawData();
-        buildCompanionNumberMapForRecentWinningDigit( lastDigitMapHolder );
+        //buildCompanionNumberMapForRecentWinningDigit( lastDigitMapHolder );
         findHitsAtGamesOut();
         sortData();
 
-        printData();
+        //printData();
+    }
+
+    private int[] processElementTwoData(int[] data) {
+
+        int[] eleTwoData = new int[data.length];
+
+        for(int i = 0; i < data.length; i++){
+
+            String numAsString = data[i] + "";
+            final int number = (numAsString.length() > 1) ? Character.getNumericValue(numAsString.charAt(1)) : Character.getNumericValue(numAsString.charAt(0));
+
+            eleTwoData[i] = number;
+        }
+        return eleTwoData;
+    }
+
+    private int[] processElementOneData(int[] data) {
+
+        int[] eleOneData = new int[data.length];
+
+        for(int i = 0; i < data.length; i++){
+
+            String numAsString = data[i] + "";
+            numAsString = (numAsString.length() == 1) ? "0"+numAsString : numAsString;
+
+            final int number = Character.getNumericValue(numAsString.charAt(0));
+
+            eleOneData[i] = number;
+        }
+        return eleOneData;
     }
 
     private void printData() {
@@ -65,11 +136,25 @@ public class ChartDataBuilder {
         List<Map.Entry<Set<Integer>, ChartData>> sortedData = new ArrayList<>(lastDigitMapHolder.entrySet());
         sortedData.sort(new ChartDataComparator());
 
+        String[] hitIndicators = {"Hot","Warm","Cold"};
         lastDigitMapHolder.clear();
-        for(Map.Entry<Set<Integer>,ChartData> dataEntry : sortedData){
 
-            lastDigitMapHolder.put(dataEntry.getKey(),dataEntry.getValue());
+        List<String> iterator = Arrays.asList(hitIndicators);
+        for(Iterator<String> iterator1 = iterator.iterator(); iterator1.hasNext();){
+
+            for(Iterator<Map.Entry<Set<Integer>, ChartData>> chartDataIterator = sortedData.iterator(); chartDataIterator.hasNext();){
+
+                Map.Entry<Set<Integer>,ChartData> dataSet = chartDataIterator.next();
+
+                ChartData chartData =  dataSet.getValue();
+                chartData.setHitIndicator(iterator1.next());
+
+                lastDigitMapHolder.put(dataSet.getKey(),chartData);
+                chartDataIterator.remove();
+                break;
+            }
         }
+
 
         lastDigitMapHolder.forEach((k,v) -> {
 
@@ -117,6 +202,7 @@ public class ChartDataBuilder {
                     int hits = chartData.getHits();
                     chartData.setHits(++hits);
                     chartData.gameOutHolder.add( chartData.getGamesOut() );
+                    gameOutHolderList.add( chartData.getGamesOut() );
                     chartData.setGamesOut(0);
                     chartData.addWinningLottoNumber(lottoNumber);
 
@@ -150,10 +236,20 @@ public class ChartDataBuilder {
         private List<Integer> gameOutHolder = new ArrayList<>();
         private List<Integer> winningLottoNumberHolder = new ArrayList<>();
 
+        private String hitIndicator;
+
         private CompanionNumberTracker companionNumberTracker = new CompanionNumberTracker();
 
         public CompanionNumberTracker getCompanionNumberTracker() {
             return companionNumberTracker;
+        }
+
+        public String getHitIndicator() {
+            return hitIndicator;
+        }
+
+        public void setHitIndicator(String hitIndicator) {
+            this.hitIndicator = hitIndicator;
         }
 
         public int getHits() {
@@ -202,6 +298,20 @@ public class ChartDataBuilder {
 
         public void addWinningLottoNumber(int winningLottoNumberHolder) {
             this.winningLottoNumberHolder.add(winningLottoNumberHolder);
+
+
+        }
+
+        public void clearData() {
+
+            hits = 0;
+            lastSeen = 0;
+            hitsAtGamesOut = 0;
+            gamesOut = 0;
+            gameOutHolder.clear();
+            winningLottoNumberHolder.clear();
+            hitIndicator = "";
+
         }
     }
 }

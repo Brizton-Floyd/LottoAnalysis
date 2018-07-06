@@ -83,6 +83,7 @@ public class LottoScreenNavigator {
         if(domainObject != null ){
 
             pane = loader.load( );
+
             if( domainObject[0] instanceof LottoGame){
 
                 // use the values passed in by the domain object and provide contrller with
@@ -90,7 +91,8 @@ public class LottoScreenNavigator {
                 if( controllerName.equalsIgnoreCase(LotteryGameConstants.GROUP_CHART_ANALYSIS_CONTOLLER)){
 
                     LottoGame game = (LottoGame) domainObject[0];
-
+                    pane.setManaged(false);
+                    pane.managedProperty().bind(pane.visibleProperty());
                     GroupChartController controller = loader.getController();
                     controller.initFields(game, (List<Object>)domainObject[1]);
                     controller.startSceneLayoutSequence();
@@ -99,7 +101,8 @@ public class LottoScreenNavigator {
 
                     LottoGame game = (LottoGame) domainObject[0];
                     CompanionNumberController controller = loader.getController();
-
+                    pane.setManaged(false);
+                    pane.managedProperty().bind(pane.visibleProperty());
                     controller.setPostionalNumbers((int[][])((List<Object>)domainObject[1]).get(0));
                     controller.setGame(game);
                     controller.initComponents();

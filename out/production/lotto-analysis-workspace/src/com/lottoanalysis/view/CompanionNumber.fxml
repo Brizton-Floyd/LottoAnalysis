@@ -8,10 +8,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="shiny-orange" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="683.0" prefWidth="1214.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.CompanionNumberController">
+<AnchorPane id="shiny-orange" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="753.0" prefWidth="1253.0" style="-fx-background-color: #515B51;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lottoanalysis.controllers.CompanionNumberController">
    <children>
       <VBox prefWidth="1214.0" AnchorPane.bottomAnchor="623.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -24,14 +25,14 @@
                   </Label>
                </children>
             </HBox>
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="4.0" prefWidth="1214.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;">
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="4.0" prefWidth="1240.0" style="-fx-background-color: #EFA747; -fx-background-radius: 2em;">
                <VBox.margin>
-                  <Insets right="10.0" />
+                  <Insets />
                </VBox.margin>
             </Pane>
          </children>
       </VBox>
-      <Label fx:id="lblAnalyzedPosition" prefHeight="46.0" prefWidth="331.0" text="Game: Fantasy Five" textFill="#dac6ac" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <Label fx:id="lblAnalyzedPosition" alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="331.0" text="Game: Fantasy Five" textFill="#dac6ac" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <font>
             <Font size="31.0" />
          </font>
@@ -94,63 +95,80 @@
             </HBox>
          </children>
       </VBox>
-      <VBox layoutX="10.0" layoutY="250.0" prefHeight="206.0" prefWidth="1184.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="250.0">
+      <VBox layoutX="10.0" layoutY="250.0" prefHeight="475.0" prefWidth="1233.0" spacing="40.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <HBox prefHeight="269.0" prefWidth="1194.0" spacing="25.0">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="1233.0">
                <children>
-                  <VBox style="-fx-background-color: black;">
+                  <HBox prefHeight="249.0" prefWidth="1233.0" spacing="25.0">
                      <children>
-                        <AnchorPane prefHeight="38.0" prefWidth="693.0" style="-fx-background-color: black;">
+                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="271.0" prefWidth="604.0" style="-fx-background-color: black;">
                            <children>
-                              <Label text="Companion Number Table" textFill="#efa747">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="200.0" />
-                                 </padding>
-                              </Label>
+                              <AnchorPane prefHeight="38.0" prefWidth="693.0" style="-fx-background-color: black;">
+                                 <children>
+                                    <Label text="Companion Number Table" textFill="#efa747">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="200.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <TableView fx:id="companionTable" stylesheets="@../styles/table_view.css" />
                            </children>
-                        </AnchorPane>
-                        <TableView fx:id="companionTable" prefWidth="580.0" stylesheets="@../styles/table_view.css" />
-                     </children>
-                  </VBox>
-                  <VBox style="-fx-background-color: black;">
-                     <children>
-                        <AnchorPane prefHeight="38.0" prefWidth="693.0" style="-fx-background-color: black;">
+                        </VBox>
+                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="604.0" style="-fx-background-color: black;">
                            <children>
-                              <Label text="Companion Number Statistics Table" textFill="#efa747">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="150.0" />
-                                 </padding>
-                              </Label>
+                              <AnchorPane prefHeight="38.0" prefWidth="693.0" style="-fx-background-color: black;">
+                                 <children>
+                                    <Label text="Companion Number Statistics Table" textFill="#efa747">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="150.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <TableView fx:id="statTable" stylesheets="@../styles/table_view.css" />
                            </children>
-                        </AnchorPane>
-                        <TableView fx:id="statTable" stylesheets="@../styles/table_view.css" />
+                        </VBox>
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
-            </HBox>
-         </children>
-      </VBox>
-      <VBox layoutX="10.0" layoutY="476.0" prefHeight="187.0" prefWidth="582.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="20.0" AnchorPane.topAnchor="476.0">
-         <children>
-            <AnchorPane prefHeight="38.0" prefWidth="693.0" style="-fx-background-color: black;">
+            </VBox>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="235.0" prefWidth="1233.0">
                <children>
-                  <Label text="Last Digit Due Table" textFill="#efa747">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <padding>
-                        <Insets left="200.0" />
-                     </padding>
-                  </Label>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="236.0" prefWidth="1233.0" spacing="25.0">
+                     <children>
+                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="227.0" prefWidth="606.0" style="-fx-background-color: black;">
+                           <children>
+                              <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="606.0" style="-fx-background-color: black;">
+                                 <children>
+                                    <Label text="Last Digit Due Table" textFill="#efa747">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="200.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <TableView fx:id="lastDigitDueTable" stylesheets="@../styles/table_view.css" />
+                           </children>
+                        </VBox>
+                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="604.0">
+                           <children>
+                              <StackPane fx:id="chartPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="604.0" style="-fx-background-color: black;" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
                </children>
-            </AnchorPane>
-            <TableView fx:id="lastDigitDueTable" prefWidth="580.0" stylesheets="@../styles/table_view.css" />
+            </VBox>
          </children>
       </VBox>
    </children>

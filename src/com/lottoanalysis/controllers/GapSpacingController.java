@@ -504,7 +504,7 @@ public class GapSpacingController {
         }
 
         Menu analysisMethod = new Menu("Analysis Method");
-        String[] methods = {"Position Numbers","Position Sums","Position Remainders","Position Last Digits"};
+        String[] methods = {"Position Numbers","Position Sums","Position Remainders","Position Last Digits","Delta Numbers"};
         for(int i = 0; i < methods.length; i++){
 
             final int pos = i;
@@ -562,6 +562,9 @@ public class GapSpacingController {
                 break;
             case "Position Last Digits":
                 indexPosition = 5;
+                break;
+            case"Delta Numbers":
+                indexPosition = 1;
                 break;
 
         }

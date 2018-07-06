@@ -3,16 +3,22 @@ package com.lottoanalysis.controllers;
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.models.gapspacings.GameOutSpacing;
+import com.lottoanalysis.models.gapspacings.GapSpacingAnalyzer;
 import com.lottoanalysis.models.numbertracking.FirstLastDigitTracker;
 import com.lottoanalysis.utilities.betsliputilities.BetSlipAnalyzer;
 import com.lottoanalysis.utilities.betsliputilities.ColumnAndIndexHitAnalyzer;
+import com.lottoanalysis.utilities.chartutility.ChartHelper;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
+import com.lottoanalysis.utilities.gameoutviewutilities.GameOutLottoHitFinder;
 import com.lottoanalysis.utilities.gameoutviewutilities.GamesOutViewDepicter;
+import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelper;
+import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelperTwo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -21,6 +27,7 @@ import javafx.util.Callback;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @SuppressWarnings("unchecked")
 public class BetSlipChartController {
@@ -85,10 +92,10 @@ public class BetSlipChartController {
         }
 
         Menu gameSpanMenu = new Menu("Game Span Range");
-        for (int i = 5; i <= 40; i++) {
+        for (int i = 2; i <= 40; i++) {
 
             MenuItem item;
-            if (i % 5 == 0) {
+            if (i % 2 == 0) {
                 item = new MenuItem(Integer.toString(i));
                 item.setOnAction(e -> {
 
@@ -142,7 +149,7 @@ public class BetSlipChartController {
                 }
 
                 gameOutSpacingMap = GamesOutViewDepicter.analyzeData( numbers );
-                setUpRecentWinningNumberDirectionChart(GameOutSpacing.getHitDirectionIdHolder());
+                //setUpRecentWinningNumberDirectionChart(numbers);
                 setUpWinningNumberChart(numbers);
             });
 
@@ -154,7 +161,7 @@ public class BetSlipChartController {
         item.setOnAction(event -> {
 
             gameOutSpacingMap = GamesOutViewDepicter.analyzeData( columnAndIndexHitAnalyzer.getDigitHolder() );
-            setUpRecentWinningNumberDirectionChart(GameOutSpacing.getHitDirectionIdHolder());
+            //setUpRecentWinningNumberDirectionChart(columnAndIndexHitAnalyzer.getDigitHolder());
             setUpWinningNumberChart(columnAndIndexHitAnalyzer.getDigitHolder());
         });
         betSlipColumnMenu.getItems().add(0, item);
@@ -186,19 +193,19 @@ public class BetSlipChartController {
         setUpWinningNumberChart(columnAndIndexHitAnalyzer.getDigitHolder());
         gameOutSpacingMap = GamesOutViewDepicter.analyzeData( columnAndIndexHitAnalyzer.getDigitHolder() );
         GamesOutViewDepicter.analyzeData( columnAndIndexHitAnalyzer.getDigitHolder() );
-        setUpRecentWinningNumberDirectionChart( GameOutSpacing.getHitDirectionIdHolder() );
+        //setUpRecentWinningNumberDirectionChart(columnAndIndexHitAnalyzer.getDigitHolder());
     }
 
-    private void setUpRecentWinningNumberDirectionChart(List<Integer> lastDigitHolder) {
+    private void setUpRecentWinningNumberDirectionChart(List<Integer> digitHolder) {
 
         List<List<Integer>> dataPoints = new ArrayList<>();
 
-        Set<Integer> unique = new HashSet<>(lastDigitHolder);
-        List<Integer> minMaxVals = new ArrayList<>(lastDigitHolder);
+        Set<Integer> unique = new HashSet<>(digitHolder);
+        List<Integer> minMaxVals = new ArrayList<>(digitHolder);
         Collections.sort(minMaxVals);
 
-        List<Integer> specialList = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(lastDigitHolder)[0];
-        // List<Integer> movingAverages = GroupChartController.calculateMovingAverage( lastDigitHolder );
+        List<Integer> specialList = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(digitHolder)[0];
+        // List<Integer> movingAverages = GroupChartController.calculateMovingAverage( digitHolder );
 
 //        BollingerBand bollingerBand = new BollingerBand(bucketHitHolder,5,100);
 //        List<List<Integer>> data = bollingerBand.getBollingerBands();
@@ -208,107 +215,108 @@ public class BetSlipChartController {
 //            dataPoints.add(val);
 //        });
         dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        //dataPoints.add((digitHolder.size() > 100) ? digitHolder.subList(digitHolder.size() - 100, digitHolder.size()) : digitHolder);
         // dataPoints.add( (movingAverages.size() > 180) ? movingAverages.subList(movingAverages.size()-180,movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
-                -1,
-                4, unique.toString(), "Recent Winning Number Trend Direction Chart", 1014, 316, 4);
+                minMaxVals.get(0),
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Gap Spacing Chart", 1014, 316, 4);
 
-        lastDigitPane.getChildren().setAll(lc.getLineChart());
+               lastDigitPane.getChildren().setAll(lc.getLineChart());
 
-        setUpRecentWinninNumberTable();
+        //setUpRecentWinninNumberTable();
     }
 
-    private void setUpRecentWinninNumberTable() {
-
-
-        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
-
-        Map<Integer, Integer[]> totalNumberPresentTracker = betSlipAnalyzer.getTotalNumberPresentTracker();
-
-        TableView tableView = new TableView();
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        String[] colNames = {"ID", "Direction", "Hits","Gms Out","Hts @ Out","Lst Seen"};
-
-        for (int i = 0; i < colNames.length; i++) {
-
-            final int j = i;
-            TableColumn col = new TableColumn(colNames[i]);
-            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
-
-                @Override
-                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
-                    return new TableCell<ObservableList, String>() {
-
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (!isEmpty()) {
-
-                                setText(item);
-                                this.setTextFill(Color.BEIGE);
-                                // System.out.println(param.getText());
-
-                                ObservableList observableList = getTableView().getItems().get(getIndex());
-                                if (observableList.get(3).toString().equalsIgnoreCase("0")) {
-                                    getTableView().getSelectionModel().select(getIndex());
-
-                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
-
-                                        this.setTextFill(Color.valueOf("#76FF03"));
-                                    }
-
-                                    //System.out.println(getItem());
-                                    // Get fancy and change color based on data
-                                    //if (item.contains("X"))
-                                    //this.setTextFill(Color.valueOf("#EFA747"));
-                                }
-
-                            }
-                        }
-                    };
-                }
-            });
-
-            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
-                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
-
-
-            );
-
-            col.setSortable(false);
-            tableView.getColumns().addAll(col);
-        }
-
-        /********************************
-         * Data added to ObservableList *
-         ********************************/
-        GameOutSpacing gameOutSpacing = gameOutSpacingMap.entrySet().iterator().next().getValue();
-        for (Map.Entry<String, GameOutSpacing> data : gameOutSpacing.getDirectionCountHolder().entrySet()) {
-
-            //Iterate Row
-            ObservableList<String> row = FXCollections.observableArrayList();
-
-            Integer id = data.getValue().getId();
-            String direction = data.getKey();
-
-            row.add(String.format("%s", id));
-            row.add(direction);
-            row.add(data.getValue().getHits()+"");
-            row.add(data.getValue().getGamesOut()+"");
-            row.add(data.getValue().getHitsAtGamesOut()+"");
-            row.add(data.getValue().getOutLastSeen()+"");
-
-
-            dataItems.add(row);
-        }
-
-        tableView.setItems(dataItems);
-        tableView.scrollTo(tableView.getItems().size() - 1);
-        directionStackPane.getChildren().setAll(tableView);
-    }
+//    private void setUpRecentWinninNumberTable() {
+//
+//
+//        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+//
+//        Map<Integer, Integer[]> totalNumberPresentTracker = betSlipAnalyzer.getTotalNumberPresentTracker();
+//
+//        TableView tableView = new TableView();
+//        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+//
+//        String[] colNames = {"ID", "Direction", "Hits","Gms Out","Hts @ Out","Lst Seen"};
+//
+//        for (int i = 0; i < colNames.length; i++) {
+//
+//            final int j = i;
+//            TableColumn col = new TableColumn(colNames[i]);
+//            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+//
+//                @Override
+//                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
+//                    return new TableCell<ObservableList, String>() {
+//
+//                        @Override
+//                        public void updateItem(String item, boolean empty) {
+//                            super.updateItem(item, empty);
+//                            if (!isEmpty()) {
+//
+//                                setText(item);
+//                                this.setTextFill(Color.BEIGE);
+//                                // System.out.println(param.getText());
+//
+//                                ObservableList observableList = getTableView().getItems().get(getIndex());
+//                                if (observableList.get(3).toString().equalsIgnoreCase("0")) {
+//                                    getTableView().getSelectionModel().select(getIndex());
+//
+//                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
+//
+//                                        this.setTextFill(Color.valueOf("#76FF03"));
+//                                    }
+//
+//                                    //System.out.println(getItem());
+//                                    // Get fancy and change color based on data
+//                                    //if (item.contains("X"))
+//                                    //this.setTextFill(Color.valueOf("#EFA747"));
+//                                }
+//
+//                            }
+//                        }
+//                    };
+//                }
+//            });
+//
+//            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
+//                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
+//
+//
+//            );
+//
+//            col.setSortable(false);
+//            tableView.getColumns().addAll(col);
+//        }
+//
+//        /********************************
+//         * Data added to ObservableList *
+//         ********************************/
+//        GameOutSpacing gameOutSpacing = gameOutSpacingMap.entrySet().iterator().next().getValue();
+//        for (Map.Entry<String, GameOutSpacing> data : gameOutSpacing.getDirectionCountHolder().entrySet()) {
+//
+//            //Iterate Row
+//            ObservableList<String> row = FXCollections.observableArrayList();
+//
+//            Integer id = data.getValue().getId();
+//            String direction = data.getKey();
+//
+//            row.add(String.format("%s", id));
+//            row.add(direction);
+//            row.add(data.getValue().getHits()+"");
+//            row.add(data.getValue().getGamesOut()+"");
+//            row.add(data.getValue().getHitsAtGamesOut()+"");
+//            row.add(data.getValue().getOutLastSeen()+"");
+//
+//
+//            dataItems.add(row);
+//        }
+//
+//        tableView.setItems(dataItems);
+//        tableView.scrollTo(tableView.getItems().size() - 1);
+//        directionStackPane.getChildren().setAll(tableView);
+//    }
 
     private void setUpWinningNumberChart(List<Integer> digitHolder) {
         List<List<Integer>> dataPoints = new ArrayList<>();
@@ -327,18 +335,34 @@ public class BetSlipChartController {
 //        data.forEach( val -> {
 //            dataPoints.add(val);
 //        });
-        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-        dataPoints.add((digitHolder.size() > 100) ? digitHolder.subList(digitHolder.size() - 100, digitHolder.size()) : digitHolder);
+         dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        //dataPoints.add((digitHolder.size() > 100) ? digitHolder.subList(digitHolder.size() - 100, digitHolder.size()) : digitHolder);
         // dataPoints.add( (movingAverages.size() > 180) ? movingAverages.subList(movingAverages.size()-180,movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Winning Number Chart", 1014, 316, 10);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Winning Number Chart", 1014, 316, 6);
 
         lottoNumberStackPane.getChildren().setAll(lc.getLineChart());
 
+        List<Integer> spacings = findSpacings( digitHolder );
+        setUpRecentWinningNumberDirectionChart( spacings );
+    }
 
+    private List<Integer> findSpacings(List<Integer> digitHolder) {
+
+        List<Integer> spacings = new ArrayList<>();
+
+        int currentWinningNumber = digitHolder.get( digitHolder.size() - 1);
+        int[] hitIndexes = IntStream.range(0, digitHolder.size() - 1).filter( j -> currentWinningNumber == digitHolder.get( j )).toArray();
+
+        for(int index : hitIndexes)
+        {
+            int dif = Math.abs( digitHolder.get(index) - digitHolder.get(index + 1));
+            spacings.add(dif);
+        }
+        return spacings;
     }
 
     private void setUpColumnHitTrackerChart(List<Integer> columnHitTracker) {
@@ -395,7 +419,7 @@ public class BetSlipChartController {
         for (int i = 0; i < colNames.length; i++) {
 
             final int j = i;
-            TableColumn col = new TableColumn(colNames[i]);
+            TableColumn col = new TableColumn("Col: "+colNames[i]);
             col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
 
                 @Override
@@ -441,6 +465,7 @@ public class BetSlipChartController {
             tableView.getColumns().addAll(col);
         }
 
+        extractNumbersNotInPastRange( columnAndIndexHitAnalyzer.getEntries(), betSlipAnalyzer.getPosData());
         /********************************
          * Data added to ObservableList *
          ********************************/
@@ -493,6 +518,18 @@ public class BetSlipChartController {
 
         box.getChildren().addAll(upperTable, tableView);
         betSlipPane.getChildren().setAll(box);
+    }
+
+    private void extractNumbersNotInPastRange(List<Map.Entry<Integer, Object[]>> entries, List<List<Integer>> posData) {
+
+
+        Set<Integer> set = new HashSet<>();
+        posData.forEach(set::addAll);
+
+        entries.forEach( list -> {
+
+            ((LinkedHashMap) list.getValue()[2]).keySet().removeIf(integer -> !set.contains(integer));
+        });
     }
 
     private StackPane setUpColumnHitInformationTable(ColumnAndIndexHitAnalyzer columnAndIndexHitAnalyzer) {

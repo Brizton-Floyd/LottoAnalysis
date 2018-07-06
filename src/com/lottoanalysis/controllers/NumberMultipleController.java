@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
@@ -34,6 +35,9 @@ public class NumberMultipleController {
 
     @FXML
     private HBox positionButtonHbox, components;
+
+    @FXML
+    private StackPane numberMultipleStackPane, multpleHitDirectionPane;
 
     @FXML
     private Label lbl_analyzedPosistion,groupHitOutlookLabel;
@@ -77,6 +81,8 @@ public class NumberMultipleController {
         numberMultipleAnalyzer.computeHitsAtGamesOutAndLastAppearance();
 
         multipleHitTextArea.setText( numberMultipleAnalyzer.getFormattedOutPut() );
+
+        setUpMultipleDirectionChart(NumberMultipleAnalyzer.getMultipleList());
         addActionOnMultipleButtons();
     }
 
@@ -122,8 +128,6 @@ public class NumberMultipleController {
         List<List<Integer>> dataPoints = new ArrayList<>();
         Set<Integer> range = new TreeSet<>(values);
 
-        components.getChildren().removeIf(node -> node instanceof LineChart);
-
         List<Integer> list = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(values)[0];
 
         dataPoints.add( (list.size() > 100) ? list.subList(list.size() - 100,list.size()) : list );
@@ -132,10 +136,10 @@ public class NumberMultipleController {
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 lottoGame.getMinNumber(),
-                lottoGame.getMaxNumber(), range.toString(), title + " Multiple",1223,297,6);
+                lottoGame.getMaxNumber(), null, title + " Multiple",1223,297,8);
 
 
-        components.getChildren().add( lc.getLineChart());
+        numberMultipleStackPane.getChildren().add( lc.getLineChart());
     }
 
     private void addActionToComboBoxItems() {
@@ -408,6 +412,7 @@ public class NumberMultipleController {
 
                 group.setSelected(true);
 
+                NumberMultipleAnalyzer.getMultipleList().clear();
                 numberMultipleAnalyzer.clear();
                 for (int num : allPositionNumbers[currentDrawPosition])
                     numberMultipleAnalyzer.analyzeLottoNumber(num);
@@ -415,6 +420,8 @@ public class NumberMultipleController {
                 numberMultipleAnalyzer.computeHitsAtGamesOutAndLastAppearance();
 
                 multipleHitTextArea.setText( numberMultipleAnalyzer.getFormattedOutPut() );
+
+                setUpMultipleDirectionChart(NumberMultipleAnalyzer.getMultipleList());
 
                 addActionOnMultipleButtons();
             });
@@ -432,6 +439,25 @@ public class NumberMultipleController {
         groupHitOutlookLabel.textProperty().bind(new SimpleStringProperty("Group Hit Outlook Position One"));
 
         currentDrawPosition = 0;
+    }
+
+    private void setUpMultipleDirectionChart(List<Integer> values) {
+
+        List<List<Integer>> dataPoints = new ArrayList<>();
+        Set<Integer> range = new TreeSet<>(values);
+
+        List<Integer> list = (List<Integer>) ChartHelperTwo.getRepeatedNumberList(values)[0];
+
+        dataPoints.add( (list.size() > 100) ? list.subList(list.size() - 100,list.size()) : list );
+        //dataPoints.add( (values.size() > 250) ? values.subList(values.size() - 250,values.size()) : values );
+
+        LineChartWithHover lc = new LineChartWithHover(dataPoints,
+                null,
+                0,
+                8, null, "Multiple Trend Direction Chart",1223,297,6);
+
+
+        multpleHitDirectionPane.getChildren().add( lc.getLineChart());
     }
 
 

@@ -10,7 +10,15 @@
 .chart-plot-background {
     -fx-background-color: black;
 }
-.default-color0.chart-series-line { -fx-stroke: #e9967a; }
-.default-color1.chart-series-line { -fx-stroke: yellow;}
+.default-color0.chart-series-line { -fx-stroke: #e9967a; -fx-opacity: 1.0; -fx-stroke-width: 4;}
+.default-color1.chart-series-line { -fx-stroke: red;}
 .default-color2.chart-series-line { -fx-stroke: #dda0dd; }
+
+.default-color1.chart-line-symbol {
+    -fx-background-color: transparent, transparent;
+}
+
+
+
+
 

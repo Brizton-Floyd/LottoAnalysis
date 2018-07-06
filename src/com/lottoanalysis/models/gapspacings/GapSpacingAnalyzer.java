@@ -24,6 +24,7 @@ public class GapSpacingAnalyzer {
         return winningNumber;
     }
 
+
     public List<Integer> getBucketHitHolder() {
         return bucketHitHolder;
     }
