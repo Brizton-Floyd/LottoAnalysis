@@ -1,6 +1,7 @@
 package com.lottoanalysis.lottogames.drawing;
 
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.utilities.chartutility.ChartHelper;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.ArrayList;
@@ -96,6 +97,27 @@ public class Drawing {
 
             }
         }
+    }
+
+    public static String splitGameName( String gameName )
+    {
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < gameName.length(); i++)
+        {
+            if(Character.isUpperCase( gameName.charAt(i) ))
+            {
+                if( i != 0)
+                    builder.append(" ").append(gameName.charAt(i));
+                else
+                    builder.append(gameName.charAt(i));
+            }
+            else
+            {
+                builder.append(gameName.charAt(i));
+            }
+        }
+
+        return builder.toString();
     }
 
     private void loadData(String[] numbers) {

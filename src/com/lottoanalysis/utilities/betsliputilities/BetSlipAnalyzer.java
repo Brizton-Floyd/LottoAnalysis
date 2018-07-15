@@ -34,6 +34,21 @@ public class BetSlipAnalyzer {
         lastDigitHolder.add( new Integer[]{8,9});
     }
 
+    private void clearAllContent()
+    {
+        betSlipDefinitions = null;
+        columnAndIndexHitAnalyzers = null;
+        sortedEntries = null;
+        lottoGame = null;
+        drawDataLength = 0;
+        customBetSlip = null;
+        avgHits = 0;
+    }
+
+    public int getBetSlipRange() {
+        return betSlipRange;
+    }
+
     public ColumnAndIndexHitAnalyzer[] getColumnAndIndexHitAnalyzers() {
         return columnAndIndexHitAnalyzers;
     }
@@ -51,6 +66,12 @@ public class BetSlipAnalyzer {
         this.lottoGame = lottoGame;
         betSlipRange = span;
         drawDataLength = drawNumbers[0].length;
+        clearAllContent();
+
+        posData.clear();
+        hitAndGameOutTracker.clear();
+        avgValueHolder.clear();
+        totalNumberPresentTracker.clear();
 
         columnAndIndexHitAnalyzers = new ColumnAndIndexHitAnalyzer[drawNumbers.length];
         for (int i = 0; i < columnAndIndexHitAnalyzers.length; i++){

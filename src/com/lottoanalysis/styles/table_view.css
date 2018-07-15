@@ -34,12 +34,18 @@
     -fx-padding: 0.0em; /* 0 */
 }
 
+.table-view{
+-fx-border-color: black;}
+
 .table-row-cell:odd{
     -fx-background-color: -fx-table-cell-border-color, #515b51;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em; /* 0 */
 }
 
+.table-row-cell{
+    -fx-table-cell-border-color: transparent;
+}
 .table-row-cell:selected {
     -fx-background-color: #10000C;
     -fx-text-fill: #efa747;

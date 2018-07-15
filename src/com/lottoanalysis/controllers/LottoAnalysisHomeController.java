@@ -4,18 +4,20 @@ import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.Main;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.pastresults.DrawHistoryAnalyzer;
+import com.lottoanalysis.models.pastresults.LottoNumberGameOutTracker;
+import com.lottoanalysis.models.pastresults.SumGroupAnalyzer;
+import com.lottoanalysis.models.pastresults.TotalWinningNumberTracker;
+import com.lottoanalysis.presenters.DrawHistoryPresenter;
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;
+import com.lottoanalysis.views.DrawHistoryView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -377,24 +379,14 @@ public class LottoAnalysisHomeController {
             allData = new Object[]{game, drawData};
         }
 
-        try {
-            betSlipBtn.setDisable(true);
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_NINE));
-            AnchorPane pane = loader.load();
+        DrawHistoryAnalyzer drawHistoryAnalyzer = new DrawHistoryAnalyzer( allData, new TotalWinningNumberTracker(),
+                                                                           new LottoNumberGameOutTracker(), new SumGroupAnalyzer());
+        DrawHistoryView drawHistoryView = new DrawHistoryView(drawHistoryAnalyzer);
+        DrawHistoryPresenter drawHistoryPresenter = new DrawHistoryPresenter(drawHistoryAnalyzer, drawHistoryView);
 
-            BetSlipChartController gameOutController = loader.getController();
-            gameOutController.init( allData );
+        setLottoScreen( drawHistoryPresenter.presentViewForDisplay() );
 
-            pane.setManaged(false);
-            pane.managedProperty().bind(pane.visibleProperty());
-
-            setLottoScreen(pane);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
     /**
