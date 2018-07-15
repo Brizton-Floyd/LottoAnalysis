@@ -610,7 +610,16 @@ public class LottoDashboardController {
 
         this.lotteryGame = lotteryGame;
 
-        ObservableList<Drawing> data = lotteryGame.getDrawingData();
+        Collection<Drawing> data;
+        if(lotteryGame.getDrawingData().size() > 8000)
+        {
+           data = FXCollections.observableArrayList( lotteryGame.getDrawingData().subList(6,lotteryGame.getDrawingData().size()) );
+        }
+        else
+        {
+            data = lotteryGame.getDrawingData();
+        }
+
         List<String> tableColumnName = new LinkedList<>();
         tableColumnName.add("Draw #");
         tableColumnName.add("Draw Date");

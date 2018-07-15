@@ -32,6 +32,10 @@ public class LotteryGameConstants {
     public static final String PICK3_GAME_NAME = "Pick 3";
     public static final String SUPER_LOTTO_PLUS_GAME_NAME = "Super";
 
+    public static final String PICK4_GAME_NAME_TWO = "Pick4";
+    public static String PICK3_GAME_NAME_TWO = "Pick3";
+
+
     // Screen names
     public static final String CHART_ANALYSIS_CONTROLLER = "chartAnalysisContoller";
     public static final String GROUP_CHART_ANALYSIS_CONTOLLER = "groupChartAnalysisContoller";
