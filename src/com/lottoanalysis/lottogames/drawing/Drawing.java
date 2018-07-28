@@ -3,11 +3,9 @@ package com.lottoanalysis.lottogames.drawing;
 import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.utilities.chartutility.ChartHelper;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by briztonfloyd on 8/26/17.
@@ -20,9 +18,11 @@ public class Drawing {
     private SimpleStringProperty drawSum;
     private SimpleStringProperty oddEvenRatio;
     private Map<String,String> monthNumbers = new HashMap<>();
+    private Set<String> dayOfWeek = new HashSet<>();
     private static List<Drawing> unModifiedDrawData = new ArrayList<>();
     private String[] nums;
     private List<String[]> drawNumbers = new ArrayList<>();
+    private List<String> drawNumbers1 = new ArrayList<>();
 
     public static int drawSize;
 
@@ -32,19 +32,33 @@ public class Drawing {
 
     public Drawing(int drawNumber, String drawDate, String... numbers) {
 
-        //unModifiedDrawData.clear();
-        //unModifiedDrawData.add(new Drawing(drawNumber,drawDate,numbers));
         nums = numbers;
         loadHashMap();
         this.drawNumber = new SimpleStringProperty("" + drawNumber);
         String[] pp = drawDate.split("\\s");
+        dayOfWeek.add(pp[0]);
 
         this.drawDate = new SimpleStringProperty(String.format(" %1s %2s / %3s / %4s",pp[0], monthNumbers.get(pp[1]),pp[2].substring(0,2),pp[3]));
         drawSize = numbers.length;
 
-
         initializeNumberPositions(numbers);
         loadData(numbers);
+        loadDrawNumbers();
+    }
+
+    private void loadDrawNumbers() {
+
+        SimpleStringProperty[] values = {posOne, posTwo, posThree, posFour, posFive, bonusNumber};
+
+        for(SimpleStringProperty string : values){
+            if(string != null){
+                drawNumbers1.add( string.get() );
+            }
+        }
+    }
+
+    public List<String> getDrawNumbers() {
+        return drawNumbers1;
     }
 
     public static List<Drawing> getUnModifiedDrawData() {
@@ -275,5 +289,38 @@ public class Drawing {
         });
 
         return bonusNumbers;
+    }
+
+    public static Set<String> extractDays(ObservableList<Drawing> drawingData) {
+
+        Set<String> dayOfWeek = new HashSet<>();
+
+        for(Drawing drawing : drawingData){
+            String[] pp = drawing.getDrawDate().split("\\s");
+            dayOfWeek.add( pp[1] );
+        }
+
+        return dayOfWeek;
+    }
+
+    public static int[][] convertDrawDataTo2DArray(List<Drawing> drawResults) {
+
+        Drawing drawing = drawResults.iterator().next();
+
+        int[][] data = new int[drawing.getDrawNumbers().size()][drawResults.size()];
+
+        int indexer = 0;
+        for(int i = 0; i < drawResults.size(); i++){
+
+            Drawing drawing1 = drawResults.get(i);
+            for(int j = 0; j < drawing1.getDrawNumbers().size(); j++){
+
+                data[j][indexer] = Integer.parseInt( drawing1.getDrawNumbers().get(j).trim() );
+            }
+
+            indexer++;
+        }
+
+        return data;
     }
 }

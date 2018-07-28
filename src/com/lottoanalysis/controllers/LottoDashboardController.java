@@ -241,7 +241,7 @@ public class LottoDashboardController {
         choiceBox.getSelectionModel().selectFirst();
     }
 
-    private int[][] findMultiples(int[][] positionalNumbers) {
+    public static int[][] findMultiples(int[][] positionalNumbers) {
         int[][] data = new int[positionalNumbers.length][positionalNumbers[0].length];
         for(int i = 0; i < positionalNumbers.length; i++){
 
@@ -254,7 +254,7 @@ public class LottoDashboardController {
         return data;
     }
 
-    private int getMultiple(int i) {
+    private static int getMultiple(int i) {
 
         for(Map.Entry<Integer,List<Integer>> entry : multipleRanges.entrySet()){
 

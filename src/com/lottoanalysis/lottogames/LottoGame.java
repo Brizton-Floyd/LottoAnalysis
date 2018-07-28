@@ -6,6 +6,7 @@ import com.lottoanalysis.retrievers.FiveAndSixDigitJackpotRetrieverImpl;
 import javafx.collections.ObservableList;
 
 import java.util.List;
+import java.util.Set;
 
 public abstract class LottoGame {
 
@@ -77,4 +78,8 @@ public abstract class LottoGame {
 
     }
 
+    public Set<String> extractDaysOfWeekFromResults(ObservableList<Drawing> drawingData) {
+
+        return Drawing.extractDays( drawingData );
+    }
 }

@@ -28,6 +28,7 @@ public class DrawHistoryView extends AnchorPane {
     private Label drawPositionBeingAnalyzed = new Label();
     private Label hitAvgInSpanLabel = new Label();
     private Label analyzeMethodLabel = new Label();
+    HBox dayOfWeekRadioButtons;
 
     public DrawHistoryView(DrawHistoryAnalyzer pastDrawResult) {
 
@@ -43,6 +44,10 @@ public class DrawHistoryView extends AnchorPane {
     // Getters
     public MenuBar getMenuBar() {
         return menuBar;
+    }
+
+    public HBox getDayOfWeekRadioButtons() {
+        return dayOfWeekRadioButtons;
     }
 
     public Label getDrawPositionBeingAnalyzed() {
@@ -211,11 +216,16 @@ public class DrawHistoryView extends AnchorPane {
         chartingVbox.setSpacing(12);
         chartingVbox.setStyle("-fx-background-color:black;");
 
+        if(pastDrawResult.dayOfWeekPopulationNeeded) {
+            dayOfWeekRadioButtons = setUpDayOfWeekRadioButtons();
+            dayOfWeekRadioButtons.setPadding(new Insets(-30, 0, 0, 0));
+        }
+
         StackPane lottoNumberPane = setUpLottoNumberChartPane(pastDrawResult.extractDefaultResults());
 
         StackPane sumGroupLottoNumberPane = setUpLottoNumberGameOutChartPane( pastDrawResult.getSumGroupAnalyzer().getGameOutHitHolder());
 
-        chartingVbox.getChildren().setAll(lottoNumberPane, sumGroupLottoNumberPane);
+        chartingVbox.getChildren().setAll(dayOfWeekRadioButtons, lottoNumberPane, sumGroupLottoNumberPane);
 
         lottoGameStatsVBox.getChildren().setAll(winningNumberPresentTableTitle, hitHistoryStackPane,
                 winningFirstDigitTableTitle, mostPopularFirstDigitPositionPane,
@@ -247,6 +257,36 @@ public class DrawHistoryView extends AnchorPane {
         HBox.setMargin(chartingVbox, new Insets(20, 0, 0, 20));
     }
 
+    private HBox setUpDayOfWeekRadioButtons() {
+
+        HBox hBox = new HBox();
+
+        hBox.setSpacing(10);
+        RadioButton button = new RadioButton("All Days");
+        button.setUserData("All Days");
+
+        if(pastDrawResult.getDayOfWeek().getDay().equals("All Days"))
+            button.setSelected(true);
+
+        hBox.getChildren().add(button);
+
+
+        Set<String> days = pastDrawResult.getLottoGame().extractDaysOfWeekFromResults( pastDrawResult.getLottoGame().getDrawingData());
+
+        for (Iterator<String> iterator = days.iterator(); iterator.hasNext();){
+            String val = iterator.next();
+            RadioButton button1 = new RadioButton(val);
+            button1.setUserData(val);
+
+            if(button1.getUserData().toString().equals(pastDrawResult.getDayOfWeek().getDay()))
+                button1.setSelected(true);
+
+            hBox.getChildren().add(button1);
+        }
+
+        return hBox;
+    }
+
     private StackPane setUpLottoNumberGameOutChartPane(List<Integer> chartPoints) {
 
         StackPane historyStackPane = new StackPane();
@@ -265,8 +305,8 @@ public class DrawHistoryView extends AnchorPane {
         Object[] data = ChartHelperTwo.getRepeatedNumberList(chartPoints);
 
         List<Integer> specialList = (List<Integer>) data[0];
-        //dataPoints.add((specialList.size() > 150) ? specialList.subList(specialList.size() - 150, specialList.size()) : specialList);
-        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
+        dataPoints.add((specialList.size() > 50) ? specialList.subList(specialList.size() - 50, specialList.size()) : specialList);
+        //dataPoints.add((chartPoints.size() > 60) ? chartPoints.subList(chartPoints.size()-60,chartPoints.size()) : chartPoints);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
@@ -295,8 +335,8 @@ public class DrawHistoryView extends AnchorPane {
 
         List<Integer> specialList = (List<Integer>) data[0];
 
-        //dataPoints.add((specialList.size() > 150) ? specialList.subList(specialList.size() - 150, specialList.size()) : specialList);
-        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
+        dataPoints.add((specialList.size() > 50) ? specialList.subList(specialList.size() - 50, specialList.size()) : specialList);
+        //dataPoints.add((chartPoints.size() > 60) ? chartPoints.subList(chartPoints.size()-60,chartPoints.size()) : chartPoints);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
@@ -423,7 +463,7 @@ public class DrawHistoryView extends AnchorPane {
     private void injectViewHolderWithCorrectPane(StackPane pane) {
 
        VBox children = (VBox) viewComponentHolder.getChildren().get(1);
-       children.getChildren().set(0,pane);
+       children.getChildren().set(1,pane);
        //System.out.println(children.getChildren().size());
     }
 

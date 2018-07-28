@@ -754,4 +754,5 @@ public class NumberPatternAnalyzer {
 
         return data;
     }
+
 }
