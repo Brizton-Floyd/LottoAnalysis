@@ -20,19 +20,25 @@ import java.util.*;
 
 public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
 
+    // Subscribe listener to view
     private DrawHistoryListener drawHistoryListener;
 
-    VBox lottoGameStatsVBox = new VBox();
-    HBox dayOfWeekRadioButtons;
+    private VBox lottoGameStatsVBox = new VBox();
+    private HBox dayOfWeekRadioButtons;
     private HBox viewComponentHolder = new HBox();
     private MenuBar menuBar = new MenuBar();
     private Label drawPositionBeingAnalyzed = new Label();
     private Label hitAvgInSpanLabel = new Label();
     private Label analyzeMethodLabel = new Label();
     private Label lottoHitAbrLabel;
-    private VBox chartingVbox;
 
     private Set<String> days;
+    private int numberOfPositions;
+    private String gameName;
+    private boolean dayOfWeekPopulationNeeded;
+
+    public DrawHistoryViewImpl(){
+    }
 
     private void addActionHandlerToUiElements() {
 
@@ -40,7 +46,7 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
         performDefaultViewSetUp();
 
 
-        if (drawHistoryListener.dayOfWeekPopulationNeeded()) {
+        if (dayOfWeekPopulationNeeded) {
             dayOfWeekRadioButtons = setUpDayOfWeekRadioButtons();
             dayOfWeekRadioButtons.setPadding(new Insets(-30, 0, 0, 0));
 
@@ -168,14 +174,21 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
     }
 
     @Override
-    public void addListener(DrawHistoryListener listener) {
-        this.drawHistoryListener = listener;
-        addActionHandlerToUiElements();
+    public void notifyListenerOfPageLoad() {
+        drawHistoryListener.onPageLoad();
     }
 
     @Override
-    public void setHeaderInformation(String position, String gameName) {
-        setUpGameHeaderInformation(position, gameName);
+    public void addListener(DrawHistoryListener listener) {
+        this.drawHistoryListener = listener;
+
+        addActionHandlerToUiElements();
+        notifyListenerOfPageLoad();
+    }
+
+    @Override
+    public void setHeaderInformation(String position) {
+        setUpGameHeaderInformation(position);
     }
 
     @Override
@@ -215,7 +228,6 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
         AnchorPane.setTopAnchor(hitAvgInSpanLabel, 67.0);
         AnchorPane.setLeftAnchor(hitAvgInSpanLabel, 10.0);
 
-
         int index = getChildren().indexOf(hitAvgInSpanLabel);
         if (index > -1) {
             getChildren().remove(index);
@@ -228,6 +240,21 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
     @Override
     public void setDrawDays(Set<String> days) {
         this.days = new HashSet<>(days);
+    }
+
+    @Override
+    public void setNumberOfPositions(int numbers) {
+        this.numberOfPositions = numbers;
+    }
+
+    @Override
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    @Override
+    public void setDayOfWeekPopulationNeeded(boolean dayOfWeekPopulationNeeded) {
+        this.dayOfWeekPopulationNeeded = dayOfWeekPopulationNeeded;
     }
 
     @Override
@@ -306,11 +333,11 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
     @Override
     public void injectLottoAndGameOutValues(List<Integer> lottoNumbers, List<Integer> gameOutValues) {
 
-        chartingVbox = new VBox();
+        VBox chartingVbox = new VBox();
         chartingVbox.setPadding(new Insets(6, 0, 0, 0));
         chartingVbox.setPrefWidth(750);
-        chartingVbox.setSpacing(12);
-        chartingVbox.setStyle("-fx-background-color:black;");
+        chartingVbox.setSpacing(3);
+        //chartingVbox.setStyle("-fx-background-color:black;");
 
         StackPane lottoNumberPane = setUpLottoNumberChartPane(lottoNumbers);
         StackPane sumGroupLottoNumberPane = setUpLottoNumberGameOutChartPane(gameOutValues);
@@ -370,7 +397,7 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
         return hBox;
     }
 
-    private void setUpGameHeaderInformation(final String position, final String gameName) {
+    private void setUpGameHeaderInformation(final String position) {
 
         VBox box = new VBox();
         HBox hBox = new HBox();
@@ -426,8 +453,8 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
         menuBar.setStyle("-fx-background-color:#dac6ac;");
 
         Menu historyMenu = setUpGameHistoryMenu();
-        Menu drawPositionMenu = setUpDrawPositionMenu(drawHistoryListener.getNumberOfPositions());
-        Menu analyizationMethodMenu = analyizationMethodMenu(drawHistoryListener.getGameName());
+        Menu drawPositionMenu = setUpDrawPositionMenu( numberOfPositions );
+        Menu analyizationMethodMenu = analyizationMethodMenu( gameName );
         Menu numberGroupMenu = setUpNumberGroupMenu();
 
         menuBar.getMenus().addAll(drawPositionMenu, historyMenu, analyizationMethodMenu, numberGroupMenu);

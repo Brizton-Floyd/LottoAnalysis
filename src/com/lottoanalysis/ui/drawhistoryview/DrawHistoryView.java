@@ -17,9 +17,11 @@ public interface DrawHistoryView {
 
     void notifyListenerOfTableCellSelectionChange( String value );
 
+    void notifyListenerOfPageLoad();
+
     void addListener( DrawHistoryListener listener);
 
-    void setHeaderInformation(String position, String gameName);
+    void setHeaderInformation(String position);
 
     void setAnalyzeLabel( String analyzeLabelValue );
 
@@ -28,6 +30,12 @@ public interface DrawHistoryView {
     void setAverageAndSpan( int span, Double avg );
 
     void setDrawDays(Set<String> days);
+
+    void setDayOfWeekPopulationNeeded(boolean dayOfWeekPopulationNeeded);
+
+    void setNumberOfPositions( int numbers );
+
+    void setGameName( String gameName );
 
     void injectTotalWinningNumbers(Map<String, TotalWinningNumberTracker> totalWinningNumberTrackerMap);
 
