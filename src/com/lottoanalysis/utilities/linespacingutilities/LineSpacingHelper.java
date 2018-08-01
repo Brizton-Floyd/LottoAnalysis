@@ -121,7 +121,7 @@ public class LineSpacingHelper {
 					Integer[] innerValue = firstDigitHitHolder.get( firstCharacterOfLenght );
 					innerValue[0]++;
 					innerValue[1] = 0;
-					// create a gamesout incremented for innerValue map
+					// create a gamesoutview incremented for innerValue map
 					incrementGamesOut(firstDigitHitHolder, firstCharacterOfLenght );
 			    }
 				
@@ -133,7 +133,7 @@ public class LineSpacingHelper {
 					Integer[] dd = valueData.get( firstCharacterOfLenght );
 					dd[0]++;
 					dd[1] = 0;
-					// create a gamesout incremented for innerValue map
+					// create a gamesoutview incremented for innerValue map
 					incrementGamesOut( valueData, firstCharacterOfLenght );
 				}
 			}

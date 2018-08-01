@@ -1,4 +1,4 @@
-package com.lottoanalysis.models.pastresults;
+package com.lottoanalysis.models.drawhistory;
 
 public enum AnalyzeMethod {
 
@@ -8,7 +8,8 @@ public enum AnalyzeMethod {
     LINE_SPACINGS(3, "Line Spacings","Spacing"),
     REMAINDER(4, "Remainder","Remainder"),
     LAST_DIGIT(5,"Last Digit","Last Digit"),
-    MULTIPLES(6,"Multiples","Lotto");
+    MULTIPLES(6,"Multiples","Lotto"),
+    GROUP_ANALYSIS(7,"Number Group", "Group");
 
     private int index;
     private String title;
