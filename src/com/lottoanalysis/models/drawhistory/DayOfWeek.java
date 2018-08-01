@@ -1,4 +1,4 @@
-package com.lottoanalysis.models.pastresults;
+package com.lottoanalysis.models.drawhistory;
 
 public enum DayOfWeek {
 

@@ -1,4 +1,4 @@
-package com.lottoanalysis.models.pastresults;
+package com.lottoanalysis.models.drawhistory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -1,12 +1,10 @@
-package com.lottoanalysis.views;
+package com.lottoanalysis.ui.drawhistoryview;
 
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.lottogames.drawing.Drawing;
-import com.lottoanalysis.models.pastresults.*;
+import com.lottoanalysis.models.drawhistory.*;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,54 +18,359 @@ import javafx.util.Callback;
 
 import java.util.*;
 
-public class DrawHistoryView extends AnchorPane {
+public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
 
-    private DrawHistoryAnalyzer pastDrawResult;
+    private DrawHistoryListener drawHistoryListener;
+
+    VBox lottoGameStatsVBox = new VBox();
+    HBox dayOfWeekRadioButtons;
     private HBox viewComponentHolder = new HBox();
     private MenuBar menuBar = new MenuBar();
     private Label drawPositionBeingAnalyzed = new Label();
     private Label hitAvgInSpanLabel = new Label();
     private Label analyzeMethodLabel = new Label();
-    HBox dayOfWeekRadioButtons;
+    private Label lottoHitAbrLabel;
+    private VBox chartingVbox;
 
-    public DrawHistoryView(DrawHistoryAnalyzer pastDrawResult) {
+    private Set<String> days;
 
-        this.pastDrawResult = pastDrawResult;
+    private void addActionHandlerToUiElements() {
 
         configureMenuBar();
-        setUpGameHeaderInformation();
         performDefaultViewSetUp();
-        setUpLottoInfoStackPanes();
+
+
+        if (drawHistoryListener.dayOfWeekPopulationNeeded()) {
+            dayOfWeekRadioButtons = setUpDayOfWeekRadioButtons();
+            dayOfWeekRadioButtons.setPadding(new Insets(-30, 0, 0, 0));
+
+        }
+
+        addActionsToMenuBarItems();
 
     }
 
-    // Getters
-    public MenuBar getMenuBar() {
-        return menuBar;
+    /**
+     * Method is responsible for adding actions to all menu menu items
+     */
+    private void addActionsToMenuBarItems() {
+
+        ObservableList<Menu> menus = menuBar.getMenus();
+
+        for (Menu menu : menus) {
+            switch (menu.getText()) {
+                case "Draw Position":
+                    placeActionsOnDrawPositions(menu);
+                    break;
+                case "Game Span":
+                    placeActionOnGameSpanOptions(menu);
+                    break;
+                case "Analyze Methods":
+                    placeActionsOnAnalysisMethods(menu);
+                    break;
+                case "Group Analysis":
+                    placeActionOnGroupAnalysisMethods(menu);
+                    break;
+            }
+        }
     }
 
-    public HBox getDayOfWeekRadioButtons() {
-        return dayOfWeekRadioButtons;
+    /**
+     * Method will place the appropriate actions on all analysis menu items
+     *
+     * @param menu
+     */
+    private void placeActionOnGroupAnalysisMethods(Menu menu) {
+
+        for (MenuItem menuItem : menu.getItems()) {
+
+            menuItem.setOnAction(event -> {
+
+                AnalyzeMethod drawPosition = Arrays.stream(AnalyzeMethod.values()).filter(val -> val.getTitle()
+                        .equals(menuItem.getText())).findAny().orElse(null);
+                notifyListenerOfAnalysisChange(drawPosition);
+            });
+        }
     }
 
-    public Label getDrawPositionBeingAnalyzed() {
-        return drawPositionBeingAnalyzed;
+    /**
+     * Method will place actions on all game span options
+     *
+     * @param menu
+     */
+    private void placeActionOnGameSpanOptions(Menu menu) {
+
+        for (MenuItem menuItem : menu.getItems()) {
+
+            menuItem.setOnAction(event -> {
+
+                final int span = Integer.parseInt(menuItem.getText().trim());
+                notifyListenerOfGameSpanChange(span);
+            });
+        }
     }
 
-    public Label getHitAvgInSpanLabel() {
-        return hitAvgInSpanLabel;
+    /**
+     * Method will place the appropriate actions on all analysis menu items
+     *
+     * @param menu
+     */
+    private void placeActionsOnAnalysisMethods(Menu menu) {
+
+
+        for (MenuItem menuItem : menu.getItems()) {
+
+            menuItem.setOnAction(event -> {
+
+                AnalyzeMethod drawPosition = Arrays.stream(AnalyzeMethod.values()).filter(val -> val.getTitle()
+                        .equals(menuItem.getText())).findAny().orElse(null);
+                notifyListenerOfAnalysisChange(drawPosition);
+            });
+        }
     }
 
-    public void setPastDrawResult(DrawHistoryAnalyzer pastDrawResult) {
-        this.pastDrawResult = pastDrawResult;
+    /**
+     * Method will place the appropriate actions on all draw positions menu items
+     *
+     * @param menu
+     */
+    private void placeActionsOnDrawPositions(Menu menu) {
+
+        for (MenuItem menuItem : menu.getItems()) {
+
+            menuItem.setOnAction(event -> {
+
+                DrawPositions drawPosition = Arrays.stream(DrawPositions.values()).filter(val -> val.getText()
+                        .equals(menuItem.getText())).findAny().orElse(null);
+                notifyListenerOfDrawPositionChange(drawPosition);
+            });
+        }
     }
 
-    public Label getAnalyzeMethodLabel() {
-        return analyzeMethodLabel;
+    @Override
+    public void notifyListenerOfDrawPositionChange(DrawPositions drawPosition) {
+        drawHistoryListener.onDrawPositionChange(drawPosition);
+    }
+
+    @Override
+    public void notifyListenerOfAnalysisChange(AnalyzeMethod analyzeMethod) {
+        drawHistoryListener.onAnalysisMethodChange(analyzeMethod);
+    }
+
+    @Override
+    public void notifyListenerOfGameSpanChange(int span) {
+        drawHistoryListener.onGameSpanChange(span);
+    }
+
+    @Override
+    public void notifyListenerOfTableCellSelectionChange(String value) {
+        drawHistoryListener.onTableCellSelectionChange(value);
+    }
+
+    @Override
+    public void addListener(DrawHistoryListener listener) {
+        this.drawHistoryListener = listener;
+        addActionHandlerToUiElements();
+    }
+
+    @Override
+    public void setHeaderInformation(String position, String gameName) {
+        setUpGameHeaderInformation(position, gameName);
+    }
+
+    @Override
+    public void setAbbreviationLabel(String value) {
+        lottoHitAbrLabel = new Label(value);
+    }
+
+    @Override
+    public void setAnalyzeLabel(String analyzeLabelValue) {
+
+        analyzeMethodLabel.setStyle("-fx-text-fill:#dac6ac;");
+        analyzeMethodLabel.setFont(Font.font(15.0));
+        analyzeMethodLabel.textProperty().bind(new SimpleStringProperty(
+                String.format("Analyzing Mode: \" %s \"", analyzeLabelValue)));
+
+        AnchorPane.setTopAnchor(analyzeMethodLabel, 67.0);
+        AnchorPane.setRightAnchor(analyzeMethodLabel, 10.0);
+
+        int indexTwo = getChildren().indexOf(analyzeMethodLabel);
+        if (indexTwo > -1) {
+            getChildren().remove(indexTwo);
+            getChildren().add(indexTwo, analyzeMethodLabel);
+        } else {
+            getChildren().add(analyzeMethodLabel);
+        }
+    }
+
+    @Override
+    public void setAverageAndSpan(int span, Double avg) {
+
+        hitAvgInSpanLabel.setStyle("-fx-text-fill:#dac6ac;");
+        hitAvgInSpanLabel.setFont(Font.font(15.0));
+        hitAvgInSpanLabel.textProperty().bind(new SimpleStringProperty(
+                "The average winning numbers in a game span of " + span +
+                        " is " + avg + ""));
+
+        AnchorPane.setTopAnchor(hitAvgInSpanLabel, 67.0);
+        AnchorPane.setLeftAnchor(hitAvgInSpanLabel, 10.0);
+
+
+        int index = getChildren().indexOf(hitAvgInSpanLabel);
+        if (index > -1) {
+            getChildren().remove(index);
+            getChildren().add(index, hitAvgInSpanLabel);
+        } else {
+            getChildren().add(hitAvgInSpanLabel);
+        }
+    }
+
+    @Override
+    public void setDrawDays(Set<String> days) {
+        this.days = new HashSet<>(days);
+    }
+
+    @Override
+    public void injectTotalWinningNumbers(Map<String, TotalWinningNumberTracker> totalWinningNumberTrackerMap) {
+
+        StackPane hitHistoryStackPane = new StackPane(setUpHitsInLastStackPane(totalWinningNumberTrackerMap));
+
+        Label winningNumberPresentTableTitle = new Label("Total Winning Numbers Present Table");
+        winningNumberPresentTableTitle.setStyle("-fx-text-fill:#dac6ac;");
+        winningNumberPresentTableTitle.setFont(Font.font(15.0));
+        winningNumberPresentTableTitle.setPadding(new Insets(5, 0, 0, 0));
+
+        if (lottoGameStatsVBox.getChildren().size() == 0) {
+            lottoGameStatsVBox.getChildren().add(winningNumberPresentTableTitle);
+            lottoGameStatsVBox.getChildren().add(hitHistoryStackPane);
+        } else {
+            lottoGameStatsVBox.getChildren().set(1, hitHistoryStackPane);
+        }
+    }
+
+    @Override
+    public void injectFirstDigitNumbers(Map<Integer, Integer[]> firstDigitNumbers) {
+
+        Label winningFirstDigitTableTitle = new Label("Most Winning First Digit Table For Current Position Being Analyzed");
+        winningFirstDigitTableTitle.setStyle("-fx-text-fill:#dac6ac;");
+        winningFirstDigitTableTitle.setFont(Font.font(15.0));
+        winningFirstDigitTableTitle.setPadding(new Insets(10, 0, 0, 0));
+
+        StackPane mostPopularFirstDigitPositionPane = new StackPane(setUpPopularFirstDigitStackPane(firstDigitNumbers));
+
+        if (lottoGameStatsVBox.getChildren().size() == 2) {
+            lottoGameStatsVBox.getChildren().add(winningFirstDigitTableTitle);
+            lottoGameStatsVBox.getChildren().add(mostPopularFirstDigitPositionPane);
+        } else {
+            lottoGameStatsVBox.getChildren().set(3, mostPopularFirstDigitPositionPane);
+        }
+    }
+
+    @Override
+    public void injectLottoNumberHits(Map<Integer, LottoNumberGameOutTracker> lottoNumberGameOutTrackerMap) {
+
+        Label lottoNumberHitTableTitle = new Label("Lotto Number Hit Information Table");
+        lottoNumberHitTableTitle.setStyle("-fx-text-fill:#dac6ac;");
+        lottoNumberHitTableTitle.setFont(Font.font(15.0));
+        lottoNumberHitTableTitle.setPadding(new Insets(10, 0, 0, 0));
+
+        StackPane lottoNumberHitPositionPane = new StackPane(setUpLottoNumberHitInfoPane(lottoNumberGameOutTrackerMap));
+
+        if (lottoGameStatsVBox.getChildren().size() == 4) {
+            lottoGameStatsVBox.getChildren().add(lottoNumberHitTableTitle);
+            lottoGameStatsVBox.getChildren().add(lottoNumberHitPositionPane);
+        } else {
+            lottoGameStatsVBox.getChildren().set(5, lottoNumberHitPositionPane);
+        }
+    }
+
+    @Override
+    public void injectSumGroupHits(Map<Integer[], SumGroupAnalyzer> sumGroupAnalyzerMap) {
+
+        Label sumHitGroupTableTitle = new Label("Lotto Number Sum Group Table");
+        sumHitGroupTableTitle.setStyle("-fx-text-fill:#dac6ac;");
+        sumHitGroupTableTitle.setFont(Font.font(15.0));
+        sumHitGroupTableTitle.setPadding(new Insets(10, 0, 0, 0));
+
+        StackPane sumGroupHitPane = new StackPane(setUpLottoNumberSumGroupPane(sumGroupAnalyzerMap));
+
+        if (lottoGameStatsVBox.getChildren().size() == 6) {
+            lottoGameStatsVBox.getChildren().add(sumHitGroupTableTitle);
+            lottoGameStatsVBox.getChildren().add(sumGroupHitPane);
+        } else {
+            lottoGameStatsVBox.getChildren().set(7, sumGroupHitPane);
+        }
+
+    }
+
+    @Override
+    public void injectLottoAndGameOutValues(List<Integer> lottoNumbers, List<Integer> gameOutValues) {
+
+        chartingVbox = new VBox();
+        chartingVbox.setPadding(new Insets(6, 0, 0, 0));
+        chartingVbox.setPrefWidth(750);
+        chartingVbox.setSpacing(12);
+        chartingVbox.setStyle("-fx-background-color:black;");
+
+        StackPane lottoNumberPane = setUpLottoNumberChartPane(lottoNumbers);
+        StackPane sumGroupLottoNumberPane = setUpLottoNumberGameOutChartPane(gameOutValues);
+
+        chartingVbox.getChildren().setAll(dayOfWeekRadioButtons, lottoNumberPane, sumGroupLottoNumberPane);
+        viewComponentHolder.getChildren().setAll(lottoGameStatsVBox, chartingVbox);
+        HBox.setMargin(chartingVbox, new Insets(20, 0, 0, 20));
+    }
+
+    @Override
+    public void injectLottoNumberValues(List<Integer> lottoNumbers) {
+
+        StackPane lottoNumberPane = setUpLottoNumberChartPane(lottoNumbers);
+
+        injectViewHolderWithCorrectPane(lottoNumberPane);
     }
 
     // Methods
-    private void setUpGameHeaderInformation() {
+    private HBox setUpDayOfWeekRadioButtons() {
+
+        HBox hBox = new HBox();
+        ToggleGroup toggleGroup = new ToggleGroup();
+
+        hBox.setSpacing(10);
+        RadioButton button = new RadioButton("All Days");
+        button.setStyle("-fx-text-fill:#dac6ac;");
+        button.setUserData("All Days");
+        button.setToggleGroup(toggleGroup);
+        button.setSelected(true);
+
+        hBox.getChildren().add(button);
+
+        for (Iterator<String> iterator = days.iterator(); iterator.hasNext(); ) {
+
+            String val = iterator.next();
+            RadioButton button1 = new RadioButton(val);
+            button1.setStyle("-fx-text-fill:#dac6ac;");
+            button1.setUserData(val);
+            button1.setToggleGroup(toggleGroup);
+
+            hBox.getChildren().add(button1);
+        }
+
+        toggleGroup.selectedToggleProperty().addListener((observable, oldVal, newVal) -> {
+
+            for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
+
+                if (dayOfWeek.getDay().equals(newVal.getUserData().toString())) {
+
+                    drawHistoryListener.onRadioButtonChange(dayOfWeek);
+
+                }
+            }
+
+        });
+
+        return hBox;
+    }
+
+    private void setUpGameHeaderInformation(final String position, final String gameName) {
 
         VBox box = new VBox();
         HBox hBox = new HBox();
@@ -79,13 +382,17 @@ public class DrawHistoryView extends AnchorPane {
 
         Label game = new Label();
         game.textProperty().bind(new SimpleStringProperty("Draw History Analysis For: " +
-                Drawing.splitGameName(pastDrawResult.getGameName())));
+                gameName));
         game.setFont(Font.font(22.0));
         game.setStyle("-fx-text-fill:#dac6ac;");
 
         drawPositionBeingAnalyzed.setAlignment(Pos.CENTER_RIGHT);
         drawPositionBeingAnalyzed.setFont(Font.font(22.0));
         drawPositionBeingAnalyzed.setStyle("-fx-text-fill:#dac6ac;");
+
+        drawPositionBeingAnalyzed.textProperty().bind(
+                new SimpleStringProperty("Analyzing Position " + (Integer.parseInt(position) + 1))
+        );
 
         Region region1 = new Region();
         HBox.setHgrow(region1, Priority.ALWAYS);
@@ -119,27 +426,38 @@ public class DrawHistoryView extends AnchorPane {
         menuBar.setStyle("-fx-background-color:#dac6ac;");
 
         Menu historyMenu = setUpGameHistoryMenu();
-        Menu drawPositionMenu = setUpDrawPositionMenu();
-        Menu analyizationMethodMenu = analyizationMethodMenu();
+        Menu drawPositionMenu = setUpDrawPositionMenu(drawHistoryListener.getNumberOfPositions());
+        Menu analyizationMethodMenu = analyizationMethodMenu(drawHistoryListener.getGameName());
+        Menu numberGroupMenu = setUpNumberGroupMenu();
 
-        menuBar.getMenus().addAll(drawPositionMenu, historyMenu, analyizationMethodMenu);
+        menuBar.getMenus().addAll(drawPositionMenu, historyMenu, analyizationMethodMenu, numberGroupMenu);
 
 
         getChildren().add(menuBar);
     }
 
-    private Menu analyizationMethodMenu() {
+    private Menu setUpNumberGroupMenu() {
+
+        Menu numberGroupMenu = new Menu("Group Analysis");
+
+        MenuItem menuItem = new MenuItem("Number Group");
+
+        numberGroupMenu.getItems().add(menuItem);
+
+        return numberGroupMenu;
+    }
+
+    private Menu analyizationMethodMenu(String gameName) {
 
         Menu historyMenu = new Menu("Analyze Methods");
-        List<String> menuItemTitles = new LinkedList<>(Arrays.asList("Positional Numbers","Delta Number","Positional Sums","Line Spacings","Remainder","Last Digit","Multiples"));
+        List<String> menuItemTitles = new LinkedList<>(Arrays.asList("Positional Numbers", "Delta Number", "Positional Sums", "Line Spacings", "Remainder", "Last Digit", "Multiples"));
 
-        if(pastDrawResult.getLottoGame().getGameName().equals(LotteryGameConstants.PICK4_GAME_NAME_TWO) ||
-                pastDrawResult.getLottoGame().getGameName().equals(LotteryGameConstants.PICK3_GAME_NAME_TWO)) {
+        if (gameName.equals(LotteryGameConstants.PICK4_GAME_NAME_TWO) ||
+                gameName.equals(LotteryGameConstants.PICK3_GAME_NAME_TWO)) {
             menuItemTitles.remove(AnalyzeMethod.DELTA_NUMBERS.getTitle());
         }
 
-        for(String item : menuItemTitles)
-        {
+        for (String item : menuItemTitles) {
             MenuItem menuItem = new MenuItem(item);
             historyMenu.getItems().add(menuItem);
         }
@@ -147,10 +465,10 @@ public class DrawHistoryView extends AnchorPane {
         return historyMenu;
     }
 
-    private Menu setUpDrawPositionMenu() {
+    private Menu setUpDrawPositionMenu(int size) {
 
         Menu drawPositonMenu = new Menu("Draw Position");
-        for (int i = 0; i < pastDrawResult.getDrawResultSize(); i++) {
+        for (int i = 0; i < size; i++) {
             MenuItem drawMenuItem = new MenuItem("Position " + (i + 1));
             drawPositonMenu.getItems().add(drawMenuItem);
         }
@@ -166,125 +484,6 @@ public class DrawHistoryView extends AnchorPane {
             historyMenu.getItems().add(menuItem);
         }
         return historyMenu;
-    }
-
-    public void setUpLottoInfoStackPanes() {
-
-        VBox lottoGameStatsVBox = new VBox();
-
-
-        StackPane hitHistoryStackPane = new StackPane(setUpHitsInLastStackPane());
-
-        hitAvgInSpanLabel.setStyle("-fx-text-fill:#dac6ac;");
-        hitAvgInSpanLabel.setFont(Font.font(15.0));
-        hitAvgInSpanLabel.textProperty().bind(new SimpleStringProperty(
-                "The average winning numbers in a game span of " + pastDrawResult.getGameSpan() +
-                        " is " + TotalWinningNumberTracker.getAverage() + ""));
-
-        analyzeMethodLabel.setStyle("-fx-text-fill:#dac6ac;");
-        analyzeMethodLabel.setFont(Font.font(15.0));
-        analyzeMethodLabel.textProperty().bind(new SimpleStringProperty(
-                String.format("Analyzing Mode: \" %s \"", pastDrawResult.getAnalyzeMethod().getTitle())));
-
-        Label winningNumberPresentTableTitle = new Label("Total Winning Numbers Present Table");
-        winningNumberPresentTableTitle.setStyle("-fx-text-fill:#dac6ac;");
-        winningNumberPresentTableTitle.setFont(Font.font(15.0));
-        winningNumberPresentTableTitle.setPadding(new Insets(5, 0, 0, 0));
-
-        Label winningFirstDigitTableTitle = new Label("Most Winning First Digit Table For Current Position Being Analyzed");
-        winningFirstDigitTableTitle.setStyle("-fx-text-fill:#dac6ac;");
-        winningFirstDigitTableTitle.setFont(Font.font(15.0));
-        winningFirstDigitTableTitle.setPadding(new Insets(10, 0, 0, 0));
-
-        Label lottoNumberHitTableTitle = new Label("Lotto Number Hit Information Table");
-        lottoNumberHitTableTitle.setStyle("-fx-text-fill:#dac6ac;");
-        lottoNumberHitTableTitle.setFont(Font.font(15.0));
-        lottoNumberHitTableTitle.setPadding(new Insets(10, 0, 0, 0));
-
-        Label sumHitGroupTableTitle = new Label("Lotto Number Sum Group Table");
-        sumHitGroupTableTitle.setStyle("-fx-text-fill:#dac6ac;");
-        sumHitGroupTableTitle.setFont(Font.font(15.0));
-        sumHitGroupTableTitle.setPadding(new Insets(10, 0, 0, 0));
-
-        StackPane mostPopularFirstDigitPositionPane = new StackPane(setUpPopularFirstDigitStackPane());
-        StackPane lottoNumberHitPositionPane = new StackPane(setUpLottoNumberHitInfoPane());
-        StackPane sumGroupHitPane = new StackPane(setUpLottoNumberSumGroupPane());
-
-        VBox chartingVbox = new VBox();
-        chartingVbox.setPadding(new Insets(6, 0, 0, 0));
-        chartingVbox.setPrefWidth(750);
-        chartingVbox.setSpacing(12);
-        chartingVbox.setStyle("-fx-background-color:black;");
-
-        if(pastDrawResult.dayOfWeekPopulationNeeded) {
-            dayOfWeekRadioButtons = setUpDayOfWeekRadioButtons();
-            dayOfWeekRadioButtons.setPadding(new Insets(-30, 0, 0, 0));
-        }
-
-        StackPane lottoNumberPane = setUpLottoNumberChartPane(pastDrawResult.extractDefaultResults());
-
-        StackPane sumGroupLottoNumberPane = setUpLottoNumberGameOutChartPane( pastDrawResult.getSumGroupAnalyzer().getGameOutHitHolder());
-
-        chartingVbox.getChildren().setAll(dayOfWeekRadioButtons, lottoNumberPane, sumGroupLottoNumberPane);
-
-        lottoGameStatsVBox.getChildren().setAll(winningNumberPresentTableTitle, hitHistoryStackPane,
-                winningFirstDigitTableTitle, mostPopularFirstDigitPositionPane,
-                lottoNumberHitTableTitle, lottoNumberHitPositionPane, sumHitGroupTableTitle, sumGroupHitPane);
-
-        AnchorPane.setTopAnchor(hitAvgInSpanLabel, 67.0);
-        AnchorPane.setLeftAnchor(hitAvgInSpanLabel, 10.0);
-
-        AnchorPane.setTopAnchor(analyzeMethodLabel,67.0);
-        AnchorPane.setRightAnchor(analyzeMethodLabel,10.0);
-
-        int index = getChildren().indexOf(hitAvgInSpanLabel);
-        if (index > -1) {
-            getChildren().remove(index);
-            getChildren().add(index, hitAvgInSpanLabel);
-        } else {
-            getChildren().add(hitAvgInSpanLabel);
-        }
-
-        int indexTwo = getChildren().indexOf(analyzeMethodLabel);
-        if (indexTwo > -1) {
-            getChildren().remove(indexTwo);
-            getChildren().add(indexTwo, analyzeMethodLabel);
-        } else {
-            getChildren().add(analyzeMethodLabel);
-        }
-
-        viewComponentHolder.getChildren().setAll(lottoGameStatsVBox, chartingVbox);
-        HBox.setMargin(chartingVbox, new Insets(20, 0, 0, 20));
-    }
-
-    private HBox setUpDayOfWeekRadioButtons() {
-
-        HBox hBox = new HBox();
-
-        hBox.setSpacing(10);
-        RadioButton button = new RadioButton("All Days");
-        button.setUserData("All Days");
-
-        if(pastDrawResult.getDayOfWeek().getDay().equals("All Days"))
-            button.setSelected(true);
-
-        hBox.getChildren().add(button);
-
-
-        Set<String> days = pastDrawResult.getLottoGame().extractDaysOfWeekFromResults( pastDrawResult.getLottoGame().getDrawingData());
-
-        for (Iterator<String> iterator = days.iterator(); iterator.hasNext();){
-            String val = iterator.next();
-            RadioButton button1 = new RadioButton(val);
-            button1.setUserData(val);
-
-            if(button1.getUserData().toString().equals(pastDrawResult.getDayOfWeek().getDay()))
-                button1.setSelected(true);
-
-            hBox.getChildren().add(button1);
-        }
-
-        return hBox;
     }
 
     private StackPane setUpLottoNumberGameOutChartPane(List<Integer> chartPoints) {
@@ -305,8 +504,8 @@ public class DrawHistoryView extends AnchorPane {
         Object[] data = ChartHelperTwo.getRepeatedNumberList(chartPoints);
 
         List<Integer> specialList = (List<Integer>) data[0];
-        dataPoints.add((specialList.size() > 50) ? specialList.subList(specialList.size() - 50, specialList.size()) : specialList);
-        //dataPoints.add((chartPoints.size() > 60) ? chartPoints.subList(chartPoints.size()-60,chartPoints.size()) : chartPoints);
+        dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
@@ -335,8 +534,11 @@ public class DrawHistoryView extends AnchorPane {
 
         List<Integer> specialList = (List<Integer>) data[0];
 
-        dataPoints.add((specialList.size() > 50) ? specialList.subList(specialList.size() - 50, specialList.size()) : specialList);
-        //dataPoints.add((chartPoints.size() > 60) ? chartPoints.subList(chartPoints.size()-60,chartPoints.size()) : chartPoints);
+        dataPoints.add((specialList.size() > 160) ? specialList.subList(specialList.size() - 160, specialList.size()) : specialList);
+//        dataPoints.add((DrawHistoryModel.getAllDayDrawResults().size() > 100) ? DrawHistoryModel.getAllDayDrawResults()
+//                    .subList(DrawHistoryModel.getAllDayDrawResults().size() - 100, DrawHistoryModel.getAllDayDrawResults().size()) :
+//                DrawHistoryModel.getAllDayDrawResults());
+        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
@@ -348,7 +550,7 @@ public class DrawHistoryView extends AnchorPane {
         return historyStackPane;
     }
 
-    private StackPane setUpLottoNumberSumGroupPane() {
+    private StackPane setUpLottoNumberSumGroupPane(Map<Integer[], SumGroupAnalyzer> sumGroupAnalyzerMap) {
 
         StackPane sumGroupInfoPane = new StackPane();
         sumGroupInfoPane.setStyle("-fx-background-color:black;");
@@ -397,23 +599,14 @@ public class DrawHistoryView extends AnchorPane {
                                     //this.setTextFill(Color.valueOf("#EFA747"));
                                 }
 
-                                for(int i = 0; i < observableList.size(); i++)
-                                {
-                                    if(i == 3)
-                                    {
+                                for (int i = 0; i < observableList.size(); i++) {
+                                    if (i == 3) {
                                         final int index = i;
-                                        this.setOnMouseClicked( event -> {
+                                        this.setOnMouseClicked(event -> {
 
                                             final String values = observableList.get(index).toString();
-                                            pastDrawResult.getSumGroupAnalyzer().getGroupAnalyzerMap().forEach((k,v) -> {
+                                            notifyListenerOfTableCellSelectionChange(values);
 
-                                                Set<Integer> numericValues = new HashSet<>(v.getLottoNumberInSumRangeHolder());
-                                                if(Arrays.toString(numericValues.toArray()).equals(values))
-                                                {
-                                                    final StackPane pane = setUpLottoNumberChartPane(v.getLottoNumberInSumRangeHolder());
-                                                    injectViewHolderWithCorrectPane( pane );
-                                                }
-                                            });
                                         });
                                     }
                                 }
@@ -437,8 +630,8 @@ public class DrawHistoryView extends AnchorPane {
          * Data added to ObservableList *
          ********************************/
         //int size = currentDrawData.length;
-        pastDrawResult.getSumGroupAnalyzer().getGroupAnalyzerMap().entrySet().removeIf(v -> v.getValue().getGroupHits() == 0);
-        for (Map.Entry<Integer[], SumGroupAnalyzer> data : pastDrawResult.getSumGroupAnalyzer().getGroupAnalyzerMap().entrySet()) {
+        sumGroupAnalyzerMap.entrySet().removeIf(v -> v.getValue().getGroupHits() == 0);
+        for (Map.Entry<Integer[], SumGroupAnalyzer> data : sumGroupAnalyzerMap.entrySet()) {
 
             //Iterate Row
             ObservableList<String> row = FXCollections.observableArrayList();
@@ -446,10 +639,10 @@ public class DrawHistoryView extends AnchorPane {
             Integer[] key = data.getKey();
             SumGroupAnalyzer value = data.getValue();
 
-              row.add(Arrays.toString( key ));
-              row.add(value.getGroupHits() + "");
-              row.add(value.getGroupGamesOut() + "");
-              row.add(Arrays.toString( new HashSet(value.getLottoNumberInSumRangeHolder()).toArray()) + "");
+            row.add(Arrays.toString(key));
+            row.add(value.getGroupHits() + "");
+            row.add(value.getGroupGamesOut() + "");
+            row.add(Arrays.toString(new HashSet(value.getLottoNumberInSumRangeHolder()).toArray()) + "");
 
             dataItems.add(row);
         }
@@ -462,12 +655,12 @@ public class DrawHistoryView extends AnchorPane {
 
     private void injectViewHolderWithCorrectPane(StackPane pane) {
 
-       VBox children = (VBox) viewComponentHolder.getChildren().get(1);
-       children.getChildren().set(1,pane);
-       //System.out.println(children.getChildren().size());
+        VBox children = (VBox) viewComponentHolder.getChildren().get(1);
+        children.getChildren().set(1, pane);
+        //System.out.println(children.getChildren().size());
     }
 
-    private StackPane setUpLottoNumberHitInfoPane() {
+    private StackPane setUpLottoNumberHitInfoPane(Map<Integer, LottoNumberGameOutTracker> lottoNumberGameOutTrackerMap) {
 
         StackPane lottoNumberHitInfoPane = new StackPane();
         //lottoNumberHitInfoPane.setStyle("-fx-background-color:black;");
@@ -480,7 +673,7 @@ public class DrawHistoryView extends AnchorPane {
         TableView tableView = new TableView();
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        String[] colNames = {String.format("%s#",pastDrawResult.getAnalyzeMethod().getAbbr()), "Position Hits", "Games Out", "G-Out In Pos"};
+        String[] colNames = {String.format("%s#", lottoHitAbrLabel.getText()), "Position Hits", "Games Out", "G-Out In Pos"};
 
         for (int i = 0; i < colNames.length; i++) {
 
@@ -536,7 +729,7 @@ public class DrawHistoryView extends AnchorPane {
          * Data added to ObservableList *
          ********************************/
         //int size = currentDrawData.length;
-        for (Map.Entry<Integer, LottoNumberGameOutTracker> data : pastDrawResult.getLottoNumberGameOutTrackerMap().entrySet()) {
+        for (Map.Entry<Integer, LottoNumberGameOutTracker> data : lottoNumberGameOutTrackerMap.entrySet()) {
 
             //Iterate Row
             ObservableList<String> row = FXCollections.observableArrayList();
@@ -558,7 +751,7 @@ public class DrawHistoryView extends AnchorPane {
         return lottoNumberHitInfoPane;
     }
 
-    private StackPane setUpPopularFirstDigitStackPane() {
+    private StackPane setUpPopularFirstDigitStackPane(Map<Integer, Integer[]> firstDigitNumbers) {
 
         StackPane popularFirstDigitStackPane = new StackPane();
         //popularFirstDigitStackPane.setStyle("-fx-background-color:black;");
@@ -626,7 +819,7 @@ public class DrawHistoryView extends AnchorPane {
          * Data added to ObservableList *
          ********************************/
         //int size = currentDrawData.length;
-        for (Map.Entry<Integer, Integer[]> data : pastDrawResult.getFirstDigitValueHolderMap().entrySet()) {
+        for (Map.Entry<Integer, Integer[]> data : firstDigitNumbers.entrySet()) {
 
             //Iterate Row
             ObservableList<String> row = FXCollections.observableArrayList();
@@ -648,7 +841,7 @@ public class DrawHistoryView extends AnchorPane {
         return popularFirstDigitStackPane;
     }
 
-    private StackPane setUpHitsInLastStackPane() {
+    private StackPane setUpHitsInLastStackPane(Map<String, TotalWinningNumberTracker> totalWinningNumberTrackerMap) {
 
         StackPane historyStackPane = new StackPane();
         historyStackPane.setPrefWidth(500);
@@ -656,8 +849,6 @@ public class DrawHistoryView extends AnchorPane {
 
         // Begin implementation
         ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
-
-        Map<String, TotalWinningNumberTracker> totalNumberPresentTracker = pastDrawResult.getTotalWinningNumberTracker().getTotalWinningNumberTrackerMap();
 
         TableView tableView = new TableView();
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -718,15 +909,14 @@ public class DrawHistoryView extends AnchorPane {
         /********************************
          * Data added to ObservableList *
          ********************************/
-        int size = pastDrawResult.getHistoricalDrawData().length;
-        for (Map.Entry<String, TotalWinningNumberTracker> data : totalNumberPresentTracker.entrySet()) {
+        for (Map.Entry<String, TotalWinningNumberTracker> data : totalWinningNumberTrackerMap.entrySet()) {
 
             //Iterate Row
             ObservableList<String> row = FXCollections.observableArrayList();
 
             row.add(data.getKey());
-            row.add(data.getValue().getTotalHits()+"");
-            row.add(data.getValue().getGamesOut()+"");
+            row.add(data.getValue().getTotalHits() + "");
+            row.add(data.getValue().getGamesOut() + "");
 
             dataItems.add(row);
         }

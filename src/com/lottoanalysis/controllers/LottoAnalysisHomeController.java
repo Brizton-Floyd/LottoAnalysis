@@ -4,13 +4,14 @@ import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.Main;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.models.pastresults.DrawHistoryAnalyzer;
-import com.lottoanalysis.models.pastresults.LottoNumberGameOutTracker;
-import com.lottoanalysis.models.pastresults.SumGroupAnalyzer;
-import com.lottoanalysis.models.pastresults.TotalWinningNumberTracker;
-import com.lottoanalysis.presenters.DrawHistoryPresenter;
+import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
+import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
+import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
+import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
+import com.lottoanalysis.ui.drawhistoryview.DrawHistoryView;
+import com.lottoanalysis.ui.presenters.DrawHistoryPresenter;
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;
-import com.lottoanalysis.views.DrawHistoryView;
+import com.lottoanalysis.ui.drawhistoryview.DrawHistoryViewImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -380,10 +381,10 @@ public class LottoAnalysisHomeController {
         }
 
 
-        DrawHistoryAnalyzer drawHistoryAnalyzer = new DrawHistoryAnalyzer( allData, new TotalWinningNumberTracker(),
+        DrawHistoryModel drawHistoryModel = new DrawHistoryModel( allData, new TotalWinningNumberTracker(),
                                                                            new LottoNumberGameOutTracker(), new SumGroupAnalyzer());
-        DrawHistoryView drawHistoryView = new DrawHistoryView(drawHistoryAnalyzer);
-        DrawHistoryPresenter drawHistoryPresenter = new DrawHistoryPresenter(drawHistoryAnalyzer, drawHistoryView);
+        DrawHistoryViewImpl drawHistoryViewImpl = new DrawHistoryViewImpl();
+        DrawHistoryPresenter drawHistoryPresenter = new DrawHistoryPresenter(drawHistoryModel, drawHistoryViewImpl);
 
         setLottoScreen( drawHistoryPresenter.presentViewForDisplay() );
 

@@ -221,7 +221,7 @@ private static void determineLineLengthDueForRecentWinningDigit( Map<Integer,Map
 
                     Object[] valueData = mapData.getValue();
 
-                    // store current gamesout in list
+                    // store current gamesoutview in list
                     ((ArrayList<Integer>)valueData[5]).add((int)valueData[1]);
 
                     populateUniversalGameOutHitTracker( (int)valueData[1] );

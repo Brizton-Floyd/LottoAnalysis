@@ -462,7 +462,7 @@ public class LineRetracementAnalyzer {
             }
         }
 
-        // Inject current gamesout hit count into lineSkip
+        // Inject current gamesoutview hit count into lineSkip
         injectGamesOutHitCount( gapHitTable, gamesOutCount);
 
         return gapHitTable;
