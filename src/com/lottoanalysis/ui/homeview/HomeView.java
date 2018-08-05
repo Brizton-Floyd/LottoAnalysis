@@ -9,6 +9,8 @@ public interface HomeView {
 
     void loadBetSlipAnalysis();
 
+    void loadDashboard();
+
     void injectView(AnchorPane pane);
 
     AnchorPane getView();

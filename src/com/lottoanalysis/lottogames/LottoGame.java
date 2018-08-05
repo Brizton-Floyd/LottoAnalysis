@@ -3,6 +3,7 @@ package com.lottoanalysis.lottogames;
 import com.lottoanalysis.interfaces.JackpotRetriever;
 import com.lottoanalysis.lottogames.drawing.Drawing;
 import com.lottoanalysis.retrievers.FiveAndSixDigitJackpotRetrieverImpl;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.List;
@@ -67,6 +68,9 @@ public abstract class LottoGame {
     }
 
     public ObservableList<Drawing> getDrawingData() {
+        if(drawingData == null) {
+            drawingData = FXCollections.observableArrayList();
+        }
         return drawingData;
     }
 
@@ -74,9 +78,7 @@ public abstract class LottoGame {
         this.drawingData = drawingData;
     }
 
-    public void startThreadForJackpotRetrieval(){
-
-    }
+    public abstract void startThreadForJackpotRetrieval();
 
     public Set<String> extractDaysOfWeekFromResults(ObservableList<Drawing> drawingData) {
 

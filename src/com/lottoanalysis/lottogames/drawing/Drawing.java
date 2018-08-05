@@ -21,8 +21,7 @@ public class Drawing {
     private Set<String> dayOfWeek = new HashSet<>();
     private static List<Drawing> unModifiedDrawData = new ArrayList<>();
     private String[] nums;
-    private List<String[]> drawNumbers = new ArrayList<>();
-    private List<String> drawNumbers1 = new ArrayList<>();
+    private List<SimpleStringProperty> drawNumbers1 = new ArrayList<>();
 
     public static int drawSize;
 
@@ -52,12 +51,12 @@ public class Drawing {
 
         for(SimpleStringProperty string : values){
             if(string != null){
-                drawNumbers1.add( string.get() );
+                drawNumbers1.add( string );
             }
         }
     }
 
-    public List<String> getDrawNumbers() {
+    public List<SimpleStringProperty> getDrawNumbers() {
         return drawNumbers1;
     }
 
@@ -315,7 +314,7 @@ public class Drawing {
             Drawing drawing1 = drawResults.get(i);
             for(int j = 0; j < drawing1.getDrawNumbers().size(); j++){
 
-                data[j][indexer] = Integer.parseInt( drawing1.getDrawNumbers().get(j).trim() );
+                data[j][indexer] = Integer.parseInt( drawing1.getDrawNumbers().get(j).get().trim() );
             }
 
             indexer++;

@@ -90,6 +90,9 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
                     case "Bet Slip Analysis":
                         loadBetSlipAnalysis();
                         break;
+                    case "Lotto Dashboard":
+                        loadDashboard();
+                        break;
                 }
 
             });
@@ -113,6 +116,11 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
     @Override
     public void loadBetSlipAnalysis() {
         homeViewListener.executeBetSlipAnalysis();
+    }
+
+    @Override
+    public void loadDashboard() {
+        homeViewListener.invokeDashBoard();
     }
 
     @Override

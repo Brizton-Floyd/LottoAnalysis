@@ -922,7 +922,7 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
                 "-fx-border-color: black;");
         viewComponentHolder.setPrefWidth(1260);
 
-        getStylesheets().add("src/com/lottoanalysis/styles/table_view.css");
+        getStylesheets().add("com/lottoanalysis/styles/table_view.css");
 
         getChildren().add(viewComponentHolder);
     }

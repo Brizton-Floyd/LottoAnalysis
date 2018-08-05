@@ -6,10 +6,10 @@ import com.lottoanalysis.interfaces.Database;
 import com.lottoanalysis.interfaces.LotteryGameManager;
 import com.lottoanalysis.lottogames.LottoGame;
 
-public abstract class AbstractFactory {
+public interface  AbstractFactory {
 
-    public abstract LottoGame getLotteryGame(LotteryGame game);
-    public abstract Database getDataBase(Databases dbName);
-    public abstract LotteryGameManager getLotteryGameManager();
+    LottoGame getLotteryGame(LotteryGame game);
+    Database getDataBase(Databases dbName);
+    LotteryGameManager getLotteryGameManager();
 
 }

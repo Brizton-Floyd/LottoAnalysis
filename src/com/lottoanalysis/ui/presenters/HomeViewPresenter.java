@@ -7,6 +7,10 @@ import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
+import com.lottoanalysis.services.homeviewservices.HomeRepositoryServiceImpl;
+import com.lottoanalysis.services.homeviewservices.LottoDashBoardHomeService;
+import com.lottoanalysis.services.homeviewservices.LottoDashBoardHomeServiceImpl;
+import com.lottoanalysis.ui.dashboardview.LottoDashBoardViewImpl;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryViewImpl;
 import com.lottoanalysis.ui.homeview.HomeView;
 import com.lottoanalysis.ui.homeview.HomeViewListener;
@@ -18,12 +22,14 @@ import java.util.List;
 public class HomeViewPresenter implements HomeViewListener {
 
     private HomeView homeViewImpl;
+    private LottoGame lottoGame;
 
     public HomeViewPresenter(HomeView homeView){
 
         this.homeViewImpl = homeView;
         homeViewImpl.setHomeViewListener( this );
 
+        loadGameDashBoard();
     }
 
     @Override
@@ -46,10 +52,35 @@ public class HomeViewPresenter implements HomeViewListener {
                 new LottoNumberGameOutTracker(),
                 new SumGroupAnalyzer()
         );
-        DrawHistoryViewImpl drawHistoryViewImpl = new DrawHistoryViewImpl();
-        DrawHistoryPresenter drawHistoryPresenter = new DrawHistoryPresenter(drawHistoryModel, drawHistoryViewImpl);
+        DrawHistoryPresenter drawHistoryPresenter = new DrawHistoryPresenter(drawHistoryModel, new DrawHistoryViewImpl());
 
         homeViewImpl.injectView( drawHistoryPresenter.presentViewForDisplay() );
+    }
+
+    @Override
+    public void loadGameDashBoard() {
+
+        LottoDashBoardHomeService lottoDashBoardHomeService = new LottoDashBoardHomeServiceImpl(new HomeRepositoryServiceImpl());
+        lottoGame = lottoDashBoardHomeService.getDefaultGame();
+
+        LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
+
+        homeViewImpl.injectView( presenter.presentView() );
+
+    }
+
+    @Override
+    public void invokeDashBoard() {
+
+        loadGameDashBoard(lottoGame);
+    }
+
+    @Override
+    public void loadGameDashBoard(LottoGame lottoGame) {
+
+        LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
+
+        homeViewImpl.injectView( presenter.presentView() );
     }
 
     @Override
