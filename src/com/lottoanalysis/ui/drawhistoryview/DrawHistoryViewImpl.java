@@ -3,6 +3,7 @@ package com.lottoanalysis.ui.drawhistoryview;
 import com.lottoanalysis.charts.LineChartWithHover;
 import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.models.drawhistory.*;
+import com.lottoanalysis.ui.drawhistoryview.cells.SumGroupCell;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -260,6 +261,7 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
     @Override
     public void injectTotalWinningNumbers(Map<String, TotalWinningNumberTracker> totalWinningNumberTrackerMap) {
 
+       // lottoGameStatsVBox.getChildren().clear();
         StackPane hitHistoryStackPane = new StackPane(setUpHitsInLastStackPane(totalWinningNumberTrackerMap));
 
         Label winningNumberPresentTableTitle = new Label("Total Winning Numbers Present Table");
@@ -496,7 +498,7 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
 
         Menu drawPositonMenu = new Menu("Draw Position");
         for (int i = 0; i < size; i++) {
-            MenuItem drawMenuItem = new MenuItem("Position " + (i + 1));
+            MenuItem drawMenuItem = new MenuItem( DrawPositions.values()[i].getText() );
             drawPositonMenu.getItems().add(drawMenuItem);
         }
 
@@ -585,94 +587,40 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
         sumGroupInfoPane.setPrefWidth(500);
 
         // logic implementation here
-        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+        sumGroupAnalyzerMap.values().removeIf(val -> val.getGroupHits() == 0 || val.getGroupGamesOut() > 30);
+        ObservableList<SumGroupAnalyzer> dataItems = FXCollections.observableArrayList( sumGroupAnalyzerMap.values() );
 
-        TableView tableView = new TableView();
+        TableView<SumGroupAnalyzer> tableView = new TableView();
         //tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        String[] colNames = {"Sum Group", "Hits", "Games Out", "Lotto#'s"};
+        TableColumn<SumGroupAnalyzer,String> groupCol = new TableColumn<>("Sum Group");
+        groupCol.setSortable(false);
+        groupCol.setCellValueFactory( param -> new SimpleStringProperty(param.getValue().getArrayAsString()));
+        groupCol.setCellFactory( param -> new SumGroupCell(this));
 
-        for (int i = 0; i < colNames.length; i++) {
+        TableColumn<SumGroupAnalyzer,String> hitsCol = new TableColumn<>("Hits");
+        hitsCol.setSortable(false);
+        hitsCol.setCellValueFactory( param -> new SimpleStringProperty( (param.getValue().getGroupHits()+"" )));
+        hitsCol.setCellFactory( param -> new SumGroupCell(this));
 
-            final int j = i;
-            TableColumn col = new TableColumn(colNames[i]);
-            col.setCellFactory(new Callback<TableColumn<ObservableList, String>, TableCell<ObservableList, String>>() {
+        TableColumn<SumGroupAnalyzer,String> gameOutCol = new TableColumn<>("Games Out");
+        gameOutCol.setSortable(false);
+        gameOutCol.setCellValueFactory( param -> new SimpleStringProperty( (param.getValue().getGroupGamesOut()+"" )));
+        gameOutCol.setCellFactory( param -> new SumGroupCell(this));
 
-                @Override
-                public TableCell<ObservableList, String> call(TableColumn<ObservableList, String> param) {
-                    return new TableCell<ObservableList, String>() {
+        TableColumn<SumGroupAnalyzer,String> numberCol = new TableColumn<>("Lotto#'s");
+        numberCol.setCellValueFactory( param -> new SimpleStringProperty(
+                    Arrays.toString(new HashSet(param.getValue().getLottoNumberInSumRangeHolder()).toArray())
+        ));
+        numberCol.setSortable(false);
+        numberCol.setCellFactory( param -> new SumGroupCell(this));
+        numberCol.prefWidthProperty().bind(
+                                            tableView.widthProperty()
+                                                    .subtract( groupCol.widthProperty())
+                                                     . subtract( hitsCol.widthProperty())
+                                                     .subtract(gameOutCol.widthProperty()).subtract(6));
 
-                        @Override
-                        public void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (!isEmpty()) {
-
-                                setText(item);
-                                this.setTextFill(Color.BEIGE);
-                                // System.out.println(param.getText());
-
-                                ObservableList observableList = getTableView().getItems().get(getIndex());
-                                if (observableList.get(2).toString().equalsIgnoreCase("0")) {
-                                    getTableView().getSelectionModel().select(getIndex());
-
-                                    if (getTableView().getSelectionModel().getSelectedItems().contains(observableList)) {
-
-                                        this.setTextFill(Color.valueOf("#76FF03"));
-                                    }
-
-                                    //System.out.println(getItem());
-                                    // Get fancy and change color based on data
-                                    //if (item.contains("X"))
-                                    //this.setTextFill(Color.valueOf("#EFA747"));
-                                }
-
-                                for (int i = 0; i < observableList.size(); i++) {
-                                    if (i == 3) {
-                                        final int index = i;
-                                        this.setOnMouseClicked(event -> {
-
-                                            final String values = observableList.get(index).toString();
-                                            notifyListenerOfTableCellSelectionChange(values);
-
-                                        });
-                                    }
-                                }
-
-                            }
-                        }
-                    };
-                }
-            });
-
-            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>,
-                    ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(j).toString())
-
-
-            );
-
-            col.setSortable(false);
-            tableView.getColumns().addAll(col);
-        }
-        /********************************
-         * Data added to ObservableList *
-         ********************************/
-        //int size = currentDrawData.length;
-        sumGroupAnalyzerMap.entrySet().removeIf(v -> v.getValue().getGroupHits() == 0);
-        for (Map.Entry<Integer[], SumGroupAnalyzer> data : sumGroupAnalyzerMap.entrySet()) {
-
-            //Iterate Row
-            ObservableList<String> row = FXCollections.observableArrayList();
-
-            Integer[] key = data.getKey();
-            SumGroupAnalyzer value = data.getValue();
-
-            row.add(Arrays.toString(key));
-            row.add(value.getGroupHits() + "");
-            row.add(value.getGroupGamesOut() + "");
-            row.add(Arrays.toString(new HashSet(value.getLottoNumberInSumRangeHolder()).toArray()) + "");
-
-            dataItems.add(row);
-        }
+        tableView.getColumns().setAll(groupCol,hitsCol,gameOutCol,numberCol);
 
         tableView.setItems(dataItems);
         sumGroupInfoPane.getChildren().setAll(tableView);

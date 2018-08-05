@@ -186,9 +186,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
             pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 

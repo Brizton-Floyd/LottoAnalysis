@@ -116,6 +116,8 @@ public class LottoDashboardController {
     private ChoiceBox choiceBox;
     private BarChartExt<String, Number> bc;
 
+
+
     @FXML
     public void initialize() {
 
@@ -761,7 +763,7 @@ public class LottoDashboardController {
         }
     }
 
-    private void loadDefaultGameForView() {
+    public void loadDefaultGameForView() {
 
         choiceBox.getItems().clear();
 
