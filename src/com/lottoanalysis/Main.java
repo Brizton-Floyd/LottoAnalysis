@@ -2,6 +2,8 @@ package com.lottoanalysis;
 
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;
 import com.lottoanalysis.controllers.LottoAnalysisHomeController;
+import com.lottoanalysis.ui.homeview.HomeViewImpl;
+import com.lottoanalysis.ui.presenters.HomeViewPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -64,6 +66,8 @@ public class Main extends Application {
 
         LottoScreenNavigator.setMainController( mainController );
         LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE,"",null);
+
+        HomeViewPresenter homeViewPresenter = new HomeViewPresenter(new HomeViewImpl());
 
         return mainPane;
     }

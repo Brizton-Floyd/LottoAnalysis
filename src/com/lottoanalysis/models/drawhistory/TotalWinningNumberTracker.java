@@ -50,9 +50,9 @@ public class TotalWinningNumberTracker {
 
     }
 
-    public void analyze(int[][] historicalDrawData, final int gameSpan, final int totalPositions) {
+    public void analyze(int[][] historicalDrawData, final int gameSpan) {
 
-        assignValuesTotalWinningNumberMap( totalPositions );
+        assignValuesTotalWinningNumberMap( historicalDrawData.length );
         computeWinningNumbersBasedOnGameSpan( gameSpan, historicalDrawData );
     }
 

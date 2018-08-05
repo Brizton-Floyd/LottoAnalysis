@@ -8,10 +8,13 @@ import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
+import com.lottoanalysis.models.gameout.GameOutModel;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryView;
+import com.lottoanalysis.ui.gamesoutview.GameOutViewImpl;
 import com.lottoanalysis.ui.presenters.DrawHistoryPresenter;
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryViewImpl;
+import com.lottoanalysis.ui.presenters.GameOutPresenter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -243,25 +246,29 @@ public class LottoAnalysisHomeController {
             allData = new Object[]{game, drawData};
         }
 
-        try {
-            gameOutBtn.setDisable(true);
+//        try {
+//            gameOutBtn.setDisable(true);
+//
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_SEVEN));
+//            AnchorPane pane = loader.load();
+//
+//            GameOutController gameOutController = loader.getController();
+//            gameOutController.init( allData );
+//
+//            pane.setManaged(false);
+//            pane.managedProperty().bind(pane.visibleProperty());
+//            setLottoScreen(pane);
+//
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource(LottoScreenNavigator.LOTTO_SCREEN_SEVEN));
-            AnchorPane pane = loader.load();
+        GameOutPresenter gameOutPresenter = new GameOutPresenter(new GameOutModel(allData),new GameOutViewImpl());
 
-            GameOutController gameOutController = loader.getController();
-            gameOutController.init( allData );
-
-            pane.setManaged(false);
-            pane.managedProperty().bind(pane.visibleProperty());
-            setLottoScreen(pane);
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        setLottoScreen( gameOutPresenter.getViewForDisplay() );
     }
 
     @FXML
@@ -381,8 +388,12 @@ public class LottoAnalysisHomeController {
         }
 
 
-        DrawHistoryModel drawHistoryModel = new DrawHistoryModel( allData, new TotalWinningNumberTracker(),
-                                                                           new LottoNumberGameOutTracker(), new SumGroupAnalyzer());
+        DrawHistoryModel drawHistoryModel = new DrawHistoryModel(
+                allData,
+                new TotalWinningNumberTracker(),
+                new LottoNumberGameOutTracker(),
+                new SumGroupAnalyzer()
+        );
         DrawHistoryViewImpl drawHistoryViewImpl = new DrawHistoryViewImpl();
         DrawHistoryPresenter drawHistoryPresenter = new DrawHistoryPresenter(drawHistoryModel, drawHistoryViewImpl);
 

@@ -1,5 +1,6 @@
 package com.lottoanalysis.models.drawhistory;
 
+import com.lottoanalysis.constants.LotteryGameConstants;
 import com.lottoanalysis.controllers.LottoDashboardController;
 import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.lottogames.drawing.Drawing;
@@ -14,10 +15,8 @@ public class DrawHistoryModel {
 
     private Comparator<Map.Entry<Integer, Integer[]>> hitComparatory = ((o1, o2) -> o2.getValue()[0].compareTo(o1.getValue()[0]));
 
-    private Map<Integer, Integer[]> gameSpanHitMap = new TreeMap<>();
     private Map<Integer, Integer[]> firstDigitValueHolderMap = new LinkedHashMap<>();
     private Map<Integer, LottoNumberGameOutTracker> lottoNumberGameOutTrackerMap;
-    private List<Integer> multipleHolderList;
 
     private List<Object> lottoDrawData;
     private SimpleStringProperty gameName;
@@ -31,12 +30,7 @@ public class DrawHistoryModel {
     private LottoNumberGameOutTracker lottoNumberGameOutTracker;
     private SumGroupAnalyzer sumGroupAnalyzer;
     private LottoGame lottoGame;
-    public boolean dayOfWeekPopulationNeeded;
-
-    private static List<Integer> allDayDrawResults = new ArrayList<>();
-
-    public DrawHistoryModel() {
-    }
+    private boolean dayOfWeekPopulationNeeded;
 
     public DrawHistoryModel(Object[] currentDrawInformation, TotalWinningNumberTracker totalWinningNumberTracker,
                             LottoNumberGameOutTracker lottoNumberGameOutTracker, SumGroupAnalyzer sumGroupAnalyzer) {
@@ -48,23 +42,19 @@ public class DrawHistoryModel {
         this.analyzeMethod = AnalyzeMethod.DRAW_POSITION;
         this.drawPositions = DrawPositions.POS_ONE;
         this.dayOfWeek = DayOfWeek.ALL;
-        dayOfWeekPopulationNeeded = true;
+        this.dayOfWeekPopulationNeeded = true;
         this.lottoGame = (LottoGame) currentDrawInformation[0];
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
         this.lottoDrawData = (List<Object>) currentDrawInformation[1];
-        historicalDrawData = (int[][]) lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex());
-
-        analyzeDrawData(getGameSpan());
+        this.historicalDrawData = (int[][]) lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex());
 
     }
 
     // getters
 
-
     public DrawPositions getDrawPositions() {
         return drawPositions;
     }
-
 
     public void setGameSpan(int gameSpan) {
         this.gameSpan = gameSpan;
@@ -102,17 +92,24 @@ public class DrawHistoryModel {
         return lottoNumberGameOutTracker;
     }
 
-    public static List<Integer> getAllDayDrawResults() {
-        return allDayDrawResults;
-    }
-
     public String getGameName() {
         return gameName.get();
     }
 
     public int getDrawResultSize() {
 
-        return ((int[][]) lottoDrawData.get(0)).length;
+        int len;
+        if(LotteryGameConstants.MEGA_MILLIONS.equals(lottoGame.getGameName()) || LotteryGameConstants.POWERBALL.equals(lottoGame.getGameName()) ||
+                LotteryGameConstants.SUPPER_LOTTO_PLUS.equals(lottoGame.getGameName())) {
+
+            len = 6;
+
+        }
+        else {
+            len = ((int[][]) lottoDrawData.get(0)).length;
+        }
+
+        return len;
     }
 
     public int[][] getHistoricalDrawData() {
@@ -180,9 +177,8 @@ public class DrawHistoryModel {
      *
      * @param gameSpan
      */
-    public void analyzeDrawData(final int gameSpan) {
+    private void analyzeDrawData(final int gameSpan) {
 
-        final int numberOfPositions = getHistoricalDrawData().length;
         if (AnalyzeMethod.MULTIPLES.getTitle().equals(analyzeMethod.getTitle()) ||
                 AnalyzeMethod.REMAINDER == analyzeMethod || AnalyzeMethod.POSITIONAL_SUMS == analyzeMethod ||
                 AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod) {
@@ -197,9 +193,7 @@ public class DrawHistoryModel {
                 // Now determine which analyze method to apply to results
                 historicalDrawData = filterDataBasedOnAnalyzeMethod(convertedData, AnalyzeMethod.DRAW_POSITION);
             } else {
-                allDayDrawResults.clear();
                 historicalDrawData = (int[][]) lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex());
-                allDayDrawResults = Arrays.stream(historicalDrawData[drawPositions.getIndex()]).boxed().collect(Collectors.toList());
             }
         } else {
             if (dayOfWeek != DayOfWeek.ALL) {
@@ -212,14 +206,11 @@ public class DrawHistoryModel {
                 // Now determine which analyze method to apply to results
                 historicalDrawData = filterDataBasedOnAnalyzeMethod(convertedData, analyzeMethod);
             } else {
-                allDayDrawResults.clear();
                 historicalDrawData = (int[][]) lottoDrawData.get(analyzeMethod.getIndex());
-                allDayDrawResults = Arrays.stream(historicalDrawData[drawPositions.getIndex()]).boxed().collect(Collectors.toList());
-
             }
         }
 
-        totalWinningNumberTracker.analyze(getHistoricalDrawData(), gameSpan, numberOfPositions);
+        totalWinningNumberTracker.analyze(historicalDrawData, gameSpan);
         performAnalysisOnFirstDigitBasedOnDrawPosition();
         computeGameOutForLottoNumbers();
         analyzeLottoNumberSumGroupHits();
@@ -383,8 +374,7 @@ public class DrawHistoryModel {
 
     }
 
-
-    public void computeGameOutForLottoNumbers() {
+    private void computeGameOutForLottoNumbers() {
 
         // Assign the current analysis to the draw Data
         if (AnalyzeMethod.MULTIPLES.getTitle().equals(analyzeMethod.getTitle())

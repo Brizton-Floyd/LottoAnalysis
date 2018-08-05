@@ -1,6 +1,8 @@
 package com.lottoanalysis.models.drawhistory;
 
 import com.lottoanalysis.lottogames.LottoGame;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,6 +14,7 @@ public class SumGroupAnalyzer {
     private List<Integer> lottoNumberInSumRangeHolder = new ArrayList<>();
     private Map<Integer[],SumGroupAnalyzer> groupAnalyzerMap = new LinkedHashMap<>();
     private List<Integer> gameOutHitHolder = new ArrayList<>();
+    private String arrayAsString;
 
 
     // Getters
@@ -104,6 +107,8 @@ public class SumGroupAnalyzer {
 
                     if(k.length > 1) {
                         if (sum >= k[0] && sum <= k[1]) {
+                            setArrayAsString( k,v);
+
                             gameOutHitHolder.add(v.getGroupGamesOut());
                             v.setGroupGamesOut(0);
                             int hits = v.getGroupHits();
@@ -119,6 +124,7 @@ public class SumGroupAnalyzer {
                     }
                     else{
                         if (sum == k[0]) {
+                            setArrayAsString( k,v );
                             gameOutHitHolder.add(v.getGroupGamesOut());
                             v.setGroupGamesOut(0);
                             int hits = v.getGroupHits();
@@ -147,6 +153,15 @@ public class SumGroupAnalyzer {
             groupAnalyzerMap.put(val.getKey(), val.getValue());
         });
 
+    }
+
+    private void setArrayAsString(Integer[] k, SumGroupAnalyzer v) {
+
+        v.arrayAsString = Arrays.toString(k);
+    }
+
+    public String getArrayAsString() {
+        return arrayAsString;
     }
 
     private int getAppropriateMultiple(Map<Integer, List<Integer>> numberMultipleMap, Integer drawNum) {
@@ -245,6 +260,7 @@ public class SumGroupAnalyzer {
 
                     if(k.length > 1) {
                         if (sum >= k[0] && sum <= k[1]) {
+                            setArrayAsString(k,v);
                             gameOutHitHolder.add(v.getGroupGamesOut());
                             v.setGroupGamesOut(0);
                             int hits = v.getGroupHits();
@@ -260,6 +276,7 @@ public class SumGroupAnalyzer {
                     }
                     else{
                         if (sum == k[0]) {
+                            setArrayAsString(k,v);
                             gameOutHitHolder.add(v.getGroupGamesOut());
                             v.setGroupGamesOut(0);
                             int hits = v.getGroupHits();

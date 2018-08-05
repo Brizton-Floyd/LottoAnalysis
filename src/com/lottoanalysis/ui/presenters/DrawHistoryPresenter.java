@@ -26,11 +26,10 @@ public class DrawHistoryPresenter implements DrawHistoryListener{
 
         this.drawHistoryModel = drawHistoryModel;
         this.drawHistoryViewImpl = drawHistoryViewImpl;
-        final String name = Drawing.splitGameName(drawHistoryModel.getGameName());
 
         drawHistoryViewImpl.setDrawDays( extractDaysOfWeekFromResults() );
-        drawHistoryViewImpl.setDayOfWeekPopulationNeeded( drawHistoryModel.dayOfWeekPopulationNeeded );
-        drawHistoryViewImpl.setGameName( name );
+        drawHistoryViewImpl.setDayOfWeekPopulationNeeded( drawHistoryModel.isDayOfWeekPopulationNeeded() );
+        drawHistoryViewImpl.setGameName( Drawing.splitGameName(drawHistoryModel.getGameName()) );
         drawHistoryViewImpl.setNumberOfPositions( drawHistoryModel.getDrawResultSize() );
         drawHistoryViewImpl.addListener(this);
 
@@ -48,23 +47,28 @@ public class DrawHistoryPresenter implements DrawHistoryListener{
         drawHistoryViewImpl.injectFirstDigitNumbers( drawHistoryModel.getFirstDigitValueHolderMap() );
         drawHistoryViewImpl.injectLottoNumberHits( drawHistoryModel.getLottoNumberGameOutTrackerMap() );
         drawHistoryViewImpl.injectSumGroupHits( drawHistoryModel.getSumGroupAnalyzer().getGroupAnalyzerMap() );
-
+        drawHistoryViewImpl.injectLottoAndGameOutValues(drawHistoryModel.extractDefaultResults(),
+                drawHistoryModel.getSumGroupAnalyzer().getGameOutHitHolder());
     }
 
     @Override
     public void onDrawPositionChange(DrawPositions drawPosition) {
 
         drawHistoryModel.setDrawPositions(drawPosition);
-        drawHistoryModel.analyzeDrawData();
 
-        final String name = Drawing.splitGameName(drawHistoryModel.getGameName());
+        if(DrawPositions.BONUS != drawHistoryModel.getDrawPositions()) {
 
-        drawHistoryViewImpl.setHeaderInformation( Integer.toString(drawHistoryModel.getDrawPositions().getIndex()));
-        drawHistoryViewImpl.injectFirstDigitNumbers( drawHistoryModel.getFirstDigitValueHolderMap() );
-        drawHistoryViewImpl.injectLottoNumberHits( drawHistoryModel.getLottoNumberGameOutTrackerMap() );
-        drawHistoryViewImpl.injectSumGroupHits( drawHistoryModel.getSumGroupAnalyzer().getGroupAnalyzerMap() );
-        drawHistoryViewImpl.injectLottoAndGameOutValues(drawHistoryModel.extractDefaultResults(),
-                drawHistoryModel.getSumGroupAnalyzer().getGameOutHitHolder());
+            drawHistoryModel.analyzeDrawData();
+
+            final String name = Drawing.splitGameName(drawHistoryModel.getGameName());
+
+            drawHistoryViewImpl.setHeaderInformation(Integer.toString(drawHistoryModel.getDrawPositions().getIndex()));
+            drawHistoryViewImpl.injectFirstDigitNumbers(drawHistoryModel.getFirstDigitValueHolderMap());
+            drawHistoryViewImpl.injectLottoNumberHits(drawHistoryModel.getLottoNumberGameOutTrackerMap());
+            drawHistoryViewImpl.injectSumGroupHits(drawHistoryModel.getSumGroupAnalyzer().getGroupAnalyzerMap());
+            drawHistoryViewImpl.injectLottoAndGameOutValues(drawHistoryModel.extractDefaultResults(),
+                    drawHistoryModel.getSumGroupAnalyzer().getGameOutHitHolder());
+        }
 
     }
 
@@ -93,7 +97,7 @@ public class DrawHistoryPresenter implements DrawHistoryListener{
         drawHistoryModel.setDayOfWeekPopulationNeeded(false);
         drawHistoryModel.analyzeDrawData();
 
-        drawHistoryViewImpl.setDayOfWeekPopulationNeeded( drawHistoryModel.dayOfWeekPopulationNeeded );
+        drawHistoryViewImpl.setDayOfWeekPopulationNeeded( drawHistoryModel.isDayOfWeekPopulationNeeded() );
 
         setUpAllUIElements();
 
