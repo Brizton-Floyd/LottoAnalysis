@@ -1,7 +1,7 @@
 package com.lottoanalysis.ui.drawhistoryview;
 
-import com.lottoanalysis.charts.LineChartWithHover;
-import com.lottoanalysis.constants.LotteryGameConstants;
+import com.lottoanalysis.models.charts.LineChartWithHover;
+import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.models.drawhistory.*;
 import com.lottoanalysis.ui.drawhistoryview.cells.SumGroupCell;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;

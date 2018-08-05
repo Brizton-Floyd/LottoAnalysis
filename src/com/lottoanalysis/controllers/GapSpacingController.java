@@ -1,11 +1,10 @@
 package com.lottoanalysis.controllers;
 
-import com.lottoanalysis.charts.LineChartWithHover;
-import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.lottogames.SixDigitLotteryGameImpl;
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.charts.LineChartWithHover;
+import com.lottoanalysis.models.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.SixDigitLotteryGameImpl;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.models.gapspacings.GapSpacingAnalyzer;
-import com.lottoanalysis.models.technicalindicators.BollingerBand;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import com.lottoanalysis.utilities.companionnumberutilities.CompanionNumberHelper;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,7 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class GapSpacingController {

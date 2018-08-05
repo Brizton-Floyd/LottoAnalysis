@@ -1,8 +1,7 @@
 package com.lottoanalysis.ui.homeview;
 
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 public interface HomeViewListener {
 

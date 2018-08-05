@@ -1,6 +1,6 @@
 package com.lottoanalysis.models.toplevelcharting;
 
-import com.lottoanalysis.comparators.CompanionNumberComparator;
+import com.lottoanalysis.models.comparators.CompanionNumberComparator;
 
 import java.util.*;
 import java.util.stream.IntStream;

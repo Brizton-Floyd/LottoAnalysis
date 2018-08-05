@@ -1,10 +1,5 @@
 package com.lottoanalysis.models.drawhistory;
 
-import com.lottoanalysis.lottogames.drawing.Drawing;
-
-import java.util.Arrays;
-import java.util.List;
-
 public enum DrawPositions {
 
     POS_ONE(0,"Position 1"),

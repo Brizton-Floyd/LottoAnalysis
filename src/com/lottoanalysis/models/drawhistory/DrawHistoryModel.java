@@ -1,9 +1,9 @@
 package com.lottoanalysis.models.drawhistory;
 
-import com.lottoanalysis.constants.LotteryGameConstants;
+import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.controllers.LottoDashboardController;
-import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
 import javafx.beans.property.SimpleStringProperty;
 

@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.gameoutviewutilities;
 
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 
 import java.util.Arrays;
 import java.util.Map;

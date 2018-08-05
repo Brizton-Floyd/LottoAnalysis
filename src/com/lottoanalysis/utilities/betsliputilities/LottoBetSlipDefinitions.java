@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.betsliputilities;
 
-import com.lottoanalysis.constants.LotteryGameConstants;
+import com.lottoanalysis.common.LotteryGameConstants;
 
 import java.util.*;
 

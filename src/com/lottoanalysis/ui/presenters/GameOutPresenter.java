@@ -1,6 +1,6 @@
 package com.lottoanalysis.ui.presenters;
 
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.models.drawhistory.DrawPositions;
 import com.lottoanalysis.models.gameout.GameOutModel;
 import com.lottoanalysis.ui.gamesoutview.GameOutListener;

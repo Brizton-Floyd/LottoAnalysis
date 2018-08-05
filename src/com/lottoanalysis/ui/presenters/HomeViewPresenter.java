@@ -2,7 +2,7 @@ package com.lottoanalysis.ui.presenters;
 
 import com.lottoanalysis.controllers.LottoDashboardController;
 import com.lottoanalysis.controllers.LottoInfoAndGamesController;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
@@ -15,7 +15,6 @@ import com.lottoanalysis.ui.drawhistoryview.DrawHistoryViewImpl;
 import com.lottoanalysis.ui.homeview.HomeView;
 import com.lottoanalysis.ui.homeview.HomeViewListener;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 import java.util.List;
 

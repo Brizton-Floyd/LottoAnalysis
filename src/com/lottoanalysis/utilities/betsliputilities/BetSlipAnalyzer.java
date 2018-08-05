@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.betsliputilities;
 
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.numbertracking.FirstLastDigitTracker;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 

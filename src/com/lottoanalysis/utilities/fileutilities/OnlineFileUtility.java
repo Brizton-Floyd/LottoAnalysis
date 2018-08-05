@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.fileutilities;
 
-import com.lottoanalysis.constants.LotteryGameConstants;
+import com.lottoanalysis.common.LotteryGameConstants;
 
 import java.util.*;
 

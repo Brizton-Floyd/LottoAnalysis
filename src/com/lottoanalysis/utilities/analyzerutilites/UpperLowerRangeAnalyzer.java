@@ -2,8 +2,8 @@ package com.lottoanalysis.utilities.analyzerutilites;
 
 import java.util.*;
 
-import com.lottoanalysis.constants.*;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.common.LotteryGameConstants;
+import com.lottoanalysis.models.lottogames.LottoGame;
 
 @SuppressWarnings("unchecked")
 public class UpperLowerRangeAnalyzer {

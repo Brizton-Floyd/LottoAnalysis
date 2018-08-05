@@ -1,10 +1,9 @@
 package com.lottoanalysis.models.gameoutanalyzers;
 
-import com.lottoanalysis.comparators.HitComparator;
+import com.lottoanalysis.models.comparators.HitComparator;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class GameOutHitGrouper {
 

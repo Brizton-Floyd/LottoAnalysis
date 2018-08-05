@@ -1,6 +1,6 @@
 package com.lottoanalysis.models.gameout;
 
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.drawhistory.DrawPositions;
 
 import java.util.List;

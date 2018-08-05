@@ -1,7 +1,7 @@
 package com.lottoanalysis.patternmakers;
 
 import com.lottoanalysis.interfaces.MapValueEntry;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import java.util.*;
 
 public abstract class PatternMaker implements MapValueEntry<List<String>> {

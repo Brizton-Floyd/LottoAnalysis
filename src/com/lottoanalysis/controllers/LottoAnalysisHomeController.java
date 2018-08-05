@@ -2,14 +2,13 @@ package com.lottoanalysis.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.Main;
-import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.common.LotteryGameConstants;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
 import com.lottoanalysis.models.gameout.GameOutModel;
-import com.lottoanalysis.ui.drawhistoryview.DrawHistoryView;
 import com.lottoanalysis.ui.gamesoutview.GameOutViewImpl;
 import com.lottoanalysis.ui.presenters.DrawHistoryPresenter;
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;

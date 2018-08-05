@@ -1,8 +1,7 @@
 package com.lottoanalysis.models.toplevelcharting;
 
-import com.lottoanalysis.comparators.ChartDataComparator;
-import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.comparators.ChartDataComparator;
+import com.lottoanalysis.common.LotteryGameConstants;
 
 import java.util.*;
 

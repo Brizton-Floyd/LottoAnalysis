@@ -1,6 +1,6 @@
 package com.lottoanalysis.services.homeviewservices;
 
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 
 public class LottoDashBoardHomeServiceImpl implements LottoDashBoardHomeService {
 
