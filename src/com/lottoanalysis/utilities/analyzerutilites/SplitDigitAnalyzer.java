@@ -1,7 +1,7 @@
 package com.lottoanalysis.utilities.analyzerutilites;
 
-import com.lottoanalysis.comparators.HitComparator;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.comparators.HitComparator;
+import com.lottoanalysis.models.lottogames.LottoGame;
 
 import java.util.*;
 import java.util.stream.IntStream;

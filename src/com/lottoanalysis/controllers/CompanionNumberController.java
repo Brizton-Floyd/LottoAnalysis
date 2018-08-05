@@ -1,8 +1,8 @@
 package com.lottoanalysis.controllers;
 
-import com.lottoanalysis.charts.LineChartWithHover;
-import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.charts.LineChartWithHover;
+import com.lottoanalysis.common.LotteryGameConstants;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import com.lottoanalysis.utilities.companionnumberutilities.CompanionNumberHelper;
 import javafx.beans.property.SimpleStringProperty;

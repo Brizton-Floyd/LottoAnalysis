@@ -1,7 +1,7 @@
 package com.lottoanalysis.utilities.betsliputilities;
 
-import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.utilities.gameoutviewutilities.GamesOutPositionTracker;
 import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
 

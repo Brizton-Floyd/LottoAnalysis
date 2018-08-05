@@ -1,20 +1,14 @@
 package com.lottoanalysis.ui.dashboardview;
 
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.ui.dashboardview.cells.DrawHistoryCell;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import javafx.util.Callback;
-
-import java.io.File;
 
 
 public class LottoDashBoardViewImpl extends AnchorPane implements LottoDashBoardView {

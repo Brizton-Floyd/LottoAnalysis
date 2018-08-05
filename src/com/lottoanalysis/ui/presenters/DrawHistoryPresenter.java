@@ -1,18 +1,10 @@
 package com.lottoanalysis.ui.presenters;
 
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.models.drawhistory.*;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryListener;
-import com.lottoanalysis.ui.drawhistoryview.DrawHistoryView;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryViewImpl;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 

@@ -1,7 +1,7 @@
 package com.lottoanalysis.ui.gamesoutview;
 
 import com.lottoanalysis.common.MenuBarHelper;
-import com.lottoanalysis.constants.LotteryGameConstants;
+import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
 import com.lottoanalysis.models.drawhistory.DrawPositions;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,9 +12,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 

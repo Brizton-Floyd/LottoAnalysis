@@ -2,15 +2,12 @@ package com.lottoanalysis.utilities.chartutility;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.lottogames.PickFourLotteryGameImpl;
-import com.lottoanalysis.lottogames.PickThreeLotteryGameImpl;
-import com.lottoanalysis.models.numbertracking.NumberMultipleAnalyzer;
+import com.lottoanalysis.models.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.PickFourLotteryGameImpl;
+import com.lottoanalysis.models.lottogames.PickThreeLotteryGameImpl;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
-import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelperTwo;
 
 /**
  *

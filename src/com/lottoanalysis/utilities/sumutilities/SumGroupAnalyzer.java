@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.sumutilities;
 
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
 
 import java.util.*;

@@ -1,7 +1,7 @@
 package com.lottoanalysis.ui.presenters;
 
-import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardListener;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardView;
 import javafx.collections.ObservableList;

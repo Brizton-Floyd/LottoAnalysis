@@ -1,18 +1,17 @@
 package com.lottoanalysis.services.homeviewservices;
 
-import com.lottoanalysis.enums.Databases;
-import com.lottoanalysis.enums.Factory;
-import com.lottoanalysis.enums.LotteryGame;
-import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
-import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
+import com.lottoanalysis.models.factories.enums.Databases;
+import com.lottoanalysis.models.factories.enums.Factory;
+import com.lottoanalysis.models.factories.enums.LotteryGame;
+import com.lottoanalysis.models.factories.abstractfactory.AbstractFactory;
+import com.lottoanalysis.models.factories.factoryproducer.FactoryProducer;
 import com.lottoanalysis.interfaces.Database;
-import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.WeakHashMap;
 
 public class HomeRepositoryServiceImpl implements HomeServiceRepository{
 

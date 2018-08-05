@@ -1,7 +1,7 @@
 package com.lottoanalysis.interfaces;
 
-import com.lottoanalysis.data.LotteryGameDao;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.data.LotteryGameDao;
+import com.lottoanalysis.models.lottogames.LottoGame;
 
 import java.util.List;
 

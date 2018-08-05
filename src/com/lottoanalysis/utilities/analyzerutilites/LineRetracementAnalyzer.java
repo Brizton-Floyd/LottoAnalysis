@@ -1,7 +1,7 @@
 package com.lottoanalysis.utilities.analyzerutilites;
 
 import com.lottoanalysis.interfaces.JackpotRetriever;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import javafx.scene.control.Label;
 
 

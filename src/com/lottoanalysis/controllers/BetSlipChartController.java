@@ -1,24 +1,18 @@
 package com.lottoanalysis.controllers;
 
-import com.lottoanalysis.charts.LineChartWithHover;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.charts.LineChartWithHover;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.gapspacings.GameOutSpacing;
-import com.lottoanalysis.models.gapspacings.GapSpacingAnalyzer;
 import com.lottoanalysis.models.numbertracking.FirstLastDigitTracker;
 import com.lottoanalysis.utilities.betsliputilities.BetSlipAnalyzer;
 import com.lottoanalysis.utilities.betsliputilities.ColumnAndIndexHitAnalyzer;
-import com.lottoanalysis.utilities.chartutility.ChartHelper;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
-import com.lottoanalysis.utilities.gameoutviewutilities.GameOutLottoHitFinder;
 import com.lottoanalysis.utilities.gameoutviewutilities.GamesOutViewDepicter;
-import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelper;
-import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelperTwo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;

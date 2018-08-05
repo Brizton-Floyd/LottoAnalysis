@@ -3,10 +3,9 @@ package com.lottoanalysis.models.numbertracking;
 import java.util.*;
 import java.util.stream.IntStream;
 
-import com.lottoanalysis.comparators.HitComparator;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.comparators.HitComparator;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
-import org.omg.PortableInterceptor.INACTIVE;
 
 public class NumberMultipleAnalyzer {
 

@@ -1,6 +1,6 @@
 package com.lottoanalysis.ui.dashboardview.cells;
 
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import javafx.scene.control.TableCell;
 import javafx.scene.paint.Color;
 

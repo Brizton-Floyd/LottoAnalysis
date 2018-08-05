@@ -1,6 +1,6 @@
 package com.lottoanalysis.ui.dashboardview;
 
-import com.lottoanalysis.lottogames.drawing.Drawing;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
 

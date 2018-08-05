@@ -1,14 +1,12 @@
 package com.lottoanalysis.controllers;
 
-import com.lottoanalysis.charts.LineChartWithHover;
-import com.lottoanalysis.lottogames.LottoGame;
-import com.lottoanalysis.lottogames.PickFourLotteryGameImpl;
-import com.lottoanalysis.lottogames.PickThreeLotteryGameImpl;
+import com.lottoanalysis.models.charts.LineChartWithHover;
+import com.lottoanalysis.models.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.PickFourLotteryGameImpl;
+import com.lottoanalysis.models.lottogames.PickThreeLotteryGameImpl;
 import com.lottoanalysis.models.gameoutanalyzers.GameOutHitGrouper;
 import com.lottoanalysis.models.gameoutanalyzers.GameOutMapper;
-import com.lottoanalysis.models.toplevelcharting.ChartDataBuilder;
 import com.lottoanalysis.utilities.analyzerutilites.NumberAnalyzer;
-import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import com.lottoanalysis.utilities.gameoutviewutilities.GameOutLottoHitFinder;
 import javafx.beans.property.SimpleStringProperty;

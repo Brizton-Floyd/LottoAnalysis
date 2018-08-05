@@ -1,6 +1,6 @@
 package com.lottoanalysis.utilities.analyzerutilites;
 
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelperTwo;
 
 import java.util.*;

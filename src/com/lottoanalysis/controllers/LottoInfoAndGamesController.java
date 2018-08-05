@@ -1,16 +1,16 @@
 package com.lottoanalysis.controllers;
 
 import com.lottoanalysis.Main;
-import com.lottoanalysis.enums.Factory;
-import com.lottoanalysis.enums.LotteryGame;
-import com.lottoanalysis.factories.abstractfactory.AbstractFactory;
-import com.lottoanalysis.factories.factoryproducer.FactoryProducer;
+import com.lottoanalysis.models.factories.enums.Factory;
+import com.lottoanalysis.models.factories.enums.LotteryGame;
+import com.lottoanalysis.models.factories.abstractfactory.AbstractFactory;
+import com.lottoanalysis.models.factories.factoryproducer.FactoryProducer;
 import com.lottoanalysis.interfaces.LotteryGameManager;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.screenavigator.LottoScreenNavigator;
-import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.constants.LotteryGameDaoConstants;
-import com.lottoanalysis.tasks.DataDownLoaderTask;
+import com.lottoanalysis.common.LotteryGameConstants;
+import com.lottoanalysis.common.LotteryGameDaoConstants;
+import com.lottoanalysis.models.tasks.DataDownLoaderTask;
 import com.lottoanalysis.utilities.fileutilities.OnlineFileUtility;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;

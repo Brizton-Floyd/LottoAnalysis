@@ -1,7 +1,7 @@
 package com.lottoanalysis.controllers;
 
-import com.lottoanalysis.charts.LineChartWithHover;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.charts.LineChartWithHover;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.numbertracking.NumberMultipleAnalyzer;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import com.lottoanalysis.utilities.gameoutviewutilities.GameOutLottoHitFinder;
@@ -10,8 +10,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;

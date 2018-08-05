@@ -1,6 +1,6 @@
 package com.lottoanalysis.models.numbertracking;
 
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,11 +1,10 @@
 package com.lottoanalysis.screenavigator;
 
-import com.lottoanalysis.controllers.ChartAnalysisController;
 import com.lottoanalysis.controllers.GroupChartController;
-import com.lottoanalysis.constants.LotteryGameConstants;
+import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.controllers.CompanionNumberController;
 import com.lottoanalysis.controllers.LottoAnalysisHomeController;
-import com.lottoanalysis.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 

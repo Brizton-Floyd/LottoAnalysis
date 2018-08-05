@@ -1,8 +1,5 @@
 package com.lottoanalysis.common;
 
-import com.lottoanalysis.constants.LotteryGameConstants;
-import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
-
 import java.util.*;
 
 public class MenuBarHelper {

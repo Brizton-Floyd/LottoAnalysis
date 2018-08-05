@@ -1,8 +1,6 @@
 package com.lottoanalysis.models.drawhistory;
 
-import com.lottoanalysis.lottogames.LottoGame;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import com.lottoanalysis.models.lottogames.LottoGame;
 
 import java.util.*;
 import java.util.stream.Collectors;
