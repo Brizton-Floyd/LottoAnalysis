@@ -69,7 +69,7 @@ public class Main extends Application {
 
         HomeViewPresenter homeViewPresenter = new HomeViewPresenter(new HomeViewImpl());
 
-        return mainPane;
+        return homeViewPresenter.onGameLoad();
     }
     public static void main(String[] args) {
         launch(args);

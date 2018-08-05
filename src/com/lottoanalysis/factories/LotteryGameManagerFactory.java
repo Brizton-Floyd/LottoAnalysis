@@ -8,7 +8,7 @@ import com.lottoanalysis.interfaces.LotteryGameManager;
 import com.lottoanalysis.lottogames.LottoGame;
 import com.lottoanalysis.managers.LotteryGameManagerImpl;
 
-public class LotteryGameManagerFactory extends AbstractFactory {
+public class LotteryGameManagerFactory implements AbstractFactory {
     @Override
     public LottoGame getLotteryGame(LotteryGame game) {
         return null;

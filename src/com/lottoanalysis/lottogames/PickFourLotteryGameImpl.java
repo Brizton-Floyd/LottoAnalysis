@@ -5,4 +5,12 @@ package com.lottoanalysis.lottogames;
  */
 public class PickFourLotteryGameImpl extends LottoGame {
 
+    public PickFourLotteryGameImpl(){
+        setPositionNumbersAllowed(4);
+    }
+    @Override
+    public void startThreadForJackpotRetrieval() {
+
+        setCurrentEstimatedJackpot("No Jackpot Available");
+    }
 }

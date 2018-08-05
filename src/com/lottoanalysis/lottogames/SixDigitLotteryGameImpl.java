@@ -12,6 +12,10 @@ public class SixDigitLotteryGameImpl extends LottoGame implements ThreadComplete
 
     private NotifyingThread jackpotThread;
 
+    public SixDigitLotteryGameImpl(){
+        setPositionNumbersAllowed(6);
+    }
+
     @Override
     public void startThreadForJackpotRetrieval() {
 

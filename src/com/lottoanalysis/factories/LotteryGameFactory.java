@@ -7,7 +7,7 @@ import com.lottoanalysis.lottogames.*;
 import com.lottoanalysis.interfaces.Database;
 import com.lottoanalysis.interfaces.LotteryGameManager;
 
-public class LotteryGameFactory extends AbstractFactory {
+public class LotteryGameFactory implements AbstractFactory {
 
     @Override
     public LottoGame getLotteryGame(LotteryGame game) {
