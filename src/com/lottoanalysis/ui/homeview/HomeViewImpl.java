@@ -93,6 +93,9 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
                     case "Lotto Dashboard":
                         loadDashboard();
                         break;
+                    case "Load Game Panel":
+                        loadGameSelectionPanel();
+                        break;
                 }
 
             });
@@ -109,6 +112,23 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
     }
 
     @Override
+    public void enableButtonAndDisableDashboardButton() {
+
+        buttonList.forEach(b -> {
+
+            if(b.isDisabled()){
+                b.setDisable(false);
+            }
+
+            if(b.getText().equals("Lotto Dashboard")){
+                b.setDisable(true);
+            }
+        });
+
+
+    }
+
+    @Override
     public void setHomeViewListener(HomeViewListener homeViewListener) {
         this.homeViewListener = homeViewListener;
     }
@@ -116,6 +136,11 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
     @Override
     public void loadBetSlipAnalysis() {
         homeViewListener.executeBetSlipAnalysis();
+    }
+
+    @Override
+    public void loadGameSelectionPanel() {
+        homeViewListener.presentLottoGameSelectionView();
     }
 
     @Override

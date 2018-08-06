@@ -12,6 +12,16 @@ public class LottoDashBoardHomeServiceImpl implements LottoDashBoardHomeService 
     }
 
     @Override
+    public LottoGame loadById(int id) {
+        try {
+            return homeServiceRepository.loadGameById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public LottoGame getDefaultGame() {
 
         try {

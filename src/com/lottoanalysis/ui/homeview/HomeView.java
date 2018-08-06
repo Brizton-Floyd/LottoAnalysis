@@ -11,7 +11,11 @@ public interface HomeView {
 
     void loadDashboard();
 
+    void loadGameSelectionPanel();
+
     void injectView(AnchorPane pane);
 
     AnchorPane getView();
+
+    void enableButtonAndDisableDashboardButton();
 }

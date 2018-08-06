@@ -12,11 +12,45 @@ import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
-public class HomeRepositoryServiceImpl implements HomeServiceRepository{
+public class HomeServiceRepositoryImpl implements HomeServiceRepository {
 
     private AbstractFactory abstractFactory = FactoryProducer.getFactory(Factory.DataBaseFactory);
     private Database database = abstractFactory.getDataBase(Databases.MySql);
+
+    @Override
+    public LottoGame loadGameById(int id) throws Exception {
+
+        AbstractFactory factory = FactoryProducer.getFactory(Factory.LotteryGameFactory);
+        LottoGame lottoGame = factory.getLotteryGame( getCorrectInstance(id));
+
+        try(Connection connection = database.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(LOTTO_GAME_DATA_QUERY)){
+
+            preparedStatement.setInt(1,id);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()){
+
+                if(lottoGame.getGameName() == null && lottoGame.getLottoId() == 0){
+                    lottoGame.setGameName(rs.getString("GAME"));
+                    lottoGame.setLottoId( rs.getInt("ID"));
+                    lottoGame.setMinNumber( rs.getInt("MIN"));
+                    lottoGame.setMaxNumber( rs.getInt("MAX"));
+                    lottoGame.startThreadForJackpotRetrieval();
+                }
+
+                Drawing drawing = buildDrawing(rs, lottoGame.getPositionNumbersAllowed());
+                lottoGame.getDrawingData().add( drawing );
+            }
+
+        }
+
+        return lottoGame;
+    }
 
     @Override
     public LottoGame loadDefaultLotteryGame() throws Exception{
@@ -50,6 +84,18 @@ public class HomeRepositoryServiceImpl implements HomeServiceRepository{
         return lottoGame;
     }
 
+    private LotteryGame getCorrectInstance(int id){
+
+        Map<Integer,LotteryGame> instanceHolder = new HashMap<>();
+        instanceHolder.put(1,LotteryGame.FiveDigit);
+        instanceHolder.put(2,LotteryGame.SixDigit);
+        instanceHolder.put(3,LotteryGame.SixDigit);
+        instanceHolder.put(4,LotteryGame.SixDigit);
+        instanceHolder.put(5,LotteryGame.FourDigit);
+        instanceHolder.put(6,LotteryGame.ThreeDigit);
+
+        return instanceHolder.get(id);
+    }
     private Drawing buildDrawing(ResultSet rs, int positionNumbersAllowed) {
 
         Drawing drawing = null;
