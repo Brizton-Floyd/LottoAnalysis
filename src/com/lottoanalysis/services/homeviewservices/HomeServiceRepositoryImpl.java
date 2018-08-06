@@ -72,6 +72,7 @@ public class HomeServiceRepositoryImpl implements HomeServiceRepository {
                     lottoGame.setLottoId( rs.getInt("ID"));
                     lottoGame.setMinNumber( rs.getInt("MIN"));
                     lottoGame.setMaxNumber( rs.getInt("MAX"));
+                    lottoGame.setPositionNumbersAllowed(rs.getInt("NUM"));
                     lottoGame.startThreadForJackpotRetrieval();
                 }
 
@@ -135,8 +136,8 @@ public class HomeServiceRepositoryImpl implements HomeServiceRepository {
 
 
     private static final String LOTTO_GAME_DATA_QUERY = "SELECT " +
-                                                        " LG.GAME_NAME AS GAME,LG.GAME_MIN_NUMBER AS MAX, LG.GAME_MAX_NUMBER AS MIN, "
-                                                        +" LG.ID as ID, d.* " +
+                                                        " LG.GAME_NAME AS GAME, LG.GAME_MIN_NUMBER AS MIN, LG.GAME_MAX_NUMBER AS MAX, "
+                                                        +" LG.ID as ID, LG.NUMBER_OF_POSITIONS AS NUM, d.* " +
                                                         " FROM" +
                                                         "    lottery_game LG" +
                                                         "        INNER JOIN" +

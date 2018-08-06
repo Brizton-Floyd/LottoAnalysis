@@ -37,19 +37,8 @@ public class HomeViewPresenter implements HomeViewListener {
     @Override
     public void executeBetSlipAnalysis() {
 
-        LottoGame game = LottoInfoAndGamesController.getCurrentLotteryGameBeingPlayed();
-        List<Object> drawData = LottoInfoAndGamesController.getValues();
-
-        Object[] allData = {game, drawData};
-
-        if (game == null || drawData == null) {
-
-            game = LottoDashboardController.getClassLevelLotteryGame();
-            drawData = LottoDashboardController.getNumbersForChartDisplay();
-            allData = new Object[]{game, drawData};
-        }
         DrawHistoryModel drawHistoryModel = new DrawHistoryModel(
-                allData,
+                lottoGame,
                 new TotalWinningNumberTracker(),
                 new LottoNumberGameOutTracker(),
                 new SumGroupAnalyzer()

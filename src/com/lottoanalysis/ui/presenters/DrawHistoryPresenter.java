@@ -21,7 +21,7 @@ public class DrawHistoryPresenter implements DrawHistoryListener{
 
         drawHistoryViewImpl.setDrawDays( extractDaysOfWeekFromResults() );
         drawHistoryViewImpl.setDayOfWeekPopulationNeeded( drawHistoryModel.isDayOfWeekPopulationNeeded() );
-        drawHistoryViewImpl.setGameName( Drawing.splitGameName(drawHistoryModel.getGameName()) );
+        drawHistoryViewImpl.setGameName( drawHistoryModel.getGameName() );
         drawHistoryViewImpl.setNumberOfPositions( drawHistoryModel.getDrawResultSize() );
         drawHistoryViewImpl.addListener(this);
 
@@ -51,8 +51,6 @@ public class DrawHistoryPresenter implements DrawHistoryListener{
         if(DrawPositions.BONUS != drawHistoryModel.getDrawPositions()) {
 
             drawHistoryModel.analyzeDrawData();
-
-            final String name = Drawing.splitGameName(drawHistoryModel.getGameName());
 
             drawHistoryViewImpl.setHeaderInformation(Integer.toString(drawHistoryModel.getDrawPositions().getIndex()));
             drawHistoryViewImpl.injectFirstDigitNumbers(drawHistoryModel.getFirstDigitValueHolderMap());

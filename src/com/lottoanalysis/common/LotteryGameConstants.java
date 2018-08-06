@@ -32,8 +32,8 @@ public class LotteryGameConstants {
     public static final String PICK3_GAME_NAME = "Pick 3";
     public static final String SUPER_LOTTO_PLUS_GAME_NAME = "Super";
 
-    public static final String PICK4_GAME_NAME_TWO = "Pick4";
-    public static String PICK3_GAME_NAME_TWO = "Pick3";
+    public static final String PICK4_GAME_NAME_TWO = "CA: Pick 4";
+    public static final String PICK3_GAME_NAME_TWO = "CA: Pick 3";
 
 
     // Screen names

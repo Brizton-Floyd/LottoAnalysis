@@ -1,22 +1,31 @@
 package com.lottoanalysis.ui.gameselection;
 
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 import java.util.List;
 
 public class GameSelectionViewImpl extends AnchorPane implements GameSelectionView {
 
     private GameSelectionViewListener gameSelectionViewListener;
+
     private MenuBar menuBar = new MenuBar();
+    private Label messageLabel = new Label("Updating....");
+    private ProgressBar progressBar = new ProgressBar();
 
     public GameSelectionViewImpl(){
         setPrefWidth(400);
         setPrefHeight(400);
         setStyle("-fx-background-color: #515b51; -fx-border-radius: 0.5em;");
         getStylesheets().add("./src/com/lottoanalysis/styles/menu_bar.css");
+
+        messageLabel.setVisible(false);
+        progressBar.setVisible(false);
     }
 
     @Override
@@ -28,6 +37,37 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
     public void initializeView() {
 
         buildMenuBar();
+        buildProgressIndicators();
+    }
+
+    @Override
+    public void bindToMessage(ReadOnlyStringProperty readOnlyStringProperty) {
+        messageLabel.textProperty().bind( readOnlyStringProperty );
+    }
+
+    @Override
+    public void bindToProgressAndMessage(ReadOnlyDoubleProperty progress, ReadOnlyStringProperty message) {
+
+        messageLabel.setVisible(true);
+        progressBar.setVisible(true);
+
+        progressBar.progressProperty().bind(progress);
+        messageLabel.textProperty().bind(message);
+    }
+
+    private void buildProgressIndicators() {
+
+        VBox progressBox = new VBox();
+
+        progressBar.setPrefWidth(400);
+
+        progressBox.getChildren().addAll(messageLabel,progressBar);
+
+        AnchorPane.setTopAnchor(progressBox, 30.0);
+        AnchorPane.setLeftAnchor(progressBox, 5.0);
+        AnchorPane.setRightAnchor(progressBox, 0.0);
+
+        getChildren().add(progressBox);
     }
 
     private void buildMenuBar() {
@@ -40,7 +80,7 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
         Menu menu = new Menu("Updater");
         MenuItem item = new MenuItem("Perform Game Updates");
         item.setOnAction( e -> {
-
+            gameSelectionViewListener.executeGameUpdates();
         });
 
         menu.getItems().add(item);

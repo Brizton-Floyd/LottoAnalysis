@@ -34,6 +34,7 @@ public class GameSelectionRepositoryImpl implements GameSelectionRepository{
 
         }
 
+        gameSelectionModel.setGameName( gameNameAndIds.keySet().iterator().next() );
         gameSelectionModel.setGameNameAndIds( gameNameAndIds );
     }
 
