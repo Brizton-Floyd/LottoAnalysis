@@ -1,19 +1,26 @@
 package com.lottoanalysis.ui.presenters;
 
+import com.lottoanalysis.interfaces.ThreadCompleteListener;
 import com.lottoanalysis.models.gameselection.GameSelectionModel;
+import com.lottoanalysis.models.lottogames.data.LotteryGameDaoImpl;
+import com.lottoanalysis.models.tasks.DataDownLoaderTask;
+import com.lottoanalysis.models.tasks.NotifyingThread;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionRepositoryImpl;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionService;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionServiceImpl;
+import com.lottoanalysis.services.gameselectionservices.webscrapper.WebScrapperImpl;
 import com.lottoanalysis.ui.gameselection.GameSelectionView;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewListener;
 import com.lottoanalysis.ui.homeview.HomeViewListener;
+import com.lottoanalysis.utilities.fileutilities.OnlineFileUtility;
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 
-public class GameSelectionPresenter implements GameSelectionViewListener {
+public class GameSelectionPresenter implements GameSelectionViewListener  {
 
     private GameSelectionModel gameSelectionModel;
     private GameSelectionView gameSelectionView;
@@ -31,6 +38,7 @@ public class GameSelectionPresenter implements GameSelectionViewListener {
 
     }
 
+
     @Override
     public void injectMenuItemValues() {
 
@@ -40,8 +48,37 @@ public class GameSelectionPresenter implements GameSelectionViewListener {
     @Override
     public void notifyMainViewOfValueChange(String text) {
 
+        gameSelectionModel.setGameName(text);
         homeViewListener.reloadViewsBasedOnId(gameSelectionModel.getGameNameAndIds().get(text), stage);
 
+    }
+
+    @Override
+    public void executeGameUpdates() {
+
+        Task<Void> fileDownloadTask = new WebScrapperImpl(OnlineFileUtility.getUrlPaths(), this);
+        gameSelectionView.bindToProgressAndMessage( fileDownloadTask.progressProperty(), fileDownloadTask.messageProperty() );
+
+        Thread thread = new Thread(fileDownloadTask, "File Downloader");
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    @Override
+    public void invokeDbService() {
+
+        Task repository = new LotteryGameDaoImpl(this);
+        gameSelectionView.bindToMessage( repository.messageProperty() );
+
+        Thread thread = new Thread(repository);
+        thread.setDaemon(true);
+        thread.start();
+
+    }
+
+    @Override
+    public void reloadViewPostUpdate() {
+        notifyMainViewOfValueChange( gameSelectionModel.getDefaultName() );
     }
 
     @Override

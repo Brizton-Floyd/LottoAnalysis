@@ -1,7 +1,9 @@
 package com.lottoanalysis.utilities.analyzerutilites;
 
 import com.lottoanalysis.models.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.utilities.linespacingutilities.LineSpacingHelperTwo;
+import javafx.collections.ObservableList;
 
 import java.util.*;
 
@@ -10,6 +12,16 @@ import java.util.*;
  * number patterns for a given lottery game.
  */
 public class NumberPatternAnalyzer {
+
+    private static Map<Integer, List<Integer>> multipleRanges = new LinkedHashMap<>();
+
+    static {
+        multipleRanges.put(7, new ArrayList<>());
+        multipleRanges.put(5, new ArrayList<>());
+        multipleRanges.put(3, new ArrayList<>());
+        multipleRanges.put(2, new ArrayList<>());
+        multipleRanges.put(1, new ArrayList<>());
+    }
 
     private static List<Integer>[] gamesOut = new List[]{new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>()};
 
@@ -755,4 +767,67 @@ public class NumberPatternAnalyzer {
         return data;
     }
 
+    /**
+     * Loader that injects values into perspective draw positions from a Lotterygame object.
+     *
+     * @param positionalNumbers
+     * @param drawingData
+     */
+    public static void loadUpPositionalNumbers(int[][] positionalNumbers, ObservableList<Drawing> drawingData) {
+
+        for (int i = 0; i < drawingData.size(); i++) {
+
+            if (positionalNumbers.length == 3) {
+                positionalNumbers[0][i] = Integer.parseInt(drawingData.get(i).posOneProperty().get());
+                positionalNumbers[1][i] = Integer.parseInt(drawingData.get(i).posTwoProperty().get());
+                positionalNumbers[2][i] = Integer.parseInt(drawingData.get(i).posThreeProperty().get());
+            } else if (positionalNumbers.length == 4) {
+                positionalNumbers[0][i] = Integer.parseInt(drawingData.get(i).posOneProperty().get());
+                positionalNumbers[1][i] = Integer.parseInt(drawingData.get(i).posTwoProperty().get());
+                positionalNumbers[2][i] = Integer.parseInt(drawingData.get(i).posThreeProperty().get());
+                positionalNumbers[3][i] = Integer.parseInt(drawingData.get(i).posFourProperty().get());
+            } else if (positionalNumbers.length == 5) {
+                positionalNumbers[0][i] = Integer.parseInt(drawingData.get(i).posOneProperty().get());
+                positionalNumbers[1][i] = Integer.parseInt(drawingData.get(i).posTwoProperty().get());
+                positionalNumbers[2][i] = Integer.parseInt(drawingData.get(i).posThreeProperty().get());
+                positionalNumbers[3][i] = Integer.parseInt(drawingData.get(i).posFourProperty().get());
+                positionalNumbers[4][i] = Integer.parseInt(drawingData.get(i).posFiveProperty().get());
+            } else if (positionalNumbers.length == 6) {
+                positionalNumbers[0][i] = Integer.parseInt(drawingData.get(i).posOneProperty().get());
+                positionalNumbers[1][i] = Integer.parseInt(drawingData.get(i).posTwoProperty().get());
+                positionalNumbers[2][i] = Integer.parseInt(drawingData.get(i).posThreeProperty().get());
+                positionalNumbers[3][i] = Integer.parseInt(drawingData.get(i).posFourProperty().get());
+                positionalNumbers[4][i] = Integer.parseInt(drawingData.get(i).posFiveProperty().get());
+                positionalNumbers[5][i] = Integer.parseInt(drawingData.get(i).bonusNumberProperty().get());
+
+            }
+
+
+        }
+    }
+
+    public static int[][] findMultiples(int[][] positionalNumbers) {
+        int[][] data = new int[positionalNumbers.length][positionalNumbers[0].length];
+        for(int i = 0; i < positionalNumbers.length; i++){
+
+            for(int j = 0; j < positionalNumbers[i].length; j++){
+
+                data[i][j] = getMultiple( positionalNumbers[i][j]);
+            }
+        }
+
+        return data;
+    }
+
+    private static int getMultiple(int i) {
+
+        for(Map.Entry<Integer,List<Integer>> entry : multipleRanges.entrySet()){
+
+            if(entry.getValue().contains( i) ) {
+                return entry.getKey();
+            }
+        }
+
+        return -1;
+    }
 }

@@ -52,20 +52,20 @@ public class Main extends Application {
      */
     private Pane loadMainPane() throws IOException {
 
-        FXMLLoader loader = new FXMLLoader();
-
-        Pane mainPane = (Pane) loader.load(
-                getClass().getResourceAsStream(
-                        // Call the class needing to be loaded from the lottoscreen
-                        // navigator class
-                        LottoScreenNavigator.MAIN
-                )
-        );
-
-        LottoAnalysisHomeController mainController = loader.getController();
-
-        LottoScreenNavigator.setMainController( mainController );
-        LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE,"",null);
+//        FXMLLoader loader = new FXMLLoader();
+//
+//        Pane mainPane = (Pane) loader.load(
+//                getClass().getResourceAsStream(
+//                        // Call the class needing to be loaded from the lottoscreen
+//                        // navigator class
+//                        LottoScreenNavigator.MAIN
+//                )
+//        );
+//
+//        LottoAnalysisHomeController mainController = loader.getController();
+//
+//        LottoScreenNavigator.setMainController( mainController );
+//        LottoScreenNavigator.loadLottoScreen( LottoScreenNavigator.LOTTO_SCREEN_ONE,"",null);
 
         HomeViewPresenter homeViewPresenter = new HomeViewPresenter(new HomeViewImpl());
 

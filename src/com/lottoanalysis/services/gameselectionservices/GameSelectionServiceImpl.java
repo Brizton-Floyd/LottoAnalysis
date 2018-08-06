@@ -2,7 +2,7 @@ package com.lottoanalysis.services.gameselectionservices;
 
 import com.lottoanalysis.models.gameselection.GameSelectionModel;
 
-public class GameSelectionServiceImpl implements GameSelectionService{
+public class GameSelectionServiceImpl implements GameSelectionService {
 
     private GameSelectionRepository gameSelectionRepository;
     private GameSelectionModel gameSelectionModel;

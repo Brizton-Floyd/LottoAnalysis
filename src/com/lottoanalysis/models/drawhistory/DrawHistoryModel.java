@@ -32,6 +32,26 @@ public class DrawHistoryModel {
     private LottoGame lottoGame;
     private boolean dayOfWeekPopulationNeeded;
 
+    public DrawHistoryModel(LottoGame lottoGame,TotalWinningNumberTracker totalWinningNumberTracker,
+                            LottoNumberGameOutTracker lottoNumberGameOutTracker, SumGroupAnalyzer sumGroupAnalyzer){
+
+        this.lottoGame = lottoGame;
+        lottoDrawData = new ArrayList<>();
+
+        populateDrawData();
+
+        this.totalWinningNumberTracker = totalWinningNumberTracker;
+        this.lottoNumberGameOutTracker = lottoNumberGameOutTracker;
+        this.sumGroupAnalyzer = sumGroupAnalyzer;
+        this.gameSpan = 5;
+        this.analyzeMethod = AnalyzeMethod.DRAW_POSITION;
+        this.drawPositions = DrawPositions.POS_ONE;
+        this.dayOfWeek = DayOfWeek.ALL;
+        this.dayOfWeekPopulationNeeded = true;
+        this.gameName = new SimpleStringProperty(lottoGame.getGameName());
+
+    }
+
     public DrawHistoryModel(Object[] currentDrawInformation, TotalWinningNumberTracker totalWinningNumberTracker,
                             LottoNumberGameOutTracker lottoNumberGameOutTracker, SumGroupAnalyzer sumGroupAnalyzer) {
 
@@ -47,6 +67,21 @@ public class DrawHistoryModel {
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
         this.lottoDrawData = (List<Object>) currentDrawInformation[1];
         this.historicalDrawData = (int[][]) lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex());
+
+    }
+
+    private void populateDrawData() {
+
+        historicalDrawData = new int[lottoGame.getPositionNumbersAllowed()][lottoGame.getDrawingData().size()];
+        NumberPatternAnalyzer.loadUpPositionalNumbers(historicalDrawData, lottoGame.getDrawingData());
+
+        lottoDrawData.add(historicalDrawData);
+        lottoDrawData.add(NumberPatternAnalyzer.findDeltaNumbers(historicalDrawData));
+        lottoDrawData.add(NumberPatternAnalyzer.findPositionalSums(historicalDrawData));
+        lottoDrawData.add(NumberPatternAnalyzer.lineSpacings(historicalDrawData));
+        lottoDrawData.add(NumberPatternAnalyzer.computeRemainders(historicalDrawData));
+        lottoDrawData.add(NumberPatternAnalyzer.getLastDigits(historicalDrawData));
+        lottoDrawData.add(NumberPatternAnalyzer.findMultiples(historicalDrawData));
 
     }
 

@@ -9,6 +9,7 @@ import com.lottoanalysis.models.factories.factoryproducer.FactoryProducer;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.interfaces.Database;
+import com.lottoanalysis.ui.gameselection.GameSelectionViewListener;
 import com.lottoanalysis.utilities.fileutilities.OnlineFileUtility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,12 +24,16 @@ import java.util.*;
 public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
     private LottoInfoAndGamesController controller;
+    private GameSelectionViewListener gameSelectionViewListener;
     private Connection connection;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
+    public LotteryGameDaoImpl(GameSelectionViewListener gameSelectionViewListener){
+        this.gameSelectionViewListener = gameSelectionViewListener;
+    }
     public LotteryGameDaoImpl(LottoInfoAndGamesController controller) {
         this.controller = controller;
     }
@@ -112,8 +117,10 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
 
     protected void succeeded() {
 
-        controller.unbindData();
-        controller.hideProgressBarAndLabeVbox();
+        if(controller != null) {
+            controller.unbindData();
+            controller.hideProgressBarAndLabeVbox();
+        }
 
         for (String file : OnlineFileUtility.getUrlPaths().keySet()) {
 
@@ -121,8 +128,13 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
             file1.delete();
         }
 
-        LottoAnalysisHomeController lottoAnalysisHomeController = new LottoAnalysisHomeController();
-        lottoAnalysisHomeController.loadLotteryDashBoardScreen();
+        if(controller != null) {
+            LottoAnalysisHomeController lottoAnalysisHomeController = new LottoAnalysisHomeController();
+            lottoAnalysisHomeController.loadLotteryDashBoardScreen();
+        }
+        else{
+            gameSelectionViewListener.reloadViewPostUpdate();
+        }
     }
 
     @Override
@@ -215,9 +227,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
                 num = rs.getInt("DRAW_NUMBER");
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 

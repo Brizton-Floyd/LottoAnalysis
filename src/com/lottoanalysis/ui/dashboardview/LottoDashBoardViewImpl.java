@@ -132,7 +132,7 @@ public class LottoDashBoardViewImpl extends AnchorPane implements LottoDashBoard
         gameLabel.setStyle("-fx-text-fill:#dac6ac;");
 
         Label jackpotLabel = new Label();
-        jackpotLabel.textProperty().bind( new SimpleStringProperty(String.format("Current Jackpot %s", jackPot)));
+        jackpotLabel.textProperty().bind( new SimpleStringProperty(String.format("Current Jackpot: %s", jackPot)));
         jackpotLabel.setFont(Font.font(25.0));
         jackpotLabel.setStyle("-fx-text-fill:#dac6ac;");
 
