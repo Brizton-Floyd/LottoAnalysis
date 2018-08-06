@@ -6,4 +6,5 @@ public interface LottoDashBoardHomeService {
 
     LottoGame getDefaultGame();
 
+    LottoGame loadById(int id);
 }

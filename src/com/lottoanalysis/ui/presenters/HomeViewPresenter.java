@@ -2,19 +2,22 @@ package com.lottoanalysis.ui.presenters;
 
 import com.lottoanalysis.controllers.LottoDashboardController;
 import com.lottoanalysis.controllers.LottoInfoAndGamesController;
+import com.lottoanalysis.models.gameselection.GameSelectionModelImpl;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
-import com.lottoanalysis.services.homeviewservices.HomeRepositoryServiceImpl;
+import com.lottoanalysis.services.homeviewservices.HomeServiceRepositoryImpl;
 import com.lottoanalysis.services.homeviewservices.LottoDashBoardHomeService;
 import com.lottoanalysis.services.homeviewservices.LottoDashBoardHomeServiceImpl;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardViewImpl;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryViewImpl;
+import com.lottoanalysis.ui.gameselection.GameSelectionViewImpl;
 import com.lottoanalysis.ui.homeview.HomeView;
 import com.lottoanalysis.ui.homeview.HomeViewListener;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -57,9 +60,18 @@ public class HomeViewPresenter implements HomeViewListener {
     }
 
     @Override
+    public void loadGameDashBoard(int id) {
+
+        LottoDashBoardHomeService lottoDashBoardHomeService = new LottoDashBoardHomeServiceImpl(new HomeServiceRepositoryImpl());
+        lottoGame = lottoDashBoardHomeService.loadById( id );
+
+        loadGameDashBoard(lottoGame);
+    }
+
+    @Override
     public void loadGameDashBoard() {
 
-        LottoDashBoardHomeService lottoDashBoardHomeService = new LottoDashBoardHomeServiceImpl(new HomeRepositoryServiceImpl());
+        LottoDashBoardHomeService lottoDashBoardHomeService = new LottoDashBoardHomeServiceImpl(new HomeServiceRepositoryImpl());
         lottoGame = lottoDashBoardHomeService.getDefaultGame();
 
         LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
@@ -72,6 +84,24 @@ public class HomeViewPresenter implements HomeViewListener {
     public void invokeDashBoard() {
 
         loadGameDashBoard(lottoGame);
+    }
+
+    @Override
+    public void reloadViewsBasedOnId(Integer val, Stage stage) {
+
+        loadGameDashBoard(val);
+        stage.close();
+
+        homeViewImpl.enableButtonAndDisableDashboardButton();
+    }
+
+    @Override
+    public void presentLottoGameSelectionView() {
+
+        GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(),new GameSelectionModelImpl());
+        gameSelectionPresenter.showView();
+
+        gameSelectionPresenter.setHomeViewListener(this);
     }
 
     @Override

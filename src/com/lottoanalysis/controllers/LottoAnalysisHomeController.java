@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Class: This class is responsible for handling all events that are contained in the Lotto Analysis  HomeRepositoryServiceImpl View file. This
+ * Class: This class is responsible for handling all events that are contained in the Lotto Analysis  HomeServiceRepositoryImpl View file. This
  * class will invoke all events that allow the overall application to work accordingly. (i.e. calling other controllers via
  * event handlers etc..
  */

@@ -12,7 +12,7 @@ public class LottoDashBoardPresenter implements LottoDashBoardListener{
     private LottoDashBoardView lottoDashBoardView;
     private LottoGame dashboardModel;
 
-    public LottoDashBoardPresenter(LottoDashBoardView lottoDashBoardView, LottoGame dashboardModel){
+    LottoDashBoardPresenter(LottoDashBoardView lottoDashBoardView, LottoGame dashboardModel){
 
         this.lottoDashBoardView = lottoDashBoardView;
         this.dashboardModel = dashboardModel;

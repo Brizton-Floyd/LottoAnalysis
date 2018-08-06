@@ -77,7 +77,8 @@ public class LottoDashBoardViewImpl extends AnchorPane implements LottoDashBoard
             for(int i = 0; i < drawing.getDrawNumbers().size(); i++){
 
                 final int index = i;
-                TableColumn<Drawing,String> posCol = new TableColumn<>("Position " + (i+1));
+                String label = (i < 5) ? ("Position " + (i+1)) : "Bonus";
+                TableColumn<Drawing,String> posCol = new TableColumn<>(label);
                 posCol.setCellValueFactory( param -> param.getValue().getDrawNumbers().get(index));
                 posCol.setCellFactory( param -> new DrawHistoryCell());
                 drawingTableView.getColumns().add( posCol );
