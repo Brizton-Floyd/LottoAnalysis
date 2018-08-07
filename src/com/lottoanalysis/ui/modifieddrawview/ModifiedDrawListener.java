@@ -7,4 +7,6 @@ public interface ModifiedDrawListener {
     void setListener(LottoDashBoardListener listener);
 
     void show();
+
+    void invokeService();
 }

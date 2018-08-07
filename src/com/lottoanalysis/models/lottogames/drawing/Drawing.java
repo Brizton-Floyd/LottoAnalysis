@@ -1,6 +1,7 @@
 package com.lottoanalysis.models.lottogames.drawing;
 
 import com.lottoanalysis.models.lottogames.LottoGame;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 
@@ -11,6 +12,7 @@ import java.util.*;
  */
 public class Drawing {
 
+    private SimpleIntegerProperty drawId;
     private SimpleStringProperty drawNumber;
     private SimpleStringProperty drawDate;
     private SimpleStringProperty posOne, posTwo, posThree, posFour, posFive, bonusNumber;
@@ -53,6 +55,21 @@ public class Drawing {
                 drawNumbers1.add( string );
             }
         }
+    }
+
+    public int getDrawId() {
+        return drawId.get();
+    }
+
+    public SimpleIntegerProperty drawIdProperty() {
+        return drawId;
+    }
+
+    public void setDrawId(int drawId) {
+
+        if(this.drawId == null)
+            this.drawId = new SimpleIntegerProperty(drawId);
+
     }
 
     public List<SimpleStringProperty> getDrawNumbers() {
