@@ -133,7 +133,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
             lottoAnalysisHomeController.loadLotteryDashBoardScreen();
         }
         else{
-            gameSelectionViewListener.reloadViewPostUpdate();
+            gameSelectionViewListener.reloadViewPostUpdate(true);
         }
     }
 

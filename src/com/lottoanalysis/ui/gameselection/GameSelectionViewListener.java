@@ -8,11 +8,11 @@ public interface GameSelectionViewListener {
 
     void setHomeViewListener(HomeViewListener homeViewListener);
 
-    void notifyMainViewOfValueChange(String text);
+    void notifyMainViewOfValueChange(String text, boolean flag);
 
     void executeGameUpdates();
 
     void invokeDbService();
 
-    void reloadViewPostUpdate();
+    void reloadViewPostUpdate(boolean flag);
 }

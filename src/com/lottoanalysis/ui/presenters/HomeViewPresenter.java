@@ -64,6 +64,7 @@ public class HomeViewPresenter implements HomeViewListener {
         lottoGame = lottoDashBoardHomeService.getDefaultGame();
 
         LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
+        presenter.setListener(this);
 
         homeViewImpl.injectView( presenter.presentView() );
 
@@ -76,10 +77,13 @@ public class HomeViewPresenter implements HomeViewListener {
     }
 
     @Override
-    public void reloadViewsBasedOnId(Integer val, Stage stage) {
+    public void reloadViewsBasedOnId(Integer val, Stage stage, boolean closeStage) {
 
         loadGameDashBoard(val);
-        stage.close();
+
+        if(closeStage) {
+            stage.close();
+        }
 
         homeViewImpl.enableButtonAndDisableDashboardButton();
     }
@@ -97,6 +101,7 @@ public class HomeViewPresenter implements HomeViewListener {
     public void loadGameDashBoard(LottoGame lottoGame) {
 
         LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
+        presenter.setListener(this);
 
         homeViewImpl.injectView( presenter.presentView() );
     }
