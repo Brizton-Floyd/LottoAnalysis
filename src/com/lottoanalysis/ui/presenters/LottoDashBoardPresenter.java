@@ -43,6 +43,11 @@ public class LottoDashBoardPresenter implements LottoDashBoardListener{
     }
 
     @Override
+    public void reloadViewAfterUpdate() {
+        homeViewListener.invokeDashBoard();
+    }
+
+    @Override
     public void renableTableView() {
 
         lottoDashBoardView.tableViewRenabled();

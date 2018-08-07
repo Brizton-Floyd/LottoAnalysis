@@ -10,6 +10,8 @@ public interface ModifiedDrawModel {
 
     String getDrawDate();
 
+    int getId();
+
     ObservableList<StringProperty> getDrawPositions();
 
 

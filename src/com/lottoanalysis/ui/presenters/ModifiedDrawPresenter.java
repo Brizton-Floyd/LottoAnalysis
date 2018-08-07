@@ -1,6 +1,9 @@
 package com.lottoanalysis.ui.presenters;
 
 import com.lottoanalysis.models.dashboard.ModifiedDrawModel;
+import com.lottoanalysis.services.dashboardservices.LottoDashboardRepositoryImpl;
+import com.lottoanalysis.services.dashboardservices.LottoDashboardService;
+import com.lottoanalysis.services.dashboardservices.LottoDashboardServiceImpl;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardListener;
 import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawListener;
 import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawView;
@@ -13,6 +16,7 @@ public class ModifiedDrawPresenter implements ModifiedDrawListener {
     private ModifiedDrawView modifiedDrawView;
     private ModifiedDrawModel modifiedDrawModel;
     private LottoDashBoardListener lottoDashBoardPresenter;
+    private Stage stage = new Stage(StageStyle.DECORATED);
 
     public ModifiedDrawPresenter(ModifiedDrawView modifiedDrawView, ModifiedDrawModel modifiedDrawModel){
 
@@ -23,6 +27,20 @@ public class ModifiedDrawPresenter implements ModifiedDrawListener {
                                         modifiedDrawModel.getDrawDate(),
                                         modifiedDrawModel.getDrawPositions());
 
+        modifiedDrawView.setListener(this);
+
+    }
+
+    @Override
+    public void invokeService() {
+
+        LottoDashboardService lottoDashboardService = new LottoDashboardServiceImpl(modifiedDrawModel,new LottoDashboardRepositoryImpl());
+
+        if( lottoDashboardService.executeUpdate() ){
+
+            lottoDashBoardPresenter.reloadViewAfterUpdate();
+            stage.close();
+        }
     }
 
     @Override
@@ -33,9 +51,8 @@ public class ModifiedDrawPresenter implements ModifiedDrawListener {
     @Override
     public void show() {
 
-        Stage stage = new Stage(StageStyle.DECORATED);
         stage.setResizable(false);
-        stage.setTitle("Draw Update");
+        stage.setTitle("Update Drawing");
 
         Scene scene = new Scene(modifiedDrawView.getView());
         stage.setScene(scene);

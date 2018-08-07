@@ -107,23 +107,31 @@ public class HomeServiceRepositoryImpl implements HomeServiceRepository {
                     drawing = new Drawing(rs.getInt("DRAW_NUMBER"), rs.getString("DRAW_DATE"),
                             rs.getString("DRAW_POS_ONE"), rs.getString("DRAW_POS_TWO"),
                             rs.getString("DRAW_POS_THREE"));
+                    drawing.setDrawId( rs.getInt("ID"));
+
                     break;
                 case 4:
                     drawing = new Drawing(rs.getInt("DRAW_NUMBER"), rs.getString("DRAW_DATE"),
                             rs.getString("DRAW_POS_ONE"), rs.getString("DRAW_POS_TWO"),
                             rs.getString("DRAW_POS_THREE"), rs.getString("DRAW_POS_FOUR"));
+                    drawing.setDrawId( rs.getInt("ID"));
+
                     break;
                 case 5:
                     drawing = new Drawing(rs.getInt("DRAW_NUMBER"), rs.getString("DRAW_DATE"),
                             rs.getString("DRAW_POS_ONE"), rs.getString("DRAW_POS_TWO"),
                             rs.getString("DRAW_POS_THREE"), rs.getString("DRAW_POS_FOUR"),
                             rs.getString("DRAW_POS_FIVE"));
+                    drawing.setDrawId( rs.getInt("d.ID"));
+
                     break;
                 case 6:
                     drawing = new Drawing(rs.getInt("DRAW_NUMBER"), rs.getString("DRAW_DATE"),
                             rs.getString("DRAW_POS_ONE"), rs.getString("DRAW_POS_TWO"),
                             rs.getString("DRAW_POS_THREE"), rs.getString("DRAW_POS_FOUR"),
                             rs.getString("DRAW_POS_FIVE"), rs.getString("BONUS_NUMBER"));
+                    drawing.setDrawId( rs.getInt("d.ID"));
+
                     break;
             }
         }

@@ -1,19 +1,30 @@
 package com.lottoanalysis.ui.modifieddrawview;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
-public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView {
+import java.awt.event.MouseEvent;
+
+public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView, EventHandler<ActionEvent>{
 
     private ModifiedDrawListener modifiedDrawListener;
 
+    private GridPane pane = new GridPane();
+    private Button update, delete;
+
     public ModifiedDrawViewImpl(){
-        setPrefHeight(500);
+        setPrefHeight(300);
         setStyle("-fx-background-color:#515B51;");
-        setPrefWidth(300);
+        setPrefWidth(400);
     }
     @Override
     public void setListener(ModifiedDrawListener modifiedDrawListener) {
@@ -23,13 +34,95 @@ public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView
     @Override
     public void initializeView(String gamNumber, String drawDate, ObservableList<StringProperty> drawPositions) {
 
-        TextArea textArea = new TextArea();
-        textArea.setText(String.format("Game Number: %s\nDraw Date: %s \n",gamNumber,drawDate));
+        pane.setHgap(10);
+        pane.setVgap(10);
 
-        getChildren().add(textArea);
+        setUpLabelAndTextBoxes(gamNumber, drawDate, drawPositions);
+        setUpButtons();
 
-        AnchorPane.setLeftAnchor(textArea,5.0);
-        AnchorPane.setTopAnchor(textArea,5.0);
+        AnchorPane.setTopAnchor(pane,10.0);
+        AnchorPane.setRightAnchor(pane,10.0);
+        AnchorPane.setLeftAnchor(pane,10.0);
+        AnchorPane.setBottomAnchor(pane,10.0);
+    }
+
+    private void setUpButtons() {
+
+        update = new Button("Update");
+        update.setOnAction(this);
+
+        update.setPrefWidth(100.0);
+        pane.add(update,2,0);
+
+        delete = new Button("Delete");
+        delete.setOnAction(this);
+        delete.setPrefWidth(100.0);
+
+        pane.add(delete,2,1);
+
+        getChildren().add(pane);
+    }
+
+    @Override
+    public void handle(ActionEvent event) {
+
+        if(event.getSource() == update){
+
+            modifiedDrawListener.invokeService();
+        }
+        else if( event.getSource() == delete){
+
+        }
+    }
+
+    private void setUpLabelAndTextBoxes(String gamNumber, String drawDate, ObservableList<StringProperty> drawPositions) {
+
+        Label drawLabel = new Label("Draw Number");
+        drawLabel.setStyle("-fx-text-fill: beige;");
+
+        Label drawDatelbl = new Label("Draw Date");
+        drawDatelbl.setStyle("-fx-text-fill: beige;");
+
+        TextField drawNumbersField = new TextField(gamNumber);
+        drawNumbersField.setDisable(true);
+
+        TextField drawDateTextFld = new TextField(drawDate);
+        drawDateTextFld.setDisable(true);
+
+        pane.add(drawLabel,0,0);
+        pane.add(drawNumbersField,1,0);
+
+        pane.add(drawDatelbl,0,1);
+        pane.add(drawDateTextFld,1,1);
+
+        int indexer = 2;
+        for(int i = 0; i < drawPositions. size(); i++){
+
+            String text = (i < 5 ) ? String.format("Draw Position %s",(i+1) ) : "Bonus";
+
+            Label label = new Label(text);
+            label.setStyle("-fx-text-fill: beige;");
+
+            TextField numTextField = new TextField(drawPositions.get(i).get());
+            numTextField.textProperty().bindBidirectional( drawPositions.get(i) );
+            addListeners( numTextField );
+            numTextField.setPrefWidth(15.0);
+
+            pane.add(label,0,indexer);
+            pane.add(numTextField,1,indexer++);
+
+        }
+    }
+
+    private void addListeners(TextField numTextField) {
+
+        numTextField.textProperty().addListener( (observable, oldValue, newValue) -> {
+
+            if(newValue.length() > 2){
+
+                numTextField.setText( newValue.substring(0,2) );
+            }
+        });
     }
 
     @Override

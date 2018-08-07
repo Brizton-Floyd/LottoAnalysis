@@ -2,6 +2,7 @@ package com.lottoanalysis.models.dashboard;
 
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class ModifiedDrawModelImpl implements ModifiedDrawModel{
@@ -18,12 +19,17 @@ public class ModifiedDrawModelImpl implements ModifiedDrawModel{
     }
 
     @Override
+    public int getId() {
+        return drawing.drawIdProperty().get();
+    }
+
+    @Override
     public String getDrawDate() {
         return drawing.drawDateProperty().get();
     }
 
     @Override
     public ObservableList<StringProperty> getDrawPositions() {
-        return null;
+        return FXCollections.observableArrayList( drawing.getDrawNumbers() );
     }
 }
