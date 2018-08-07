@@ -96,7 +96,7 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
         for(String val : values){
             MenuItem item = new MenuItem(val);
             item.setOnAction(event -> {
-                gameSelectionViewListener.notifyMainViewOfValueChange( item.getText() );
+                gameSelectionViewListener.notifyMainViewOfValueChange( item.getText(), false );
             });
             gameMenu.getItems().add(item);
         }

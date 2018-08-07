@@ -17,6 +17,7 @@ public class LottoDashBoardViewImpl extends AnchorPane implements LottoDashBoard
 
     private VBox lottoDashBoardHolder = new VBox();
     private HBox headerHolder = new HBox();
+    private TableView<Drawing> drawingTableView = new TableView<>();
 
     private String gameName;
     private String jackPot;
@@ -55,20 +56,24 @@ public class LottoDashBoardViewImpl extends AnchorPane implements LottoDashBoard
     }
 
     @Override
+    public void tableViewRenabled() {
+        drawingTableView.setDisable(false);
+    }
+
+    @Override
     public void injectDataIntoTable(ObservableList<Drawing> lottoDrawData) {
 
-        TableView<Drawing> drawingTableView = new TableView<>();
         drawingTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         TableColumn<Drawing,String> dateCol = new TableColumn<>("Draw Date");
         dateCol.setSortable(false);
         dateCol.setCellValueFactory(param -> param.getValue().drawDateProperty());
-        dateCol.setCellFactory(param -> new DrawHistoryCell());
+        dateCol.setCellFactory(param -> new DrawHistoryCell(lottoDashBoardListener, drawingTableView));
 
         TableColumn<Drawing,String> drawCol = new TableColumn<>("Draw Number");
         drawCol.setSortable(false);
         drawCol.setCellValueFactory(param -> param.getValue().drawNumberProperty());
-        drawCol.setCellFactory(param -> new DrawHistoryCell());
+        drawCol.setCellFactory(param -> new DrawHistoryCell(lottoDashBoardListener, drawingTableView));
 
         drawingTableView.getColumns().addAll(drawCol, dateCol );
 
@@ -80,7 +85,7 @@ public class LottoDashBoardViewImpl extends AnchorPane implements LottoDashBoard
                 String label = (i < 5) ? ("Position " + (i+1)) : "Bonus";
                 TableColumn<Drawing,String> posCol = new TableColumn<>(label);
                 posCol.setCellValueFactory( param -> param.getValue().getDrawNumbers().get(index));
-                posCol.setCellFactory( param -> new DrawHistoryCell());
+                posCol.setCellFactory( param -> new DrawHistoryCell(lottoDashBoardListener, drawingTableView));
                 drawingTableView.getColumns().add( posCol );
             }
 
@@ -90,17 +95,18 @@ public class LottoDashBoardViewImpl extends AnchorPane implements LottoDashBoard
         TableColumn<Drawing,String> sumCol = new TableColumn<>("Draw Sum");
         sumCol.setSortable(false);
         sumCol.setCellValueFactory(param -> param.getValue().drawSumProperty());
-        sumCol.setCellFactory(param -> new DrawHistoryCell());
+        sumCol.setCellFactory(param -> new DrawHistoryCell(lottoDashBoardListener, drawingTableView));
 
         TableColumn<Drawing,String> oeCol = new TableColumn<>("Even/Odd");
         oeCol.setSortable(false);
         oeCol.setCellValueFactory(param -> param.getValue().oddEvenRatioProperty());
-        oeCol.setCellFactory(param -> new DrawHistoryCell());
+        oeCol.setCellFactory(param -> new DrawHistoryCell(lottoDashBoardListener, drawingTableView));
 
         drawingTableView.getColumns().addAll(sumCol,oeCol);
 
         drawingTableView.setItems( lottoDrawData );
         drawingTableView.scrollTo( lottoDrawData.size() -1);
+        drawingTableView.getSelectionModel().select( drawingTableView.getItems().size() - 1);
         lottoDashBoardHolder.getChildren().addAll( drawingTableView );
 
 

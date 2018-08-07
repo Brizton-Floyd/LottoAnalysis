@@ -20,5 +20,5 @@ public interface HomeViewListener {
 
     void loadGameDashBoard(int id);
 
-    void reloadViewsBasedOnId(Integer integer, Stage stage);
+    void reloadViewsBasedOnId(Integer integer, Stage stage, boolean stageCloseFlag);
 }

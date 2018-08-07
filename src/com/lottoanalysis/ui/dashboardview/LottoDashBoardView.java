@@ -17,4 +17,6 @@ public interface LottoDashBoardView {
     AnchorPane getView();
 
     void injectDataIntoTable(ObservableList<Drawing> lottoDrawData);
+
+    void tableViewRenabled();
 }

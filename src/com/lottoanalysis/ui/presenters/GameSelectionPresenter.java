@@ -46,10 +46,10 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
     }
 
     @Override
-    public void notifyMainViewOfValueChange(String text) {
+    public void notifyMainViewOfValueChange(String text, boolean flag) {
 
         gameSelectionModel.setGameName(text);
-        homeViewListener.reloadViewsBasedOnId(gameSelectionModel.getGameNameAndIds().get(text), stage);
+        homeViewListener.reloadViewsBasedOnId(gameSelectionModel.getGameNameAndIds().get(text), stage, flag);
 
     }
 
@@ -77,8 +77,8 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
     }
 
     @Override
-    public void reloadViewPostUpdate() {
-        notifyMainViewOfValueChange( gameSelectionModel.getDefaultName() );
+    public void reloadViewPostUpdate(boolean flag) {
+        notifyMainViewOfValueChange( gameSelectionModel.getDefaultName(), flag );
     }
 
     @Override
