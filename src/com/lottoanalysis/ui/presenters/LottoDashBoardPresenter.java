@@ -54,6 +54,11 @@ public class LottoDashBoardPresenter implements LottoDashBoardListener{
     }
 
     @Override
+    public void reloadViewAfterDelete() {
+        homeViewListener.loadGameDashBoard();
+    }
+
+    @Override
     public void performViewStartUp() {
 
         lottoDashBoardView.setGameNameToLabel( this.dashboardModel.getGameName() );

@@ -1,5 +1,6 @@
 package com.lottoanalysis.ui.modifieddrawview;
 
+import com.lottoanalysis.services.dashboardservices.enums.CrudOperation;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardListener;
 
 public interface ModifiedDrawListener {
@@ -8,5 +9,5 @@ public interface ModifiedDrawListener {
 
     void show();
 
-    void invokeService();
+    void invokeService(CrudOperation crudOperation);
 }

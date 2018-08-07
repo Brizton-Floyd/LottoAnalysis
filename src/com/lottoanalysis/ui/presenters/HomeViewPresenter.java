@@ -2,12 +2,16 @@ package com.lottoanalysis.ui.presenters;
 
 import com.lottoanalysis.controllers.LottoDashboardController;
 import com.lottoanalysis.controllers.LottoInfoAndGamesController;
+import com.lottoanalysis.interfaces.Cacheable;
+import com.lottoanalysis.models.GameSelectionObject;
+import com.lottoanalysis.models.gameselection.GameSelectionModel;
 import com.lottoanalysis.models.gameselection.GameSelectionModelImpl;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
+import com.lottoanalysis.models.managers.CacheManager;
 import com.lottoanalysis.services.homeviewservices.HomeServiceRepositoryImpl;
 import com.lottoanalysis.services.homeviewservices.LottoDashBoardHomeService;
 import com.lottoanalysis.services.homeviewservices.LottoDashBoardHomeServiceImpl;
@@ -25,6 +29,7 @@ public class HomeViewPresenter implements HomeViewListener {
 
     private HomeView homeViewImpl;
     private LottoGame lottoGame;
+    private Cacheable gameCache;
 
     public HomeViewPresenter(HomeView homeView){
 
@@ -60,13 +65,20 @@ public class HomeViewPresenter implements HomeViewListener {
     @Override
     public void loadGameDashBoard() {
 
-        LottoDashBoardHomeService lottoDashBoardHomeService = new LottoDashBoardHomeServiceImpl(new HomeServiceRepositoryImpl());
-        lottoGame = lottoDashBoardHomeService.getDefaultGame();
+        if(lottoGame == null) {
 
-        LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
-        presenter.setListener(this);
+            LottoDashBoardHomeService lottoDashBoardHomeService = new LottoDashBoardHomeServiceImpl(new HomeServiceRepositoryImpl());
+            lottoGame = lottoDashBoardHomeService.getDefaultGame();
 
-        homeViewImpl.injectView( presenter.presentView() );
+            LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
+            presenter.setListener(this);
+
+            homeViewImpl.injectView(presenter.presentView());
+        }
+        else{
+
+            loadGameDashBoard( lottoGame.getLottoId() );
+        }
 
     }
 
@@ -91,10 +103,31 @@ public class HomeViewPresenter implements HomeViewListener {
     @Override
     public void presentLottoGameSelectionView() {
 
-        GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(),new GameSelectionModelImpl());
-        gameSelectionPresenter.showView();
+        GameSelectionModel model;
+        if(gameCache == null){
 
-        gameSelectionPresenter.setHomeViewListener(this);
+            model = new GameSelectionModelImpl();
+            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), model);
+            gameSelectionPresenter.showView();
+            gameSelectionPresenter.setHomeViewListener(this);
+
+            gameCache = new GameSelectionObject(model, model.getGameNameAndIds().get( model.getDefaultName() ), 0);
+
+
+            CacheManager.putCache( gameCache );
+        }
+        else{
+
+            Cacheable cacheable = CacheManager.getCache( gameCache );
+            GameSelectionModel gameSelectionModel = (GameSelectionModel)cacheable.getObject();
+
+            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), gameSelectionModel);
+            gameSelectionPresenter.showView();
+            gameSelectionPresenter.setHomeViewListener(this);
+
+            System.out.println(gameSelectionModel.getDefaultName());
+
+        }
     }
 
     @Override

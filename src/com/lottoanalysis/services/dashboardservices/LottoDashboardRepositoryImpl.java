@@ -49,6 +49,26 @@ public class LottoDashboardRepositoryImpl implements LottoDashboardRepository {
         }
     }
 
+    @Override
+    public void delete(int id) {
+
+        AbstractFactory dbFactory = FactoryProducer.getFactory(Factory.DataBaseFactory);
+        Database database = dbFactory.getDataBase(Databases.MySql);
+
+        try {
+
+            try(Connection connection = database.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)){
+
+                preparedStatement.setInt(1,id);
+
+                preparedStatement.executeUpdate();
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Map.Entry<List<Integer>, String> buildSqlString(ModifiedDrawModel modifiedDrawModel) {
 
         StringBuilder builder = new StringBuilder();
@@ -88,5 +108,7 @@ public class LottoDashboardRepositoryImpl implements LottoDashboardRepository {
         colName.put(5, "DRAW_POS_FIVE");
         colName.put(6, "BONUS_NUMBER");
     }
+
+    private final String SQL_DELETE = "DELETE FROM DRAWING WHERE ID = ?";
 
 }

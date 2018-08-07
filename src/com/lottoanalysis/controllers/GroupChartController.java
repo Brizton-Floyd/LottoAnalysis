@@ -230,10 +230,10 @@ public class GroupChartController {
 
         //int[] dd = p.stream().mapToInt(i -> i).toArray();
 
-//        CachedObject obj = (CachedObject) CacheManager.getCache(lotteryGame.getGameName(),drawPosition);
+//        GameSelectionObject obj = (GameSelectionObject) CacheManager.getCache(lotteryGame.getGameName(),drawPosition);
 //        if(obj == null) {
 //            UpperLowerRangeAnalyzer upperLowerRangeAnalyzer = new UpperLowerRangeAnalyzer(drawPositionalNumbers, drawPosition, lotteryGame);
-//            CachedObject cachedObject = new CachedObject(upperLowerRangeAnalyzer.getUpperLowerRangeAnalyzers(),lotteryGame.getGameName(), drawPosition);
+//            GameSelectionObject cachedObject = new GameSelectionObject(upperLowerRangeAnalyzer.getUpperLowerRangeAnalyzers(),lotteryGame.getGameName(), drawPosition);
 //            CacheManager.putCache(cachedObject,drawPosition);
 //        }
 //        else{

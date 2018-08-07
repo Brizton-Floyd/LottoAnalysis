@@ -1,6 +1,7 @@
 package com.lottoanalysis.ui.modifieddrawview;
 
 import com.jfoenix.controls.JFXButton;
+import com.lottoanalysis.services.dashboardservices.enums.CrudOperation;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -68,10 +69,11 @@ public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView
 
         if(event.getSource() == update){
 
-            modifiedDrawListener.invokeService();
+            modifiedDrawListener.invokeService(CrudOperation.UPDATE);
         }
         else if( event.getSource() == delete){
 
+            modifiedDrawListener.invokeService(CrudOperation.DELETE);
         }
     }
 
