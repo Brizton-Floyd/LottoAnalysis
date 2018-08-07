@@ -2,75 +2,31 @@ package com.lottoanalysis.models.managers;
 
 import com.lottoanalysis.interfaces.Cacheable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class CacheManager {
 
-    private static Map<Object, List<Map<Integer, Cacheable>>> cacheHashMap = new HashMap<>();
+    private static Map<Object, Cacheable> cacheMap = new HashMap<>();
 
-    public static void putCache(Cacheable object, int drawIndex) {
+    public static void putCache(Cacheable object) {
 
-        List<Map<Integer,Cacheable>> cacheableMapOne = (List<Map<Integer, Cacheable>>) cacheHashMap.get(object.getIdentifier());
-        if(cacheableMapOne == null){
+        cacheMap.put(object.getIdentifier(), object);
 
-            List<Map<Integer,Cacheable>>  mapData = new ArrayList<>();
-            Map<Integer, Cacheable> newIndexData = new HashMap<>();
-            newIndexData.put(drawIndex, object);
-            mapData.add(newIndexData);
-            cacheHashMap.put(object.getIdentifier(), mapData);
-
-        }
-        else{
-            ListIterator<Map<Integer,Cacheable>> data = cacheHashMap.get(object.getIdentifier()).listIterator();
-            Set<Integer> keyHolder = new HashSet<>();
-
-            while (data.hasNext()){
-
-                Map<Integer,Cacheable> cacheableMap = data.next();
-                cacheableMap.forEach( (k,v) -> keyHolder.add(k));
-            }
-
-            if(!keyHolder.contains(drawIndex)){
-
-                List<Map<Integer,Cacheable>> newData = cacheHashMap.get(object.getIdentifier());
-                Map<Integer, Cacheable> newIndexData = new HashMap<>();
-                newIndexData.put(drawIndex, object);
-                newData.add(newIndexData);
-                cacheHashMap.put(object.getIdentifier(), newData);
-            }
-        }
     }
 
-    public static Cacheable getCache(Object identifier, int position) {
+    public static Cacheable getCache(Cacheable identifier) {
 
-        List<Map<Integer,Cacheable>> object = (List<Map<Integer,Cacheable>>) cacheHashMap.get(identifier);
+        if(cacheMap.containsKey(identifier.getIdentifier())){
 
-        if(object != null) {
-
-            for(Map<Integer,Cacheable> data : object) {
-
-                for (Integer integer : data.keySet()) {
-
-                    Cacheable cacheable = data.get(integer);
-
-                    if (cacheable == null) {
-                        return null;
-                    }
-
-                    if (cacheable.isExpired()) {
-                        cacheHashMap.remove(identifier);
-                        return null;
-                    } else if (cacheable.getDrawPosition() == position) {
-                        return cacheable;
-                    }
-
-                }
-
-            }
-
+            return cacheMap.get( identifier.getIdentifier() );
         }
 
         return null;
+    }
+
+    public static void clearMap(){
+        cacheMap.clear();
     }
 }

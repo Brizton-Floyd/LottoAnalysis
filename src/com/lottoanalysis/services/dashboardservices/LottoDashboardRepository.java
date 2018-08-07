@@ -7,4 +7,6 @@ import java.sql.SQLException;
 public interface LottoDashboardRepository {
 
     boolean update(ModifiedDrawModel modifiedDrawModel);
+
+    void delete(int id);
 }

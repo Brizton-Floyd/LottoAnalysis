@@ -16,4 +16,6 @@ public interface LottoDashBoardListener {
     void renableTableView();
 
     void reloadViewAfterUpdate();
+
+    void reloadViewAfterDelete();
 }

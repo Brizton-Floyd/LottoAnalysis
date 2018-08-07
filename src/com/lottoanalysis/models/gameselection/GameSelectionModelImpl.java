@@ -7,7 +7,7 @@ import java.util.Map;
 public class GameSelectionModelImpl implements GameSelectionModel {
 
     private Map<String, Integer> gameNameAndIds;
-    private String defaultGameName = "";
+    private String defaultGameName = "CA: Fantasy Five";
     private LotteryGame lotteryGame;
 
     @Override

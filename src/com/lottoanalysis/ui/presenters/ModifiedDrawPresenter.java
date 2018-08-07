@@ -4,6 +4,7 @@ import com.lottoanalysis.models.dashboard.ModifiedDrawModel;
 import com.lottoanalysis.services.dashboardservices.LottoDashboardRepositoryImpl;
 import com.lottoanalysis.services.dashboardservices.LottoDashboardService;
 import com.lottoanalysis.services.dashboardservices.LottoDashboardServiceImpl;
+import com.lottoanalysis.services.dashboardservices.enums.CrudOperation;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardListener;
 import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawListener;
 import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawView;
@@ -32,13 +33,23 @@ public class ModifiedDrawPresenter implements ModifiedDrawListener {
     }
 
     @Override
-    public void invokeService() {
+    public void invokeService(CrudOperation crudOperation) {
 
         LottoDashboardService lottoDashboardService = new LottoDashboardServiceImpl(modifiedDrawModel,new LottoDashboardRepositoryImpl());
 
-        if( lottoDashboardService.executeUpdate() ){
+        if(CrudOperation.UPDATE == crudOperation) {
 
-            lottoDashBoardPresenter.reloadViewAfterUpdate();
+            if (lottoDashboardService.executeUpdate()) {
+
+                lottoDashBoardPresenter.reloadViewAfterUpdate();
+                stage.close();
+            }
+
+        }
+        else if(CrudOperation.DELETE == crudOperation){
+
+            lottoDashboardService.executeDelete();
+            lottoDashBoardPresenter.reloadViewAfterDelete();
             stage.close();
         }
     }

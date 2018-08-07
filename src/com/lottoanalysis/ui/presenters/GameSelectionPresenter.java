@@ -78,6 +78,7 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
 
     @Override
     public void reloadViewPostUpdate(boolean flag) {
+
         notifyMainViewOfValueChange( gameSelectionModel.getDefaultName(), flag );
     }
 
