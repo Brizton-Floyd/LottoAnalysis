@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.Map;
+
 public class ModifiedDrawPresenter implements ModifiedDrawListener {
 
     private ModifiedDrawView modifiedDrawView;
@@ -30,6 +32,11 @@ public class ModifiedDrawPresenter implements ModifiedDrawListener {
 
         modifiedDrawView.setListener(this);
 
+    }
+
+    @Override
+    public void updateModelList(Map<Integer, String> valAndKeys) {
+        modifiedDrawModel.updateList( valAndKeys );
     }
 
     @Override
