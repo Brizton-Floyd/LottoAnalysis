@@ -1,6 +1,7 @@
 package com.lottoanalysis.ui.modifieddrawview;
 
 import com.jfoenix.controls.JFXButton;
+import com.lottoanalysis.common.NodeUtils;
 import com.lottoanalysis.services.dashboardservices.enums.CrudOperation;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 import java.awt.event.MouseEvent;
+import java.util.Map;
 
 public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView, EventHandler<ActionEvent>{
 
@@ -69,6 +71,9 @@ public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView
 
         if(event.getSource() == update){
 
+            Map<Integer,String> valAndKeys = NodeUtils.textValues(pane);
+
+            modifiedDrawListener.updateModelList( valAndKeys );
             modifiedDrawListener.invokeService(CrudOperation.UPDATE);
         }
         else if( event.getSource() == delete){
@@ -106,7 +111,6 @@ public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView
             label.setStyle("-fx-text-fill: beige;");
 
             TextField numTextField = new TextField(drawPositions.get(i).get());
-            numTextField.textProperty().bindBidirectional( drawPositions.get(i) );
             addListeners( numTextField );
             numTextField.setPrefWidth(15.0);
 
@@ -123,6 +127,7 @@ public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView
             if(newValue.length() > 2){
 
                 numTextField.setText( newValue.substring(0,2) );
+
             }
         });
     }
