@@ -5,4 +5,6 @@ import com.lottoanalysis.models.gameselection.GameSelectionModel;
 public interface GameSelectionService {
 
     void populateModel();
+
+    void executeGameUpdate();
 }

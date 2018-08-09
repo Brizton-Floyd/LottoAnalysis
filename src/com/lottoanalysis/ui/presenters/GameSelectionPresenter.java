@@ -13,6 +13,9 @@ import com.lottoanalysis.ui.gameselection.GameSelectionView;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewListener;
 import com.lottoanalysis.ui.homeview.HomeViewListener;
 import com.lottoanalysis.utilities.fileutilities.OnlineFileUtility;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -54,14 +57,44 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
     }
 
     @Override
+    public void showMessageLabel() {
+        gameSelectionView.showMessage();
+    }
+
+    @Override
+    public void showProgess() {
+        gameSelectionView.showProgress();
+    }
+
+    @Override
+    public void unbindDataFromProgressAndMessage() {
+        gameSelectionView.unbind();
+    }
+
+    @Override
+    public void bindToMessageAndProgress(ReadOnlyStringProperty messageProperty, ReadOnlyDoubleProperty progressProperty) {
+        gameSelectionView.bindToProgressAndMessage(progressProperty, messageProperty);
+    }
+
+    @Override
     public void executeGameUpdates() {
 
-        Task<Void> fileDownloadTask = new WebScrapperImpl(OnlineFileUtility.getUrlPaths(), this);
-        gameSelectionView.bindToProgressAndMessage( fileDownloadTask.progressProperty(), fileDownloadTask.messageProperty() );
+        GameSelectionService gameSelectionService = new GameSelectionServiceImpl(
+                                                    new GameSelectionRepositoryImpl(this),
+                                                    gameSelectionModel);
+        gameSelectionService.executeGameUpdate();
 
-        Thread thread = new Thread(fileDownloadTask, "File Downloader");
-        thread.setDaemon(true);
-        thread.start();
+//        Task<Void> fileDownloadTask = new WebScrapperImpl(OnlineFileUtility.getUrlPaths(), this);
+//        gameSelectionView.bindToProgressAndMessage( fileDownloadTask.progressProperty(), fileDownloadTask.messageProperty() );
+//
+//        Thread thread = new Thread(fileDownloadTask, "File Downloader");
+//        thread.setDaemon(true);
+//        thread.start();
+   }
+
+    @Override
+    public void bindToMessageProperty(ReadOnlyStringProperty s) {
+        gameSelectionView.bindToMessage(s);
     }
 
     @Override

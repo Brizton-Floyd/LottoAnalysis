@@ -34,6 +34,7 @@ public class LotteryGameDaoImpl extends Task<Void> implements LotteryGameDao {
     public LotteryGameDaoImpl(GameSelectionViewListener gameSelectionViewListener){
         this.gameSelectionViewListener = gameSelectionViewListener;
     }
+
     public LotteryGameDaoImpl(LottoInfoAndGamesController controller) {
         this.controller = controller;
     }

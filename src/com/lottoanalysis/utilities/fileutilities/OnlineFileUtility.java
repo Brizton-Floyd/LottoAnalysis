@@ -20,7 +20,6 @@ public class OnlineFileUtility {
         lottoFilesPaths.put("Daily Pick4", LotteryGameConstants.PICK_4_URL);
         lottoFilesPaths.put("Daily Pick3", LotteryGameConstants.PICK_3_URL);
 
-
         return lottoFilesPaths;
     }
 }
