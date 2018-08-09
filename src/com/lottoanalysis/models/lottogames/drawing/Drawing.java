@@ -13,11 +13,11 @@ import java.util.*;
 public class Drawing {
 
     private SimpleIntegerProperty drawId;
-    private SimpleStringProperty drawNumber;
-    private SimpleStringProperty drawDate;
+    private SimpleStringProperty drawNumber = new SimpleStringProperty();
+    private SimpleStringProperty drawDate = new SimpleStringProperty();
     private SimpleStringProperty posOne, posTwo, posThree, posFour, posFive, bonusNumber;
-    private SimpleStringProperty drawSum;
-    private SimpleStringProperty oddEvenRatio;
+    private SimpleStringProperty drawSum = new SimpleStringProperty();
+    private SimpleStringProperty oddEvenRatio = new SimpleStringProperty();
     private Map<String,String> monthNumbers = new HashMap<>();
     private Set<String> dayOfWeek = new HashSet<>();
     private static List<Drawing> unModifiedDrawData = new ArrayList<>();
@@ -25,6 +25,10 @@ public class Drawing {
     private List<SimpleStringProperty> drawNumbers1 = new ArrayList<>();
 
     public static int drawSize;
+
+    public Drawing() {
+
+    }
 
     public static int getDrawSize() {
         return drawSize;
@@ -337,5 +341,12 @@ public class Drawing {
         }
 
         return data;
+    }
+
+    public void setDrawNumbers(String[] drawNumbers) {
+
+        initializeNumberPositions(drawNumbers);
+        loadData(drawNumbers);
+        loadDrawNumbers();
     }
 }

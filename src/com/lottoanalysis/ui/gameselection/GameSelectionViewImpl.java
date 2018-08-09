@@ -23,7 +23,7 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
         setPrefHeight(400);
         setStyle("-fx-background-color: #515b51; -fx-border-radius: 0.5em;");
         getStylesheets().add("./src/com/lottoanalysis/styles/menu_bar.css");
-
+        messageLabel.setStyle("-fx-text-fill: beige");
         messageLabel.setVisible(false);
         progressBar.setVisible(false);
     }
@@ -41,6 +41,12 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
     }
 
     @Override
+    public void unbind() {
+        messageLabel.textProperty().unbind();
+        progressBar.progressProperty().unbind();
+    }
+
+    @Override
     public void bindToMessage(ReadOnlyStringProperty readOnlyStringProperty) {
         messageLabel.textProperty().bind( readOnlyStringProperty );
     }
@@ -48,11 +54,20 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
     @Override
     public void bindToProgressAndMessage(ReadOnlyDoubleProperty progress, ReadOnlyStringProperty message) {
 
-        messageLabel.setVisible(true);
-        progressBar.setVisible(true);
+        progressBar.progressProperty().unbind();
 
         progressBar.progressProperty().bind(progress);
         messageLabel.textProperty().bind(message);
+    }
+
+    @Override
+    public void showMessage() {
+        messageLabel.setVisible(true);
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisible(true);
     }
 
     private void buildProgressIndicators() {

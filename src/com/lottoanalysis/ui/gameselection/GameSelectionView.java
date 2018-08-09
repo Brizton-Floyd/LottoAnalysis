@@ -19,4 +19,10 @@ public interface GameSelectionView {
     void bindToProgressAndMessage(ReadOnlyDoubleProperty readOnlyDoubleProperty, ReadOnlyStringProperty readOnlyStringProperty);
 
     void bindToMessage(ReadOnlyStringProperty readOnlyStringProperty);
+
+    void unbind();
+
+    void showMessage();
+
+    void showProgress();
 }
