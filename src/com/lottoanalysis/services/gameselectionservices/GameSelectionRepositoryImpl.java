@@ -9,6 +9,7 @@ import com.lottoanalysis.models.gameselection.GameSelectionModel;
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.services.gameselectionservices.texttoobjecttask.DrawTextToObjectTask;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewListener;
+import com.lottoanalysis.utilities.fileutilities.OnlineFileUtility;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
@@ -87,7 +88,8 @@ public class GameSelectionRepositoryImpl extends Task<Void> implements GameSelec
 
         int outerCount = 0;
 
-        gameSelectionViewListener.showProgess();
+        final List<String> gameNames = new ArrayList<>(OnlineFileUtility.getUrlPaths().keySet());
+
         for(Map.Entry<Integer,List<Drawing>> entry : results.entrySet()){
 
             final Map.Entry<String,String> headerAndValueHolder = getInsertDynamicInsertString(entry.getKey());
@@ -100,6 +102,9 @@ public class GameSelectionRepositoryImpl extends Task<Void> implements GameSelec
                 List<Drawing> drawingList = entry.getValue();
                 for(int i = 0; i < drawingList.size(); i++) {
 
+                    if(i == 0)
+                        gameSelectionViewListener.showProgess();
+
                     Drawing drawing = drawingList.get(i);
 
                     int indexer = 3;
@@ -110,7 +115,9 @@ public class GameSelectionRepositoryImpl extends Task<Void> implements GameSelec
                         preparedStatement.setString(indexer++, drawing.getDrawNumbers().get(j).get());
                     }
 
-                    updateProgress(outerCount++, count);
+                    updateProgress(++outerCount, count);
+                    updateMessage(String.format("%s draw files updated",outerCount));
+
                     preparedStatement.setInt(indexer, Integer.parseInt(drawing.drawNumberProperty().get()) );
 
                     preparedStatement.executeUpdate();
@@ -118,11 +125,7 @@ public class GameSelectionRepositoryImpl extends Task<Void> implements GameSelec
 
             }
 
-
         }
-
-        updateMessage("All files updated successfully!!!");
-
 
         return null;
     }
@@ -161,6 +164,7 @@ public class GameSelectionRepositoryImpl extends Task<Void> implements GameSelec
 
         try {
             Thread.sleep(2000);
+
 
             gameSelectionViewListener.reloadViewPostUpdate(true);
 

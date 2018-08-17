@@ -372,6 +372,7 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
 
         hBox.getChildren().add(button);
 
+        days.removeIf( d -> d.length() == 0 || d.equals(""));
         for (Iterator<String> iterator = days.iterator(); iterator.hasNext(); ) {
 
             String val = iterator.next();
@@ -617,8 +618,8 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
         numberCol.prefWidthProperty().bind(
                                             tableView.widthProperty()
                                                     .subtract( groupCol.widthProperty())
-                                                     . subtract( hitsCol.widthProperty())
-                                                     .subtract(gameOutCol.widthProperty()).subtract(6));
+                                                    .subtract( hitsCol.widthProperty())
+                                                    .subtract(gameOutCol.widthProperty()).subtract(6));
 
         tableView.getColumns().setAll(groupCol,hitsCol,gameOutCol,numberCol);
 
