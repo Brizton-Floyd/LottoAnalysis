@@ -41,7 +41,7 @@ public class LottoDashBoardViewImpl extends AnchorPane implements LottoDashBoard
 
         setUpDashboardHeader();
         setUpDividerPane();
-        lottoDashBoardListener.injectLottoDrawData();
+        lottoDashBoardListener.handleViewEvent("inject");
     }
 
     @Override

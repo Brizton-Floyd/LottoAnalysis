@@ -1,12 +1,10 @@
 package com.lottoanalysis.ui.presenters;
 
-import com.lottoanalysis.models.dashboard.ModifiedDrawModel;
 import com.lottoanalysis.models.dashboard.ModifiedDrawModelImpl;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardListener;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardView;
-import com.lottoanalysis.ui.homeview.HomeViewListener;
 import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawViewImpl;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
@@ -15,21 +13,36 @@ public class LottoDashBoardPresenter implements LottoDashBoardListener{
 
     private LottoDashBoardView lottoDashBoardView;
     private LottoGame dashboardModel;
-    private HomeViewListener homeViewListener;
+    private HomeViewPresenter homeViewListener;
 
     LottoDashBoardPresenter(LottoDashBoardView lottoDashBoardView, LottoGame dashboardModel){
 
         this.lottoDashBoardView = lottoDashBoardView;
         this.dashboardModel = dashboardModel;
-
         lottoDashBoardView.subscribeListener( (this) );
 
         performViewStartUp();
+
     }
 
     @Override
-    public void setListener(HomeViewListener homeViewListener) {
+    public void handleViewEvent(String operation) {
+
+        switch (operation){
+            case "inject":
+                injectLottoDrawData();
+                break;
+        }
+    }
+
+
+    void setListener(HomeViewPresenter homeViewListener) {
         this.homeViewListener = homeViewListener;
+    }
+
+    @Override
+    public void notifyOfCompletion() {
+        homeViewListener.reloadDashBoard();
     }
 
     @Override
@@ -42,39 +55,26 @@ public class LottoDashBoardPresenter implements LottoDashBoardListener{
 
     }
 
-    @Override
-    public void reloadViewAfterUpdate() {
-        homeViewListener.invokeDashBoard();
-    }
-
-    @Override
-    public void renableTableView() {
+    void renableTableView() {
 
         lottoDashBoardView.tableViewRenabled();
     }
 
-    @Override
-    public void reloadViewAfterDelete() {
-        homeViewListener.loadGameDashBoard();
-    }
-
-    @Override
-    public void performViewStartUp() {
+    private void performViewStartUp() {
 
         lottoDashBoardView.setGameNameToLabel( this.dashboardModel.getGameName() );
         lottoDashBoardView.setJackPotLabel( this.dashboardModel.getCurrentEstimatedJackpot() );
         lottoDashBoardView.initialize();
     }
 
-    @Override
-    public void injectLottoDrawData() {
+    private void injectLottoDrawData() {
 
         final ObservableList<Drawing> lottoDrawData = dashboardModel.getDrawingData();
         lottoDashBoardView.injectDataIntoTable( lottoDrawData );
 
     }
 
-    public AnchorPane presentView(){
+    AnchorPane presentView(){
         return lottoDashBoardView.getView();
     }
 

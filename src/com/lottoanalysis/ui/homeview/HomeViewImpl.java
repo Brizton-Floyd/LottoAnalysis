@@ -16,7 +16,6 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
     private List<JFXButton> gameOutBtns;
     private List<JFXButton> buttonList = new ArrayList<>();
 
-    HBox box = new HBox();
     private AnchorPane buttonAnchorPane = new AnchorPane();
     private StackPane screenStackPane = new StackPane();
 
@@ -34,6 +33,7 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
         screenStackPane.setStyle("-fx-background-color:blue");
 
         HBox.setHgrow(screenStackPane, Priority.ALWAYS);
+        HBox box = new HBox();
         box.getChildren().addAll(buttonAnchorPane,screenStackPane);
         box.setStyle("-fx-background-color:purple");
 
@@ -83,20 +83,11 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
 
                 jfxButton.setDisable(true);
 
-                buttonList.stream().filter( button -> button != jfxButton).forEach( b -> b.setDisable(false));
+                buttonList.stream().filter( button -> button != jfxButton).forEach( b -> b.setDisable(false) );
 
-                switch (jfxButton.getText()){
-
-                    case "Bet Slip Analysis":
-                        loadBetSlipAnalysis();
-                        break;
-                    case "Lotto Dashboard":
-                        loadDashboard();
-                        break;
-                    case "Load Game Panel":
-                        loadGameSelectionPanel();
-                        break;
-                }
+                EventSource eventSource = Arrays.stream(EventSource.values()).filter(ee -> ee.getText().equals( jfxButton.getText() ))
+                                                                             .findFirst().orElse(null);
+                homeViewListener.handleViewEvent(eventSource);
 
             });
 
@@ -131,21 +122,6 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
     @Override
     public void setHomeViewListener(HomeViewListener homeViewListener) {
         this.homeViewListener = homeViewListener;
-    }
-
-    @Override
-    public void loadBetSlipAnalysis() {
-        homeViewListener.executeBetSlipAnalysis();
-    }
-
-    @Override
-    public void loadGameSelectionPanel() {
-        homeViewListener.presentLottoGameSelectionView();
-    }
-
-    @Override
-    public void loadDashboard() {
-        homeViewListener.invokeDashBoard();
     }
 
     @Override

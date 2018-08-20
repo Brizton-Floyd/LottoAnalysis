@@ -53,6 +53,6 @@ public class LotteryGameManagerImpl implements LotteryGameManager {
     @Override
     public LotteryGameDao getDaoInstance() {
 
-        return new LotteryGameDaoImpl(null);
+        return null;
     }
 }

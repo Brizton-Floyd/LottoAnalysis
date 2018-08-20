@@ -7,12 +7,6 @@ public interface HomeView {
 
     void setHomeViewListener(HomeViewListener homeViewListener);
 
-    void loadBetSlipAnalysis();
-
-    void loadDashboard();
-
-    void loadGameSelectionPanel();
-
     void injectView(AnchorPane pane);
 
     AnchorPane getView();

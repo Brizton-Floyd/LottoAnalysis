@@ -14,11 +14,13 @@ import javafx.stage.StageStyle;
 
 import java.util.Map;
 
+import static com.lottoanalysis.services.dashboardservices.enums.CrudOperation.*;
+
 public class ModifiedDrawPresenter implements ModifiedDrawListener {
 
     private ModifiedDrawView modifiedDrawView;
     private ModifiedDrawModel modifiedDrawModel;
-    private LottoDashBoardListener lottoDashBoardPresenter;
+    private LottoDashBoardPresenter lottoDashBoardPresenter;
     private Stage stage = new Stage(StageStyle.DECORATED);
 
     public ModifiedDrawPresenter(ModifiedDrawView modifiedDrawView, ModifiedDrawModel modifiedDrawModel){
@@ -35,20 +37,36 @@ public class ModifiedDrawPresenter implements ModifiedDrawListener {
     }
 
     @Override
+    public void handleViewEvent(CrudOperation crudOperation) {
+        switch (crudOperation){
+
+            case READ:
+                break;
+            case UPDATE:
+                invokeService(UPDATE);
+                lottoDashBoardPresenter.notifyOfCompletion();
+                break;
+            case CREATE:
+                break;
+            case DELETE:
+                invokeService(DELETE);
+                lottoDashBoardPresenter.notifyOfCompletion();
+                break;
+        }
+    }
+
+    @Override
     public void updateModelList(Map<Integer, String> valAndKeys) {
         modifiedDrawModel.updateList( valAndKeys );
     }
 
-    @Override
-    public void invokeService(CrudOperation crudOperation) {
+    private void invokeService(CrudOperation crudOperation) {
 
         LottoDashboardService lottoDashboardService = new LottoDashboardServiceImpl(modifiedDrawModel,new LottoDashboardRepositoryImpl());
 
         if(CrudOperation.UPDATE == crudOperation) {
 
             if (lottoDashboardService.executeUpdate()) {
-
-                lottoDashBoardPresenter.reloadViewAfterUpdate();
                 stage.close();
             }
 
@@ -56,13 +74,11 @@ public class ModifiedDrawPresenter implements ModifiedDrawListener {
         else if(CrudOperation.DELETE == crudOperation){
 
             lottoDashboardService.executeDelete();
-            lottoDashBoardPresenter.reloadViewAfterDelete();
             stage.close();
         }
     }
 
-    @Override
-    public void setListener(LottoDashBoardListener listener) {
+    public void setListener(LottoDashBoardPresenter listener) {
         this.lottoDashBoardPresenter = listener;
     }
 

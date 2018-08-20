@@ -7,11 +7,9 @@ import java.util.Map;
 
 public interface ModifiedDrawListener {
 
-    void setListener(LottoDashBoardListener listener);
+    void handleViewEvent(CrudOperation crudOperation);
 
     void show();
-
-    void invokeService(CrudOperation crudOperation);
 
     void updateModelList(Map<Integer, String> valAndKeys);
 }
