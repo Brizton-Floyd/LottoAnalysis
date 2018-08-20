@@ -2,6 +2,8 @@ package com.lottoanalysis.ui.homeview;
 
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.common.ButtonHelper;
+import com.lottoanalysis.ui.homeview.base.BaseView;
+import com.lottoanalysis.ui.presenters.HomeViewPresenter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -9,9 +11,7 @@ import javafx.scene.layout.*;
 
 import java.util.*;
 
-public class HomeViewImpl extends AnchorPane implements HomeView{
-
-    private HomeViewListener homeViewListener;
+public class HomeViewImpl extends BaseView<HomeViewPresenter> implements HomeView{
 
     private List<JFXButton> gameOutBtns;
     private List<JFXButton> buttonList = new ArrayList<>();
@@ -46,6 +46,16 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
 
         buildButtons();
         injectScrren();
+    }
+
+    @Override
+    public void setUpUi() {
+
+    }
+
+    @Override
+    public AnchorPane display() {
+        return this;
     }
 
     private void buildButtons() {
@@ -87,7 +97,7 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
 
                 EventSource eventSource = Arrays.stream(EventSource.values()).filter(ee -> ee.getText().equals( jfxButton.getText() ))
                                                                              .findFirst().orElse(null);
-                homeViewListener.handleViewEvent(eventSource);
+                getPresenter().handleViewEvent(eventSource);
 
             });
 
@@ -117,11 +127,6 @@ public class HomeViewImpl extends AnchorPane implements HomeView{
         });
 
 
-    }
-
-    @Override
-    public void setHomeViewListener(HomeViewListener homeViewListener) {
-        this.homeViewListener = homeViewListener;
     }
 
     @Override

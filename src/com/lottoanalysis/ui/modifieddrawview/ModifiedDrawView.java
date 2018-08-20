@@ -6,8 +6,6 @@ import javafx.scene.layout.AnchorPane;
 
 public interface ModifiedDrawView {
 
-    void setListener(ModifiedDrawListener modifiedDrawListener);
-
     void initializeView(String gamNumber, String drawDate, ObservableList<StringProperty> drawPositions);
 
     AnchorPane getView();

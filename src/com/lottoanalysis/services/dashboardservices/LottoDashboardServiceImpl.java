@@ -25,5 +25,6 @@ public class LottoDashboardServiceImpl implements LottoDashboardService {
     @Override
     public void executeDelete() {
         lottoDashboardRepository.delete(modifiedDrawModel.getId());
+
     }
 }

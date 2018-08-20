@@ -8,7 +8,9 @@ import com.lottoanalysis.services.gameselectionservices.GameSelectionRepositoryI
 import com.lottoanalysis.services.gameselectionservices.GameSelectionService;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionServiceImpl;
 import com.lottoanalysis.ui.gameselection.GameSelectionView;
+import com.lottoanalysis.ui.gameselection.GameSelectionViewImpl;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewListener;
+import com.lottoanalysis.ui.presenters.base.BasePresenter;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.concurrent.Task;
@@ -21,65 +23,79 @@ import java.util.Map;
 
 import static com.lottoanalysis.ui.homeview.EventSource.LOTTO_DASHBOARD;
 
-public class GameSelectionPresenter implements GameSelectionViewListener  {
+public class GameSelectionPresenter extends BasePresenter<GameSelectionViewImpl, LottoGame> implements GameSelectionViewListener  {
 
-    private GameSelectionModel gameSelectionModel;
-    private LottoGame lottoGame;
-    private GameSelectionView gameSelectionView;
     private HomeViewPresenter homeViewListener;
+    private GameSelectionModelImpl gameSelectionModel;
     private Stage stage = new Stage(StageStyle.DECORATED);
 
-    GameSelectionPresenter(GameSelectionView gameSelectionView, LottoGame lottoGame) {
+    GameSelectionPresenter(GameSelectionViewImpl gameSelectionView, LottoGame lottoGame) {
 
-        this.gameSelectionView = gameSelectionView;
-        this.lottoGame = lottoGame;
-        this.gameSelectionModel = new GameSelectionModelImpl();
+        super(gameSelectionView, lottoGame);
 
-        gameSelectionView.initializeListener(this);
+        gameSelectionModel = new GameSelectionModelImpl();
+        gameSelectionModel.addListener((this));
+
+        getView().setPresenter( (this) );
+
         invokeServiceCall();
         gameSelectionView.initializeView();
 
     }
 
     @Override
+    public void handleOnModelChanged(String property) {
+
+        switch (property){
+            case "name":
+                setNewGameName();
+                getModel().onModelChange("name");
+                break;
+        }
+    }
+
+    @Override
     public void injectMenuItemValues() {
 
-        gameSelectionView.setMenuBarItems(new ArrayList<>(gameSelectionModel.getGameNameAndIds().keySet()));
+        getView().setMenuBarItems(new ArrayList<>(gameSelectionModel.getGameNameAndIds().keySet()));
     }
 
     @Override
     public void notifyMainViewOfValueChange(String text, boolean flag) {
 
+        gameSelectionModel.setStageCloseFlag( flag );
         gameSelectionModel.setGameName(text);
-        lottoGame.setLottoId( gameSelectionModel.getGameNameAndIds().get(text) );
-        homeViewListener.copy( lottoGame );
-        homeViewListener.handleViewEvent(LOTTO_DASHBOARD);
+    }
 
-        if(flag) {
+    private void setNewGameName() {
+        getModel().setLottoId( gameSelectionModel.getGameNameAndIds().get( gameSelectionModel.getDefaultName() ) );
+        homeViewListener.copy( getModel() );
+        //homeViewListener.handleViewEvent(LOTTO_DASHBOARD);
+
+        if(gameSelectionModel.isStageClosed()) {
             stage.close();
             homeViewListener.enable();
         }
-
     }
 
     @Override
     public void showMessageLabel() {
-        gameSelectionView.showMessage();
+        getView().showMessage();
     }
 
     @Override
     public void showProgess() {
-        gameSelectionView.showProgress();
+        getView().showProgress();
     }
 
     @Override
     public void unbindDataFromProgressAndMessage() {
-        gameSelectionView.unbind();
+        getView().unbind();
     }
 
     @Override
     public void bindToMessageAndProgress(ReadOnlyStringProperty messageProperty, ReadOnlyDoubleProperty progressProperty) {
-        gameSelectionView.bindToProgressAndMessage(progressProperty, messageProperty);
+        getView().bindToProgressAndMessage(progressProperty, messageProperty);
     }
 
     @Override
@@ -94,14 +110,14 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
 
     @Override
     public void bindToMessageProperty(ReadOnlyStringProperty s) {
-        gameSelectionView.bindToMessage(s);
+        getView().bindToMessage(s);
     }
 
     @Override
     public void invokeDbService() {
 
         Task repository = new LotteryGameDaoImpl(this);
-        gameSelectionView.bindToMessage( repository.messageProperty() );
+        getView().bindToMessage( repository.messageProperty() );
 
         Thread thread = new Thread(repository);
         thread.setDaemon(true);
@@ -116,7 +132,7 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
 
         for (Map.Entry<String, Integer> entry : gameSelectionModel.getGameNameAndIds().entrySet()) {
 
-            if (entry.getValue() == lottoGame.getLottoId()){
+            if (entry.getValue() == getModel().getLottoId()){
                 gameName = entry.getKey();
                 break;
             }
@@ -139,7 +155,7 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
 
     void showView() {
 
-        Scene scene = new Scene(gameSelectionView.view());
+        Scene scene = new Scene( getView().display() );
         stage.setScene(scene);
         stage.setTitle(gameSelectionModel.getTitle());
 

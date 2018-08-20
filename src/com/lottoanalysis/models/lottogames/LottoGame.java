@@ -1,26 +1,27 @@
 package com.lottoanalysis.models.lottogames;
 
+import com.lottoanalysis.models.drawhistory.DrawModelBase;
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.Set;
 
-public abstract class LottoGame {
+public abstract class LottoGame extends DrawModelBase{
 
-    protected int lottoId;
+    private int lottoId;
     protected String gameName;
-    protected String currentEstimatedJackpot;
-    protected int minNumber;
-    protected int maxNumber;
-    protected int positionNumbersAllowed;
-    protected ObservableList<Drawing> drawingData;
+    private String currentEstimatedJackpot;
+    private int minNumber;
+    private int maxNumber;
+    private int positionNumbersAllowed;
+    private ObservableList<Drawing> drawingData;
 
     public String getCurrentEstimatedJackpot() {
         return currentEstimatedJackpot;
     }
 
-    public void setCurrentEstimatedJackpot(String currentEstimatedJackpot) {
+    void setCurrentEstimatedJackpot(String currentEstimatedJackpot) {
         this.currentEstimatedJackpot = currentEstimatedJackpot;
     }
 

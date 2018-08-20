@@ -2,6 +2,7 @@ package com.lottoanalysis.ui.dashboardview.cells;
 
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardListener;
+import com.lottoanalysis.ui.presenters.LottoDashBoardPresenter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableCell;
@@ -12,11 +13,11 @@ import javafx.scene.paint.Color;
 
 public class DrawHistoryCell extends TableCell<Drawing, String> {
 
-    private LottoDashBoardListener lottoDashBoardListener;
+    private LottoDashBoardPresenter lottoDashBoardListener;
     private TableView<Drawing> drawingTableView;
     public DrawHistoryCell(){}
 
-    public DrawHistoryCell(LottoDashBoardListener lottoDashBoardListener, TableView<Drawing> drawingTableView){
+    public DrawHistoryCell(LottoDashBoardPresenter lottoDashBoardListener, TableView<Drawing> drawingTableView){
         this.lottoDashBoardListener = lottoDashBoardListener;
         this.drawingTableView = drawingTableView;
     }
@@ -39,7 +40,7 @@ public class DrawHistoryCell extends TableCell<Drawing, String> {
                 getTableView().getSelectionModel().select( getIndex() );
 
                 Drawing drawing = getTableView().getItems().get( getIndex() );
-                lottoDashBoardListener.loadEditableDrawView( drawing );
+                lottoDashBoardListener.handleViewEvent("showView" , drawing );
             }
         });
 

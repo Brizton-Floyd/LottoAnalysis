@@ -6,7 +6,7 @@ import javafx.scene.layout.AnchorPane;
 
 public interface LottoDashBoardView {
 
-    void subscribeListener(LottoDashBoardListener lottoDashBoardListener);
+    //void subscribeListener(LottoDashBoardListener lottoDashBoardListener);
 
     void initialize();
 

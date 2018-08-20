@@ -7,10 +7,6 @@ import com.lottoanalysis.ui.presenters.HomeViewPresenter;
 
 public interface LottoDashBoardListener {
 
-    void handleViewEvent(String operation);
-
-    void loadEditableDrawView(Drawing drawing);
-
-    void notifyOfCompletion();
+    void handleViewEvent(String operation, Drawing drawing);
 
 }

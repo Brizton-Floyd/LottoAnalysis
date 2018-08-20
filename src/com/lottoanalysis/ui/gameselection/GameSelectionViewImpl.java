@@ -1,5 +1,7 @@
 package com.lottoanalysis.ui.gameselection;
 
+import com.lottoanalysis.ui.homeview.base.BaseView;
+import com.lottoanalysis.ui.presenters.GameSelectionPresenter;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.scene.control.*;
@@ -10,9 +12,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-public class GameSelectionViewImpl extends AnchorPane implements GameSelectionView {
-
-    private GameSelectionViewListener gameSelectionViewListener;
+public class GameSelectionViewImpl extends BaseView<GameSelectionPresenter> implements GameSelectionView {
 
     private MenuBar menuBar = new MenuBar();
     private Label messageLabel = new Label("Updating....");
@@ -29,8 +29,13 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
     }
 
     @Override
-    public void initializeListener(GameSelectionViewListener gameSelectionViewListener) {
-        this.gameSelectionViewListener = gameSelectionViewListener;
+    public void setUpUi() {
+
+    }
+
+    @Override
+    public AnchorPane display() {
+        return this;
     }
 
     @Override
@@ -86,7 +91,7 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
     }
 
     private void buildMenuBar() {
-        gameSelectionViewListener.injectMenuItemValues();
+        getPresenter().injectMenuItemValues();
         buildUpdaterMenu();
     }
 
@@ -95,7 +100,7 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
         Menu menu = new Menu("Updater");
         MenuItem item = new MenuItem("Perform Game Updates");
         item.setOnAction( e -> {
-            gameSelectionViewListener.executeGameUpdates();
+            getPresenter().executeGameUpdates();
         });
 
         menu.getItems().add(item);
@@ -111,7 +116,7 @@ public class GameSelectionViewImpl extends AnchorPane implements GameSelectionVi
         for(String val : values){
             MenuItem item = new MenuItem(val);
             item.setOnAction(event -> {
-                gameSelectionViewListener.notifyMainViewOfValueChange( item.getText(), false );
+                getPresenter().notifyMainViewOfValueChange( item.getText(), false );
             });
             gameMenu.getItems().add(item);
         }

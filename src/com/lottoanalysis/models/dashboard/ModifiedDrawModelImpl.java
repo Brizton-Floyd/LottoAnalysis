@@ -1,6 +1,8 @@
 package com.lottoanalysis.models.dashboard;
 
+import com.lottoanalysis.models.drawhistory.DrawModelBase;
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
+import com.lottoanalysis.services.dashboardservices.enums.CrudOperation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -8,9 +10,10 @@ import javafx.collections.ObservableList;
 
 import java.util.Map;
 
-public class ModifiedDrawModelImpl implements ModifiedDrawModel{
+public class ModifiedDrawModelImpl extends DrawModelBase implements ModifiedDrawModel{
 
     private Drawing drawing;
+    private CrudOperation crudOperation;
 
     public ModifiedDrawModelImpl(Drawing drawing){
         this.drawing = drawing;
@@ -37,6 +40,24 @@ public class ModifiedDrawModelImpl implements ModifiedDrawModel{
     }
 
     @Override
+    public void setUpdateMethod(CrudOperation crudOperation) {
+        this.crudOperation = crudOperation;
+
+        switch (crudOperation){
+            case DELETE:
+                onModelChange("delete");
+                break;
+            case UPDATE:
+                onModelChange("list");
+                break;
+        }
+    }
+
+    public CrudOperation getCrudOperation() {
+        return crudOperation;
+    }
+
+    @Override
     public void updateList(Map<Integer, String> valAndKeys) {
 
         ObservableList<StringProperty> data = getDrawPositions();
@@ -46,5 +67,7 @@ public class ModifiedDrawModelImpl implements ModifiedDrawModel{
             data.get(entry.getKey()).set(entry.getValue());
 
         }
+
+        //onModelChange("list");
     }
 }

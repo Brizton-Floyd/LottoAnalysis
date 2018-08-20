@@ -4,52 +4,56 @@ import com.lottoanalysis.models.dashboard.ModifiedDrawModelImpl;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardListener;
-import com.lottoanalysis.ui.dashboardview.LottoDashBoardView;
+import com.lottoanalysis.ui.dashboardview.LottoDashBoardViewImpl;
 import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawViewImpl;
+import com.lottoanalysis.ui.presenters.base.BasePresenter;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
 
-public class LottoDashBoardPresenter implements LottoDashBoardListener{
+public class LottoDashBoardPresenter extends BasePresenter<LottoDashBoardViewImpl, LottoGame> implements LottoDashBoardListener{
 
-    private LottoDashBoardView lottoDashBoardView;
-    private LottoGame dashboardModel;
-    private HomeViewPresenter homeViewListener;
+    LottoDashBoardPresenter(LottoDashBoardViewImpl lottoDashBoardView, LottoGame dashboardModel){
+        super(lottoDashBoardView, dashboardModel);
 
-    LottoDashBoardPresenter(LottoDashBoardView lottoDashBoardView, LottoGame dashboardModel){
-
-        this.lottoDashBoardView = lottoDashBoardView;
-        this.dashboardModel = dashboardModel;
-        lottoDashBoardView.subscribeListener( (this) );
+        getView().setPresenter( (this) );
 
         performViewStartUp();
 
     }
 
     @Override
-    public void handleViewEvent(String operation) {
+    public void handleOnModelChanged(String property) {
+        switch (property){
+
+            case "list":
+            case"delete":
+                getModel().onModelChange("list");
+                renableTableView();
+                break;
+        }
+    }
+
+    @Override
+    public void handleViewEvent(String operation, Drawing drawing) {
 
         switch (operation){
             case "inject":
                 injectLottoDrawData();
                 break;
+            case"showView":
+                loadEditableDrawView(drawing);
+                break;
         }
     }
 
+    private void loadEditableDrawView(Drawing drawing) {
 
-    void setListener(HomeViewPresenter homeViewListener) {
-        this.homeViewListener = homeViewListener;
-    }
-
-    @Override
-    public void notifyOfCompletion() {
-        homeViewListener.reloadDashBoard();
-    }
-
-    @Override
-    public void loadEditableDrawView(Drawing drawing) {
+        ModifiedDrawModelImpl modifiedDrawModel = new ModifiedDrawModelImpl(drawing);
+        modifiedDrawModel.addListener(this);
 
         ModifiedDrawPresenter modifiedDrawPresenter = new ModifiedDrawPresenter(new ModifiedDrawViewImpl(),
-                                                                                new ModifiedDrawModelImpl(drawing));
+                                                                                modifiedDrawModel);
+
         modifiedDrawPresenter.setListener(this);
         modifiedDrawPresenter.show();
 
@@ -57,25 +61,25 @@ public class LottoDashBoardPresenter implements LottoDashBoardListener{
 
     void renableTableView() {
 
-        lottoDashBoardView.tableViewRenabled();
+        getView().tableViewRenabled();
     }
 
     private void performViewStartUp() {
 
-        lottoDashBoardView.setGameNameToLabel( this.dashboardModel.getGameName() );
-        lottoDashBoardView.setJackPotLabel( this.dashboardModel.getCurrentEstimatedJackpot() );
-        lottoDashBoardView.initialize();
+        getView().setGameNameToLabel( getModel().getGameName() );
+        getView().setJackPotLabel( getModel().getCurrentEstimatedJackpot() );
+        getView().initialize();
     }
 
     private void injectLottoDrawData() {
 
-        final ObservableList<Drawing> lottoDrawData = dashboardModel.getDrawingData();
-        lottoDashBoardView.injectDataIntoTable( lottoDrawData );
+        final ObservableList<Drawing> lottoDrawData = getModel().getDrawingData();
+        getView().injectDataIntoTable( lottoDrawData );
 
     }
 
     AnchorPane presentView(){
-        return lottoDashBoardView.getView();
+        return getView().display();
     }
 
 }
