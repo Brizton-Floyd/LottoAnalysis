@@ -19,8 +19,6 @@ public interface DrawHistoryView {
 
     void notifyListenerOfPageLoad();
 
-    void addListener( DrawHistoryListener listener);
-
     void setHeaderInformation(String position);
 
     void setAnalyzeLabel( String analyzeLabelValue );

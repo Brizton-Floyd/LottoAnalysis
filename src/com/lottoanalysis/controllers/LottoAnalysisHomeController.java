@@ -3,8 +3,8 @@ package com.lottoanalysis.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.Main;
 import com.lottoanalysis.common.LotteryGameConstants;
+import com.lottoanalysis.models.drawhistory.DrawModel;
 import com.lottoanalysis.models.lottogames.LottoGame;
-import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
@@ -387,7 +387,7 @@ public class LottoAnalysisHomeController {
         }
 
 
-        DrawHistoryModel drawHistoryModel = new DrawHistoryModel(
+        DrawModel drawHistoryModel = new DrawModel(
                 allData,
                 new TotalWinningNumberTracker(),
                 new LottoNumberGameOutTracker(),

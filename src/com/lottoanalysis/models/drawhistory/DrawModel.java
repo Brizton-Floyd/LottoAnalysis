@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
-public class DrawHistoryModel extends DrawHistoryModelBase {
+public class DrawModel extends DrawModelBase {
 
     private Comparator<Map.Entry<Integer, Integer[]>> hitComparatory = ((o1, o2) -> o2.getValue()[0].compareTo(o1.getValue()[0]));
 
@@ -32,8 +32,8 @@ public class DrawHistoryModel extends DrawHistoryModelBase {
     private LottoGame lottoGame;
     private boolean dayOfWeekPopulationNeeded;
 
-    public DrawHistoryModel(LottoGame lottoGame,TotalWinningNumberTracker totalWinningNumberTracker,
-                            LottoNumberGameOutTracker lottoNumberGameOutTracker, SumGroupAnalyzer sumGroupAnalyzer){
+    public DrawModel(LottoGame lottoGame, TotalWinningNumberTracker totalWinningNumberTracker,
+                     LottoNumberGameOutTracker lottoNumberGameOutTracker, SumGroupAnalyzer sumGroupAnalyzer){
 
         this.lottoGame = lottoGame;
         lottoDrawData = new ArrayList<>();
@@ -52,8 +52,8 @@ public class DrawHistoryModel extends DrawHistoryModelBase {
 
     }
 
-    public DrawHistoryModel(Object[] currentDrawInformation, TotalWinningNumberTracker totalWinningNumberTracker,
-                            LottoNumberGameOutTracker lottoNumberGameOutTracker, SumGroupAnalyzer sumGroupAnalyzer) {
+    public DrawModel(Object[] currentDrawInformation, TotalWinningNumberTracker totalWinningNumberTracker,
+                     LottoNumberGameOutTracker lottoNumberGameOutTracker, SumGroupAnalyzer sumGroupAnalyzer) {
 
         this.totalWinningNumberTracker = totalWinningNumberTracker;
         this.lottoNumberGameOutTracker = lottoNumberGameOutTracker;
