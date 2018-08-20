@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
-public class DrawHistoryModel {
+public class DrawHistoryModel extends DrawHistoryModelBase {
 
     private Comparator<Map.Entry<Integer, Integer[]>> hitComparatory = ((o1, o2) -> o2.getValue()[0].compareTo(o1.getValue()[0]));
 
@@ -93,6 +93,7 @@ public class DrawHistoryModel {
 
     public void setGameSpan(int gameSpan) {
         this.gameSpan = gameSpan;
+        onModelChange("gameSpan");
     }
 
     public DayOfWeek getDayOfWeek() {
@@ -101,6 +102,8 @@ public class DrawHistoryModel {
 
     public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+        onModelChange("dayOfWeek");
+
     }
 
     public boolean isDayOfWeekPopulationNeeded() {
@@ -113,10 +116,14 @@ public class DrawHistoryModel {
 
     public void setAnalyzeMethod(AnalyzeMethod analyzeMethodIndex) {
         this.analyzeMethod = analyzeMethodIndex;
+        onModelChange("analyzeMethod");
+
     }
 
     public void setDrawPositions(DrawPositions drawPositions) {
         this.drawPositions = drawPositions;
+        onModelChange("drawPosition");
+
     }
 
     public TotalWinningNumberTracker getTotalWinningNumberTracker() {

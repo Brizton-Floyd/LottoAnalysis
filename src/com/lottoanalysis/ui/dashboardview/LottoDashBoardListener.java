@@ -8,19 +8,9 @@ import com.lottoanalysis.ui.presenters.HomeViewPresenter;
 public interface LottoDashBoardListener {
 
     void handleViewEvent(String operation);
-//    void performViewStartUp();
-//
-//    void injectLottoDrawData();
-//
+
     void loadEditableDrawView(Drawing drawing);
 
     void notifyOfCompletion();
-//
-//    void setListener(HomeViewPresenter homeViewListener);
-//
-//    void renableTableView();
-//
-//    void reloadViewAfterUpdate();
-//
-//    void reloadViewAfterDelete();
+
 }
