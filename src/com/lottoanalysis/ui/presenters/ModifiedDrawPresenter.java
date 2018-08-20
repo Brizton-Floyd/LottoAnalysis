@@ -5,7 +5,6 @@ import com.lottoanalysis.services.dashboardservices.LottoDashboardRepositoryImpl
 import com.lottoanalysis.services.dashboardservices.LottoDashboardService;
 import com.lottoanalysis.services.dashboardservices.LottoDashboardServiceImpl;
 import com.lottoanalysis.services.dashboardservices.enums.CrudOperation;
-import com.lottoanalysis.ui.dashboardview.LottoDashBoardListener;
 import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawListener;
 import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawView;
 import javafx.scene.Scene;
@@ -14,7 +13,8 @@ import javafx.stage.StageStyle;
 
 import java.util.Map;
 
-import static com.lottoanalysis.services.dashboardservices.enums.CrudOperation.*;
+import static com.lottoanalysis.services.dashboardservices.enums.CrudOperation.DELETE;
+import static com.lottoanalysis.services.dashboardservices.enums.CrudOperation.UPDATE;
 
 public class ModifiedDrawPresenter implements ModifiedDrawListener {
 

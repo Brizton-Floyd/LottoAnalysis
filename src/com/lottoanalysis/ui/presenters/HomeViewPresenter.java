@@ -1,16 +1,12 @@
 package com.lottoanalysis.ui.presenters;
 
-import com.lottoanalysis.controllers.LottoDashboardController;
-import com.lottoanalysis.controllers.LottoInfoAndGamesController;
 import com.lottoanalysis.interfaces.Cacheable;
 import com.lottoanalysis.models.GameSelectionObject;
-import com.lottoanalysis.models.gameselection.GameSelectionModel;
-import com.lottoanalysis.models.gameselection.GameSelectionModelImpl;
-import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.managers.CacheManager;
 import com.lottoanalysis.services.homeviewservices.HomeServiceRepositoryImpl;
 import com.lottoanalysis.services.homeviewservices.LottoDashBoardHomeService;
@@ -22,9 +18,6 @@ import com.lottoanalysis.ui.homeview.EventSource;
 import com.lottoanalysis.ui.homeview.HomeView;
 import com.lottoanalysis.ui.homeview.HomeViewListener;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
-import java.util.List;
 
 public class HomeViewPresenter implements HomeViewListener {
 
@@ -146,7 +139,7 @@ public class HomeViewPresenter implements HomeViewListener {
 
     }
 
-    public void reloadDashBoard() {
+    void reloadDashBoard() {
         loadGameDashBoard();
     }
 }

@@ -9,7 +9,6 @@ import com.lottoanalysis.services.gameselectionservices.GameSelectionService;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionServiceImpl;
 import com.lottoanalysis.ui.gameselection.GameSelectionView;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewListener;
-import com.lottoanalysis.ui.homeview.EventSource;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.concurrent.Task;
@@ -18,9 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import static com.lottoanalysis.ui.homeview.EventSource.LOTTO_DASHBOARD;
 
