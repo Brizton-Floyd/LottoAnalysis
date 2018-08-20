@@ -7,9 +7,9 @@ import java.util.Map;
 
 public interface ModifiedDrawListener {
 
-    void handleViewEvent(CrudOperation crudOperation);
-
     void show();
 
     void updateModelList(Map<Integer, String> valAndKeys);
+
+    void updateCrudeOpertaion(CrudOperation crudOperation);
 }

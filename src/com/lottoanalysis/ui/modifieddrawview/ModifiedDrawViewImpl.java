@@ -3,6 +3,8 @@ package com.lottoanalysis.ui.modifieddrawview;
 import com.jfoenix.controls.JFXButton;
 import com.lottoanalysis.common.NodeUtils;
 import com.lottoanalysis.services.dashboardservices.enums.CrudOperation;
+import com.lottoanalysis.ui.homeview.base.BaseView;
+import com.lottoanalysis.ui.presenters.ModifiedDrawPresenter;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,9 +19,7 @@ import javafx.scene.layout.GridPane;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 
-public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView, EventHandler<ActionEvent>{
-
-    private ModifiedDrawListener modifiedDrawListener;
+public class ModifiedDrawViewImpl extends BaseView<ModifiedDrawPresenter> implements ModifiedDrawView, EventHandler<ActionEvent>{
 
     private GridPane pane = new GridPane();
     private Button update, delete;
@@ -29,9 +29,15 @@ public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView
         setStyle("-fx-background-color:#515B51;");
         setPrefWidth(400);
     }
+
     @Override
-    public void setListener(ModifiedDrawListener modifiedDrawListener) {
-        this.modifiedDrawListener = modifiedDrawListener;
+    public void setUpUi() {
+
+    }
+
+    @Override
+    public AnchorPane display() {
+        return this;
     }
 
     @Override
@@ -73,12 +79,12 @@ public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView
 
             Map<Integer,String> valAndKeys = NodeUtils.textValues(pane);
 
-            modifiedDrawListener.updateModelList( valAndKeys );
-            modifiedDrawListener.handleViewEvent(CrudOperation.UPDATE);
+            getPresenter().updateModelList( valAndKeys );
+            getPresenter().updateCrudeOpertaion(CrudOperation.UPDATE);
         }
         else if( event.getSource() == delete){
 
-            modifiedDrawListener.handleViewEvent(CrudOperation.DELETE);
+            getPresenter().updateCrudeOpertaion(CrudOperation.DELETE);
         }
     }
 

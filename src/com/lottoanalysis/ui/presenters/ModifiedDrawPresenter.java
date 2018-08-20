@@ -1,68 +1,64 @@
 package com.lottoanalysis.ui.presenters;
 
-import com.lottoanalysis.models.dashboard.ModifiedDrawModel;
+import com.lottoanalysis.models.dashboard.ModifiedDrawModelImpl;
 import com.lottoanalysis.services.dashboardservices.LottoDashboardRepositoryImpl;
 import com.lottoanalysis.services.dashboardservices.LottoDashboardService;
 import com.lottoanalysis.services.dashboardservices.LottoDashboardServiceImpl;
 import com.lottoanalysis.services.dashboardservices.enums.CrudOperation;
 import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawListener;
-import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawView;
+import com.lottoanalysis.ui.modifieddrawview.ModifiedDrawViewImpl;
+import com.lottoanalysis.ui.presenters.base.BasePresenter;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.Map;
 
-import static com.lottoanalysis.services.dashboardservices.enums.CrudOperation.DELETE;
-import static com.lottoanalysis.services.dashboardservices.enums.CrudOperation.UPDATE;
+public class ModifiedDrawPresenter extends BasePresenter<ModifiedDrawViewImpl, ModifiedDrawModelImpl> implements ModifiedDrawListener {
 
-public class ModifiedDrawPresenter implements ModifiedDrawListener {
-
-    private ModifiedDrawView modifiedDrawView;
-    private ModifiedDrawModel modifiedDrawModel;
     private LottoDashBoardPresenter lottoDashBoardPresenter;
     private Stage stage = new Stage(StageStyle.DECORATED);
 
-    public ModifiedDrawPresenter(ModifiedDrawView modifiedDrawView, ModifiedDrawModel modifiedDrawModel){
+    ModifiedDrawPresenter(ModifiedDrawViewImpl modifiedDrawView, ModifiedDrawModelImpl modifiedDrawModel){
 
-        this.modifiedDrawView = modifiedDrawView;
-        this.modifiedDrawModel = modifiedDrawModel;
+        super(modifiedDrawView, modifiedDrawModel);
+
+        getView().setPresenter( (this) );
+        getModel().addListener((this));
 
         modifiedDrawView.initializeView(modifiedDrawModel.getDrawNumber(),
                                         modifiedDrawModel.getDrawDate(),
                                         modifiedDrawModel.getDrawPositions());
 
-        modifiedDrawView.setListener(this);
-
     }
 
     @Override
-    public void handleViewEvent(CrudOperation crudOperation) {
-        switch (crudOperation){
+    public void handleOnModelChanged(String property) {
 
-            case READ:
+        switch (property){
+
+            case "list":
+                invokeService(getModel().getCrudOperation());
                 break;
-            case UPDATE:
-                invokeService(UPDATE);
-                lottoDashBoardPresenter.notifyOfCompletion();
-                break;
-            case CREATE:
-                break;
-            case DELETE:
-                invokeService(DELETE);
-                lottoDashBoardPresenter.notifyOfCompletion();
+            case"delete":
+                invokeService(getModel().getCrudOperation());
                 break;
         }
     }
 
     @Override
+    public void updateCrudeOpertaion(CrudOperation crudOperation) {
+        getModel().setUpdateMethod( crudOperation );
+    }
+
+    @Override
     public void updateModelList(Map<Integer, String> valAndKeys) {
-        modifiedDrawModel.updateList( valAndKeys );
+        getModel().updateList( valAndKeys );
     }
 
     private void invokeService(CrudOperation crudOperation) {
 
-        LottoDashboardService lottoDashboardService = new LottoDashboardServiceImpl(modifiedDrawModel,new LottoDashboardRepositoryImpl());
+        LottoDashboardService lottoDashboardService = new LottoDashboardServiceImpl(getModel(),new LottoDashboardRepositoryImpl());
 
         if(CrudOperation.UPDATE == crudOperation) {
 
@@ -78,7 +74,7 @@ public class ModifiedDrawPresenter implements ModifiedDrawListener {
         }
     }
 
-    public void setListener(LottoDashBoardPresenter listener) {
+    void setListener(LottoDashBoardPresenter listener) {
         this.lottoDashBoardPresenter = listener;
     }
 
@@ -88,13 +84,12 @@ public class ModifiedDrawPresenter implements ModifiedDrawListener {
         stage.setResizable(false);
         stage.setTitle("Update Drawing");
 
-        Scene scene = new Scene(modifiedDrawView.getView());
+        Scene scene = new Scene(getView().display());
         stage.setScene(scene);
 
         stage.show();
 
-        stage.setOnHiding( event -> {
-            lottoDashBoardPresenter.renableTableView();
-        });
+        stage.setOnHiding( e -> lottoDashBoardPresenter.renableTableView() );
+
     }
 }

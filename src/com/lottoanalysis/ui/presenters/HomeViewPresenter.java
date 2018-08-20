@@ -6,6 +6,7 @@ import com.lottoanalysis.models.drawhistory.DrawModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
+import com.lottoanalysis.models.lottogames.FiveDigitLotteryGameImpl;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.managers.CacheManager;
 import com.lottoanalysis.services.homeviewservices.HomeServiceRepositoryImpl;
@@ -15,20 +16,20 @@ import com.lottoanalysis.ui.dashboardview.LottoDashBoardViewImpl;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryViewImpl;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewImpl;
 import com.lottoanalysis.ui.homeview.EventSource;
-import com.lottoanalysis.ui.homeview.HomeView;
+import com.lottoanalysis.ui.homeview.HomeViewImpl;
 import com.lottoanalysis.ui.homeview.HomeViewListener;
+import com.lottoanalysis.ui.presenters.base.BasePresenter;
 import javafx.scene.layout.AnchorPane;
 
-public class HomeViewPresenter implements HomeViewListener {
+public class HomeViewPresenter extends BasePresenter<HomeViewImpl, LottoGame> implements HomeViewListener {
 
-    private HomeView homeViewImpl;
-    private LottoGame lottoGame;
     private Cacheable gameCache;
 
-    public HomeViewPresenter(HomeView homeView){
+    public HomeViewPresenter(HomeViewImpl homeView){
+        super(homeView, new FiveDigitLotteryGameImpl());
 
-        this.homeViewImpl = homeView;
-        homeViewImpl.setHomeViewListener( this );
+        getModel().addListener( (this) );
+        getView().setPresenter( (this) );
 
         loadGameDashBoard();
     }
@@ -49,10 +50,22 @@ public class HomeViewPresenter implements HomeViewListener {
         }
     }
 
+    @Override
+    public void handleOnModelChanged(String property) {
+
+        switch (property){
+            case "list":
+            case "name":
+                loadGameDashBoard();
+                break;
+        }
+
+    }
+
     private void executeBetSlipAnalysis() {
 
         DrawModel drawHistoryModel = new DrawModel(
-                lottoGame,
+                getModel(),
                 new TotalWinningNumberTracker(),
                 new LottoNumberGameOutTracker(),
                 new SumGroupAnalyzer()
@@ -60,16 +73,16 @@ public class HomeViewPresenter implements HomeViewListener {
 
         DrawHistoryPresenter drawHistoryPresenter = new DrawHistoryPresenter(drawHistoryModel, new DrawHistoryViewImpl());
 
-        homeViewImpl.injectView( drawHistoryPresenter.presentViewForDisplay() );
+        getView().injectView( drawHistoryPresenter.presentViewForDisplay() );
     }
 
     private void loadGameDashBoard(int id) {
 
 
         LottoDashBoardHomeService lottoDashBoardHomeService = new LottoDashBoardHomeServiceImpl(new HomeServiceRepositoryImpl());
-        lottoGame = lottoDashBoardHomeService.loadById( id );
+        setModel( lottoDashBoardHomeService.loadById( id ) );
 
-        loadGameDashBoard(lottoGame);
+        loadGameDashBoard(getModel());
 
     }
 
@@ -77,11 +90,11 @@ public class HomeViewPresenter implements HomeViewListener {
 
         if(gameCache == null){
 
-            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), lottoGame);
-            gameSelectionPresenter.showView();
+            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), getModel());
             gameSelectionPresenter.setHomeViewListener(this);
+            gameSelectionPresenter.showView();
 
-            gameCache = new GameSelectionObject(lottoGame, lottoGame.getLottoId(), 0);
+            gameCache = new GameSelectionObject(getModel(), getModel().getLottoId(), 0);
 
 
             CacheManager.putCache( gameCache );
@@ -89,9 +102,9 @@ public class HomeViewPresenter implements HomeViewListener {
         else{
 
             Cacheable cacheable = CacheManager.getCache( gameCache );
-            lottoGame = (LottoGame) cacheable.getObject();
+            setModel( (LottoGame)cacheable.getObject() );
 
-            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), lottoGame);
+            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), getModel());
             gameSelectionPresenter.showView();
             gameSelectionPresenter.setHomeViewListener(this);
 
@@ -101,45 +114,43 @@ public class HomeViewPresenter implements HomeViewListener {
     private void loadGameDashBoard(LottoGame lottoGame) {
 
         LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
-        presenter.setListener(this);
+        //presenter.setListener(this);
 
-        homeViewImpl.injectView( presenter.presentView() );
+        getView().injectView( presenter.presentView() );
     }
 
     private void loadGameDashBoard() {
 
-        if(lottoGame == null) {
+        if(getModel().getLottoId() <= 0) {
 
             LottoDashBoardHomeService lottoDashBoardHomeService = new LottoDashBoardHomeServiceImpl(new HomeServiceRepositoryImpl());
-            lottoGame = lottoDashBoardHomeService.getDefaultGame();
+            setModel( lottoDashBoardHomeService.getDefaultGame() );
+            getModel().addListener( (this) );
 
-            LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
-            presenter.setListener(this);
+            LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), getModel());
 
-            homeViewImpl.injectView(presenter.presentView());
+            getView().injectView(presenter.presentView());
         }
         else{
 
-            loadGameDashBoard( lottoGame.getLottoId() );
+            loadGameDashBoard( getModel().getLottoId() );
+            getModel().addListener(this);
         }
 
     }
 
     public AnchorPane onGameLoad() {
-        return homeViewImpl.getView();
+        return getView().display();
     }
 
     void copy(LottoGame lottoGame) {
-        this.lottoGame = lottoGame;
+        setModel( lottoGame );
     }
 
     void enable() {
 
-        homeViewImpl.enableButtonAndDisableDashboardButton();
+        getView().enableButtonAndDisableDashboardButton();
 
     }
 
-    void reloadDashBoard() {
-        loadGameDashBoard();
-    }
 }

@@ -19,4 +19,8 @@ public interface GameSelectionModel {
     Map<String,Integer> getGameNameAndIds();
 
     String getTitle();
+
+    void setStageCloseFlag(boolean flag);
+
+    boolean isStageClosed();
 }
