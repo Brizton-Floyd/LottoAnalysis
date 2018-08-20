@@ -1,21 +1,26 @@
 package com.lottoanalysis.ui.dashboardview;
 
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
+import com.lottoanalysis.services.dashboardservices.enums.CrudOperation;
 import com.lottoanalysis.ui.homeview.HomeViewListener;
+import com.lottoanalysis.ui.presenters.HomeViewPresenter;
 
 public interface LottoDashBoardListener {
 
-    void performViewStartUp();
-
-    void injectLottoDrawData();
-
+    void handleViewEvent(String operation);
+//    void performViewStartUp();
+//
+//    void injectLottoDrawData();
+//
     void loadEditableDrawView(Drawing drawing);
 
-    void setListener(HomeViewListener homeViewListener);
-
-    void renableTableView();
-
-    void reloadViewAfterUpdate();
-
-    void reloadViewAfterDelete();
+    void notifyOfCompletion();
+//
+//    void setListener(HomeViewPresenter homeViewListener);
+//
+//    void renableTableView();
+//
+//    void reloadViewAfterUpdate();
+//
+//    void reloadViewAfterDelete();
 }

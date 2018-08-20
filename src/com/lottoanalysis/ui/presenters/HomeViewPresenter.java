@@ -18,6 +18,7 @@ import com.lottoanalysis.services.homeviewservices.LottoDashBoardHomeServiceImpl
 import com.lottoanalysis.ui.dashboardview.LottoDashBoardViewImpl;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryViewImpl;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewImpl;
+import com.lottoanalysis.ui.homeview.EventSource;
 import com.lottoanalysis.ui.homeview.HomeView;
 import com.lottoanalysis.ui.homeview.HomeViewListener;
 import javafx.scene.layout.AnchorPane;
@@ -40,7 +41,22 @@ public class HomeViewPresenter implements HomeViewListener {
     }
 
     @Override
-    public void executeBetSlipAnalysis() {
+    public void handleViewEvent(EventSource eventSource) {
+
+        switch (eventSource){
+            case BET_SLIP_ANALYSIS:
+                executeBetSlipAnalysis();
+                break;
+            case GAME_PANEL:
+                presentLottoGameSelectionView();
+                break;
+            case LOTTO_DASHBOARD:
+                loadGameDashBoard();
+                break;
+        }
+    }
+
+    private void executeBetSlipAnalysis() {
 
         DrawHistoryModel drawHistoryModel = new DrawHistoryModel(
                 lottoGame,
@@ -48,22 +64,56 @@ public class HomeViewPresenter implements HomeViewListener {
                 new LottoNumberGameOutTracker(),
                 new SumGroupAnalyzer()
         );
+
         DrawHistoryPresenter drawHistoryPresenter = new DrawHistoryPresenter(drawHistoryModel, new DrawHistoryViewImpl());
 
         homeViewImpl.injectView( drawHistoryPresenter.presentViewForDisplay() );
     }
 
-    @Override
-    public void loadGameDashBoard(int id) {
+    private void loadGameDashBoard(int id) {
+
 
         LottoDashBoardHomeService lottoDashBoardHomeService = new LottoDashBoardHomeServiceImpl(new HomeServiceRepositoryImpl());
         lottoGame = lottoDashBoardHomeService.loadById( id );
 
         loadGameDashBoard(lottoGame);
+
     }
 
-    @Override
-    public void loadGameDashBoard() {
+    private void presentLottoGameSelectionView() {
+
+        if(gameCache == null){
+
+            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), lottoGame);
+            gameSelectionPresenter.showView();
+            gameSelectionPresenter.setHomeViewListener(this);
+
+            gameCache = new GameSelectionObject(lottoGame, lottoGame.getLottoId(), 0);
+
+
+            CacheManager.putCache( gameCache );
+        }
+        else{
+
+            Cacheable cacheable = CacheManager.getCache( gameCache );
+            lottoGame = (LottoGame) cacheable.getObject();
+
+            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), lottoGame);
+            gameSelectionPresenter.showView();
+            gameSelectionPresenter.setHomeViewListener(this);
+
+        }
+    }
+
+    private void loadGameDashBoard(LottoGame lottoGame) {
+
+        LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
+        presenter.setListener(this);
+
+        homeViewImpl.injectView( presenter.presentView() );
+    }
+
+    private void loadGameDashBoard() {
 
         if(lottoGame == null) {
 
@@ -82,65 +132,21 @@ public class HomeViewPresenter implements HomeViewListener {
 
     }
 
-    @Override
-    public void invokeDashBoard() {
-
-        loadGameDashBoard(lottoGame);
-    }
-
-    @Override
-    public void reloadViewsBasedOnId(Integer val, Stage stage, boolean closeStage) {
-
-        loadGameDashBoard(val);
-
-        if(closeStage) {
-            stage.close();
-        }
-
-        homeViewImpl.enableButtonAndDisableDashboardButton();
-    }
-
-    @Override
-    public void presentLottoGameSelectionView() {
-
-        GameSelectionModel model;
-        if(gameCache == null){
-
-            model = new GameSelectionModelImpl();
-            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), model);
-            gameSelectionPresenter.showView();
-            gameSelectionPresenter.setHomeViewListener(this);
-
-            gameCache = new GameSelectionObject(model, model.getGameNameAndIds().get( model.getDefaultName() ), 0);
-
-
-            CacheManager.putCache( gameCache );
-        }
-        else{
-
-            Cacheable cacheable = CacheManager.getCache( gameCache );
-            GameSelectionModel gameSelectionModel = (GameSelectionModel)cacheable.getObject();
-
-            GameSelectionPresenter gameSelectionPresenter = new GameSelectionPresenter(new GameSelectionViewImpl(), gameSelectionModel);
-            gameSelectionPresenter.showView();
-            gameSelectionPresenter.setHomeViewListener(this);
-
-            System.out.println(gameSelectionModel.getDefaultName());
-
-        }
-    }
-
-    @Override
-    public void loadGameDashBoard(LottoGame lottoGame) {
-
-        LottoDashBoardPresenter presenter = new LottoDashBoardPresenter(new LottoDashBoardViewImpl(), lottoGame);
-        presenter.setListener(this);
-
-        homeViewImpl.injectView( presenter.presentView() );
-    }
-
-    @Override
     public AnchorPane onGameLoad() {
         return homeViewImpl.getView();
+    }
+
+    void copy(LottoGame lottoGame) {
+        this.lottoGame = lottoGame;
+    }
+
+    void enable() {
+
+        homeViewImpl.enableButtonAndDisableDashboardButton();
+
+    }
+
+    public void reloadDashBoard() {
+        loadGameDashBoard();
     }
 }

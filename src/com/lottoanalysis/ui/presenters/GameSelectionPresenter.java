@@ -1,46 +1,48 @@
 package com.lottoanalysis.ui.presenters;
 
-import com.lottoanalysis.interfaces.ThreadCompleteListener;
 import com.lottoanalysis.models.gameselection.GameSelectionModel;
+import com.lottoanalysis.models.gameselection.GameSelectionModelImpl;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.lottogames.data.LotteryGameDaoImpl;
-import com.lottoanalysis.models.tasks.DataDownLoaderTask;
-import com.lottoanalysis.models.tasks.NotifyingThread;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionRepositoryImpl;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionService;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionServiceImpl;
-import com.lottoanalysis.services.gameselectionservices.webscrapper.WebScrapperImpl;
 import com.lottoanalysis.ui.gameselection.GameSelectionView;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewListener;
-import com.lottoanalysis.ui.homeview.HomeViewListener;
-import com.lottoanalysis.utilities.fileutilities.OnlineFileUtility;
+import com.lottoanalysis.ui.homeview.EventSource;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import static com.lottoanalysis.ui.homeview.EventSource.LOTTO_DASHBOARD;
 
 public class GameSelectionPresenter implements GameSelectionViewListener  {
 
     private GameSelectionModel gameSelectionModel;
+    private LottoGame lottoGame;
     private GameSelectionView gameSelectionView;
-    private HomeViewListener homeViewListener;
+    private HomeViewPresenter homeViewListener;
     private Stage stage = new Stage(StageStyle.DECORATED);
 
-    GameSelectionPresenter(GameSelectionView gameSelectionView, GameSelectionModel gameSelectionModel) {
+    GameSelectionPresenter(GameSelectionView gameSelectionView, LottoGame lottoGame) {
 
         this.gameSelectionView = gameSelectionView;
-        this.gameSelectionModel = gameSelectionModel;
+        this.lottoGame = lottoGame;
+        this.gameSelectionModel = new GameSelectionModelImpl();
 
         gameSelectionView.initializeListener(this);
         invokeServiceCall();
         gameSelectionView.initializeView();
 
     }
-
 
     @Override
     public void injectMenuItemValues() {
@@ -52,7 +54,14 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
     public void notifyMainViewOfValueChange(String text, boolean flag) {
 
         gameSelectionModel.setGameName(text);
-        homeViewListener.reloadViewsBasedOnId(gameSelectionModel.getGameNameAndIds().get(text), stage, flag);
+        lottoGame.setLottoId( gameSelectionModel.getGameNameAndIds().get(text) );
+        homeViewListener.copy( lottoGame );
+        homeViewListener.handleViewEvent(LOTTO_DASHBOARD);
+
+        if(flag) {
+            stage.close();
+            homeViewListener.enable();
+        }
 
     }
 
@@ -84,12 +93,6 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
                                                     gameSelectionModel);
         gameSelectionService.executeGameUpdate();
 
-//        Task<Void> fileDownloadTask = new WebScrapperImpl(OnlineFileUtility.getUrlPaths(), this);
-//        gameSelectionView.bindToProgressAndMessage( fileDownloadTask.progressProperty(), fileDownloadTask.messageProperty() );
-//
-//        Thread thread = new Thread(fileDownloadTask, "File Downloader");
-//        thread.setDaemon(true);
-//        thread.start();
    }
 
     @Override
@@ -112,11 +115,21 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
     @Override
     public void reloadViewPostUpdate(boolean flag) {
 
-        notifyMainViewOfValueChange( gameSelectionModel.getDefaultName(), flag );
+        String gameName = "";
+
+        for (Map.Entry<String, Integer> entry : gameSelectionModel.getGameNameAndIds().entrySet()) {
+
+            if (entry.getValue() == lottoGame.getLottoId()){
+                gameName = entry.getKey();
+                break;
+            }
+        }
+
+        notifyMainViewOfValueChange( gameName, flag );
     }
 
     @Override
-    public void setHomeViewListener(HomeViewListener homeViewListener) {
+    public void setHomeViewListener(HomeViewPresenter homeViewListener) {
         this.homeViewListener = homeViewListener;
     }
 
@@ -127,13 +140,15 @@ public class GameSelectionPresenter implements GameSelectionViewListener  {
 
     }
 
-    public void showView() {
+    void showView() {
 
         Scene scene = new Scene(gameSelectionView.view());
         stage.setScene(scene);
         stage.setTitle(gameSelectionModel.getTitle());
 
         stage.show();
+
+        stage.setOnHiding( event -> homeViewListener.enable());
 
     }
 }

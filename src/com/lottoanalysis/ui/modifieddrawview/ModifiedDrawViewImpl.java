@@ -74,11 +74,11 @@ public class ModifiedDrawViewImpl extends AnchorPane implements ModifiedDrawView
             Map<Integer,String> valAndKeys = NodeUtils.textValues(pane);
 
             modifiedDrawListener.updateModelList( valAndKeys );
-            modifiedDrawListener.invokeService(CrudOperation.UPDATE);
+            modifiedDrawListener.handleViewEvent(CrudOperation.UPDATE);
         }
         else if( event.getSource() == delete){
 
-            modifiedDrawListener.invokeService(CrudOperation.DELETE);
+            modifiedDrawListener.handleViewEvent(CrudOperation.DELETE);
         }
     }
 
