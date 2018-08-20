@@ -2,7 +2,7 @@ package com.lottoanalysis.ui.presenters;
 
 import com.lottoanalysis.interfaces.Cacheable;
 import com.lottoanalysis.models.GameSelectionObject;
-import com.lottoanalysis.models.drawhistory.DrawHistoryModel;
+import com.lottoanalysis.models.drawhistory.DrawModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
@@ -51,7 +51,7 @@ public class HomeViewPresenter implements HomeViewListener {
 
     private void executeBetSlipAnalysis() {
 
-        DrawHistoryModel drawHistoryModel = new DrawHistoryModel(
+        DrawModel drawHistoryModel = new DrawModel(
                 lottoGame,
                 new TotalWinningNumberTracker(),
                 new LottoNumberGameOutTracker(),

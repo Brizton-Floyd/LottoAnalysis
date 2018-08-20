@@ -3,29 +3,21 @@ package com.lottoanalysis.ui.presenters;
 import com.lottoanalysis.models.drawhistory.*;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryListener;
 import com.lottoanalysis.ui.drawhistoryview.DrawHistoryViewImpl;
+import com.lottoanalysis.ui.presenters.base.BasePresenter;
+import javafx.scene.layout.AnchorPane;
 
 import java.util.List;
 import java.util.Set;
 
-public class DrawHistoryPresenter implements DrawHistoryListener, DrawHistoryModelChanged{
+public class DrawHistoryPresenter extends BasePresenter<DrawHistoryViewImpl, DrawModel> implements DrawHistoryListener{
 
-    // This is form of aggregation
-    private DrawHistoryModel drawHistoryModel;
-    private DrawHistoryViewImpl drawHistoryViewImpl;
+    public DrawHistoryPresenter(DrawModel drawHistoryModel, DrawHistoryViewImpl drawHistoryViewImpl) {
+        super(drawHistoryViewImpl, drawHistoryModel);
 
-    public DrawHistoryPresenter(DrawHistoryModel drawHistoryModel, DrawHistoryViewImpl drawHistoryViewImpl) {
+        getModel().addListener( (this) );
+        getView().setPresenter( this );
 
-        this.drawHistoryModel = drawHistoryModel;
-        drawHistoryModel.addListener( (this) );
-
-        this.drawHistoryViewImpl = drawHistoryViewImpl;
-
-        drawHistoryViewImpl.setDrawDays( extractDaysOfWeekFromResults() );
-        drawHistoryViewImpl.setDayOfWeekPopulationNeeded( drawHistoryModel.isDayOfWeekPopulationNeeded() );
-        drawHistoryViewImpl.setGameName( drawHistoryModel.getGameName() );
-        drawHistoryViewImpl.setNumberOfPositions( drawHistoryModel.getDrawResultSize() );
-        drawHistoryViewImpl.addListener(this);
-
+        createUi();
     }
 
     @Override
@@ -41,48 +33,38 @@ public class DrawHistoryPresenter implements DrawHistoryListener, DrawHistoryMod
             case"analyzeMethod":
                 populateViewPostAnalysisMethodChange();
                 break;
+            case"dayOfWeek":
+                populateViewPostDayOfWeekChange();
+                break;
         }
     }
 
     @Override
-    public void onGameSpanChange(int span) {
-
-        drawHistoryModel.setGameSpan( span );
-    }
-
+    public void onGameSpanChange(int span) { getModel().setGameSpan( span ); }
 
     @Override
-    public void onDrawPositionChange(DrawPositions drawPosition) {
-
-        drawHistoryModel.setDrawPositions(drawPosition);
-
-    }
+    public void onDrawPositionChange(DrawPositions drawPosition) { getModel().setDrawPositions(drawPosition); }
 
     @Override
-    public void onAnalysisMethodChange(AnalyzeMethod analyzeMethod) {
-
-        drawHistoryModel.setAnalyzeMethod( analyzeMethod );
-
-    }
+    public void onAnalysisMethodChange(AnalyzeMethod analyzeMethod) { getModel().setAnalyzeMethod( analyzeMethod ); }
 
     @Override
     public void onTableCellSelectionChange(String value) {
 
-        List<Integer> values = drawHistoryModel.getLottoNumbersInSumRangeHolder( value );
-        drawHistoryViewImpl.injectLottoNumberValues(values);
+        List<Integer> values = getModel().getLottoNumbersInSumRangeHolder( value );
+        getView().injectLottoNumberValues(values);
     }
 
     @Override
-    public void onRadioButtonChange(DayOfWeek dayOfWeek) {
+    public void onRadioButtonChange(DayOfWeek dayOfWeek) { getModel().setDayOfWeek(dayOfWeek); }
 
-        drawHistoryModel.setDayOfWeek(dayOfWeek);
-        drawHistoryModel.setDayOfWeekPopulationNeeded(false);
-        drawHistoryModel.analyzeDrawData();
+    private void populateViewPostDayOfWeekChange() {
+        getModel().setDayOfWeekPopulationNeeded(false);
+        getModel().analyzeDrawData();
 
-        drawHistoryViewImpl.setDayOfWeekPopulationNeeded( drawHistoryModel.isDayOfWeekPopulationNeeded() );
+        getView().setDayOfWeekPopulationNeeded( getModel().isDayOfWeekPopulationNeeded() );
 
         setUpAllUIElements();
-
     }
 
     @Override
@@ -93,74 +75,83 @@ public class DrawHistoryPresenter implements DrawHistoryListener, DrawHistoryMod
     }
 
     private void populateViewPostAnalysisMethodChange() {
-        drawHistoryModel.analyzeDrawData();
-        drawHistoryViewImpl.setAbbreviationLabel( drawHistoryModel.getAnalyzeMethod().getAbbr() );
+        getModel().analyzeDrawData();
+        getView().setAbbreviationLabel( getModel().getAnalyzeMethod().getAbbr() );
 
         setUpAllUIElements();
     }
 
     private void populateViewPostGameSpanChange() {
-        drawHistoryModel.analyzeDrawData();
+        getModel().analyzeDrawData();
 
-        drawHistoryViewImpl.setAverageAndSpan( drawHistoryModel.getGameSpan(), TotalWinningNumberTracker.getAverage());
+        getView().setAverageAndSpan( getModel().getGameSpan(), TotalWinningNumberTracker.getAverage());
 
-        drawHistoryViewImpl.injectTotalWinningNumbers( drawHistoryModel.getTotalWinningNumberTracker().getTotalWinningNumberTrackerMap());
-        drawHistoryViewImpl.injectFirstDigitNumbers( drawHistoryModel.getFirstDigitValueHolderMap() );
-        drawHistoryViewImpl.injectLottoNumberHits( drawHistoryModel.getLottoNumberGameOutTrackerMap() );
-        drawHistoryViewImpl.injectSumGroupHits( drawHistoryModel.getSumGroupAnalyzer().getGroupAnalyzerMap() );
-        drawHistoryViewImpl.injectLottoAndGameOutValues(drawHistoryModel.extractDefaultResults(),
-                drawHistoryModel.getSumGroupAnalyzer().getGameOutHitHolder());
+        getView().injectTotalWinningNumbers( getModel().getTotalWinningNumberTracker().getTotalWinningNumberTrackerMap());
+        getView().injectFirstDigitNumbers( getModel().getFirstDigitValueHolderMap() );
+        getView().injectLottoNumberHits( getModel().getLottoNumberGameOutTrackerMap() );
+        getView().injectSumGroupHits( getModel().getSumGroupAnalyzer().getGroupAnalyzerMap() );
+        getView().injectLottoAndGameOutValues(getModel().extractDefaultResults(),
+                getModel().getSumGroupAnalyzer().getGameOutHitHolder());
     }
 
     private void populateViewPostDrawPositionChange() {
-        if(DrawPositions.BONUS != drawHistoryModel.getDrawPositions()) {
+        if(DrawPositions.BONUS != getModel().getDrawPositions()) {
 
-            drawHistoryModel.analyzeDrawData();
+            getModel().analyzeDrawData();
 
-            drawHistoryViewImpl.setHeaderInformation(Integer.toString(drawHistoryModel.getDrawPositions().getIndex()));
-            drawHistoryViewImpl.injectFirstDigitNumbers(drawHistoryModel.getFirstDigitValueHolderMap());
-            drawHistoryViewImpl.injectLottoNumberHits(drawHistoryModel.getLottoNumberGameOutTrackerMap());
-            drawHistoryViewImpl.injectSumGroupHits(drawHistoryModel.getSumGroupAnalyzer().getGroupAnalyzerMap());
-            drawHistoryViewImpl.injectLottoAndGameOutValues(drawHistoryModel.extractDefaultResults(),
-                    drawHistoryModel.getSumGroupAnalyzer().getGameOutHitHolder());
+            getView().setHeaderInformation(Integer.toString(getModel().getDrawPositions().getIndex()));
+            getView().injectFirstDigitNumbers(getModel().getFirstDigitValueHolderMap());
+            getView().injectLottoNumberHits(getModel().getLottoNumberGameOutTrackerMap());
+            getView().injectSumGroupHits(getModel().getSumGroupAnalyzer().getGroupAnalyzerMap());
+            getView().injectLottoAndGameOutValues(getModel().extractDefaultResults(),
+                    getModel().getSumGroupAnalyzer().getGameOutHitHolder());
         }
     }
 
     private Set<String> extractDaysOfWeekFromResults() {
-        return drawHistoryModel.getLottoGame().extractDaysOfWeekFromResults( drawHistoryModel.getLottoGame().getDrawingData());
+        return getModel().getLottoGame().extractDaysOfWeekFromResults( getModel().getLottoGame().getDrawingData());
     }
 
     private void setUpAllUIElements() {
 
-        drawHistoryViewImpl.setAverageAndSpan(drawHistoryModel.getGameSpan(), TotalWinningNumberTracker.getAverage());
-        drawHistoryViewImpl.injectTotalWinningNumbers( drawHistoryModel.getTotalWinningNumberTracker().getTotalWinningNumberTrackerMap());
-        drawHistoryViewImpl.injectFirstDigitNumbers( drawHistoryModel.getFirstDigitValueHolderMap() );
-        drawHistoryViewImpl.injectLottoNumberHits( drawHistoryModel.getLottoNumberGameOutTrackerMap() );
-        drawHistoryViewImpl.injectSumGroupHits( drawHistoryModel.getSumGroupAnalyzer().getGroupAnalyzerMap() );
-        drawHistoryViewImpl.setAnalyzeLabel( drawHistoryModel.getAnalyzeMethod().getTitle() );
-        drawHistoryViewImpl.injectLottoAndGameOutValues(drawHistoryModel.extractDefaultResults(),
-                drawHistoryModel.getSumGroupAnalyzer().getGameOutHitHolder());
+        getView().setAverageAndSpan(getModel().getGameSpan(), TotalWinningNumberTracker.getAverage());
+        getView().injectTotalWinningNumbers( getModel().getTotalWinningNumberTracker().getTotalWinningNumberTrackerMap());
+        getView().injectFirstDigitNumbers( getModel().getFirstDigitValueHolderMap() );
+        getView().injectLottoNumberHits( getModel().getLottoNumberGameOutTrackerMap() );
+        getView().injectSumGroupHits( getModel().getSumGroupAnalyzer().getGroupAnalyzerMap() );
+        getView().setAnalyzeLabel( getModel().getAnalyzeMethod().getTitle() );
+        getView().injectLottoAndGameOutValues(getModel().extractDefaultResults(),
+                getModel().getSumGroupAnalyzer().getGameOutHitHolder());
     }
 
     private void defaultValuesSetUp() {
 
-        drawHistoryModel.analyzeDrawData();
+        getModel().analyzeDrawData();
 
-        drawHistoryViewImpl.setAbbreviationLabel( drawHistoryModel.getAnalyzeMethod().getAbbr() );
-        drawHistoryViewImpl.setHeaderInformation(drawHistoryModel.getDrawPositions().getIndex()+"");
-        drawHistoryViewImpl.setAnalyzeLabel( drawHistoryModel.getAnalyzeMethod().getTitle() );
-        drawHistoryViewImpl.setAverageAndSpan(drawHistoryModel.getGameSpan(), TotalWinningNumberTracker.getAverage());
-        drawHistoryViewImpl.injectTotalWinningNumbers( drawHistoryModel.getTotalWinningNumberTracker().getTotalWinningNumberTrackerMap());
-        drawHistoryViewImpl.injectFirstDigitNumbers( drawHistoryModel.getFirstDigitValueHolderMap() );
-        drawHistoryViewImpl.injectLottoNumberHits( drawHistoryModel.getLottoNumberGameOutTrackerMap() );
-        drawHistoryViewImpl.injectSumGroupHits( drawHistoryModel.getSumGroupAnalyzer().getGroupAnalyzerMap() );
-        drawHistoryViewImpl.injectLottoAndGameOutValues(drawHistoryModel.extractDefaultResults(),
-                drawHistoryModel.getSumGroupAnalyzer().getGameOutHitHolder());
+        getView().setAbbreviationLabel( getModel().getAnalyzeMethod().getAbbr() );
+        getView().setHeaderInformation(getModel().getDrawPositions().getIndex()+"");
+        getView().setAnalyzeLabel( getModel().getAnalyzeMethod().getTitle() );
+        getView().setAverageAndSpan(getModel().getGameSpan(), TotalWinningNumberTracker.getAverage());
+        getView().injectTotalWinningNumbers( getModel().getTotalWinningNumberTracker().getTotalWinningNumberTrackerMap());
+        getView().injectFirstDigitNumbers( getModel().getFirstDigitValueHolderMap() );
+        getView().injectLottoNumberHits( getModel().getLottoNumberGameOutTrackerMap() );
+        getView().injectSumGroupHits( getModel().getSumGroupAnalyzer().getGroupAnalyzerMap() );
+        getView().injectLottoAndGameOutValues(getModel().extractDefaultResults(),
+                getModel().getSumGroupAnalyzer().getGameOutHitHolder());
 
     }
 
-    public DrawHistoryViewImpl presentViewForDisplay() {
-        return drawHistoryViewImpl;
+    private void createUi() {
+        getView().setDrawDays( extractDaysOfWeekFromResults() );
+        getView().setDayOfWeekPopulationNeeded( getModel().isDayOfWeekPopulationNeeded() );
+        getView().setGameName( getModel().getGameName() );
+        getView().setNumberOfPositions( getModel().getDrawResultSize() );
+        getView().setUpUi();
+    }
+
+
+    public AnchorPane presentViewForDisplay() {
+        return getView().display();
     }
 
 }

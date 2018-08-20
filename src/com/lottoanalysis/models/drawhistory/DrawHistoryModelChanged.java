@@ -1,7 +1,5 @@
 package com.lottoanalysis.models.drawhistory;
 
-public interface DrawHistoryModelChanged {
-
-    void handleOnModelChanged(String property);
+public interface DrawHistoryModelChanged extends ModelChanged {
 
 }

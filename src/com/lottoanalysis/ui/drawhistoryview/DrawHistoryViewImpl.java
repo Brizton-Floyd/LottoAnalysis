@@ -4,6 +4,8 @@ import com.lottoanalysis.models.charts.LineChartWithHover;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.models.drawhistory.*;
 import com.lottoanalysis.ui.drawhistoryview.cells.SumGroupCell;
+import com.lottoanalysis.ui.homeview.base.BaseView;
+import com.lottoanalysis.ui.presenters.DrawHistoryPresenter;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -19,10 +21,7 @@ import javafx.util.Callback;
 
 import java.util.*;
 
-public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
-
-    // Subscribe listener to view
-    private DrawHistoryListener drawHistoryListener;
+public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implements DrawHistoryView {
 
     private VBox lottoGameStatsVBox = new VBox();
     private HBox dayOfWeekRadioButtons;
@@ -155,36 +154,39 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
     }
 
     @Override
+    public void setUpUi() {
+        addActionHandlerToUiElements();
+        notifyListenerOfPageLoad();
+    }
+
+    @Override
+    public AnchorPane display() {
+        return this;
+    }
+
+    @Override
     public void notifyListenerOfDrawPositionChange(DrawPositions drawPosition) {
-        drawHistoryListener.onDrawPositionChange(drawPosition);
+        getPresenter().onDrawPositionChange(drawPosition);
     }
 
     @Override
     public void notifyListenerOfAnalysisChange(AnalyzeMethod analyzeMethod) {
-        drawHistoryListener.onAnalysisMethodChange(analyzeMethod);
+        getPresenter().onAnalysisMethodChange(analyzeMethod);
     }
 
     @Override
     public void notifyListenerOfGameSpanChange(int span) {
-        drawHistoryListener.onGameSpanChange(span);
+        getPresenter().onGameSpanChange(span);
     }
 
     @Override
     public void notifyListenerOfTableCellSelectionChange(String value) {
-        drawHistoryListener.onTableCellSelectionChange(value);
+        getPresenter().onTableCellSelectionChange(value);
     }
 
     @Override
     public void notifyListenerOfPageLoad() {
-        drawHistoryListener.onPageLoad();
-    }
-
-    @Override
-    public void addListener(DrawHistoryListener listener) {
-        this.drawHistoryListener = listener;
-
-        addActionHandlerToUiElements();
-        notifyListenerOfPageLoad();
+        getPresenter().onPageLoad();
     }
 
     @Override
@@ -390,7 +392,7 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
 
                 if (dayOfWeek.getDay().equals(newVal.getUserData().toString())) {
 
-                    drawHistoryListener.onRadioButtonChange(dayOfWeek);
+                    getPresenter().onRadioButtonChange(dayOfWeek);
 
                 }
             }
@@ -565,9 +567,9 @@ public class DrawHistoryViewImpl extends AnchorPane implements DrawHistoryView {
         List<Integer> specialList = (List<Integer>) data[0];
 
         dataPoints.add((specialList.size() > 160) ? specialList.subList(specialList.size() - 160, specialList.size()) : specialList);
-//        dataPoints.add((DrawHistoryModel.getAllDayDrawResults().size() > 100) ? DrawHistoryModel.getAllDayDrawResults()
-//                    .subList(DrawHistoryModel.getAllDayDrawResults().size() - 100, DrawHistoryModel.getAllDayDrawResults().size()) :
-//                DrawHistoryModel.getAllDayDrawResults());
+//        dataPoints.add((DrawModel.getAllDayDrawResults().size() > 100) ? DrawModel.getAllDayDrawResults()
+//                    .subList(DrawModel.getAllDayDrawResults().size() - 100, DrawModel.getAllDayDrawResults().size()) :
+//                DrawModel.getAllDayDrawResults());
         //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
