@@ -6,6 +6,7 @@ import com.lottoanalysis.models.drawhistory.DrawModel;
 import com.lottoanalysis.models.drawhistory.LottoNumberGameOutTracker;
 import com.lottoanalysis.models.drawhistory.SumGroupAnalyzer;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
+import com.lottoanalysis.models.gameout.GameOutModel;
 import com.lottoanalysis.models.lottogames.FiveDigitLotteryGameImpl;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.managers.CacheManager;
@@ -47,6 +48,9 @@ public class HomeViewPresenter extends BasePresenter<HomeViewImpl, LottoGame> im
             case LOTTO_DASHBOARD:
                 loadGameDashBoard();
                 break;
+            case GAME_OUT_ANALYSIS:
+                presentGameOutAnalysisView();
+                break;
         }
     }
 
@@ -60,6 +64,12 @@ public class HomeViewPresenter extends BasePresenter<HomeViewImpl, LottoGame> im
                 break;
         }
 
+    }
+
+    private void presentGameOutAnalysisView() {
+
+        GameOutPresenter gameOutPresenter = new GameOutPresenter(new GameOutModel(getModel()));
+        getView().injectView( gameOutPresenter.getViewForDisplay());
     }
 
     private void executeBetSlipAnalysis() {

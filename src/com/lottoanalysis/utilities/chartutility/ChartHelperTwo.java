@@ -361,12 +361,12 @@ public class ChartHelperTwo {
 	            String pattern = String.format("%s-%s",currentWinningNumber,nextWinningNumber);
 	            patterns.add(pattern);
 
-	            list.add(nextWinningNumber);
-	            //list.add(currentWinningNumber);
+                list.add(currentWinningNumber);
+                list.add(nextWinningNumber);
+	            list.add(currentWinningNumber);
             }
 
         }
-        list.add(currentWinningNumber);
 
 //        String[] output = {""};
 //

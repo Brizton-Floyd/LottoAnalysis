@@ -1,13 +1,11 @@
 package com.lottoanalysis.ui.presenters;
 
-import com.lottoanalysis.models.gameselection.GameSelectionModel;
 import com.lottoanalysis.models.gameselection.GameSelectionModelImpl;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.lottogames.data.LotteryGameDaoImpl;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionRepositoryImpl;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionService;
 import com.lottoanalysis.services.gameselectionservices.GameSelectionServiceImpl;
-import com.lottoanalysis.ui.gameselection.GameSelectionView;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewImpl;
 import com.lottoanalysis.ui.gameselection.GameSelectionViewListener;
 import com.lottoanalysis.ui.presenters.base.BasePresenter;
@@ -20,8 +18,6 @@ import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 import java.util.Map;
-
-import static com.lottoanalysis.ui.homeview.EventSource.LOTTO_DASHBOARD;
 
 public class GameSelectionPresenter extends BasePresenter<GameSelectionViewImpl, LottoGame> implements GameSelectionViewListener  {
 
@@ -48,7 +44,7 @@ public class GameSelectionPresenter extends BasePresenter<GameSelectionViewImpl,
 
         switch (property){
             case "name":
-                setNewGameName();
+                reinitializeModel();
                 getModel().onModelChange("name");
                 break;
         }
@@ -67,10 +63,10 @@ public class GameSelectionPresenter extends BasePresenter<GameSelectionViewImpl,
         gameSelectionModel.setGameName(text);
     }
 
-    private void setNewGameName() {
+    private void reinitializeModel() {
+
         getModel().setLottoId( gameSelectionModel.getGameNameAndIds().get( gameSelectionModel.getDefaultName() ) );
         homeViewListener.copy( getModel() );
-        //homeViewListener.handleViewEvent(LOTTO_DASHBOARD);
 
         if(gameSelectionModel.isStageClosed()) {
             stage.close();

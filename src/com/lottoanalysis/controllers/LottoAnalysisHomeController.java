@@ -265,9 +265,9 @@ public class LottoAnalysisHomeController {
 //            e.printStackTrace();
 //        }
 
-        GameOutPresenter gameOutPresenter = new GameOutPresenter(new GameOutModel(allData),new GameOutViewImpl());
+        //GameOutPresenter gameOutPresenter = new GameOutPresenter(new GameOutModel(allData),new GameOutViewImpl());
 
-        setLottoScreen( gameOutPresenter.getViewForDisplay() );
+        //setLottoScreen( gameOutPresenter.getViewForDisplay() );
     }
 
     @FXML

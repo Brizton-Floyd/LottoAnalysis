@@ -16,7 +16,6 @@ public class DrawHistoryPresenter extends BasePresenter<DrawHistoryViewImpl, Dra
 
         getModel().addListener( (this) );
         getView().setPresenter( this );
-
         createUi();
     }
 
