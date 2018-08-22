@@ -1,41 +1,66 @@
 package com.lottoanalysis.ui.presenters;
 
+import com.lottoanalysis.models.drawhistory.DrawModel;
+import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import com.lottoanalysis.models.drawhistory.DrawPositions;
 import com.lottoanalysis.models.gameout.GameOutModel;
 import com.lottoanalysis.ui.gamesoutview.GameOutListener;
 import com.lottoanalysis.ui.gamesoutview.GameOutViewImpl;
+import com.lottoanalysis.ui.presenters.base.BasePresenter;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.layout.AnchorPane;
 
-public class GameOutPresenter implements GameOutListener {
+public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutModel> implements GameOutListener {
 
-    private GameOutModel gameOutModel;
-    private GameOutViewImpl gameOutView;
+    GameOutPresenter(GameOutModel lottoGame){
+        super(new GameOutViewImpl(), lottoGame);
 
-    public GameOutPresenter(GameOutModel gameOutModel, GameOutViewImpl gameOutView){
+        getView().setPresenter((this));
+        getModel().addListener((this));
 
-        this.gameOutModel = gameOutModel;
-        this.gameOutView = gameOutView;
+        bindToViewElements();
+        getView().setUpUi();
+    }
 
-        gameOutView.setListener( this );
-        gameOutView.initializeViewElements();
+    @Override
+    public void handleOnModelChanged(String property) {
+
+        switch (property){
+            case"drawPosition":
+                break;
+        }
+    }
+
+    @Override
+    public void handleViewEvents(String action) {
+
+        switch (action){
+            case"load":
+                onPageLoad();
+                break;
+        }
     }
 
     @Override
     public void onDrawPositionChange(DrawPositions drawPosition) {
 
-        gameOutModel.setDrawPosition( drawPosition );
-        gameOutView.setDrawposition( gameOutModel.getDrawPosition().getIndex()  );
+        getModel().setDrawPositions( drawPosition );
     }
 
-    @Override
-    public void onPageLoad() {
+    private void onPageLoad() {
 
-        gameOutView.setGamePositionRange( gameOutModel.getDrawSize() );
-        gameOutView.setGameName( Drawing.splitGameName(gameOutModel.getGameName()) );
-        gameOutView.setGameMaxValue( gameOutModel.getGameMaxValue() );
+        getView().setGamePositionRange( getModel().getDrawResultSize() );
+        getView().setGameName( getModel().getGameName() );
+        getView().setGameMaxValue( 39 );
     }
 
-    public GameOutViewImpl getViewForDisplay(){
-        return gameOutView;
+    private void bindToViewElements() {
+
+        getView().getPositionLabel().textProperty().bind( getModel().drawingPositionProperty() );
+    }
+
+    AnchorPane getViewForDisplay(){
+        return getView().display();
     }
 }

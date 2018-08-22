@@ -19,7 +19,7 @@ public class DrawModel extends DrawModelBase {
     private Map<Integer, LottoNumberGameOutTracker> lottoNumberGameOutTrackerMap;
 
     private List<Object> lottoDrawData;
-    private SimpleStringProperty gameName;
+    private SimpleStringProperty gameName, drawingPosition;
     private int[][] historicalDrawData;
     private int gameSpan;
     private AnalyzeMethod analyzeMethod;
@@ -48,6 +48,9 @@ public class DrawModel extends DrawModelBase {
         this.drawPositions = DrawPositions.POS_ONE;
         this.dayOfWeek = DayOfWeek.ALL;
         this.dayOfWeekPopulationNeeded = true;
+        this.drawingPosition = new SimpleStringProperty();
+        setDrawingPosition((drawPositions.getIndex() + 1) + "");
+
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
 
     }
@@ -64,6 +67,8 @@ public class DrawModel extends DrawModelBase {
         this.dayOfWeek = DayOfWeek.ALL;
         this.dayOfWeekPopulationNeeded = true;
         this.lottoGame = (LottoGame) currentDrawInformation[0];
+        this.drawingPosition = new SimpleStringProperty();
+        setDrawingPosition((drawPositions.getIndex() + 1) + "");
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
         this.lottoDrawData = (List<Object>) currentDrawInformation[1];
         this.historicalDrawData = (int[][]) lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex());
@@ -86,6 +91,20 @@ public class DrawModel extends DrawModelBase {
     }
 
     // getters
+
+
+    public String getDrawingPosition() {
+        return drawingPosition.get();
+    }
+
+    public void setDrawingPosition(String drawingPosition) {
+
+        this.drawingPosition.set(String.format("Currently Analyzing Position %s",drawingPosition));
+    }
+
+    public SimpleStringProperty drawingPositionProperty() {
+        return drawingPosition;
+    }
 
     public DrawPositions getDrawPositions() {
         return drawPositions;
@@ -122,6 +141,7 @@ public class DrawModel extends DrawModelBase {
 
     public void setDrawPositions(DrawPositions drawPositions) {
         this.drawPositions = drawPositions;
+        setDrawingPosition( (drawPositions.getIndex() + 1) + "");
         onModelChange("drawPosition");
 
     }

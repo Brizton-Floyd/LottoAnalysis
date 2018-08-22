@@ -4,6 +4,8 @@ import com.lottoanalysis.common.MenuBarHelper;
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
 import com.lottoanalysis.models.drawhistory.DrawPositions;
+import com.lottoanalysis.ui.homeview.base.BaseView;
+import com.lottoanalysis.ui.presenters.GameOutPresenter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -16,19 +18,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GameOutViewImpl extends AnchorPane implements GameOutView {
-
-    // Listener for all events on UI
-    private GameOutListener gameOutListener;
+public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameOutView {
 
     private MenuBar menuBar;
-    private HBox headerHbox;
     private Label positionLabel;
 
     private int gameRange;
     private String gameName;
     private int gameMaxValue;
-    private int drawPosition;
 
     public GameOutViewImpl(){
         super.setPrefWidth(1270);
@@ -42,20 +39,27 @@ public class GameOutViewImpl extends AnchorPane implements GameOutView {
 
     }
 
-    @Override
-    public void initializeViewElements() {
+    public Label getPositionLabel() {
+        return positionLabel;
+    }
 
-        gameOutListener.onPageLoad();
+    @Override
+    public void setUpUi() {
+        getPresenter().handleViewEvents("load");
 
         buildMenuBar();
         buildHeader();
     }
 
     @Override
+    public AnchorPane display() {
+        return this;
+    }
+
+    @Override
     public void setOnGamePositionChange(DrawPositions drawPosition) {
 
-        gameOutListener.onDrawPositionChange( drawPosition );
-        buildHeader();
+        getPresenter().onDrawPositionChange( drawPosition );
     }
 
     @Override
@@ -71,16 +75,6 @@ public class GameOutViewImpl extends AnchorPane implements GameOutView {
     @Override
     public void setGameMaxValue(int maxValue) {
         this.gameMaxValue = maxValue;
-    }
-
-    @Override
-    public void setListener(GameOutListener gameOutListener) {
-        this.gameOutListener = gameOutListener;
-    }
-
-    @Override
-    public void setDrawposition(int drawposition) {
-        this.drawPosition = drawposition;
     }
 
     private void buildMenuBar() {
@@ -156,7 +150,7 @@ public class GameOutViewImpl extends AnchorPane implements GameOutView {
 
     private void buildHeader() {
 
-        headerHbox = new HBox();
+        HBox headerHbox = new HBox();
 
         Region region = new Region();
         HBox.setHgrow(region, Priority.ALWAYS);
@@ -169,10 +163,6 @@ public class GameOutViewImpl extends AnchorPane implements GameOutView {
         pageAndGameTitle.setFont(Font.font(20.0));
         pageAndGameTitle.setStyle("-fx-text-fill:#dac6ac;");
 
-        positionLabel.textProperty().bind( new SimpleStringProperty(
-
-                String.format("Currently Analyzing Position %s", (drawPosition + 1) )
-        ));
         positionLabel.setFont(Font.font(20.0));
         positionLabel.setStyle("-fx-text-fill:#dac6ac;");
 
