@@ -7,6 +7,9 @@ import com.lottoanalysis.models.drawhistory.DrawPositions;
 import com.lottoanalysis.ui.homeview.base.BaseView;
 import com.lottoanalysis.ui.presenters.GameOutPresenter;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -45,10 +48,89 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 
     @Override
     public void setUpUi() {
-        getPresenter().handleViewEvents("load");
+        getPresenter().handleViewEvent("load");
 
         buildMenuBar();
         buildHeader();
+        buildScene();
+    }
+
+    private void buildScene() {
+
+        HBox hBox = new HBox();
+        VBox infoVBox = new VBox();
+
+        AnchorPane.setBottomAnchor(hBox,5.0);
+        AnchorPane.setLeftAnchor(hBox,5.0);
+        AnchorPane.setRightAnchor(hBox,5.0);
+        AnchorPane.setTopAnchor(hBox,65.0);
+
+        hBox.setStyle("-fx-background-color: black;");
+
+        for(int i = 0; i < 3; i++){
+            StackPane pane = new StackPane();
+            pane.setStyle("-fx-background-color: white");
+            pane.setPrefWidth(600);
+            pane.setPrefHeight(300);
+            infoVBox.getChildren().add( pane );
+        }
+
+        infoVBox.setSpacing(10);
+
+        VBox vBox = new VBox();
+        vBox.setStyle("-fx-background-color: red;");
+        HBox.setHgrow(vBox, Priority.ALWAYS);
+        HBox.setMargin(infoVBox,new Insets(0,0,.5,0));
+
+        setUpChartPanes( vBox );
+
+        hBox.getChildren().addAll( infoVBox, vBox );
+        hBox.setSpacing(10);
+        getChildren().add( hBox);
+    }
+
+    private void setUpChartPanes(VBox vBox) {
+
+        vBox.setSpacing(10);
+        for(int i = 0; i < 3; i++){
+            StackPane stackPane = new StackPane();
+            stackPane.setStyle("-fx-background-color: white;");
+
+            switch (i){
+                case 0:
+                    stackPane.setPrefWidth( vBox.getPrefWidth());
+                    stackPane.setPrefHeight(300);
+                    vBox.getChildren().add( stackPane );
+                    break;
+                case 1:
+                    stackPane.setPrefWidth( vBox.getPrefWidth() );
+                    stackPane.setPrefHeight(200);
+                    vBox.getChildren().add( stackPane );
+                    break;
+                case 2:
+                    HBox hBox = new HBox();
+                    createSideBySidePanes(hBox, vBox.getPrefWidth());
+                    vBox.getChildren().add(hBox);
+                    break;
+            }
+        }
+    }
+
+    private void createSideBySidePanes(HBox hBox, final double width) {
+
+        hBox.setPrefWidth( width );
+        hBox.setStyle("-fx-background-color: green;");
+        hBox.setPrefHeight(200);
+        hBox.setSpacing(10);
+        for(int i = 0; i < 2; i++){
+            StackPane stackPane = new StackPane();
+            stackPane.setStyle("-fx-background-color: white");
+            stackPane.setPrefWidth(400);
+            stackPane.setPrefHeight(200);
+            hBox.getChildren().add(stackPane);
+        }
+
+
     }
 
     @Override
@@ -56,13 +138,11 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         return this;
     }
 
-    @Override
-    public void setOnGamePositionChange(DrawPositions drawPosition) {
+    private void setOnGamePositionChange(DrawPositions drawPosition) {
 
-        getPresenter().onDrawPositionChange( drawPosition );
+        getPresenter().setDrawPosition( drawPosition );
     }
 
-    @Override
     public void setGamePositionRange(int range) {
         this.gameRange = range;
     }
@@ -99,6 +179,10 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 
         for(Integer integer : ranges){
             MenuItem menuItem = new MenuItem( integer.toString() );
+            menuItem.setOnAction(event -> {
+
+                getPresenter().setGroupRange( menuItem.getText() );
+            });
 
             menu.getItems().add( menuItem );
         }
@@ -118,6 +202,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         for(AnalyzeMethod analyzeMethod : analyzeMethods){
 
             MenuItem menuItem = new MenuItem( analyzeMethod.getTitle() );
+            menuItem.setOnAction( event -> getPresenter().setAnalyzeMethod( analyzeMethod ));
             menu.getItems().add( menuItem );
         }
 
