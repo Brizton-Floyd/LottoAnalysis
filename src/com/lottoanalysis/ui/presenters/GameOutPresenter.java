@@ -1,5 +1,6 @@
 package com.lottoanalysis.ui.presenters;
 
+import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
 import com.lottoanalysis.models.drawhistory.DrawModel;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
@@ -28,12 +29,19 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
 
         switch (property){
             case"drawPosition":
+                System.out.println(getModel().getDrawPositions());
+                break;
+            case"analyzeMethod":
+                System.out.println(getModel().getAnalyzeMethod());
+                break;
+            case"gameRange":
+                System.out.println(getModel().getGameRange());
                 break;
         }
     }
 
     @Override
-    public void handleViewEvents(String action) {
+    public void handleViewEvent(String action) {
 
         switch (action){
             case"load":
@@ -42,17 +50,24 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
         }
     }
 
-    @Override
-    public void onDrawPositionChange(DrawPositions drawPosition) {
+    public void setDrawPosition(DrawPositions drawPosition) {
 
         getModel().setDrawPositions( drawPosition );
+    }
+
+    public void setAnalyzeMethod(AnalyzeMethod analyzeMethod) {
+        getModel().setAnalyzeMethod( analyzeMethod );
+    }
+
+    public void setGroupRange(String range) {
+        getModel().setGameRange(Integer.parseInt(range));
     }
 
     private void onPageLoad() {
 
         getView().setGamePositionRange( getModel().getDrawResultSize() );
         getView().setGameName( getModel().getGameName() );
-        getView().setGameMaxValue( 39 );
+        getView().setGameMaxValue( getModel().getGameMaxValue() );
     }
 
     private void bindToViewElements() {
@@ -63,4 +78,5 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
     AnchorPane getViewForDisplay(){
         return getView().display();
     }
+
 }

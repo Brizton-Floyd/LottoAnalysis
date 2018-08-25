@@ -21,7 +21,7 @@ public class MenuBarHelper {
         for(int i = startingPoint; i <= maxVal; i++){
 
             counter++;
-            if(counter == 6){
+            if(counter == 5){
 
                 if( ranges.size() ==0 ){
                     ranges.add( counter );
