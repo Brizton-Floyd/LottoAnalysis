@@ -1,15 +1,11 @@
 package com.lottoanalysis.ui.presenters;
 
 import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
-import com.lottoanalysis.models.drawhistory.DrawModel;
-import com.lottoanalysis.models.lottogames.LottoGame;
-import com.lottoanalysis.models.lottogames.drawing.Drawing;
-import com.lottoanalysis.models.drawhistory.DrawPositions;
+import com.lottoanalysis.models.drawhistory.DrawPosition;
 import com.lottoanalysis.models.gameout.GameOutModel;
 import com.lottoanalysis.ui.gamesoutview.GameOutListener;
 import com.lottoanalysis.ui.gamesoutview.GameOutViewImpl;
 import com.lottoanalysis.ui.presenters.base.BasePresenter;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.layout.AnchorPane;
 
 public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutModel> implements GameOutListener {
@@ -29,13 +25,18 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
 
         switch (property){
             case"drawPosition":
-                System.out.println(getModel().getDrawPositions());
+                getModel().reAnalyzeData();
+                loadViews();
+                System.out.println(getModel().getDrawPosition());
                 break;
             case"analyzeMethod":
+                getModel().reAnalyzeData();
+                loadViews();
                 System.out.println(getModel().getAnalyzeMethod());
                 break;
             case"gameRange":
-                System.out.println(getModel().getGameRange());
+                getModel().reAnalyzeData();
+                loadViews();
                 break;
         }
     }
@@ -47,12 +48,15 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
             case"load":
                 onPageLoad();
                 break;
+            case"loadViews":
+                loadViews();
+                break;
         }
     }
 
-    public void setDrawPosition(DrawPositions drawPosition) {
+    public void setDrawPosition(DrawPosition drawPosition) {
 
-        getModel().setDrawPositions( drawPosition );
+        getModel().setDrawPosition( drawPosition );
     }
 
     public void setAnalyzeMethod(AnalyzeMethod analyzeMethod) {
@@ -68,6 +72,14 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
         getView().setGamePositionRange( getModel().getDrawResultSize() );
         getView().setGameName( getModel().getGameName() );
         getView().setGameMaxValue( getModel().getGameMaxValue() );
+        getModel().analyze();
+
+    }
+
+
+    private void loadViews() {
+
+        getView().populateRangeTableView( getModel().getGroupRange() );
     }
 
     private void bindToViewElements() {

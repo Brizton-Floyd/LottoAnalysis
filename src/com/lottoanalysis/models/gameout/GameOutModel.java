@@ -1,21 +1,20 @@
 package com.lottoanalysis.models.gameout;
 
 import com.lottoanalysis.models.drawhistory.DrawModel;
-import com.lottoanalysis.models.drawhistory.DrawModelBase;
 import com.lottoanalysis.models.lottogames.LottoGame;
-import com.lottoanalysis.models.drawhistory.DrawPositions;
 import javafx.beans.property.SimpleIntegerProperty;
-
-import javax.swing.*;
-import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class GameOutModel extends DrawModel {
 
     private SimpleIntegerProperty gameRange;
+    private GroupRange groupRange;
+    private GameOutRange gameOutRange;
 
     public GameOutModel(LottoGame lottoGame) {
         super(lottoGame,(null),(null),(null));
+        gameRange = new SimpleIntegerProperty(10);
+
     }
 
     public int getGameMaxValue(){
@@ -37,6 +36,30 @@ public class GameOutModel extends DrawModel {
 
         this.gameRange.set(gameRange);
         onModelChange( ("gameRange") );
+    }
+
+    public GroupRange getGroupRange() {
+        return groupRange;
+    }
+
+    public void analyze() {
+
+        int[][] gameDrawValues = (int[][]) getLottoDrawData().get( getAnalyzeMethod().getIndex() );
+
+        if( groupRange == null) {
+            groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(), getAnalyzeMethod());
+        }
+
+        groupRange.analyze();
+    }
+
+    public void reAnalyzeData(){
+
+        int[][] gameDrawValues = (int[][]) getLottoDrawData().get( getAnalyzeMethod().getIndex() );
+
+        groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(),getAnalyzeMethod());
+        groupRange.analyze();
 
     }
+
 }
