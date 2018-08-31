@@ -1,7 +1,6 @@
 package com.lottoanalysis.ui.drawhistoryview;
 
 import com.lottoanalysis.models.drawhistory.*;
-import javafx.scene.layout.AnchorPane;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,7 @@ import java.util.Set;
 
 public interface DrawHistoryView {
 
-    void notifyListenerOfDrawPositionChange(DrawPositions drawPosition);
+    void notifyListenerOfDrawPositionChange(DrawPosition drawPosition);
 
     void notifyListenerOfAnalysisChange(AnalyzeMethod analyzeMethod );
 

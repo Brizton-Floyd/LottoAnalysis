@@ -146,7 +146,7 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
 
             menuItem.setOnAction(event -> {
 
-                DrawPositions drawPosition = Arrays.stream(DrawPositions.values()).filter(val -> val.getText()
+                DrawPosition drawPosition = Arrays.stream(DrawPosition.values()).filter(val -> val.getText()
                         .equals(menuItem.getText())).findAny().orElse(null);
                 notifyListenerOfDrawPositionChange(drawPosition);
             });
@@ -165,7 +165,7 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
     }
 
     @Override
-    public void notifyListenerOfDrawPositionChange(DrawPositions drawPosition) {
+    public void notifyListenerOfDrawPositionChange(DrawPosition drawPosition) {
         getPresenter().onDrawPositionChange(drawPosition);
     }
 
@@ -501,7 +501,7 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
 
         Menu drawPositonMenu = new Menu("Draw Position");
         for (int i = 0; i < size; i++) {
-            MenuItem drawMenuItem = new MenuItem( DrawPositions.values()[i].getText() );
+            MenuItem drawMenuItem = new MenuItem( DrawPosition.values()[i].getText() );
             drawPositonMenu.getItems().add(drawMenuItem);
         }
 

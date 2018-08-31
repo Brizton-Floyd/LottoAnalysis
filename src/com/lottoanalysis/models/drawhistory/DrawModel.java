@@ -23,7 +23,7 @@ public class DrawModel extends DrawModelBase {
     private int[][] historicalDrawData;
     private int gameSpan;
     private AnalyzeMethod analyzeMethod;
-    private DrawPositions drawPositions;
+    private DrawPosition drawPosition;
     private DayOfWeek dayOfWeek;
 
     private TotalWinningNumberTracker totalWinningNumberTracker;
@@ -45,11 +45,11 @@ public class DrawModel extends DrawModelBase {
         this.sumGroupAnalyzer = sumGroupAnalyzer;
         this.gameSpan = 5;
         this.analyzeMethod = AnalyzeMethod.DRAW_POSITION;
-        this.drawPositions = DrawPositions.POS_ONE;
+        this.drawPosition = DrawPosition.POS_ONE;
         this.dayOfWeek = DayOfWeek.ALL;
         this.dayOfWeekPopulationNeeded = true;
         this.drawingPosition = new SimpleStringProperty();
-        setDrawingPosition((drawPositions.getIndex() + 1) + "");
+        setDrawingPosition((drawPosition.getIndex() + 1) + "");
 
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
 
@@ -63,12 +63,12 @@ public class DrawModel extends DrawModelBase {
         this.sumGroupAnalyzer = sumGroupAnalyzer;
         this.gameSpan = 5;
         this.analyzeMethod = AnalyzeMethod.DRAW_POSITION;
-        this.drawPositions = DrawPositions.POS_ONE;
+        this.drawPosition = DrawPosition.POS_ONE;
         this.dayOfWeek = DayOfWeek.ALL;
         this.dayOfWeekPopulationNeeded = true;
         this.lottoGame = (LottoGame) currentDrawInformation[0];
         this.drawingPosition = new SimpleStringProperty();
-        setDrawingPosition((drawPositions.getIndex() + 1) + "");
+        setDrawingPosition((drawPosition.getIndex() + 1) + "");
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
         this.lottoDrawData = (List<Object>) currentDrawInformation[1];
         this.historicalDrawData = (int[][]) lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex());
@@ -93,6 +93,10 @@ public class DrawModel extends DrawModelBase {
     // getters
 
 
+    public List<Object> getLottoDrawData() {
+        return lottoDrawData;
+    }
+
     public String getDrawingPosition() {
         return drawingPosition.get();
     }
@@ -106,8 +110,8 @@ public class DrawModel extends DrawModelBase {
         return drawingPosition;
     }
 
-    public DrawPositions getDrawPositions() {
-        return drawPositions;
+    public DrawPosition getDrawPosition() {
+        return drawPosition;
     }
 
     public void setGameSpan(int gameSpan) {
@@ -139,9 +143,9 @@ public class DrawModel extends DrawModelBase {
 
     }
 
-    public void setDrawPositions(DrawPositions drawPositions) {
-        this.drawPositions = drawPositions;
-        setDrawingPosition( (drawPositions.getIndex() + 1) + "");
+    public void setDrawPosition(DrawPosition drawPosition) {
+        this.drawPosition = drawPosition;
+        setDrawingPosition( (drawPosition.getIndex() + 1) + "");
         onModelChange("drawPosition");
 
     }
@@ -318,7 +322,7 @@ public class DrawModel extends DrawModelBase {
                 || AnalyzeMethod.POSITIONAL_SUMS == analyzeMethod || AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod) {
 
             if (dayOfWeek == DayOfWeek.ALL) {
-                drawPositionData = historicalDrawData[drawPositions.getIndex()];
+                drawPositionData = historicalDrawData[drawPosition.getIndex()];
                 numberDivideCheckNeeded = (AnalyzeMethod.REMAINDER == analyzeMethod) ? Boolean.FALSE : Boolean.TRUE;
             } else {
                 List<Drawing> drawResults = lottoGame.getDrawingData().stream().filter(game -> game.getDrawDate().contains(dayOfWeek.getDay()))
@@ -328,13 +332,13 @@ public class DrawModel extends DrawModelBase {
 
                 // Now determine which analyze method to apply to results
                 historicalDrawData = filterDataBasedOnAnalyzeMethod(convertedData, AnalyzeMethod.DRAW_POSITION);
-                drawPositionData = historicalDrawData[drawPositions.getIndex()];
+                drawPositionData = historicalDrawData[drawPosition.getIndex()];
                 numberDivideCheckNeeded = (AnalyzeMethod.REMAINDER == analyzeMethod) ? Boolean.FALSE : Boolean.TRUE;
             }
         } else {
 
             if (dayOfWeek == DayOfWeek.ALL) {
-                drawPositionData = historicalDrawData[drawPositions.getIndex()];
+                drawPositionData = historicalDrawData[drawPosition.getIndex()];
                 numberDivideCheckNeeded = null;
             } else {
                 List<Drawing> drawResults = lottoGame.getDrawingData().stream().filter(game -> game.getDrawDate().contains(dayOfWeek.getDay()))
@@ -344,7 +348,7 @@ public class DrawModel extends DrawModelBase {
 
                 // Now determine which analyze method to apply to results
                 historicalDrawData = filterDataBasedOnAnalyzeMethod(convertedData, analyzeMethod);
-                drawPositionData = historicalDrawData[drawPositions.getIndex()];
+                drawPositionData = historicalDrawData[drawPosition.getIndex()];
                 numberDivideCheckNeeded = null;
             }
         }
@@ -403,7 +407,7 @@ public class DrawModel extends DrawModelBase {
         }
 
         // now we need to get the correct draw index from the 2D array
-        final int[] positionData = analysisMethodDrawData[drawPositions.getIndex()];
+        final int[] positionData = analysisMethodDrawData[drawPosition.getIndex()];
 
         int digit;
         for (int i = 0; i < positionData.length; i++) {
@@ -469,9 +473,9 @@ public class DrawModel extends DrawModelBase {
         }
 
         lottoNumberGameOutTracker.analyzeGamesOutForLottoNumbers(historicalDrawData, lottoGame);
-        lottoNumberGameOutTracker.analyzePositionalHitsAndGamesOut(historicalDrawData[drawPositions.getIndex()]);
+        lottoNumberGameOutTracker.analyzePositionalHitsAndGamesOut(historicalDrawData[drawPosition.getIndex()]);
         lottoNumberGameOutTracker.getLottoNumbersBasedOnGameSpan(gameSpan);
-        lottoNumberGameOutTracker.analyzePositionalHitsAndGamesOut(historicalDrawData[drawPositions.getIndex()]);
+        lottoNumberGameOutTracker.analyzePositionalHitsAndGamesOut(historicalDrawData[drawPosition.getIndex()]);
 
         lottoNumberGameOutTrackerMap = lottoNumberGameOutTracker.getLottoNumberGameOutInfoMap();
     }

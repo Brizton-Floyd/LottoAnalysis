@@ -474,7 +474,7 @@ public class GameOutController {
 
         final int maxVal = rangeValues[1];
 
-        ObservableList<ObservableList> dataItems = FXCollections.observableArrayList();
+        ObservableList<ObservableList<String>> dataItems = FXCollections.observableArrayList();
 
         List<Integer> colNames = IntStream.range(minVal, maxVal + 1).boxed().collect(Collectors.toList());
         //List<String> colNames = new ArrayList<>(Arrays.asList("1","2","3","5","7"));

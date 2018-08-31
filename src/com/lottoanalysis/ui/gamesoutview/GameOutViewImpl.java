@@ -1,24 +1,24 @@
 package com.lottoanalysis.ui.gamesoutview;
 
-import com.lottoanalysis.common.MenuBarHelper;
 import com.lottoanalysis.common.LotteryGameConstants;
+import com.lottoanalysis.common.MenuBarHelper;
 import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
-import com.lottoanalysis.models.drawhistory.DrawPositions;
+import com.lottoanalysis.models.drawhistory.DrawPosition;
+import com.lottoanalysis.models.gameout.Range;
+import com.lottoanalysis.ui.gamesoutview.cells.GameOutViewCell;
 import com.lottoanalysis.ui.homeview.base.BaseView;
 import com.lottoanalysis.ui.presenters.GameOutPresenter;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Callback;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameOutView {
@@ -34,6 +34,8 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         super.setPrefWidth(1270);
         super.setPrefHeight(770);
         super.setStyle("-fx-background-color:#515B51;");
+        getStylesheets().add("./src/com/lottoanalysis/styles/table_view.css");
+
 
         this.menuBar = new MenuBar();
         menuBar.setStyle("-fx-background-color:#dac6ac;");
@@ -53,6 +55,8 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         buildMenuBar();
         buildHeader();
         buildScene();
+
+        getPresenter().handleViewEvent("loadViews");
     }
 
     private void buildScene() {
@@ -69,6 +73,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 
         for(int i = 0; i < 3; i++){
             StackPane pane = new StackPane();
+            pane.setId( (i + 1) +"");
             pane.setStyle("-fx-background-color: white");
             pane.setPrefWidth(600);
             pane.setPrefHeight(300);
@@ -78,6 +83,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         infoVBox.setSpacing(10);
 
         VBox vBox = new VBox();
+        vBox.setPrefWidth(700);
         vBox.setStyle("-fx-background-color: red;");
         HBox.setHgrow(vBox, Priority.ALWAYS);
         HBox.setMargin(infoVBox,new Insets(0,0,.5,0));
@@ -95,15 +101,18 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         for(int i = 0; i < 3; i++){
             StackPane stackPane = new StackPane();
             stackPane.setStyle("-fx-background-color: white;");
+            stackPane.setPrefWidth( vBox.getPrefWidth() );
 
             switch (i){
                 case 0:
                     stackPane.setPrefWidth( vBox.getPrefWidth());
+                    stackPane.setId("4");
                     stackPane.setPrefHeight(300);
                     vBox.getChildren().add( stackPane );
                     break;
                 case 1:
                     stackPane.setPrefWidth( vBox.getPrefWidth() );
+                    stackPane.setId("5");
                     stackPane.setPrefHeight(200);
                     vBox.getChildren().add( stackPane );
                     break;
@@ -122,8 +131,10 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         hBox.setStyle("-fx-background-color: green;");
         hBox.setPrefHeight(200);
         hBox.setSpacing(10);
+        int id = 6;
         for(int i = 0; i < 2; i++){
             StackPane stackPane = new StackPane();
+            stackPane.setId((id++) +"");
             stackPane.setStyle("-fx-background-color: white");
             stackPane.setPrefWidth(400);
             stackPane.setPrefHeight(200);
@@ -138,7 +149,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         return this;
     }
 
-    private void setOnGamePositionChange(DrawPositions drawPosition) {
+    private void setOnGamePositionChange(DrawPosition drawPosition) {
 
         getPresenter().setDrawPosition( drawPosition );
     }
@@ -212,14 +223,14 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
     private Menu buildPositionMenu() {
 
         Menu menu = new Menu("Draw Positions");
-        for(DrawPositions drawPosition : DrawPositions.values()){
+        for(DrawPosition drawPosition : DrawPosition.values()){
 
             if( (drawPosition.getIndex() + 1) <= gameRange){
 
                 MenuItem menuItem = new MenuItem( drawPosition.getText() );
                 menuItem.setOnAction( event -> {
 
-                    DrawPositions position = Arrays.stream( DrawPositions.values() )
+                    DrawPosition position = Arrays.stream( DrawPosition.values() )
                             .filter( val -> val.getText().equals( menuItem.getText() )).findAny().orElse(null);
 
                     setOnGamePositionChange(position);
@@ -266,5 +277,116 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         AnchorPane.setRightAnchor(dividerPane,5.0);
 
         getChildren().addAll(headerHbox, dividerPane);
+    }
+
+    public <T extends Range> void  populateRangeTableView(T groupRange) {
+
+        ObservableList<Range> values = FXCollections.observableArrayList();
+
+        StackPane stackPane = (StackPane) lookup(("#1"));
+
+        TableView<Range> rangeTableView = new TableView<>();
+        //rangeTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        TableColumn<Range,String> rangeColumn = new TableColumn<>("Range");
+        rangeColumn.setCellValueFactory( param -> new SimpleStringProperty( Arrays.toString(param.getValue().getUpperLowerBoundAsArray())));
+        rangeColumn.setCellFactory(param -> new GameOutViewCell(this));
+
+        TableColumn<Range,String> hitCol = new TableColumn<>("Hits");
+        hitCol.setCellValueFactory( param -> new SimpleStringProperty( param.getValue().getHits() + ""));
+        hitCol.setCellFactory(param -> new GameOutViewCell(this));
+
+        TableColumn<Range,String> gamesOut = new TableColumn<>("Games Out");
+        gamesOut.setCellValueFactory( param -> new SimpleStringProperty( param.getValue().getGamesOut() + ""));
+        gamesOut.setCellFactory(param -> new GameOutViewCell(this));
+
+        TableColumn<Range,String> hitsAtGamesOut = new TableColumn<>("Hts @Games Out");
+        hitsAtGamesOut.setCellValueFactory( param -> new SimpleStringProperty( param.getValue().getHitsAtGamesOut() + ""));
+        hitsAtGamesOut.setCellFactory(param -> new GameOutViewCell(this));
+
+        TableColumn<Range,String> gameOutLastSeen = new TableColumn<>("Games Out Last Seen");
+        gameOutLastSeen.setCellValueFactory( param -> new SimpleStringProperty( param.getValue().getGameOutLastSeen() + ""));
+        gameOutLastSeen.setCellFactory(param -> new GameOutViewCell(this));
+
+        rangeTableView.getColumns().setAll( rangeColumn, hitCol , gamesOut, hitsAtGamesOut, gameOutLastSeen);
+
+        groupRange.getRanges().removeIf( range -> range.getHits() == 0);
+        values.addAll( groupRange.getRanges() );
+
+        rangeTableView.setItems( values );
+        stackPane.getChildren().setAll( rangeTableView );
+
+        System.out.println();
+    }
+
+    public void displayNumberDistrubution(Map<Integer, List<String>> lottoNumberDistroMap) {
+
+        StackPane stackPane = (StackPane)lookup("#4");
+
+        ObservableList<ObservableList<String>> observableList =  FXCollections.observableArrayList();
+
+        TableView<ObservableList<String>> numberDistrotTableView = new TableView<>();
+        numberDistrotTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        List<Integer> colNames = new ArrayList<>( lottoNumberDistroMap.keySet());
+
+        for(int i  = 0; i < colNames.size(); i++){
+            final int j = i;
+            TableColumn<ObservableList<String>,String> tableColumn = new TableColumn<>(colNames.get(i).toString());
+            tableColumn.setSortable( false );
+            tableColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().get( j )));
+            tableColumn.setCellFactory(new Callback<TableColumn<ObservableList<String>, String>, TableCell<ObservableList<String>, String>>() {
+                @Override
+                public TableCell<ObservableList<String>, String> call(TableColumn<ObservableList<String>, String> param) {
+                    return new TableCell<ObservableList<String>, String>(){
+
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+
+                            if (!isEmpty()) {
+
+                                setText(item);
+
+                                if (item.contains("##"))
+                                    this.setTextFill(Color.YELLOW);
+                                else if(item.equals("P1"))
+                                    this.setTextFill(Color.RED);
+                                else if(item.contains("->"))
+                                    this.setTextFill(Color.ORANGE);
+                                else if(item.equals("P2"))
+                                    this.setTextFill(Color.GREENYELLOW);
+                                else if(item.equals("P3"))
+                                    this.setTextFill(Color.DODGERBLUE);
+                                else if(item.equals("P4"))
+                                    this.setTextFill(Color.AQUA);
+                                else if(item.equals("P5"))
+                                    this.setTextFill(Color.CYAN);
+                                else
+                                    this.setTextFill(Color.BEIGE);
+                            }
+                        }
+                    };
+                }
+            });
+
+            numberDistrotTableView.getColumns().add( tableColumn );
+        }
+
+        List<List<String>> vals = new ArrayList<>(lottoNumberDistroMap.values());
+        for(int i = 0; i < vals.get(0).size(); i++){
+
+            ObservableList<String> row = FXCollections.observableArrayList();
+            for(int j = 0; j < vals.size(); j++){
+
+                row.add( vals.get(j).get(i) );
+            }
+
+            observableList.add( row );
+        }
+
+        numberDistrotTableView.scrollTo( vals.get(0).size() - 1);
+        numberDistrotTableView.setItems( observableList );
+        stackPane.getChildren().setAll( numberDistrotTableView );
     }
 }

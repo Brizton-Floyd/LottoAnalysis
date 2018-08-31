@@ -42,7 +42,7 @@ public class DrawHistoryPresenter extends BasePresenter<DrawHistoryViewImpl, Dra
     public void onGameSpanChange(int span) { getModel().setGameSpan( span ); }
 
     @Override
-    public void onDrawPositionChange(DrawPositions drawPosition) { getModel().setDrawPositions(drawPosition); }
+    public void onDrawPositionChange(DrawPosition drawPosition) { getModel().setDrawPosition(drawPosition); }
 
     @Override
     public void onAnalysisMethodChange(AnalyzeMethod analyzeMethod) { getModel().setAnalyzeMethod( analyzeMethod ); }
@@ -94,11 +94,11 @@ public class DrawHistoryPresenter extends BasePresenter<DrawHistoryViewImpl, Dra
     }
 
     private void populateViewPostDrawPositionChange() {
-        if(DrawPositions.BONUS != getModel().getDrawPositions()) {
+        if(DrawPosition.BONUS != getModel().getDrawPosition()) {
 
             getModel().analyzeDrawData();
 
-            getView().setHeaderInformation(Integer.toString(getModel().getDrawPositions().getIndex()));
+            getView().setHeaderInformation(Integer.toString(getModel().getDrawPosition().getIndex()));
             getView().injectFirstDigitNumbers(getModel().getFirstDigitValueHolderMap());
             getView().injectLottoNumberHits(getModel().getLottoNumberGameOutTrackerMap());
             getView().injectSumGroupHits(getModel().getSumGroupAnalyzer().getGroupAnalyzerMap());
@@ -128,7 +128,7 @@ public class DrawHistoryPresenter extends BasePresenter<DrawHistoryViewImpl, Dra
         getModel().analyzeDrawData();
 
         getView().setAbbreviationLabel( getModel().getAnalyzeMethod().getAbbr() );
-        getView().setHeaderInformation(getModel().getDrawPositions().getIndex()+"");
+        getView().setHeaderInformation(getModel().getDrawPosition().getIndex()+"");
         getView().setAnalyzeLabel( getModel().getAnalyzeMethod().getTitle() );
         getView().setAverageAndSpan(getModel().getGameSpan(), TotalWinningNumberTracker.getAverage());
         getView().injectTotalWinningNumbers( getModel().getTotalWinningNumberTracker().getTotalWinningNumberTrackerMap());

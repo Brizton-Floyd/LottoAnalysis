@@ -2,11 +2,11 @@ package com.lottoanalysis.ui.drawhistoryview;
 
 import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
 import com.lottoanalysis.models.drawhistory.DayOfWeek;
-import com.lottoanalysis.models.drawhistory.DrawPositions;
+import com.lottoanalysis.models.drawhistory.DrawPosition;
 
 public interface DrawHistoryListener {
 
-    void onDrawPositionChange(DrawPositions drawPosition);
+    void onDrawPositionChange(DrawPosition drawPosition);
 
     void onAnalysisMethodChange(AnalyzeMethod analyzeMethod);
 

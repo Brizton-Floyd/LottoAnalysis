@@ -1,6 +1,6 @@
 package com.lottoanalysis.models.drawhistory;
 
-public enum DrawPositions {
+public enum DrawPosition {
 
     POS_ONE(0,"Position 1"),
     POS_TWO(1,"Position 2"),
@@ -12,7 +12,7 @@ public enum DrawPositions {
     private String text;
     private int index;
 
-    DrawPositions(int index, String text){
+    DrawPosition(int index, String text){
         this.index = index;
         this.text = text;
     }

@@ -823,7 +823,12 @@ public class NumberPatternAnalyzer {
 
         for(Map.Entry<Integer,List<Integer>> entry : multipleRanges.entrySet()){
 
-            if(entry.getValue().contains( i) ) {
+            if(i % entry.getKey() == 0  ) {
+
+                if(!entry.getValue().contains(i)){
+                    entry.getValue().add( i );
+                }
+
                 return entry.getKey();
             }
         }
