@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 public class GroupRange extends Range {
 
     private static Map<AnalyzeMethod, Integer[]> analyzeMethodMap = new HashMap<>();
+    private GameOutComputer gameOutComputer = new GameOutComputer();
     private DrawPosition drawPosition;
     private AnalyzeMethod analyzeMethod;
     private int[][] drawNumbers;
@@ -64,6 +65,7 @@ public class GroupRange extends Range {
             GroupRange groupRange = new GroupRange();
             groupRange.setLowerBound(i);
             groupRange.setUpperBound((i + getRange()) - 1);
+            groupRange.setIndex();
             getRanges().add(groupRange);
 
             setMinNumber(groupRange.getUpperBound());
@@ -73,6 +75,15 @@ public class GroupRange extends Range {
         validateUpperBoundsForOverflow();
         super.resetLowerUpperBound();
 
+    }
+
+    List<List<String>> getLottoNumberHitDistrubutions(int index) {
+        List<List<String>> data = new ArrayList<>();
+        Range range = getRanges().get(index);
+        Collection<List<String>> values = range.getLottoNumberMap().values();
+        data.addAll(values);
+
+        return data;
     }
 
     private void checkUpperLowerBoundValues() {
@@ -106,7 +117,6 @@ public class GroupRange extends Range {
 
     private void computeGamesOut() {
 
-        GameOutComputer gameOutComputer = new GameOutComputer();
         gameOutComputer.loadLottoNumberGameOutList();
 
         for (int i = 0; i < drawNumbers[0].length; i++) {
@@ -116,18 +126,14 @@ public class GroupRange extends Range {
                 completeDrawNumber[j] = drawNumbers[j][i];
             }
 
-            if (i == drawNumbers[0].length - 5)
-                System.out.println("");
-            ;
             int[] positionNumbers = drawNumbers[drawPosition.getIndex()];
             List<Map<Integer, List<String>>> lottoNumberAndGamesOutList = gameOutComputer.getLottoNumbersAndGamesOut();
             placeNumberAndGameOutInMap(positionNumbers[i], lottoNumberAndGamesOutList);
             incrementHitsForAppropriateRange(positionNumbers[i]);
             gameOutComputer.resetHitsAndFormHitPattern(completeDrawNumber, drawPosition.getIndex());
             gameOutComputer.incrementGamesOutForNonWinning(completeDrawNumber);
+
         }
-
-
     }
 
     private void computeHitsAtGamesOut() {
@@ -168,6 +174,10 @@ public class GroupRange extends Range {
             return gamesOut;
         }
 
+        List<GameOutComputer> getGameOutComputers() {
+            return gameOutComputers;
+        }
+
         private void setGamesOut(int gamesOut) {
             this.gamesOut = gamesOut;
         }
@@ -191,18 +201,18 @@ public class GroupRange extends Range {
             final List<Integer> drawNumbers = Arrays.stream(completeDrawNumber).boxed().collect(Collectors.toList());
 
             List<GameOutComputer> gameOutComputerList = gameOutComputers.stream().filter(gameOutComputer -> drawNumbers.contains(gameOutComputer.lottoNumber))
-                                                                                 .collect(Collectors.toList());
+                    .collect(Collectors.toList());
 
-            final Map<Integer,GameOutComputer> gameOutComputerMap = new HashMap<>();
+            final Map<Integer, GameOutComputer> gameOutComputerMap = new HashMap<>();
 
-            for(GameOutComputer gameOutComputer : gameOutComputerList){
+            for (GameOutComputer gameOutComputer : gameOutComputerList) {
                 gameOutComputerMap.put(gameOutComputer.lottoNumber, gameOutComputer);
             }
 
             boolean isPatternForAllNumbersProcessed;
-            for(Integer drawNumber : drawNumbers){
-                GameOutComputer gameOutComputer = gameOutComputerMap.get( drawNumber );
-                if(gameOutComputer != null) {
+            for (Integer drawNumber : drawNumbers) {
+                GameOutComputer gameOutComputer = gameOutComputerMap.get(drawNumber);
+                if (gameOutComputer != null) {
                     Object[] data = buildHitPattern(drawIndex, drawNumbers, gameOutComputer.lottoNumber);
                     final String pattern = (String) data[0];
                     isPatternForAllNumbersProcessed = (boolean) data[1];
@@ -214,16 +224,18 @@ public class GroupRange extends Range {
             }
         }
 
-        private Object[] buildHitPattern(int drawIndex, List<Integer> drawNumbers, int lottoNumber){
+        private Object[] buildHitPattern(int drawIndex, List<Integer> drawNumbers, int lottoNumber) {
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            int[] hitIndexes = IntStream.range(0,drawNumbers.size()).filter(index -> drawNumbers.get(index) == lottoNumber).toArray();
-            for(int i =0; i < hitIndexes.length; i++){drawNumbers.set(hitIndexes[i], -1);}
+            int[] hitIndexes = IntStream.range(0, drawNumbers.size()).filter(index -> drawNumbers.get(index) == lottoNumber).toArray();
+            for (int i = 0; i < hitIndexes.length; i++) {
+                drawNumbers.set(hitIndexes[i], -1);
+            }
 
-            for(Integer index : hitIndexes) {
+            for (Integer index : hitIndexes) {
                 if (index == drawIndex) {
-                    if(stringBuilder.toString().length() > 1)
+                    if (stringBuilder.toString().length() > 1)
                         stringBuilder.append("->").append("##");
                     else
                         stringBuilder.append("##");
@@ -237,8 +249,8 @@ public class GroupRange extends Range {
                 }
             }
 
-            if(stringBuilder.toString().startsWith("->"))
-                return new Object[]{"",false};
+            if (stringBuilder.toString().startsWith("->"))
+                return new Object[]{"", false};
 
             return new Object[]{stringBuilder.toString(), true};
         }

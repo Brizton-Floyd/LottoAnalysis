@@ -33,6 +33,8 @@ public class GameOutViewCell extends TableCell<Range, String> {
 
             this.setOnMouseClicked(event -> {
                 gameOutView.displayNumberDistrubution( range.getLottoNumberMap());
+                System.out.println(range.getRangeIndex());
+
             });
         }
     }

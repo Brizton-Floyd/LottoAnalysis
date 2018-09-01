@@ -10,9 +10,10 @@ public abstract class Range {
     List<Range> ranges = new ArrayList<>();
     private List<Integer> rangeGameOutHolder = new ArrayList<>();
     private Map<Integer, List<String>> lottoNumberMap = new TreeMap<>();
-    private int lowerBound, upperBound, hits, gamesOut, hitsAtGamesOut, gameOutLastSeen, range, minNumber, maxNumber;
+    private int lowerBound, upperBound, hits, gamesOut, hitsAtGamesOut, gameOutLastSeen, range, minNumber, maxNumber,rangeIndex;
     private double avgSkips;
     private int[] defaultUpperLowerBounds = new int[2];
+    private static int index;
 
     public Range() {
     }
@@ -23,6 +24,14 @@ public abstract class Range {
         this.maxNumber = maxNumber;
         defaultUpperLowerBounds[0] = minNumber;
         defaultUpperLowerBounds[1] = maxNumber;
+    }
+
+     int[] getDefaultUpperLowerBounds() {
+        return defaultUpperLowerBounds;
+    }
+
+    public int getRangeIndex() {
+        return rangeIndex;
     }
 
     public int[] getUpperLowerBoundAsArray() {
@@ -210,5 +219,13 @@ public abstract class Range {
 
         defaultUpperLowerBounds[0] = getMinNumber();
         defaultUpperLowerBounds[1] = getMaxNumber();
+    }
+
+    public void setIndex() {
+        rangeIndex = index++;
+    }
+
+    public static void resetIndex() {
+        index = 0;
     }
 }
