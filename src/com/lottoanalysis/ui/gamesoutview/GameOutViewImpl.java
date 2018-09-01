@@ -325,8 +325,17 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 
         ObservableList<ObservableList<String>> observableList =  FXCollections.observableArrayList();
 
+        Iterator<List<String>> iterator = lottoNumberDistroMap.values().iterator();
+        while (iterator.hasNext()){
+            List<String> data = iterator.next();
+            if(Character.isDigit(data.get(data.size()-1).charAt(0))) {
+                if (Integer.parseInt(data.get(data.size()-1)) == data.size())
+                    iterator.remove();
+            }
+        }
+
         TableView<ObservableList<String>> numberDistrotTableView = new TableView<>();
-        numberDistrotTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        //numberDistrotTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         List<Integer> colNames = new ArrayList<>( lottoNumberDistroMap.keySet());
 
@@ -374,6 +383,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         }
 
         List<List<String>> vals = new ArrayList<>(lottoNumberDistroMap.values());
+
         for(int i = 0; i < vals.get(0).size(); i++){
 
             ObservableList<String> row = FXCollections.observableArrayList();

@@ -4,6 +4,8 @@ import com.lottoanalysis.models.drawhistory.DrawModel;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.List;
+
 @SuppressWarnings("unchecked")
 public class GameOutModel extends DrawModel {
 
@@ -51,14 +53,20 @@ public class GameOutModel extends DrawModel {
         }
 
         groupRange.analyze();
+        List<List<String>> lottoNumberHitDistrubutions = groupRange.getLottoNumberHitDistrubutions(0);
+        System.out.println();
     }
 
     public void reAnalyzeData(){
+
+        Range.resetIndex();
 
         int[][] gameDrawValues = (int[][]) getLottoDrawData().get( getAnalyzeMethod().getIndex() );
 
         groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(),getAnalyzeMethod());
         groupRange.analyze();
+        List<List<String>> lottoNumberHitDistrubutions = groupRange.getLottoNumberHitDistrubutions(0);
+        System.out.println();
 
     }
 
