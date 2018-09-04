@@ -55,6 +55,7 @@ public class GroupRange extends Range {
         computeRangeUpperLowerBound();
         computeGamesOut();
         computeHitsAtGamesOut();
+        findLastOccurenceOfGameOut();
     }
 
     @Override
@@ -133,16 +134,6 @@ public class GroupRange extends Range {
             gameOutComputer.resetHitsAndFormHitPattern(completeDrawNumber, drawPosition.getIndex());
             gameOutComputer.incrementGamesOutForNonWinning(completeDrawNumber);
 
-        }
-    }
-
-    private void computeHitsAtGamesOut() {
-
-        for (Range range : getRanges()) {
-
-            int currentGameOut = range.getGamesOut();
-            Long counter = range.getRangeGameOutHolder().stream().filter(out -> out == currentGameOut).count();
-            range.setHitsAtGamesOut(counter.intValue());
         }
     }
 

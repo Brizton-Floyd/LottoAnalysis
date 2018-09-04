@@ -19,7 +19,7 @@ public class DrawModel extends DrawModelBase {
     private Map<Integer, LottoNumberGameOutTracker> lottoNumberGameOutTrackerMap;
 
     private List<Object> lottoDrawData;
-    private SimpleStringProperty gameName, drawingPosition;
+    private SimpleStringProperty gameName, drawingPosition, analysisMeth;
     private int[][] historicalDrawData;
     private int gameSpan;
     private AnalyzeMethod analyzeMethod;
@@ -50,6 +50,8 @@ public class DrawModel extends DrawModelBase {
         this.dayOfWeekPopulationNeeded = true;
         this.drawingPosition = new SimpleStringProperty();
         setDrawingPosition((drawPosition.getIndex() + 1) + "");
+        this.analysisMeth = new SimpleStringProperty();
+        setAnalysisMeth(analyzeMethod.getTitle());
 
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
 
@@ -69,6 +71,8 @@ public class DrawModel extends DrawModelBase {
         this.lottoGame = (LottoGame) currentDrawInformation[0];
         this.drawingPosition = new SimpleStringProperty();
         setDrawingPosition((drawPosition.getIndex() + 1) + "");
+        this.analysisMeth = new SimpleStringProperty();
+        setAnalysisMeth(analyzeMethod.getTitle());
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
         this.lottoDrawData = (List<Object>) currentDrawInformation[1];
         this.historicalDrawData = (int[][]) lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex());
@@ -106,6 +110,18 @@ public class DrawModel extends DrawModelBase {
         this.drawingPosition.set(String.format("Currently Analyzing Position %s",drawingPosition));
     }
 
+    public String getAnalysisMeth() {
+        return analysisMeth.get();
+    }
+
+    public SimpleStringProperty analysisMethProperty() {
+        return analysisMeth;
+    }
+
+    public void setAnalysisMeth(String analysisMeth) {
+        this.analysisMeth.set(String.format("Analyzing By \t\" %s \" ",analysisMeth));
+    }
+
     public SimpleStringProperty drawingPositionProperty() {
         return drawingPosition;
     }
@@ -139,6 +155,7 @@ public class DrawModel extends DrawModelBase {
 
     public void setAnalyzeMethod(AnalyzeMethod analyzeMethodIndex) {
         this.analyzeMethod = analyzeMethodIndex;
+        setAnalysisMeth(analyzeMethod.getTitle());
         onModelChange("analyzeMethod");
 
     }

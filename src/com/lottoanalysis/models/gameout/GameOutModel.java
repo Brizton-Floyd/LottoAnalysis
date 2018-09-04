@@ -2,7 +2,10 @@ package com.lottoanalysis.models.gameout;
 
 import com.lottoanalysis.models.drawhistory.DrawModel;
 import com.lottoanalysis.models.lottogames.LottoGame;
+import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -44,17 +47,19 @@ public class GameOutModel extends DrawModel {
         return groupRange;
     }
 
+    public GameOutRange getGameOutRange() {
+        return gameOutRange;
+    }
+
     public void analyze() {
+        Range.resetIndex();
 
         int[][] gameDrawValues = (int[][]) getLottoDrawData().get( getAnalyzeMethod().getIndex() );
 
-        if( groupRange == null) {
+        //if( groupRange == null) {
             groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(), getAnalyzeMethod());
-        }
-
+        //}
         groupRange.analyze();
-        List<List<String>> lottoNumberHitDistrubutions = groupRange.getLottoNumberHitDistrubutions(0);
-        System.out.println();
     }
 
     public void reAnalyzeData(){
@@ -65,9 +70,39 @@ public class GameOutModel extends DrawModel {
 
         groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(),getAnalyzeMethod());
         groupRange.analyze();
-        List<List<String>> lottoNumberHitDistrubutions = groupRange.getLottoNumberHitDistrubutions(0);
-        System.out.println();
 
     }
 
+    public String getCurrentWinningNumbers() {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        int size = getLottoGame().getDrawingData().size();
+        Drawing drawing = getLottoGame().getDrawingData().get(size - 1);
+
+        for (SimpleStringProperty number : drawing.getDrawNumbers()){
+            stringBuilder.append( number.get() ).append("-");
+        }
+
+        int index = stringBuilder.lastIndexOf("-");
+        stringBuilder.setCharAt(index,' ');
+
+        return stringBuilder.toString().trim();
+    }
+
+    public void setRangeIndex(int rangeIndex) {
+        getGroupRange().setRangeIndex( rangeIndex );
+        performGameOutAnalysis();
+        onModelChange("groupRange");
+    }
+
+    private void performGameOutAnalysis() {
+
+        Range.resetIndex();
+        List<List<String>> lottoNumberHitDistrubutions = groupRange.getLottoNumberHitDistrubutions(getGroupRange().getRangeIndex());
+
+        gameOutRange = new GameOutRange(lottoNumberHitDistrubutions);
+
+
+        gameOutRange.analyze();
+    }
 }

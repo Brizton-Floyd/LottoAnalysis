@@ -1,5 +1,7 @@
 package com.lottoanalysis.models.gameout;
 
+import com.lottoanalysis.models.drawhistory.DrawModel;
+import com.lottoanalysis.models.drawhistory.DrawModelBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,6 +11,7 @@ public abstract class Range {
 
     List<Range> ranges = new ArrayList<>();
     private List<Integer> rangeGameOutHolder = new ArrayList<>();
+    private List<Integer> gameOutHolder = new ArrayList<>();
     private Map<Integer, List<String>> lottoNumberMap = new TreeMap<>();
     private int lowerBound, upperBound, hits, gamesOut, hitsAtGamesOut, gameOutLastSeen, range, minNumber, maxNumber,rangeIndex;
     private double avgSkips;
@@ -32,6 +35,10 @@ public abstract class Range {
 
     public int getRangeIndex() {
         return rangeIndex;
+    }
+
+    public void setRangeIndex(int rangeIndex) {
+        this.rangeIndex = rangeIndex;
     }
 
     public int[] getUpperLowerBoundAsArray() {
@@ -138,6 +145,10 @@ public abstract class Range {
         this.maxNumber = maxNumber;
     }
 
+    public List<Integer> getGameOutHolder() {
+        return gameOutHolder;
+    }
+
     public double getAvgSkips() {
         return avgSkips;
     }
@@ -161,6 +172,31 @@ public abstract class Range {
 
     protected abstract void computeRangeUpperLowerBound();
 
+    void computeHitsAtGamesOut() {
+
+        for (Range range : getRanges()) {
+
+            int currentGameOut = range.getGamesOut();
+            Long counter = range.getRangeGameOutHolder().stream().filter(out -> out == currentGameOut).count();
+            range.setHitsAtGamesOut(counter.intValue());
+        }
+    }
+
+    void findLastOccurenceOfGameOut() {
+
+        getRanges().forEach(range -> {
+
+            final int currentGamesOut = range.getGamesOut();
+            List<Integer> gameOutHolder = range.getRangeGameOutHolder();
+            if(gameOutHolder.size() > 1)
+                System.out.println(gameOutHolder.get(gameOutHolder.size()-1));
+            int lastIndex = gameOutHolder.lastIndexOf( currentGamesOut );
+            int lastSeen =  Math.abs(lastIndex - gameOutHolder.size()) -1;
+            range.setGameOutLastSeen(lastSeen);
+
+        });
+    }
+
     void incrementHitsForAppropriateRange(int positionNumber) {
         ranges.forEach(range1 -> {
 
@@ -168,6 +204,7 @@ public abstract class Range {
                 int hits = range1.getHits();
                 range1.setHits(++hits);
                 range1.getRangeGameOutHolder().add(range1.getGamesOut());
+                range1.getGameOutHolder().add( positionNumber );
                 range1.setGamesOut(0);
             } else {
                 int out = range1.getGamesOut();
