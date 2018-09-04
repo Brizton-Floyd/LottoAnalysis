@@ -6,4 +6,6 @@ public interface GameOutView {
 
     void setGameMaxValue( int maxValue );
 
+    void setWinningDrawNumbers( String winningNumbes );
+
 }
