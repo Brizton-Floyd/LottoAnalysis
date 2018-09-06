@@ -6,6 +6,8 @@ import com.lottoanalysis.ui.gamesoutview.GameOutViewImpl;
 import javafx.scene.control.TableCell;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +32,18 @@ public class GameOutRangeViewCell<T> extends TableCell<T,String> {
                 getTableView().getSelectionModel().select( getIndex() );
                 gameOutViewEmpl.injectGameOutValuesIntoChart( gameOutRange.getGameOutHolder() );
 
-                List<GameOutRange.GameOut> list = gameOutRange.getGameOut().getGameOutList().stream().filter(gameOut -> gameOut.getGameOutNumber() >= gameOutRange.getLowerBound() &&
-                        gameOut.getGameOutNumber() <= gameOutRange.getUpperBound()).collect(Collectors.toList());
+                List<GameOutRange.GameOut> list = new ArrayList<>();
+                for(GameOutRange.GameOut gameOut : gameOutRange.getGameOut().getGameOutList()){
+                    if(gameOutRange.getUpperBound() > 0){
+                        if(gameOut.getGameOutNumber() >= gameOutRange.getLowerBound() && gameOut.getGameOutNumber() <= gameOutRange.getUpperBound()){
+                            list.add( gameOut );
+                        }
+                    }
+                    else if(gameOut.getGameOutNumber() >= gameOutRange.getLowerBound()){
+                        list.add( gameOut );
+                    }
+                }
+                list.sort((o1, o2) -> Integer.compare(o2.getGameOutHits(), o1.getGameOutHits()));
                 gameOutViewEmpl.injectValuesIntoGameOutTable( list );
 
             }
@@ -39,8 +51,19 @@ public class GameOutRangeViewCell<T> extends TableCell<T,String> {
             this.setOnMouseClicked(event -> {
                 gameOutViewEmpl.injectGameOutValuesIntoChart( gameOutRange.getGameOutHolder() );
 
-                List<GameOutRange.GameOut> list = gameOutRange.getGameOut().getGameOutList().stream().filter(gameOut -> gameOut.getGameOutNumber() >= gameOutRange.getLowerBound() &&
-                        gameOut.getGameOutNumber() <= gameOutRange.getUpperBound()).collect(Collectors.toList());
+                List<GameOutRange.GameOut> list = new ArrayList<>();
+                for(GameOutRange.GameOut gameOut : gameOutRange.getGameOut().getGameOutList()){
+                    if(gameOutRange.getUpperBound() > 0){
+                        if(gameOut.getGameOutNumber() >= gameOutRange.getLowerBound() && gameOut.getGameOutNumber() <= gameOutRange.getUpperBound()){
+                            list.add( gameOut );
+                        }
+                    }
+                    else if(gameOut.getGameOutNumber() >= gameOutRange.getLowerBound()) {
+                        list.add( gameOut );
+                    }
+                }
+
+                list.sort((o1, o2) -> Integer.compare(o2.getGameOutHits(), o1.getGameOutHits()));
                 gameOutViewEmpl.injectValuesIntoGameOutTable( list );
 
             });

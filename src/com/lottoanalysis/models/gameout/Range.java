@@ -42,7 +42,9 @@ public abstract class Range {
     }
 
     public int[] getUpperLowerBoundAsArray() {
-        return new int[]{lowerBound, upperBound};
+        if(upperBound > 0)
+            return new int[]{lowerBound, upperBound};
+        return new int[]{lowerBound};
     }
 
     public List<Integer> getRangeGameOutHolder() {
@@ -206,7 +208,15 @@ public abstract class Range {
                 range1.getRangeGameOutHolder().add(range1.getGamesOut());
                 range1.getGameOutHolder().add( positionNumber );
                 range1.setGamesOut(0);
-            } else {
+            }
+            else if( positionNumber >= range1.getLowerBound() && range1.getUpperBound()==0){
+                int hits = range1.getHits();
+                range1.setHits(++hits);
+                range1.getRangeGameOutHolder().add(range1.getGamesOut());
+                range1.getGameOutHolder().add( positionNumber );
+                range1.setGamesOut(0);
+            }
+            else {
                 int out = range1.getGamesOut();
                 range1.setGamesOut(++out);
             }

@@ -85,10 +85,10 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
         getView().setGameMaxValue( getModel().getGameMaxValue() );
         getView().setWinningDrawNumbers( getModel().getCurrentWinningNumbers());
         getModel().analyze();
-
     }
 
     private void loadGameOutView() {
+        //loadViews();
         getView().populateGameOutStackPane( getModel().getGameOutRange() );
     }
 

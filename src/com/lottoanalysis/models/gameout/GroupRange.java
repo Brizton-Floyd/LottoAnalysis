@@ -179,7 +179,7 @@ public class GroupRange extends Range {
 
             gameOutComputers.forEach(gameOutComputer -> {
 
-                if (!drawNumbers.contains(gameOutComputer.lottoNumber)) {
+                if (gameOutComputer.lottoNumber != drawNumbers.get(drawPosition.getIndex())) {
                     int out = gameOutComputer.getGamesOut();
                     ++out;
                     gameOutComputer.lottoNumberHitPattern.add(out + "");
@@ -197,7 +197,8 @@ public class GroupRange extends Range {
             final Map<Integer, GameOutComputer> gameOutComputerMap = new HashMap<>();
 
             for (GameOutComputer gameOutComputer : gameOutComputerList) {
-                gameOutComputerMap.put(gameOutComputer.lottoNumber, gameOutComputer);
+                if(gameOutComputer.lottoNumber == drawNumbers.get(drawIndex))
+                    gameOutComputerMap.put(gameOutComputer.lottoNumber, gameOutComputer);
             }
 
             boolean isPatternForAllNumbersProcessed;
@@ -228,16 +229,19 @@ public class GroupRange extends Range {
                 if (index == drawIndex) {
                     if (stringBuilder.toString().length() > 1)
                         stringBuilder.append("->").append("##");
-                    else
+                    else {
                         stringBuilder.append("##");
-                } else {
-                    final int size = stringBuilder.toString().length();
-                    if (size == 0) {
-                        stringBuilder.append("P").append((index + 1));
-                    } else {
-                        stringBuilder.append("->").append("P").append((index + 1));
+                        break;
                     }
                 }
+//                else {
+//                    final int size = stringBuilder.toString().length();
+//                    if (size == 0) {
+//                        stringBuilder.append("P").append((index + 1));
+//                    } else {
+//                        stringBuilder.append("->").append("P").append((index + 1));
+//                    }
+//                }
             }
 
             if (stringBuilder.toString().startsWith("->"))
