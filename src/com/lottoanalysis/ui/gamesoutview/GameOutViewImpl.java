@@ -2,11 +2,14 @@ package com.lottoanalysis.ui.gamesoutview;
 
 import com.lottoanalysis.common.LotteryGameConstants;
 import com.lottoanalysis.common.MenuBarHelper;
+import com.lottoanalysis.controllers.GroupChartController;
 import com.lottoanalysis.models.charts.LineChartWithHover;
 import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
+import com.lottoanalysis.models.drawhistory.DayOfWeek;
 import com.lottoanalysis.models.drawhistory.DrawPosition;
 import com.lottoanalysis.models.gameout.GameOutRange;
 import com.lottoanalysis.models.gameout.Range;
+import com.lottoanalysis.models.technicalindicators.BollingerBand;
 import com.lottoanalysis.ui.gamesoutview.cells.GameOutCell;
 import com.lottoanalysis.ui.gamesoutview.cells.GameOutRangeViewCell;
 import com.lottoanalysis.ui.gamesoutview.cells.GroupRangeGameOutViewCell;
@@ -29,7 +32,7 @@ import java.util.stream.Collectors;
 public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameOutView {
 
     private MenuBar menuBar;
-    private Label positionLabel, analysisLabel;
+    private Label positionLabel, analysisLabel, dayOfWeekLabel;
 
     private int gameRange;
     private String gameName;
@@ -48,6 +51,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         analysisLabel = new Label();
 
         this.positionLabel = new Label();
+        dayOfWeekLabel = new Label();
 
     }
 
@@ -57,6 +61,10 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 
     public Label getAnalysisLabel() {
         return analysisLabel;
+    }
+
+    public Label getDayOfWeekLabel() {
+        return dayOfWeekLabel;
     }
 
     @Override
@@ -190,6 +198,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         final Menu drawPositionMenu = buildPositionMenu();
         final Menu analyzeMethodMenu = buildAnalyzeMethodMenu();
         final Menu groupRangeMenu = buildGroupRangeMenu();
+        final Menu dayOfWeekMenu = buildDayOfWeekMenu();
 
         Label label = new Label("Current Winning Numbers: " + winninNumbers);
         label.setStyle("-fx-text-fill: yellow; -fx-background-color: black;");
@@ -200,13 +209,32 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         final Menu analysisMenu = new Menu("", analysisLabel);
         analysisMenu.setStyle("-fx-background-color: #0000; -fx-padding: 4 0 0 100;");
 
-        menuBar.getMenus().addAll(drawPositionMenu, groupRangeMenu, analyzeMethodMenu, winningNumberMenu, analysisMenu);
+        dayOfWeekLabel.setStyle("-fx-text-fill: black;");
+        final Menu weekDayMenu = new Menu("", dayOfWeekLabel);
+        weekDayMenu.setStyle("-fx-background-color: #0000; -fx-padding: 4 0 0 80;");
+
+        menuBar.getMenus().addAll(drawPositionMenu, groupRangeMenu, analyzeMethodMenu, dayOfWeekMenu, winningNumberMenu, analysisMenu, weekDayMenu);
 
         AnchorPane.setTopAnchor(menuBar, 0.0);
         AnchorPane.setLeftAnchor(menuBar, 0.0);
         AnchorPane.setRightAnchor(menuBar, 0.0);
 
         getChildren().add(menuBar);
+    }
+
+    private Menu buildDayOfWeekMenu() {
+
+        Set<String> days = getPresenter().returnDaysOfWeek();
+        Menu menu = new Menu("Day Of Week");
+        for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
+            if (days.contains(dayOfWeek.getDay()) || DayOfWeek.ALL.equals(dayOfWeek)) {
+                MenuItem menuItem = new MenuItem(dayOfWeek.getFullDayName());
+                menuItem.setOnAction(event -> getPresenter().setDayOfWeek(dayOfWeek));
+                menu.getItems().add(menuItem);
+            }
+        }
+
+        return menu;
     }
 
     private Menu buildGroupRangeMenu() {
@@ -358,33 +386,33 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         //List<String> columnTitles = new ArrayList<>(Arrays.asList(, "Hits", "Games Out", "Hits @Games Out", "Last Seen"));
 
         TableColumn<T, String> gameRangeCol = new TableColumn<>("Game Out Group");
-        gameRangeCol.setCellValueFactory(param -> new SimpleStringProperty( Arrays.toString( param.getValue().getUpperLowerBoundAsArray())));
+        gameRangeCol.setCellValueFactory(param -> new SimpleStringProperty(Arrays.toString(param.getValue().getUpperLowerBoundAsArray())));
         gameRangeCol.setCellFactory(param -> new GameOutRangeViewCell((this)));
 
         TableColumn<T, String> gameOutHitsCol = new TableColumn<>("Hits");
-        gameOutHitsCol.setCellValueFactory(param -> new SimpleStringProperty( param.getValue().getHits() + ""));
+        gameOutHitsCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getHits() + ""));
         gameOutHitsCol.setCellFactory(param -> new GameOutRangeViewCell((this)));
 
         TableColumn<T, String> gameOutCol = new TableColumn<>("Games Out");
-        gameOutCol.setCellValueFactory(param -> new SimpleStringProperty( param.getValue().getGamesOut() + ""));
+        gameOutCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getGamesOut() + ""));
         gameOutCol.setCellFactory(param -> new GameOutRangeViewCell((this)));
 
         TableColumn<T, String> hitAtGameOutCol = new TableColumn<>("Hits @Games Out");
-        hitAtGameOutCol.setCellValueFactory(param -> new SimpleStringProperty( param.getValue().getHitsAtGamesOut() + ""));
+        hitAtGameOutCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getHitsAtGamesOut() + ""));
         hitAtGameOutCol.setCellFactory(param -> new GameOutRangeViewCell((this)));
 
         TableColumn<T, String> lastSeenCol = new TableColumn<>("Last Seen");
-        lastSeenCol.setCellValueFactory(param -> new SimpleStringProperty( param.getValue().getGameOutLastSeen() + ""));
+        lastSeenCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getGameOutLastSeen() + ""));
         lastSeenCol.setCellFactory(param -> new GameOutRangeViewCell((this)));
 
         tableView.getColumns().setAll(gameRangeCol, gameOutHitsCol, gameOutCol, hitAtGameOutCol, lastSeenCol);
 
         ObservableList<T> rangeObservableList = FXCollections.observableArrayList();
-        rangeObservableList.setAll( ranges );
+        rangeObservableList.setAll(ranges);
 
-        tableView.setItems( rangeObservableList );
+        tableView.setItems(rangeObservableList);
 
-        stackPane.getChildren().setAll( tableView );
+        stackPane.getChildren().setAll(tableView);
 
     }
 
@@ -429,8 +457,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
                                 if (item.contains("##")) {
                                     this.setTextFill(Color.YELLOW);
                                     setStyle("-fx-font-weight: bold;");
-                                }
-                                else if (item.equals("P1"))
+                                } else if (item.equals("P1"))
                                     this.setTextFill(Color.RED);
                                 else if (item.contains("->"))
                                     this.setTextFill(Color.ORANGE);
@@ -477,7 +504,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 
     public void injectGameOutValuesIntoChart(List<Integer> chartPoints) {
 
-        StackPane stackPane = (StackPane)lookup("#5");
+        StackPane stackPane = (StackPane) lookup("#5");
 
         List<List<Integer>> dataPoints = new ArrayList<>();
 
@@ -493,42 +520,47 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 //        dataPoints.add((DrawModel.getAllDayDrawResults().size() > 100) ? DrawModel.getAllDayDrawResults()
 //                    .subList(DrawModel.getAllDayDrawResults().size() - 100, DrawModel.getAllDayDrawResults().size()) :
 //                DrawModel.getAllDayDrawResults());
-       dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
+//        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
+//        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
+        //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
+        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
+        //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 5);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 8);
 
         stackPane.getChildren().setAll(lc.getLineChart());
     }
 
     public void injectValuesIntoGameOutTable(List<GameOutRange.GameOut> list) {
 
-        StackPane stackPane = (StackPane)lookup("#3");
+        StackPane stackPane = (StackPane) lookup("#3");
 
         TableView<GameOutRange.GameOut> tableView = new TableView<>();
 
-        TableColumn<GameOutRange.GameOut,String> gameOutNumCol = new TableColumn<>("Game Out Number");
-        gameOutNumCol.setCellValueFactory( param -> new SimpleStringProperty(param.getValue().getGameOutNumber()+""));
+        TableColumn<GameOutRange.GameOut, String> gameOutNumCol = new TableColumn<>("Game Out Number");
+        gameOutNumCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getGameOutNumber() + ""));
         gameOutNumCol.setCellFactory(param -> new GameOutCell());
 
-        TableColumn<GameOutRange.GameOut,String> gameOutNumHitCol = new TableColumn<>("Hits");
-        gameOutNumHitCol.setCellValueFactory( param -> new SimpleStringProperty(param.getValue().getGameOutHits()+""));
+        TableColumn<GameOutRange.GameOut, String> gameOutNumHitCol = new TableColumn<>("Hits");
+        gameOutNumHitCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getGameOutHits() + ""));
         gameOutNumHitCol.setCellFactory(param -> new GameOutCell());
 
-        TableColumn<GameOutRange.GameOut,String> gameOutNumOutCol = new TableColumn<>("Games Out");
-        gameOutNumOutCol.setCellValueFactory( param -> new SimpleStringProperty(param.getValue().getGamesOut()+""));
+        TableColumn<GameOutRange.GameOut, String> gameOutNumOutCol = new TableColumn<>("Games Out");
+        gameOutNumOutCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getGamesOut() + ""));
         gameOutNumOutCol.setCellFactory(param -> new GameOutCell());
 
-        tableView.getColumns().setAll( gameOutNumCol,gameOutNumHitCol, gameOutNumOutCol );
+        tableView.getColumns().setAll(gameOutNumCol, gameOutNumHitCol, gameOutNumOutCol);
 
         ObservableList<GameOutRange.GameOut> observableList = FXCollections.observableArrayList();
-        observableList.setAll( list );
+        observableList.setAll(list);
 
-        tableView.setItems( observableList );
+        tableView.setItems(observableList);
 
-        stackPane.getChildren().setAll( tableView );
+        stackPane.getChildren().setAll(tableView);
 
     }
 }

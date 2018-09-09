@@ -1,6 +1,7 @@
 package com.lottoanalysis.ui.presenters;
 
 import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
+import com.lottoanalysis.models.drawhistory.DayOfWeek;
 import com.lottoanalysis.models.drawhistory.DrawPosition;
 import com.lottoanalysis.models.gameout.GameOutModel;
 import com.lottoanalysis.ui.gamesoutview.GameOutListener;
@@ -8,6 +9,8 @@ import com.lottoanalysis.ui.gamesoutview.GameOutViewImpl;
 import com.lottoanalysis.ui.gamesoutview.cells.GroupRangeGameOutViewCell;
 import com.lottoanalysis.ui.presenters.base.BasePresenter;
 import javafx.scene.layout.AnchorPane;
+
+import java.util.Set;
 
 public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutModel> implements GameOutListener {
 
@@ -46,6 +49,13 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
             case"groupRange":
                 loadGameOutView();
                 break;
+            case"dayOfWeek":
+                getModel().reAnalyzeData();
+                getModel().setRangeIndex( getModel().getGameOutRange().getRangeIndex() );
+                loadViews();
+                loadGameOutView();
+                break;
+
         }
     }
 
@@ -78,6 +88,13 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
     public void setRangeIndex(int rangeIndex) {
         getModel().setRangeIndex( rangeIndex );
     }
+
+    public void setDayOfWeek(DayOfWeek dayOfWeek) { getModel().setDayOfWeek( dayOfWeek );}
+
+    public Set<String> returnDaysOfWeek() {
+        return getModel().getLottoGame().extractDaysOfWeekFromResults( getModel().getLottoGame().getDrawingData());
+    }
+
     private void onPageLoad() {
 
         getView().setGamePositionRange( getModel().getDrawResultSize() );
@@ -95,12 +112,15 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
     private void loadViews() {
 
         getView().populateRangeTableView( getModel().getGroupRange() );
+
     }
 
     private void bindToViewElements() {
 
         getView().getPositionLabel().textProperty().bind( getModel().drawingPositionProperty() );
         getView().getAnalysisLabel().textProperty().bind( getModel().analysisMethProperty() );
+        getView().getDayOfWeekLabel().textProperty().bind( getModel().weekDayProperty() );
+
     }
 
     AnchorPane getViewForDisplay(){
