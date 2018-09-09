@@ -19,7 +19,7 @@ public class DrawModel extends DrawModelBase {
     private Map<Integer, LottoNumberGameOutTracker> lottoNumberGameOutTrackerMap;
 
     private List<Object> lottoDrawData;
-    private SimpleStringProperty gameName, drawingPosition, analysisMeth;
+    private SimpleStringProperty gameName, drawingPosition, analysisMeth, weekDay;
     private int[][] historicalDrawData;
     private int gameSpan;
     private AnalyzeMethod analyzeMethod;
@@ -52,6 +52,8 @@ public class DrawModel extends DrawModelBase {
         setDrawingPosition((drawPosition.getIndex() + 1) + "");
         this.analysisMeth = new SimpleStringProperty();
         setAnalysisMeth(analyzeMethod.getTitle());
+        weekDay = new SimpleStringProperty();
+        setWeekDay(dayOfWeek.getDay());
 
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
 
@@ -73,10 +75,28 @@ public class DrawModel extends DrawModelBase {
         setDrawingPosition((drawPosition.getIndex() + 1) + "");
         this.analysisMeth = new SimpleStringProperty();
         setAnalysisMeth(analyzeMethod.getTitle());
+        weekDay = new SimpleStringProperty();
+        setWeekDay(dayOfWeek.getDay());
         this.gameName = new SimpleStringProperty(lottoGame.getGameName());
         this.lottoDrawData = (List<Object>) currentDrawInformation[1];
         this.historicalDrawData = (int[][]) lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex());
 
+    }
+
+    protected int[][] getDrawData(){
+
+        if(!DayOfWeek.ALL.equals(dayOfWeek) && !AnalyzeMethod.MULTIPLES.equals(analyzeMethod)){
+            List<Drawing> drawResults = lottoGame.getDrawingData().stream().filter(game -> game.getDrawDate().contains(dayOfWeek.getDay()))
+                    .collect(Collectors.toList());
+
+            int[][] convertDrawDataTo2DArray = Drawing.convertDrawDataTo2DArray(drawResults);
+            historicalDrawData = filterDataBasedOnAnalyzeMethod(convertDrawDataTo2DArray, analyzeMethod);
+        }
+        else{
+            historicalDrawData = (int[][]) lottoDrawData.get(analyzeMethod.getIndex());
+        }
+
+        return historicalDrawData;
     }
 
     private void populateDrawData() {
@@ -118,8 +138,20 @@ public class DrawModel extends DrawModelBase {
         return analysisMeth;
     }
 
-    public void setAnalysisMeth(String analysisMeth) {
+    private void setAnalysisMeth(String analysisMeth) {
         this.analysisMeth.set(String.format("Analyzing By \t\" %s \" ",analysisMeth));
+    }
+
+    public String getWeekDay() {
+        return weekDay.get();
+    }
+
+    public SimpleStringProperty weekDayProperty() {
+        return weekDay;
+    }
+
+    private void setWeekDay(String weekDay) {
+        this.weekDay.set("Day: " + weekDay);
     }
 
     public SimpleStringProperty drawingPositionProperty() {
@@ -141,6 +173,7 @@ public class DrawModel extends DrawModelBase {
 
     public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+        setWeekDay(dayOfWeek.getFullDayName());
         onModelChange("dayOfWeek");
 
     }

@@ -16,7 +16,7 @@ public class GameOutRange extends Range {
     }
 
     GameOutRange(List<List<String>> lottoNumberHitDistrubutions) {
-        this(15);
+        this(20);
 
         this.lottoNumberHitDistrubutions = lottoNumberHitDistrubutions;
     }

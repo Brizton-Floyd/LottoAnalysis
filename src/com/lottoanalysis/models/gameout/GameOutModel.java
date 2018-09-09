@@ -19,7 +19,6 @@ public class GameOutModel extends DrawModel {
     public GameOutModel(LottoGame lottoGame) {
         super(lottoGame,(null),(null),(null));
         gameRange = new SimpleIntegerProperty(10);
-
     }
 
     public int getGameMaxValue(){
@@ -54,7 +53,7 @@ public class GameOutModel extends DrawModel {
     public void analyze() {
         Range.resetIndex();
 
-        int[][] gameDrawValues = (int[][]) getLottoDrawData().get( getAnalyzeMethod().getIndex() );
+        int[][] gameDrawValues = getDrawData();
 
         //if( groupRange == null) {
             groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(), getAnalyzeMethod());
@@ -66,7 +65,7 @@ public class GameOutModel extends DrawModel {
 
         Range.resetIndex();
 
-        int[][] gameDrawValues = (int[][]) getLottoDrawData().get( getAnalyzeMethod().getIndex() );
+        int[][] gameDrawValues = getDrawData();
 
         groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(),getAnalyzeMethod());
         groupRange.analyze();

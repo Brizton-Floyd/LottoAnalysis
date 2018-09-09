@@ -3,6 +3,7 @@ package com.lottoanalysis.models.lottogames.drawing;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.*;
@@ -20,6 +21,7 @@ public class Drawing {
     private SimpleStringProperty oddEvenRatio = new SimpleStringProperty();
     private Map<String,String> monthNumbers = new HashMap<>();
     private Set<String> dayOfWeek = new HashSet<>();
+    private ObservableList<SimpleStringProperty> dayOfWeeks = FXCollections.observableArrayList();
     private static List<Drawing> unModifiedDrawData = new ArrayList<>();
     private String[] nums;
     private List<SimpleStringProperty> drawNumbers1 = new ArrayList<>();
@@ -314,7 +316,7 @@ public class Drawing {
 
         Set<String> dayOfWeek = new HashSet<>();
 
-        for(Drawing drawing : drawingData){
+        for(Drawing drawing : drawingData.subList(drawingData.size()-30,drawingData.size())){
             String[] pp = drawing.getDrawDate().split("\\s");
             dayOfWeek.add( pp[1] );
         }

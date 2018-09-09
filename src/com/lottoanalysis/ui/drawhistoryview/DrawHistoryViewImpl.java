@@ -536,8 +536,8 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
         Object[] data = ChartHelperTwo.getRepeatedNumberList(chartPoints);
 
         List<Integer> specialList = (List<Integer>) data[0];
-        dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
+       // dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
@@ -566,11 +566,11 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
 
         List<Integer> specialList = (List<Integer>) data[0];
 
-        dataPoints.add((specialList.size() > 160) ? specialList.subList(specialList.size() - 160, specialList.size()) : specialList);
+       // dataPoints.add((specialList.size() > 160) ? specialList.subList(specialList.size() - 160, specialList.size()) : specialList);
 //        dataPoints.add((DrawModel.getAllDayDrawResults().size() > 100) ? DrawModel.getAllDayDrawResults()
 //                    .subList(DrawModel.getAllDayDrawResults().size() - 100, DrawModel.getAllDayDrawResults().size()) :
 //                DrawModel.getAllDayDrawResults());
-        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
+        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
