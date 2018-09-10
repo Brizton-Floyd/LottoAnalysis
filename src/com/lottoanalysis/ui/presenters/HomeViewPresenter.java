@@ -51,6 +51,9 @@ public class HomeViewPresenter extends BasePresenter<HomeViewImpl, LottoGame> im
             case GAME_OUT_ANALYSIS:
                 presentGameOutAnalysisView();
                 break;
+            case Lottery_Number_Gaps:
+                presentLotteryNumberGapView();
+                break;
         }
     }
 
@@ -64,6 +67,12 @@ public class HomeViewPresenter extends BasePresenter<HomeViewImpl, LottoGame> im
                 break;
         }
 
+    }
+
+
+    private void presentLotteryNumberGapView() {
+        LotteryNumberGapPresenter lotteryNumberGapPresenter = new LotteryNumberGapPresenter(getModel());
+        getView().injectView(lotteryNumberGapPresenter.getView());
     }
 
     private void presentGameOutAnalysisView() {

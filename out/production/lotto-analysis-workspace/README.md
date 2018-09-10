@@ -1,1 +1,1 @@
-# lotto-analysis
+# LottoAnalysis

@@ -363,7 +363,7 @@ public class ChartHelperTwo {
 
                 list.add(currentWinningNumber);
                 list.add(nextWinningNumber);
-	            //list.add(currentWinningNumber);
+	            list.add(currentWinningNumber);
             }
 
         }

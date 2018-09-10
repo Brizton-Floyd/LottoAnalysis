@@ -66,13 +66,13 @@ public class HomeViewImpl extends BaseView<HomeViewPresenter> implements HomeVie
 
         Map<String,String> buttonAndGlyphNames = new LinkedHashMap<>();
         buttonAndGlyphNames.put("Lotto Dashboard","VIEW_DASHBOARD");
-        buttonAndGlyphNames.put("Top Chart Analysis","CHART_LINE");
+        buttonAndGlyphNames.put("Bet Slip Analysis","TRENDING_UP");
+        buttonAndGlyphNames.put("Game Out Chart","TRENDING_UP");
+        buttonAndGlyphNames.put("Lottery Number Gaps","CHART_LINE");
         buttonAndGlyphNames.put("Group Hit Chart","RAY_START_END");
         buttonAndGlyphNames.put("Companion Numbers","TRENDING_NEUTRAL");
         buttonAndGlyphNames.put("Multiple Chart","TRENDING_UP");
-        buttonAndGlyphNames.put("Game Out Chart","TRENDING_UP");
         buttonAndGlyphNames.put("Gap Spacing Chart","TRENDING_UP");
-        buttonAndGlyphNames.put("Bet Slip Analysis","TRENDING_UP");
         buttonAndGlyphNames.put("Load Game Panel","TRENDING_UP");
 
         gameOutBtns = ButtonHelper.buildButtonList( buttonAndGlyphNames, buttonAnchorPane.getPrefWidth() );
