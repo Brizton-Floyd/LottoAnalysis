@@ -14,7 +14,7 @@ public abstract class BasePresenter<V extends BaseView, M extends DrawModelBase>
         this.model = model;
     }
 
-    public void setModel(M model) {
+    protected void setModel(M model) {
         this.model = model;
     }
 
