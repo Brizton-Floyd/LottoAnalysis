@@ -17,11 +17,20 @@ public class CompanionNumberPresenter extends BasePresenter<CompanionNumberView,
         getView().setPresenter((this));
         bindToViewElements();
         getView().setUpUi();
-
+        reloadViews();
     }
 
     @Override
     public void handleOnModelChanged(String property) {
+
+        switch (property){
+            case"field":
+                reloadViews();
+                break;
+            case "Companion":
+                reloadCompanionView();
+                break;
+        }
 
     }
 
@@ -38,6 +47,9 @@ public class CompanionNumberPresenter extends BasePresenter<CompanionNumberView,
         getModel().setGameSpanProperty(getModel().getGameSpan()+"");
     }
 
+    public void setWinningNumberBasedOnRange(int value) {
+        getModel().setRangeWinningNumber( value );
+    }
     public String getGameName() {
         return getModel().getLottoGame().getGameName();
     }
@@ -55,10 +67,20 @@ public class CompanionNumberPresenter extends BasePresenter<CompanionNumberView,
 
     }
 
+
+    private void reloadViews() {
+        getView().refreshViews( getModel() );
+    }
+
+    private void reloadCompanionView(){
+        getView().refreshCompanionView(getModel());
+    }
+
     private void bindToViewElements(){
         getView().getPositionLabel().textProperty().bind(getModel().positionProperty());
         getView().getAnalysisLabel().textProperty().bind(getModel().analysisMethodProperty());
         getView().getDayOfWeekLabel().textProperty().bind(getModel().dayOfWeekProperty());
         getView().getGameSpanLabel().textProperty().bind(getModel().gameSpanPropertyProperty());
     }
+
 }

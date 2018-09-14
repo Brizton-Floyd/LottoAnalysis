@@ -50,7 +50,7 @@ public class GroupRange extends Range {
     }
 
     @Override
-    void analyze() {
+    public void analyze() {
 
         computeRangeUpperLowerBound();
         computeGamesOut();
@@ -75,7 +75,6 @@ public class GroupRange extends Range {
 
         validateUpperBoundsForOverflow();
         super.resetLowerUpperBound();
-
     }
 
     List<List<String>> getLottoNumberHitDistrubutions(int index) {

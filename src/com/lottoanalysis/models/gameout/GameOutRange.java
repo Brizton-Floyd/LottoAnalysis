@@ -22,7 +22,7 @@ public class GameOutRange extends Range {
     }
 
     @Override
-    void analyze() {
+    public void analyze() {
 
         computeRangeUpperLowerBound();
         convertListToRows(lottoNumberHitDistrubutions);
