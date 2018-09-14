@@ -12,6 +12,7 @@ public abstract class Range {
     List<Range> ranges = new ArrayList<>();
     private List<Integer> rangeGameOutHolder = new ArrayList<>();
     private List<Integer> gameOutHolder = new ArrayList<>();
+    private List<Integer> rangeWinningNumberHolder = new ArrayList<>();
     private Map<Integer, List<String>> lottoNumberMap = new TreeMap<>();
     private int lowerBound, upperBound, hits, gamesOut, hitsAtGamesOut, gameOutLastSeen, range, minNumber, maxNumber,rangeIndex;
     private double avgSkips;
@@ -47,6 +48,10 @@ public abstract class Range {
         return new int[]{lowerBound};
     }
 
+    public List<Integer> getRangeWinningNumberHolder() {
+        return rangeWinningNumberHolder;
+    }
+
     public List<Integer> getRangeGameOutHolder() {
         return rangeGameOutHolder;
     }
@@ -79,7 +84,7 @@ public abstract class Range {
         return lowerBound;
     }
 
-    void setLowerBound(int lowerBound) {
+    public void setLowerBound(int lowerBound) {
         this.lowerBound = lowerBound;
     }
 
@@ -87,7 +92,7 @@ public abstract class Range {
         return upperBound;
     }
 
-    void setUpperBound(int upperBound) {
+    public  void setUpperBound(int upperBound) {
         this.upperBound = upperBound;
     }
 
@@ -95,7 +100,7 @@ public abstract class Range {
         return hits;
     }
 
-    void setHits(int hits) {
+    public void setHits(int hits) {
         this.hits = hits;
     }
 
@@ -103,7 +108,7 @@ public abstract class Range {
         return gamesOut;
     }
 
-    void setGamesOut(int gamesOut) {
+    public void setGamesOut(int gamesOut) {
         this.gamesOut = gamesOut;
     }
 
@@ -111,7 +116,7 @@ public abstract class Range {
         return hitsAtGamesOut;
     }
 
-    void setHitsAtGamesOut(int hitsAtGamesOut) {
+    public void setHitsAtGamesOut(int hitsAtGamesOut) {
         this.hitsAtGamesOut = hitsAtGamesOut;
     }
 
@@ -119,11 +124,11 @@ public abstract class Range {
         return gameOutLastSeen;
     }
 
-    void setGameOutLastSeen(int gameOutLastSeen) {
+    public void setGameOutLastSeen(int gameOutLastSeen) {
         this.gameOutLastSeen = gameOutLastSeen;
     }
 
-    int getRange() {
+    public int getRange() {
         return range;
     }
 
@@ -135,11 +140,11 @@ public abstract class Range {
         return minNumber;
     }
 
-    void setMinNumber(int minNumber) {
+    public void setMinNumber(int minNumber) {
         this.minNumber = minNumber;
     }
 
-    int getMaxNumber() {
+    public int getMaxNumber() {
         return maxNumber;
     }
 
@@ -159,7 +164,7 @@ public abstract class Range {
         this.avgSkips = avgSkips;
     }
 
-    void validateUpperBoundsForOverflow() {
+    protected void validateUpperBoundsForOverflow() {
 
         for (Range range : getRanges()) {
 
@@ -170,7 +175,17 @@ public abstract class Range {
 
     }
 
-    abstract void analyze();
+    protected void validateUpperBoundsForOverflow(List<Range> ranges) {
+
+        for (Range range : ranges) {
+
+            if (range.upperBound > defaultUpperLowerBounds[1]) {
+                range.setUpperBound(defaultUpperLowerBounds[1]);
+            }
+        }
+
+    }
+    public abstract void analyze();
 
     protected abstract void computeRangeUpperLowerBound();
 
@@ -184,6 +199,18 @@ public abstract class Range {
         }
     }
 
+    protected <T extends Range> void computeHitsAtGamesOut(List<T> ranges) {
+
+        for (Range range : ranges) {
+
+            range.getRanges().forEach( range1 -> {
+                int currentGameOut = range1.getGamesOut();
+                Long counter = range1.getRangeGameOutHolder().stream().filter(out -> out == currentGameOut).count();
+                range1.setHitsAtGamesOut(counter.intValue());
+            });
+
+        }
+    }
     void findLastOccurenceOfGameOut() {
 
         getRanges().forEach(range -> {
@@ -196,6 +223,22 @@ public abstract class Range {
             int lastSeen =  Math.abs(lastIndex - gameOutHolder.size()) -1;
             range.setGameOutLastSeen(lastSeen);
 
+        });
+    }
+
+    protected <T extends Range> void findLastOccurenceOfGameOut(List<T> ranges) {
+
+        ranges.forEach(range -> {
+
+            range.getRanges().forEach(range1 -> {
+                final int currentGamesOut = range1.getGamesOut();
+                List<Integer> gameOutHolder = range1.getRangeGameOutHolder();
+                if(gameOutHolder.size() > 1)
+                    System.out.println(gameOutHolder.get(gameOutHolder.size()-1));
+                int lastIndex = gameOutHolder.lastIndexOf( currentGamesOut );
+                int lastSeen =  Math.abs(lastIndex - gameOutHolder.size()) -1;
+                range1.setGameOutLastSeen(lastSeen);
+            });
         });
     }
 
@@ -223,7 +266,35 @@ public abstract class Range {
         });
     }
 
-    void resetLowerUpperBound() {
+    protected <T extends Range> void incrementHitsForAppropriateRange(List<T> ranges, int positionNumber) {
+
+        for(Range range1 : ranges){
+
+            if (positionNumber >= range1.getLowerBound() && positionNumber <= range1.getUpperBound()) {
+                int hits = range1.getHits();
+                range1.setHits(++hits);
+                range1.getRangeGameOutHolder().add(range1.getGamesOut());
+                range1.getRangeWinningNumberHolder().add(positionNumber);
+                range1.getGameOutHolder().add( range1.getGamesOut() );
+                range1.setGamesOut(0);
+            }
+            else if( positionNumber >= range1.getLowerBound() && range1.getUpperBound()==0){
+                int hits = range1.getHits();
+                range1.setHits(++hits);
+                range1.getRangeGameOutHolder().add(range1.getGamesOut());
+                range1.getGameOutHolder().add( range1.getGamesOut() );
+                range1.getRangeWinningNumberHolder().add(positionNumber);
+                range1.setGamesOut(0);
+            }
+            else {
+                int out = range1.getGamesOut();
+                range1.setGamesOut(++out);
+            }
+        }
+    }
+
+
+    public void resetLowerUpperBound() {
 
         setMinNumber(defaultUpperLowerBounds[0]);
         setMaxNumber(defaultUpperLowerBounds[1]);

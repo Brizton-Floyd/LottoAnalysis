@@ -773,7 +773,7 @@ public class NumberPatternAnalyzer {
      * @param positionalNumbers
      * @param drawingData
      */
-    public static void loadUpPositionalNumbers(int[][] positionalNumbers, ObservableList<Drawing> drawingData) {
+    public static void loadUpPositionalNumbers(int[][] positionalNumbers, List<Drawing> drawingData) {
 
         for (int i = 0; i < drawingData.size(); i++) {
 
