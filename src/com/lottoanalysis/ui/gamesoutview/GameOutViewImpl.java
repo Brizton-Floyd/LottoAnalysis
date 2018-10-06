@@ -530,7 +530,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 8);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 10);
 
         stackPane.getChildren().setAll(lc.getLineChart());
     }
