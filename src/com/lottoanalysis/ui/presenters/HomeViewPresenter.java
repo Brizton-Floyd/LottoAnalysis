@@ -58,6 +58,9 @@ public class HomeViewPresenter extends BasePresenter<HomeViewImpl, LottoGame> im
             case COMPANION_NUMBER:
                 presentCompanionNumberView();
                 break;
+            case POSITION_HIT_SEQUENCE:
+                presentPositionHitSequenceChart();
+                break;
         }
     }
 
@@ -71,6 +74,11 @@ public class HomeViewPresenter extends BasePresenter<HomeViewImpl, LottoGame> im
                 break;
         }
 
+    }
+
+    private void presentPositionHitSequenceChart(){
+        PositionHitSequencePresenter positionHitSequencePresenter = new PositionHitSequencePresenter(getModel());
+        getView().injectView(positionHitSequencePresenter.getView());
     }
 
     private void presentCompanionNumberView(){

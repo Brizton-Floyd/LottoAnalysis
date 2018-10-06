@@ -9,7 +9,8 @@ public enum EventSource {
     LOTTO_DASHBOARD("Lotto Dashboard"),
     GAME_OUT_ANALYSIS("Game Out Chart"),
     Lottery_Number_Gaps("Lottery Number Gaps"),
-    COMPANION_NUMBER("Companion Numbers");
+    COMPANION_NUMBER("Companion Numbers"),
+    POSITION_HIT_SEQUENCE("Position Sequence Chart");
 
     private String text;
 
