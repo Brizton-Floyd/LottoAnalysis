@@ -48,10 +48,14 @@ public class DrawHistoryPresenter extends BasePresenter<DrawHistoryViewImpl, Dra
     public void onAnalysisMethodChange(AnalyzeMethod analyzeMethod) { getModel().setAnalyzeMethod( analyzeMethod ); }
 
     @Override
-    public void onTableCellSelectionChange(String value) {
+    public void onTableCellSelectionChange(String value, int gamesOut) {
 
         List<Integer> values = getModel().getLottoNumbersInSumRangeHolder( value );
+        SumGroupAnalyzer sumGroupAnalyzer = getModel().getSumGroupAnalyzer();
+        List<Integer> gameOutValues = sumGroupAnalyzer.analyzeGameOutTrend( gamesOut );
         getView().injectLottoNumberValues(values);
+        getView().injectGameOutValues( gameOutValues );
+        //getView().injectLottoAndGameOutValues(values, gameOutValues);
     }
 
     @Override

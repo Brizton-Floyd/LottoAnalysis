@@ -1,5 +1,6 @@
 package com.lottoanalysis.ui.positionhitsequenceview;
 
+import com.lottoanalysis.controllers.GroupChartController;
 import com.lottoanalysis.models.charts.LineChartWithHover;
 import com.lottoanalysis.models.drawhistory.DrawPosition;
 import com.lottoanalysis.models.drawresults.DrawResultAnalyzer;
@@ -313,10 +314,10 @@ public class PositionHitSequenceView extends BaseView<PositionHitSequencePresent
 //                DrawModel.getAllDayDrawResults());
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
-        //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
+        List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
         dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
         //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
-        //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
+        dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,

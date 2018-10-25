@@ -4,6 +4,7 @@ import com.lottoanalysis.models.lottogames.LottoGame;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SumGroupAnalyzer {
 
@@ -25,8 +26,31 @@ public class SumGroupAnalyzer {
             sumGroupGamesOut.add(sumGroupAnalyzer.getGroupGamesOut());
         }
 
-        gameOutHitHolder.removeIf( value -> !sumGroupGamesOut.contains(value));
-        return gameOutHitHolder;
+        List<Integer> modifiedNumbers = new ArrayList<>(gameOutHitHolder);
+        modifiedNumbers.removeIf( value -> !sumGroupGamesOut.contains(value));
+        System.out.println(modifiedNumbers.get(modifiedNumbers.size()-1));
+
+        return modifiedNumbers;
+    }
+
+    public List<Integer> analyzeGameOutTrend(int gamesOut) {
+        List<Integer> gameOutValues = new ArrayList<>();
+
+        int[] indexes = IntStream.range(0, gameOutHitHolder.size()-1).filter( value -> gameOutHitHolder.get(value) == gamesOut).toArray();
+        for (int index : indexes) {
+            gameOutValues.add(gameOutHitHolder.get(index + 1));
+        }
+
+        Collection<SumGroupAnalyzer> sumGroupAnalyzers = groupAnalyzerMap.values();
+        Set<Integer> sumGroupGamesOut = new HashSet<>();
+        for(SumGroupAnalyzer sumGroupAnalyzer : sumGroupAnalyzers)
+        {
+            sumGroupGamesOut.add(sumGroupAnalyzer.getGroupGamesOut());
+        }
+
+        gameOutValues.removeIf( value -> !sumGroupGamesOut.contains(value));
+
+        return gameOutValues;
     }
 
     public int getGroupHits() {
@@ -304,5 +328,6 @@ public class SumGroupAnalyzer {
         });
 
     }
+
 
 }
