@@ -330,15 +330,15 @@ public class LotteryNumberGapView extends BaseView<LotteryNumberGapPresenter>{
 
         List<Integer> specialList = (List<Integer>) data[0];
 
-        dataPoints.add((specialList.size() > 160) ? specialList.subList(specialList.size() - 160, specialList.size()) : specialList);
+       // dataPoints.add((specialList.size() > 160) ? specialList.subList(specialList.size() - 160, specialList.size()) : specialList);
 //        dataPoints.add((DrawModel.getAllDayDrawResults().size() > 100) ? DrawModel.getAllDayDrawResults()
 //                    .subList(DrawModel.getAllDayDrawResults().size() - 100, DrawModel.getAllDayDrawResults().size()) :
 //                DrawModel.getAllDayDrawResults());
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
         //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
-        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
+        dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        //dataPoints.add((chartPoints.size() > 150) ? chartPoints.subList(chartPoints.size() - 150, chartPoints.size()) : chartPoints);
         //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,

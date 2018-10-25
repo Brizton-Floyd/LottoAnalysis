@@ -60,10 +60,11 @@ public class LotteryNumberRange extends Range {
 
             int mainPositionLotteryNumber = historicalDrawData[index][i];
             if(mainPositionLotteryNumber >= 0) {
+                // Increment range hit where main number falls into to
                 incrementHitsForAppropriateRange(lotteryNumberRangeList.get(0).getRanges(), mainPositionLotteryNumber);
                 if (mainPositionLotteryNumber == currentwinnngNumberAtMainIndex) {
                     int companionPositionNumber = historicalDrawData[index + 1][i];
-                    if ((mainPositionLotteryNumber >= 0) && (companionPositionNumber >= 0)) {
+                    if ( (companionPositionNumber >= 0) ) {
                         incrementHitsForAppropriateRange(lotteryNumberRangeList.get(1).getRanges(), companionPositionNumber);
                     }
                 }

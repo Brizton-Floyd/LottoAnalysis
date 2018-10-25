@@ -31,7 +31,7 @@ public class SumGroupCell extends TableCell<SumGroupAnalyzer, String> {
                 getTableView().getSelectionModel().select(getIndex());
 
                 final String values = getUniqueValueString(sumGroupAnalyzer);
-                drawHistoryView.notifyListenerOfTableCellSelectionChange(values);
+                drawHistoryView.notifyListenerOfTableCellSelectionChange(values, 0);
 
                 if (getTableView().getSelectionModel().getSelectedItems().contains(sumGroupAnalyzer)) {
 
@@ -48,7 +48,7 @@ public class SumGroupCell extends TableCell<SumGroupAnalyzer, String> {
             this.setOnMouseClicked(event -> {
 
                 final String values = getUniqueValueString(sumGroupAnalyzer);
-                drawHistoryView.notifyListenerOfTableCellSelectionChange(values);
+                drawHistoryView.notifyListenerOfTableCellSelectionChange(values, sumGroupAnalyzer.getGroupGamesOut());
 
             });
 

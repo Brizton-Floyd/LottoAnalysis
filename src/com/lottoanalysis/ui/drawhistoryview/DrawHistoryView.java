@@ -14,7 +14,7 @@ public interface DrawHistoryView {
 
     void notifyListenerOfGameSpanChange( int span );
 
-    void notifyListenerOfTableCellSelectionChange( String value );
+    void notifyListenerOfTableCellSelectionChange( String value, int gamesOut );
 
     void notifyListenerOfPageLoad();
 

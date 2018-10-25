@@ -12,7 +12,7 @@ public interface DrawHistoryListener {
 
     void onGameSpanChange(int span);
 
-    void onTableCellSelectionChange(String value);
+    void onTableCellSelectionChange(String value, int gamesOut);
 
     void onRadioButtonChange(DayOfWeek dayOfWeek);
 

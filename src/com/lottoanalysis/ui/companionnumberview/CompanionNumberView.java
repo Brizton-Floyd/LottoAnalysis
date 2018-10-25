@@ -334,9 +334,11 @@ public class CompanionNumberView extends BaseView<CompanionNumberPresenter> {
     private void refreshMainInfoDisplay(CompanionNumber model) {
         StackPane stackPane = (StackPane)lookup("#6");
         VBox box = new VBox();
+        box.setSpacing(10);
         box.setPadding(new Insets(10,0,0,10));
         GridPane gridPane = new GridPane();
         gridPane.setHgap(18.0);
+        gridPane.setVgap(10.0);
 
         Label currentWinningNumberLbl = new Label("Current Winning Number");
         currentWinningNumberLbl.underlineProperty().setValue(true);
@@ -374,7 +376,24 @@ public class CompanionNumberView extends BaseView<CompanionNumberPresenter> {
         gridPane.add(totalPositionHits,1,1);
         gridPane.add(gamesOut,2,1);
 
-        box.getChildren().setAll(gridPane);
+        Label label = new Label("Winning Numbers");
+        label.setTextFill(Color.valueOf("#EFA747"));
+
+        //gridPane.add(label,0,1);
+        TextField numberTxtField = new TextField(model.getLotteryNumberRange().getRangeWinningNumber()+"");
+        //gridPane.add(numberTxtField,1,1);
+
+        Button button = new Button("Analyze");
+        button.setOnAction(event -> getPresenter().setWinningNumberBasedOnRange( Integer.parseInt( numberTxtField.getText() )));
+
+        GridPane textGridPane = new GridPane();
+        textGridPane.setHgap(8);
+        textGridPane.add(label, 0,0);
+        textGridPane.add(numberTxtField,1,0);
+        textGridPane.add(button,2,0);
+
+        box.getChildren().setAll(gridPane, textGridPane);
+
         stackPane.getChildren().setAll(box);
 
     }
@@ -522,8 +541,8 @@ public class CompanionNumberView extends BaseView<CompanionNumberPresenter> {
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
         //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
-        dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
+        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
         //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
@@ -554,8 +573,8 @@ public class CompanionNumberView extends BaseView<CompanionNumberPresenter> {
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
         //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
-        dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
+        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
         //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,

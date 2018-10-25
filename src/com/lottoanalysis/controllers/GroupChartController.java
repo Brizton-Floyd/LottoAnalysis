@@ -925,7 +925,7 @@ public class GroupChartController {
 //                threePeriodHolder.add( numList.get(i) );
 //            }
 
-            float ema = calculateMovingAverage(numList.get(i), 5, yesterdayEMA);
+            float ema = calculateMovingAverage(numList.get(i), 10, yesterdayEMA);
             movingAverages.add((int) ema);
             yesterdayEMA = ema;
         }

@@ -180,8 +180,8 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
     }
 
     @Override
-    public void notifyListenerOfTableCellSelectionChange(String value) {
-        getPresenter().onTableCellSelectionChange(value);
+    public void notifyListenerOfTableCellSelectionChange(String value, int gamesOut) {
+        getPresenter().onTableCellSelectionChange(value, gamesOut);
     }
 
     @Override
@@ -521,6 +521,7 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
     private StackPane setUpLottoNumberGameOutChartPane(List<Integer> chartPoints) {
 
         StackPane historyStackPane = new StackPane();
+        historyStackPane.setId("1");
         historyStackPane.setStyle("-fx-background-color:black;");
         historyStackPane.setPrefWidth(500);
         historyStackPane.setPrefHeight(303);
@@ -575,7 +576,7 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lotto Number Performance Chart", 654, 346, 3);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lotto Number Performance Chart", 654, 346, 4);
 
         historyStackPane.getChildren().setAll(lc.getLineChart());
 
@@ -930,4 +931,29 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
         getChildren().add(viewComponentHolder);
     }
 
+    public void injectGameOutValues(List<Integer> chartPoints) {
+
+        //historyStackPane.setPadding(new Insets(100,0,0,0));
+        StackPane historyStackPane = (StackPane) lookup("#1");
+
+        List<List<Integer>> dataPoints = new ArrayList<>();
+
+        Set<Integer> unique = new HashSet<>(chartPoints);
+        List<Integer> minMaxVals = new ArrayList<>(chartPoints);
+        Collections.sort(minMaxVals);
+
+        Object[] data = ChartHelperTwo.getRepeatedNumberList(chartPoints);
+
+        List<Integer> specialList = (List<Integer>) data[0];
+        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
+
+        LineChartWithHover lc = new LineChartWithHover(dataPoints,
+                null,
+                minMaxVals.get(0),
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lotto Number Game Out Trend Chart", 654, 346, 7);
+
+        historyStackPane.getChildren().setAll(lc.getLineChart());
+
+    }
 }
