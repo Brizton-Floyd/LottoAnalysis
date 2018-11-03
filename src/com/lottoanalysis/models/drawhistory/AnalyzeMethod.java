@@ -9,7 +9,8 @@ public enum AnalyzeMethod {
     REMAINDER(4, "Remainder","Remainder"),
     LAST_DIGIT(5,"Last Digit","Last Digit"),
     MULTIPLES(6,"Multiples","Lotto"),
-    GROUP_ANALYSIS(7,"Number Group", "Group");
+    GROUP_ANALYSIS(7,"Number Group", "Group"),
+    LAST_DIGIT_GROUPING(8,"Last Digit Grouping","Last Digit Group");
 
     private int index;
     private String title;

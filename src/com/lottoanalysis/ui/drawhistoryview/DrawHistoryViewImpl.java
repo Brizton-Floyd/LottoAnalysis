@@ -482,11 +482,12 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
     private Menu analyizationMethodMenu(String gameName) {
 
         Menu historyMenu = new Menu("Analyze Methods");
-        List<String> menuItemTitles = new LinkedList<>(Arrays.asList("Positional Numbers", "Delta Number", "Positional Sums", "Line Spacings", "Remainder", "Last Digit", "Multiples"));
+        List<String> menuItemTitles = new LinkedList<>(Arrays.asList("Positional Numbers", "Delta Number", "Positional Sums", "Line Spacings", "Remainder", "Last Digit","Last Digit Grouping","Multiples"));
 
         if (gameName.equals(LotteryGameConstants.PICK4_GAME_NAME_TWO) ||
                 gameName.equals(LotteryGameConstants.PICK3_GAME_NAME_TWO)) {
             menuItemTitles.remove(AnalyzeMethod.DELTA_NUMBERS.getTitle());
+            menuItemTitles.remove(AnalyzeMethod.LAST_DIGIT_GROUPING.getTitle());
         }
 
         for (String item : menuItemTitles) {
@@ -543,7 +544,7 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lotto Number Game Out Trend Chart", 654, 346, 7);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lotto Number Game Out Trend Chart", 654, 346, 3);
 
         historyStackPane.getChildren().setAll(lc.getLineChart());
 
@@ -567,16 +568,16 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
 
         List<Integer> specialList = (List<Integer>) data[0];
 
-        dataPoints.add((specialList.size() > 160) ? specialList.subList(specialList.size() - 160, specialList.size()) : specialList);
+        dataPoints.add((specialList.size() > 200) ? specialList.subList(specialList.size() - 200, specialList.size()) : specialList);
 //        dataPoints.add((DrawModel.getAllDayDrawResults().size() > 100) ? DrawModel.getAllDayDrawResults()
 //                    .subList(DrawModel.getAllDayDrawResults().size() - 100, DrawModel.getAllDayDrawResults().size()) :
 //                DrawModel.getAllDayDrawResults());
-        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
+        //dataPoints.add((chartPoints.size() > 40) ? chartPoints.subList(chartPoints.size()-40,chartPoints.size()) : chartPoints);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lotto Number Performance Chart", 654, 346, 4);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lotto Number Performance Chart", 654, 346, 3);
 
         historyStackPane.getChildren().setAll(lc.getLineChart());
 
@@ -939,19 +940,27 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
         List<List<Integer>> dataPoints = new ArrayList<>();
 
         Set<Integer> unique = new HashSet<>(chartPoints);
-        List<Integer> minMaxVals = new ArrayList<>(chartPoints);
-        Collections.sort(minMaxVals);
+
 
         Object[] data = ChartHelperTwo.getRepeatedNumberList(chartPoints);
 
         List<Integer> specialList = (List<Integer>) data[0];
-        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size()-100,chartPoints.size()) : chartPoints);
+        List<Integer> spacing = new ArrayList<>();
+        for(int i = 1; i < specialList.size()-1; i++){
+            int dif = Math.abs(specialList.get(i-1) - specialList.get(i));
+            spacing.add( dif );
+        }
+        Object[] repeatedNumberList = ChartHelperTwo.getRepeatedNumberListVersionTwo(spacing);
+        List<Integer> specialListTwo = (List<Integer>)repeatedNumberList[0];
 
+        dataPoints.add((specialListTwo.size() > 160) ? specialListTwo.subList(specialListTwo.size() - 160, specialListTwo.size()) : specialListTwo);
+        //dataPoints.add((spacing.size() > 140) ? spacing.subList(spacing.size()-140,spacing.size()) : spacing);
+        List<Integer> minMaxVals = new ArrayList<>(specialListTwo);
+        Collections.sort(minMaxVals);
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lotto Number Game Out Trend Chart", 654, 346, 7);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lotto Number Game Out Trend Chart", 654, 346, 5);
 
         historyStackPane.getChildren().setAll(lc.getLineChart());
 

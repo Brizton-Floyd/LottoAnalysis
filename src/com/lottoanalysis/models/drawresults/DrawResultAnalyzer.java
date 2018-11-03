@@ -2,19 +2,19 @@ package com.lottoanalysis.models.drawresults;
 
 import com.lottoanalysis.models.drawhistory.DrawModelBase;
 import com.lottoanalysis.models.drawhistory.DrawPosition;
+import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.utilities.analyzerutilites.NumberPatternAnalyzer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DrawResultAnalyzer extends DrawModelBase implements GamesInPast {
 
+    private int gameSpan;
+    private TotalWinningNumberTracker totalWinningNumberTracker;
     private LottoGame lottoGame;
     private DrawPosition drawPosition;
     private List<DrawResultPosition> drawResultPositions = new ArrayList<>();
@@ -24,10 +24,17 @@ public class DrawResultAnalyzer extends DrawModelBase implements GamesInPast {
     public DrawResultAnalyzer(LottoGame lottoGame) {
         this.lottoGame = lottoGame;
         this.drawPosition = DrawPosition.POS_ONE;
+        gameSpan = 10;
         drawPositionProperty = new SimpleStringProperty("Currently Analyzing Draw Position 1");
+        analyze();
+    }
+
+    private void analyze() {
+        drawResultPositions.clear();
         loadDrawResultPositionList();
         loadHistoricalDrawResultPositionLotteryNumbers();
         analyzeWhichColumnsProducesWinners();
+        analyzeHitPatternBasedOnGameSpan();
     }
 
     public void setDrawPosition(DrawPosition drawPosition) {
@@ -65,6 +72,7 @@ public class DrawResultAnalyzer extends DrawModelBase implements GamesInPast {
                     gameOutAndWinningColumnArray[1] = drawPosition.getIndex();
                 }
                 DrawResultPosition drawResultPosition = drawResultPositions.get(drawPosition.getIndex());
+                //drawResultPosition.getCompainonWinningColumnList().add( gameOutAndWinningColumnArray[1]+1);
                 drawResultPosition.increasePositionColumnHit(gameOutAndWinningColumnArray, currentWinningNumberInPosition);
 
                 lotteryResultList.remove(0);
@@ -107,6 +115,9 @@ public class DrawResultAnalyzer extends DrawModelBase implements GamesInPast {
                     Arrays.stream(positionDrawResultData).boxed().collect(Collectors.toList())
             );
         }
+
+        totalWinningNumberTracker = new TotalWinningNumberTracker();
+        totalWinningNumberTracker.analyze( allPositionHistoricalDrawData, gameSpan );
     }
 
     public DrawResultPosition getDrawResultPosition(){
@@ -148,5 +159,48 @@ public class DrawResultAnalyzer extends DrawModelBase implements GamesInPast {
 
     public String getGameName() {
         return lottoGame.getGameName();
+    }
+
+    public int getGameSpan() {
+        return gameSpan;
+    }
+
+    public void setGameSpan(int gameSpan) {
+        this.gameSpan = gameSpan;
+        clearPositionHashMap();
+        analyze();
+        onModelChange("Span");
+    }
+
+    public TotalWinningNumberTracker getTotalWinningNumberTracker() {
+        return totalWinningNumberTracker;
+    }
+
+    private void refreshDrawResultList(DrawResultPosition drawResultPos, int position) {
+        DrawResultPosition drawResultPosition = getDrawResultPositions().get(position);
+        if(drawResultPos != null){
+            drawResultPos.getLotteryResultPositionList().clear();
+            drawResultPos.getLotteryResultPositionList().addAll( filter( drawResultPosition.getLotteryResultPositionList() ) );
+        }
+    }
+
+    private Collection<? extends Integer> filter(List<Integer> lotteryResultPositionList) {
+        List<Integer> data = new ArrayList<>();
+        Set<Integer> uniqueValues = new LinkedHashSet<>(lotteryResultPositionList.subList(lotteryResultPositionList.size()-gameSpan, lotteryResultPositionList.size()));
+        System.out.println(drawPosition.getIndex());
+        for(int val : getDrawResultPositions().get(drawPosition.getIndex()).getLotteryResultPositionList()){
+            if(uniqueValues.contains(val)){
+                data.add( val );
+            }
+        }
+        return data;
+    }
+
+    private void analyzeHitPatternBasedOnGameSpan() {
+        refreshDrawResultList(null, drawPosition.getIndex());
+    }
+
+    public void refreshDrawResultList(DrawResultPosition position) {
+        refreshDrawResultList(position, position.getDrawPositionIndex()-1);
     }
 }

@@ -2,9 +2,12 @@ package com.lottoanalysis.ui.presenters;
 
 import com.lottoanalysis.models.drawhistory.DrawPosition;
 import com.lottoanalysis.models.drawresults.DrawResultAnalyzer;
+import com.lottoanalysis.models.drawresults.DrawResultPosition;
 import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.ui.positionhitsequenceview.PositionHitSequenceView;
 import com.lottoanalysis.ui.presenters.base.BasePresenter;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 public class PositionHitSequencePresenter extends BasePresenter<PositionHitSequenceView, DrawResultAnalyzer> {
 
@@ -23,14 +26,17 @@ public class PositionHitSequencePresenter extends BasePresenter<PositionHitSeque
             case "DrawPosition":
                 reloadViews();
                 break;
+            case "Span":
+                reloadViews();
+                break;
         }
-
     }
-
     public void setDrawPosition(DrawPosition drawPosition){
         getModel().setDrawPosition( drawPosition );
     }
-
+    public void setGameSpan(int gameSpan) {
+        getModel().setGameSpan( gameSpan );
+    }
     public int getAmountOfDrawPositionsAllowed(){
         return getModel().getPositionsAllowed();
     }
@@ -44,5 +50,9 @@ public class PositionHitSequencePresenter extends BasePresenter<PositionHitSeque
     }
     private void bindToUiElements(){
         getView().getPositionLabel().textProperty().bind(getModel().drawPositionPropertyProperty());
+    }
+
+    public void refresh(DrawResultPosition drawResultPosition) {
+        getModel().refreshDrawResultList( drawResultPosition);
     }
 }

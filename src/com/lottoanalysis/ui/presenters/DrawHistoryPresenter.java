@@ -54,7 +54,7 @@ public class DrawHistoryPresenter extends BasePresenter<DrawHistoryViewImpl, Dra
         SumGroupAnalyzer sumGroupAnalyzer = getModel().getSumGroupAnalyzer();
         List<Integer> gameOutValues = sumGroupAnalyzer.analyzeGameOutTrend( gamesOut );
         getView().injectLottoNumberValues(values);
-        getView().injectGameOutValues( gameOutValues );
+        getView().injectGameOutValues( values );
         //getView().injectLottoAndGameOutValues(values, gameOutValues);
     }
 

@@ -8,8 +8,10 @@ import com.lottoanalysis.models.drawhistory.AnalyzeMethod;
 import com.lottoanalysis.models.drawhistory.DayOfWeek;
 import com.lottoanalysis.models.drawhistory.DrawPosition;
 import com.lottoanalysis.models.gameout.GameOutRange;
+import com.lottoanalysis.models.gameout.NumberDistanceCalculator;
 import com.lottoanalysis.models.gameout.Range;
 import com.lottoanalysis.models.technicalindicators.BollingerBand;
+import com.lottoanalysis.ui.gamesoutview.cells.DistanceCell;
 import com.lottoanalysis.ui.gamesoutview.cells.GameOutCell;
 import com.lottoanalysis.ui.gamesoutview.cells.GameOutRangeViewCell;
 import com.lottoanalysis.ui.gamesoutview.cells.GroupRangeGameOutViewCell;
@@ -148,16 +150,17 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
     private void createSideBySidePanes(HBox hBox, final double width) {
 
         hBox.setPrefWidth(width);
-        hBox.setStyle("-fx-background-color: green;");
+        //hBox.setStyle("-fx-background-color: green;");
         hBox.setPrefHeight(200);
         hBox.setSpacing(10);
         int id = 6;
         for (int i = 0; i < 2; i++) {
             StackPane stackPane = new StackPane();
             stackPane.setId((id++) + "");
-            stackPane.setStyle("-fx-background-color: white");
+           // stackPane.setStyle("-fx-background-color: white");
             stackPane.setPrefWidth(400);
             stackPane.setPrefHeight(200);
+            //System.out.println("ID : " + stackPane.getId());
             hBox.getChildren().add(stackPane);
         }
 
@@ -523,14 +526,14 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
         //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
-        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
+        dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
         //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 10);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 15);
 
         stackPane.getChildren().setAll(lc.getLineChart());
     }
@@ -562,5 +565,64 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 
         stackPane.getChildren().setAll(tableView);
 
+    }
+
+    public void injectValuesIntoDistanceTable(List<NumberDistanceCalculator> numberDistanceCalculatorList) {
+        StackPane stackPane = (StackPane) lookup("#6");
+
+        TableView<NumberDistanceCalculator> tableView = new TableView<>();
+
+        TableColumn<NumberDistanceCalculator, String> rangeCol = new TableColumn<>("Dist Range");
+        rangeCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getUpperLowerAsArrayString()));
+        rangeCol.setCellFactory(param -> new DistanceCell((this)));
+
+        TableColumn<NumberDistanceCalculator, String> hitCol = new TableColumn<>("Hits");
+        hitCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getHits() + ""));
+        hitCol.setCellFactory(param -> new DistanceCell((this)));
+
+        TableColumn<NumberDistanceCalculator, String> gameOutCol = new TableColumn<>("Games Out");
+        gameOutCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getGamesOut() + ""));
+        gameOutCol.setCellFactory(param -> new DistanceCell((this)));
+
+        tableView.getColumns().setAll(rangeCol, hitCol, gameOutCol);
+
+        ObservableList<NumberDistanceCalculator> observableList = FXCollections.observableArrayList();
+        observableList.setAll( numberDistanceCalculatorList );
+
+        tableView.setItems(observableList);
+
+        stackPane.getChildren().setAll( tableView );
+    }
+
+    public void injectDistanceValues(List<Integer> chartPoints) {
+        StackPane stackPane = (StackPane) lookup("#7");
+
+        List<List<Integer>> dataPoints = new ArrayList<>();
+
+        Set<Integer> unique = new HashSet<>(chartPoints);
+        List<Integer> minMaxVals = new ArrayList<>(chartPoints);
+        Collections.sort(minMaxVals);
+
+        Object[] data = ChartHelperTwo.getRepeatedNumberList(chartPoints);
+
+        List<Integer> specialList = (List<Integer>) data[0];
+
+        //dataPoints.add((specialList.size() > 160) ? specialList.subList(specialList.size() - 160, specialList.size()) : specialList);
+//        dataPoints.add((DrawModel.getAllDayDrawResults().size() > 100) ? DrawModel.getAllDayDrawResults()
+//                    .subList(DrawModel.getAllDayDrawResults().size() - 100, DrawModel.getAllDayDrawResults().size()) :
+//                DrawModel.getAllDayDrawResults());
+//        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
+//        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
+        //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
+         //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        dataPoints.add((chartPoints.size() > 40) ? chartPoints.subList(chartPoints.size() - 40, chartPoints.size()) : chartPoints);
+        //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
+
+        LineChartWithHover lc = new LineChartWithHover(dataPoints,
+                null,
+                minMaxVals.get(0),
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 3);
+
+        stackPane.getChildren().setAll(lc.getLineChart());
     }
 }
