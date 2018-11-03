@@ -110,9 +110,20 @@ public class SumGroupAnalyzer {
             {
                 final String numAsString = number +"";
                 int sum;
-                if(isNumberDivideCheckNeeded != null && !isNumberDivideCheckNeeded)
+                if(isNumberDivideCheckNeeded != null && !isNumberDivideCheckNeeded &&  !AnalyzeMethod.LAST_DIGIT_GROUPING.equals(analyzeMethod))
                 {
                     sum = number % 3;
+                }
+                else if(AnalyzeMethod.LAST_DIGIT_GROUPING.equals(analyzeMethod)){
+                    if(numAsString.length() > 1)
+                    {
+                        String[] data = numAsString.split("");
+                        sum = Integer.parseInt(data[1].trim());
+                    }
+                    else
+                    {
+                        sum = Integer.parseInt(numAsString);
+                    }
                 }
                 else if(numAsString.length() > 1)
                 {
@@ -219,7 +230,14 @@ public class SumGroupAnalyzer {
         groupAnalyzerMap.clear();
 
         if(analyzeMethod != null && !flag) {
-            if (analyzeMethod != AnalyzeMethod.REMAINDER ) {
+            if (AnalyzeMethod.LAST_DIGIT_GROUPING.equals(analyzeMethod) ) {
+                groupAnalyzerMap.put(new Integer[]{0, 4}, new SumGroupAnalyzer());
+                groupAnalyzerMap.put(new Integer[]{5, 9}, new SumGroupAnalyzer());
+                //groupAnalyzerMap.put(new Integer[]{6, 8}, new SumGroupAnalyzer());
+                //groupAnalyzerMap.put(new Integer[]{9, 11}, new SumGroupAnalyzer());
+                //groupAnalyzerMap.put(new Integer[]{8, 9}, new SumGroupAnalyzer());
+            }
+            else if(analyzeMethod != AnalyzeMethod.REMAINDER){
                 groupAnalyzerMap.put(new Integer[]{0, 2}, new SumGroupAnalyzer());
                 groupAnalyzerMap.put(new Integer[]{3, 5}, new SumGroupAnalyzer());
                 groupAnalyzerMap.put(new Integer[]{6, 8}, new SumGroupAnalyzer());

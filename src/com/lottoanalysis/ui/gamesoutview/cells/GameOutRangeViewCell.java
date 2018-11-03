@@ -1,6 +1,7 @@
 package com.lottoanalysis.ui.gamesoutview.cells;
 
 import com.lottoanalysis.models.gameout.GameOutRange;
+import com.lottoanalysis.models.gameout.NumberDistanceCalculator;
 import com.lottoanalysis.models.gameout.Range;
 import com.lottoanalysis.ui.gamesoutview.GameOutViewImpl;
 import javafx.scene.control.TableCell;
@@ -9,6 +10,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GameOutRangeViewCell<T> extends TableCell<T,String> {
@@ -32,6 +34,10 @@ public class GameOutRangeViewCell<T> extends TableCell<T,String> {
                 getTableView().getSelectionModel().select( getIndex() );
                 gameOutViewEmpl.injectGameOutValuesIntoChart( gameOutRange.getGameOutHolder() );
 
+                NumberDistanceCalculator numberDistanceCalculator = new NumberDistanceCalculator( gameOutRange );
+                List<NumberDistanceCalculator> maps = new ArrayList<>( numberDistanceCalculator.numberDistributionData() );
+                gameOutViewEmpl.injectValuesIntoDistanceTable( maps );
+
                 List<GameOutRange.GameOut> list = new ArrayList<>();
                 for(GameOutRange.GameOut gameOut : gameOutRange.getGameOut().getGameOutList()){
                     if(gameOutRange.getUpperBound() > 0){
@@ -50,6 +56,10 @@ public class GameOutRangeViewCell<T> extends TableCell<T,String> {
 
             this.setOnMouseClicked(event -> {
                 gameOutViewEmpl.injectGameOutValuesIntoChart( gameOutRange.getGameOutHolder() );
+
+                NumberDistanceCalculator numberDistanceCalculator = new NumberDistanceCalculator( gameOutRange );
+                List<NumberDistanceCalculator> maps = new ArrayList<>( numberDistanceCalculator.numberDistributionData() );
+                gameOutViewEmpl.injectValuesIntoDistanceTable( maps );
 
                 List<GameOutRange.GameOut> list = new ArrayList<>();
                 for(GameOutRange.GameOut gameOut : gameOutRange.getGameOut().getGameOutList()){

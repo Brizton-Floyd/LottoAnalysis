@@ -1,9 +1,6 @@
 package com.lottoanalysis.models.drawresults;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class DrawResultPosition {
 
@@ -12,10 +9,15 @@ public class DrawResultPosition {
     private List<Integer> lotteryResultPositionList = new ArrayList<>();
     private List<Integer> gameOutHolderList = new ArrayList<>();
     private Map<Integer,DrawResultPosition> drawPositionColumnMap;
+    public static List<Integer> compainonWinningColumnList = new ArrayList<>();
 
     private DrawResultPosition(){}
     DrawResultPosition(int drawPositionIndex){
         this.drawPositionIndex = drawPositionIndex;
+    }
+
+    public List<Integer> getCompainonWinningColumnList() {
+        return compainonWinningColumnList;
     }
 
     public int getDrawPositionIndex() {
@@ -48,9 +50,10 @@ public class DrawResultPosition {
 
         int winningColumn = gameOutAndWinningColumnArray[1] + 1;
         int gamesOut = gameOutAndWinningColumnArray[0];
-
+        compainonWinningColumnList.add( winningColumn );
         if(!drawPositionColumnMap.containsKey( winningColumn )){
             DrawResultPosition drawResultPosition = new DrawResultPosition();
+            //drawResultPosition.getCompainonWinningColumnList().add( winningColumn );
             drawResultPosition.drawPositionIndex = winningColumn;
             drawResultPosition.drawPositionGamesOut = 0;
             drawResultPosition.drawPositionHits = 1;
@@ -61,6 +64,7 @@ public class DrawResultPosition {
         else{
             DrawResultPosition drawResultPosition = drawPositionColumnMap.get( winningColumn );
             drawResultPosition.getLotteryResultPositionList().add( lotteryNumber );
+            //drawResultPosition.getCompainonWinningColumnList().add( winningColumn );
             drawResultPosition.drawPositionGamesOut = 0;
             drawResultPosition.drawPositionHits++;
             drawResultPosition.gameOutHolderList.add(gamesOut);
@@ -74,5 +78,10 @@ public class DrawResultPosition {
                 value.drawPositionGamesOut++;
             }
         });
+    }
+
+    public void scanDrawResultsBasedOnSpan(int gameSpan) {
+        List<Integer> data = new ArrayList<>( getLotteryResultPositionList().subList(getLotteryResultPositionList().size() - gameSpan, getLotteryResultPositionList().size()));
+        System.out.println(Arrays.toString(data.toArray()));
     }
 }

@@ -15,12 +15,16 @@ public class GameOutModel extends DrawModel {
     private SimpleIntegerProperty gameRange;
     private GroupRange groupRange;
     private GameOutRange gameOutRange;
+    private NumberDistanceCalculator numberDistanceCalculator;
 
     public GameOutModel(LottoGame lottoGame) {
         super(lottoGame,(null),(null),(null));
         gameRange = new SimpleIntegerProperty(10);
     }
 
+    public NumberDistanceCalculator getNumberDistanceCalculator() {
+        return numberDistanceCalculator;
+    }
     public int getGameMaxValue(){
         return getLottoGame().getMaxNumber();
     }
@@ -100,8 +104,7 @@ public class GameOutModel extends DrawModel {
         List<List<String>> lottoNumberHitDistrubutions = groupRange.getLottoNumberHitDistrubutions(getGroupRange().getRangeIndex());
 
         gameOutRange = new GameOutRange(lottoNumberHitDistrubutions);
-
-
         gameOutRange.analyze();
+
     }
 }

@@ -297,7 +297,7 @@ public class DrawModel extends DrawModelBase {
 
         if (AnalyzeMethod.MULTIPLES.getTitle().equals(analyzeMethod.getTitle()) ||
                 AnalyzeMethod.REMAINDER == analyzeMethod || AnalyzeMethod.POSITIONAL_SUMS == analyzeMethod ||
-                AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod) {
+                AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod || AnalyzeMethod.LAST_DIGIT_GROUPING.equals(analyzeMethod)) {
 
             if (dayOfWeek != DayOfWeek.ALL) {
 
@@ -369,11 +369,12 @@ public class DrawModel extends DrawModelBase {
         final int[] drawPositionData;
         final Boolean numberDivideCheckNeeded;
         if (AnalyzeMethod.MULTIPLES == analyzeMethod || AnalyzeMethod.REMAINDER == analyzeMethod
-                || AnalyzeMethod.POSITIONAL_SUMS == analyzeMethod || AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod) {
+                || AnalyzeMethod.POSITIONAL_SUMS == analyzeMethod || AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod ||
+                AnalyzeMethod.LAST_DIGIT_GROUPING.equals(analyzeMethod)) {
 
             if (dayOfWeek == DayOfWeek.ALL) {
                 drawPositionData = historicalDrawData[drawPosition.getIndex()];
-                numberDivideCheckNeeded = (AnalyzeMethod.REMAINDER == analyzeMethod) ? Boolean.FALSE : Boolean.TRUE;
+                numberDivideCheckNeeded = (AnalyzeMethod.REMAINDER == analyzeMethod || AnalyzeMethod.LAST_DIGIT_GROUPING.equals(analyzeMethod)) ? Boolean.FALSE : Boolean.TRUE;
             } else {
                 List<Drawing> drawResults = lottoGame.getDrawingData().stream().filter(game -> game.getDrawDate().contains(dayOfWeek.getDay()))
                         .collect(Collectors.toList());
@@ -383,7 +384,7 @@ public class DrawModel extends DrawModelBase {
                 // Now determine which analyze method to apply to results
                 historicalDrawData = filterDataBasedOnAnalyzeMethod(convertedData, AnalyzeMethod.DRAW_POSITION);
                 drawPositionData = historicalDrawData[drawPosition.getIndex()];
-                numberDivideCheckNeeded = (AnalyzeMethod.REMAINDER == analyzeMethod) ? Boolean.FALSE : Boolean.TRUE;
+                numberDivideCheckNeeded = (AnalyzeMethod.REMAINDER == analyzeMethod || AnalyzeMethod.LAST_DIGIT_GROUPING.equals(analyzeMethod)) ? Boolean.FALSE : Boolean.TRUE;
             }
         } else {
 
@@ -404,7 +405,7 @@ public class DrawModel extends DrawModelBase {
         }
 
         Set<Integer> currentValidNumbers = getLottoNumberGameOutTrackerMap().keySet();
-        if (AnalyzeMethod.POSITIONAL_SUMS != analyzeMethod && AnalyzeMethod.GROUP_ANALYSIS != analyzeMethod) {
+        if (AnalyzeMethod.POSITIONAL_SUMS != analyzeMethod && AnalyzeMethod.GROUP_ANALYSIS != analyzeMethod ) {
             sumGroupAnalyzer.analyze(currentValidNumbers, drawPositionData, numberDivideCheckNeeded, lottoGame, analyzeMethod);
         } else {
             sumGroupAnalyzer.analyzeSums(currentValidNumbers, drawPositionData, (AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod));
@@ -439,7 +440,7 @@ public class DrawModel extends DrawModelBase {
         if (dayOfWeek == DayOfWeek.ALL) {
             analysisMethodDrawData = (int[][]) ((AnalyzeMethod.MULTIPLES == analyzeMethod ||
                     AnalyzeMethod.REMAINDER == analyzeMethod || AnalyzeMethod.POSITIONAL_SUMS == analyzeMethod
-                    || AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod) ?
+                    || AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod || AnalyzeMethod.LAST_DIGIT_GROUPING.equals(analyzeMethod)) ?
                     lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex()) :
                     lottoDrawData.get(analyzeMethod.getIndex()));
         } else {
@@ -496,7 +497,7 @@ public class DrawModel extends DrawModelBase {
         if (AnalyzeMethod.MULTIPLES.getTitle().equals(analyzeMethod.getTitle())
                 || AnalyzeMethod.REMAINDER == analyzeMethod
                 || AnalyzeMethod.POSITIONAL_SUMS == analyzeMethod
-                || AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod && dayOfWeek == DayOfWeek.ALL) {
+                || AnalyzeMethod.GROUP_ANALYSIS == analyzeMethod  || AnalyzeMethod.LAST_DIGIT_GROUPING.equals(analyzeMethod) && dayOfWeek == DayOfWeek.ALL) {
 
             historicalDrawData = (int[][]) lottoDrawData.get(AnalyzeMethod.DRAW_POSITION.getIndex());
         } else if (AnalyzeMethod.MULTIPLES.getTitle().equals(analyzeMethod.getTitle()) || AnalyzeMethod.REMAINDER.getTitle().equals(analyzeMethod.getTitle())
