@@ -806,6 +806,25 @@ public class NumberPatternAnalyzer {
         }
     }
 
+    public static int[][] findFirstDigits(int[][] positionalNumbers){
+        int[][] data = new int[positionalNumbers.length][positionalNumbers[0].length];
+
+        for(int i = 0; i < positionalNumbers.length; i++){
+            for(int j = 0; j < positionalNumbers[i].length; j++){
+                String numAsString = positionalNumbers[i][j] + "";
+                if(numAsString.length() > 1){
+                    numAsString = Character.toString( numAsString.charAt(0) );
+                }
+                else{
+                    numAsString = Integer.toString(0);
+                }
+                data[i][j] = Integer.parseInt( numAsString.trim() );
+            }
+        }
+
+        return data;
+    }
+
     public static int[][] findMultiples(int[][] positionalNumbers) {
         int[][] data = new int[positionalNumbers.length][positionalNumbers[0].length];
         for(int i = 0; i < positionalNumbers.length; i++){

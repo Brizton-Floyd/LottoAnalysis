@@ -245,11 +245,13 @@ public abstract class Range {
     void incrementHitsForAppropriateRange(int positionNumber) {
         ranges.forEach(range1 -> {
 
-            if (positionNumber >= range1.getLowerBound() && positionNumber <= range1.getUpperBound()) {
+            if (positionNumber >= range1.getLowerBound() && positionNumber <= range1.getUpperBound() ||
+                    Math.abs(range1.getLowerBound() - positionNumber)  == 1) {
                 int hits = range1.getHits();
                 range1.setHits(++hits);
                 range1.getRangeGameOutHolder().add(range1.getGamesOut());
-                range1.getGameOutHolder().add( positionNumber );
+                int num = (positionNumber >= 0) ? positionNumber : 0;
+                range1.getGameOutHolder().add( num );
                 range1.setGamesOut(0);
             }
             else if( positionNumber >= range1.getLowerBound() && range1.getUpperBound()==0){

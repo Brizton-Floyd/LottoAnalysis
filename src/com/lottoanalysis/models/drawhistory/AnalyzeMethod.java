@@ -10,7 +10,8 @@ public enum AnalyzeMethod {
     LAST_DIGIT(5,"Last Digit","Last Digit"),
     MULTIPLES(6,"Multiples","Lotto"),
     GROUP_ANALYSIS(7,"Number Group", "Group"),
-    LAST_DIGIT_GROUPING(8,"Last Digit Grouping","Last Digit Group");
+    LAST_DIGIT_GROUPING(8,"Last Digit Grouping","Last Digit Group"),
+    FIRST_DIGIT(7,"First Digit","First Digit");
 
     private int index;
     private String title;

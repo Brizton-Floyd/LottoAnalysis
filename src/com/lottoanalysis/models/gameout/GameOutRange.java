@@ -60,8 +60,6 @@ public class GameOutRange extends Range {
 
     private void convertListToRows(List<List<String>> lottoNumberHitDistrubutions) {
 
-        System.out.println("Inside Convert List to Rows Method");
-        long startTime = System.currentTimeMillis();
         for (int i = 0; i < lottoNumberHitDistrubutions.get(0).size(); i++) {
 
             Integer[] row = new Integer[lottoNumberHitDistrubutions.size()];
@@ -78,15 +76,10 @@ public class GameOutRange extends Range {
             }
             rows.add(row);
         }
-        long stopTime = System.currentTimeMillis();
-        long elap = stopTime - startTime;
-        System.out.println("Time in MilliSeconds: " + elap);
     }
 
     private void computeGameOutRangeHits() {
 
-        System.out.println("Inside Compute Game Out Range Hits");
-        long startTime = System.currentTimeMillis();
         List<List<Integer>> previousRowHolder = new ArrayList<>();
 
         for (int i = 0; i < rows.size(); i++) {
@@ -99,7 +92,7 @@ public class GameOutRange extends Range {
                 final int previousValueAtIndex = row2.get(index);
 
                 incrementHitsForAppropriateRange(previousValueAtIndex);
-                gameOut.incrementLoosingGameOutResetCurrentGameOut(getRanges(), previousValueAtIndex);
+                gameOut.incrementLoosingGameOutResetCurrentGameOut(getRanges(), (previousValueAtIndex == -1) ? 0 : previousValueAtIndex);
                 previousRowHolder.add(row);
 
             } else {
@@ -111,10 +104,6 @@ public class GameOutRange extends Range {
                 previousRowHolder.add(row);
             }
         }
-        long stopTime = System.currentTimeMillis();
-        long elap = stopTime - startTime;
-        System.out.println("Time in MilliSeconds: " + elap);
-
     }
 
     public GameOut getGameOut() {

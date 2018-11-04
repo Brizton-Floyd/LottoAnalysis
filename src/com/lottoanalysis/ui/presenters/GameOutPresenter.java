@@ -16,12 +16,11 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
 
     GameOutPresenter(GameOutModel lottoGame){
         super(new GameOutViewImpl(), lottoGame);
-
         getView().setPresenter((this));
         getModel().addListener((this));
+        getView().setUpUi();
 
         bindToViewElements();
-        getView().setUpUi();
 
     }
 
@@ -127,4 +126,7 @@ public class GameOutPresenter extends BasePresenter<GameOutViewImpl, GameOutMode
         return getView().display();
     }
 
+    public int getGameMaxValue() {
+        return getModel().getGameMaxValue();
+    }
 }

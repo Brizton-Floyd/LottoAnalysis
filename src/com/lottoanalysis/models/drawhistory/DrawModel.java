@@ -111,6 +111,7 @@ public class DrawModel extends DrawModelBase {
         lottoDrawData.add(NumberPatternAnalyzer.computeRemainders(historicalDrawData));
         lottoDrawData.add(NumberPatternAnalyzer.getLastDigits(historicalDrawData));
         lottoDrawData.add(NumberPatternAnalyzer.findMultiples(historicalDrawData));
+        lottoDrawData.add(NumberPatternAnalyzer.findFirstDigits(historicalDrawData));
 
     }
 
@@ -355,6 +356,9 @@ public class DrawModel extends DrawModelBase {
                 break;
             case LINE_SPACINGS:
                 data = NumberPatternAnalyzer.lineSpacings(convertedData);
+                break;
+            case FIRST_DIGIT:
+                data = NumberPatternAnalyzer.findFirstDigits(convertedData);
                 break;
             default:
                 data = convertedData;
