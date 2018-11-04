@@ -27,7 +27,6 @@ public class GroupRange extends Range {
         this.drawPosition = drawPosition;
 
         loadMap();
-
         checkUpperLowerBoundValues();
     }
 
@@ -51,7 +50,6 @@ public class GroupRange extends Range {
 
     @Override
     public void analyze() {
-
         computeRangeUpperLowerBound();
         computeGamesOut();
         computeHitsAtGamesOut();
@@ -61,7 +59,7 @@ public class GroupRange extends Range {
     @Override
     protected void computeRangeUpperLowerBound() {
 
-        for (int i = getMinNumber(); i <= getMaxNumber(); i++) {
+        for (int i = 0; i <= getMaxNumber(); i++) {
 
             GroupRange groupRange = new GroupRange();
             groupRange.setLowerBound(i);
@@ -127,12 +125,11 @@ public class GroupRange extends Range {
             }
 
             int[] positionNumbers = drawNumbers[drawPosition.getIndex()];
+            gameOutComputer.resetHitsAndFormHitPattern(completeDrawNumber, drawPosition.getIndex());
+            gameOutComputer.incrementGamesOutForNonWinning(completeDrawNumber);
             List<Map<Integer, List<String>>> lottoNumberAndGamesOutList = gameOutComputer.getLottoNumbersAndGamesOut();
             placeNumberAndGameOutInMap(positionNumbers[i], lottoNumberAndGamesOutList);
             incrementHitsForAppropriateRange(positionNumbers[i]);
-            gameOutComputer.resetHitsAndFormHitPattern(completeDrawNumber, drawPosition.getIndex());
-            gameOutComputer.incrementGamesOutForNonWinning(completeDrawNumber);
-
         }
     }
 
@@ -144,7 +141,7 @@ public class GroupRange extends Range {
 
         private void loadLottoNumberGameOutList() {
 
-            for (int i = getMinNumber(); i <= getMaxNumber(); i++) {
+            for (int i = 0; i <= getMaxNumber(); i++) {
                 GameOutComputer gameOutComputer = new GameOutComputer();
                 gameOutComputer.setLottoNumber(i);
 
@@ -178,7 +175,7 @@ public class GroupRange extends Range {
 
             gameOutComputers.forEach(gameOutComputer -> {
 
-                if (gameOutComputer.lottoNumber != drawNumbers.get(drawPosition.getIndex())) {
+                if (!drawNumbers.contains( gameOutComputer.lottoNumber )) {
                     int out = gameOutComputer.getGamesOut();
                     ++out;
                     gameOutComputer.lottoNumberHitPattern.add(out + "");
@@ -196,7 +193,7 @@ public class GroupRange extends Range {
             final Map<Integer, GameOutComputer> gameOutComputerMap = new HashMap<>();
 
             for (GameOutComputer gameOutComputer : gameOutComputerList) {
-                if(gameOutComputer.lottoNumber == drawNumbers.get(drawIndex))
+                //if(gameOutComputer.lottoNumber == drawNumbers.get(drawIndex))
                     gameOutComputerMap.put(gameOutComputer.lottoNumber, gameOutComputer);
             }
 
@@ -230,17 +227,16 @@ public class GroupRange extends Range {
                         stringBuilder.append("->").append("##");
                     else {
                         stringBuilder.append("##");
-                        break;
                     }
                 }
-//                else {
-//                    final int size = stringBuilder.toString().length();
-//                    if (size == 0) {
-//                        stringBuilder.append("P").append((index + 1));
-//                    } else {
-//                        stringBuilder.append("->").append("P").append((index + 1));
-//                    }
-//                }
+                else {
+                    final int size = stringBuilder.toString().length();
+                    if (size == 0) {
+                        stringBuilder.append("P").append((index + 1));
+                    } else {
+                        stringBuilder.append("->").append("P").append((index + 1));
+                    }
+                }
             }
 
             if (stringBuilder.toString().startsWith("->"))

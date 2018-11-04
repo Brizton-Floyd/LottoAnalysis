@@ -268,6 +268,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         if (gameName.equals(LotteryGameConstants.PICK4_GAME_NAME_TWO) ||
                 gameName.equals(LotteryGameConstants.PICK3_GAME_NAME_TWO)) {
             analyzeMethods.remove(AnalyzeMethod.DELTA_NUMBERS);
+            analyzeMethods.remove(AnalyzeMethod.FIRST_DIGIT);
         }
 
         for (AnalyzeMethod analyzeMethod : analyzeMethods) {
@@ -435,7 +436,9 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
         }
 
         TableView<ObservableList<String>> numberDistrotTableView = new TableView<>();
-        //numberDistrotTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        if(getPresenter().getGameMaxValue() > 9) {
+            numberDistrotTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        }
 
         List<Integer> colNames = new ArrayList<>(lottoNumberDistroMap.keySet());
 
@@ -443,6 +446,7 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
             final int j = i;
             TableColumn<ObservableList<String>, String> tableColumn = new TableColumn<>(colNames.get(i).toString());
             tableColumn.setSortable(false);
+            tableColumn.setResizable(true);
             tableColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().get(j)));
             tableColumn.setCellFactory(new Callback<TableColumn<ObservableList<String>, String>, TableCell<ObservableList<String>, String>>() {
                 @Override
@@ -461,13 +465,13 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
                                     this.setTextFill(Color.YELLOW);
                                     setStyle("-fx-font-weight: bold;");
                                 } else if (item.equals("P1"))
-                                    this.setTextFill(Color.RED);
+                                    this.setTextFill(Color.valueOf("#2243B6"));
                                 else if (item.contains("->"))
                                     this.setTextFill(Color.ORANGE);
                                 else if (item.equals("P2"))
                                     this.setTextFill(Color.GREENYELLOW);
                                 else if (item.equals("P3"))
-                                    this.setTextFill(Color.DODGERBLUE);
+                                    this.setTextFill(Color.PINK);
                                 else if (item.equals("P4"))
                                     this.setTextFill(Color.AQUA);
                                 else if (item.equals("P5"))
@@ -527,13 +531,13 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
         //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
         dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
+       // dataPoints.add((chartPoints.size() > 20) ? chartPoints.subList(chartPoints.size() - 20, chartPoints.size()) : chartPoints);
         //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 15);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Performance Chart", 654, 346, 11);
 
         stackPane.getChildren().setAll(lc.getLineChart());
     }
@@ -614,8 +618,8 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
         //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
-         //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-        dataPoints.add((chartPoints.size() > 40) ? chartPoints.subList(chartPoints.size() - 40, chartPoints.size()) : chartPoints);
+         dataPoints.add((specialList.size() > 60) ? specialList.subList(specialList.size() - 60, specialList.size()) : specialList);
+        //dataPoints.add((chartPoints.size() > 40) ? chartPoints.subList(chartPoints.size() - 40, chartPoints.size()) : chartPoints);
         //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,

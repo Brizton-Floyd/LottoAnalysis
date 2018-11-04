@@ -5,7 +5,6 @@ import com.lottoanalysis.models.lottogames.LottoGame;
 import com.lottoanalysis.models.lottogames.drawing.Drawing;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -15,17 +14,13 @@ public class GameOutModel extends DrawModel {
     private SimpleIntegerProperty gameRange;
     private GroupRange groupRange;
     private GameOutRange gameOutRange;
-    private NumberDistanceCalculator numberDistanceCalculator;
 
     public GameOutModel(LottoGame lottoGame) {
-        super(lottoGame,(null),(null),(null));
+        super(lottoGame, (null), (null), (null));
         gameRange = new SimpleIntegerProperty(10);
     }
 
-    public NumberDistanceCalculator getNumberDistanceCalculator() {
-        return numberDistanceCalculator;
-    }
-    public int getGameMaxValue(){
+    public int getGameMaxValue() {
         return getLottoGame().getMaxNumber();
     }
 
@@ -39,11 +34,11 @@ public class GameOutModel extends DrawModel {
 
     public void setGameRange(int gameRange) {
 
-        if(this.gameRange == null)
+        if (this.gameRange == null)
             this.gameRange = new SimpleIntegerProperty();
 
         this.gameRange.set(gameRange);
-        onModelChange( ("gameRange") );
+        onModelChange(("gameRange"));
     }
 
     public GroupRange getGroupRange() {
@@ -60,18 +55,18 @@ public class GameOutModel extends DrawModel {
         int[][] gameDrawValues = getDrawData();
 
         //if( groupRange == null) {
-            groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(), getAnalyzeMethod());
+        groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(), getAnalyzeMethod());
         //}
         groupRange.analyze();
     }
 
-    public void reAnalyzeData(){
+    public void reAnalyzeData() {
 
         Range.resetIndex();
 
         int[][] gameDrawValues = getDrawData();
 
-        groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(),getAnalyzeMethod());
+        groupRange = new GroupRange(getGameRange(), getLottoGame().getMinNumber(), getGameMaxValue(), gameDrawValues, getDrawPosition(), getAnalyzeMethod());
         groupRange.analyze();
 
     }
@@ -82,18 +77,18 @@ public class GameOutModel extends DrawModel {
         int size = getLottoGame().getDrawingData().size();
         Drawing drawing = getLottoGame().getDrawingData().get(size - 1);
 
-        for (SimpleStringProperty number : drawing.getDrawNumbers()){
-            stringBuilder.append( number.get() ).append("-");
+        for (SimpleStringProperty number : drawing.getDrawNumbers()) {
+            stringBuilder.append(number.get()).append("-");
         }
 
         int index = stringBuilder.lastIndexOf("-");
-        stringBuilder.setCharAt(index,' ');
+        stringBuilder.setCharAt(index, ' ');
 
         return stringBuilder.toString().trim();
     }
 
     public void setRangeIndex(int rangeIndex) {
-        getGroupRange().setRangeIndex( rangeIndex );
+        getGroupRange().setRangeIndex(rangeIndex);
         performGameOutAnalysis();
         onModelChange("groupRange");
     }
