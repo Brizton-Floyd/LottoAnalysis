@@ -397,7 +397,7 @@ public class ChartHelperTwo {
             }
 
         }
-        list.add(currentWinningNumber);
+        //list.add(currentWinningNumber);
 
         Object[] vals = new Object[]{list};
 

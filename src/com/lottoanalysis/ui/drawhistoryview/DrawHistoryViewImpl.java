@@ -565,14 +565,15 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
         Collections.sort(minMaxVals);
 
         Object[] data = ChartHelperTwo.getRepeatedNumberList(chartPoints);
-
+        Object[] repeatedNumberListVersionTwo = ChartHelperTwo.getRepeatedNumberListVersionTwo(chartPoints);
         List<Integer> specialList = (List<Integer>) data[0];
+        List<Integer> chartPointss = (List<Integer>) repeatedNumberListVersionTwo[0];
 
-        dataPoints.add((specialList.size() > 200) ? specialList.subList(specialList.size() - 200, specialList.size()) : specialList);
 //        dataPoints.add((DrawModel.getAllDayDrawResults().size() > 100) ? DrawModel.getAllDayDrawResults()
 //                    .subList(DrawModel.getAllDayDrawResults().size() - 100, DrawModel.getAllDayDrawResults().size()) :
 //                DrawModel.getAllDayDrawResults());
-        //dataPoints.add((chartPoints.size() > 40) ? chartPoints.subList(chartPoints.size()-40,chartPoints.size()) : chartPoints);
+        dataPoints.add((chartPoints.size() > 140) ? chartPoints.subList(chartPoints.size()-140,chartPoints.size()) : chartPoints);
+        //dataPoints.add((specialList.size() > 140) ? specialList.subList(specialList.size() - 140, specialList.size()) : specialList);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
@@ -946,7 +947,7 @@ public class DrawHistoryViewImpl extends BaseView<DrawHistoryPresenter> implemen
 
         List<Integer> specialList = (List<Integer>) data[0];
         List<Integer> spacing = new ArrayList<>();
-        for(int i = 1; i < specialList.size()-1; i++){
+        for(int i = 1; i < specialList.size(); i++){
             int dif = Math.abs(specialList.get(i-1) - specialList.get(i));
             spacing.add( dif );
         }

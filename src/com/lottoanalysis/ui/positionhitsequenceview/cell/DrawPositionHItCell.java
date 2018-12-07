@@ -1,6 +1,7 @@
 package com.lottoanalysis.ui.positionhitsequenceview.cell;
 
 import com.lottoanalysis.models.drawresults.DrawResultPosition;
+import com.lottoanalysis.models.drawresults.FirstDigitAdjacentNumberAnalyzer;
 import com.lottoanalysis.ui.positionhitsequenceview.PositionHitSequenceView;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import javafx.scene.control.TableCell;
@@ -30,15 +31,22 @@ public class DrawPositionHItCell extends TableCell<DrawResultPosition,String> {
                 getTableView().getSelectionModel().select(getIndex());
                 positionHitSequenceView.refresh(drawResultPosition);
                 positionHitSequenceView.injectValuesToLotteryNumberChart( drawResultPosition.getLotteryResultPositionList() );
-                List<Integer> spacingBetweenNumberList = getSpacingsBetweenNumbers();
-                positionHitSequenceView.injectValuesToGameOutChart( spacingBetweenNumberList, drawResultPosition.getDrawPositionIndex());
+                FirstDigitAdjacentNumberAnalyzer firstDigitAdjacentNumberAnalyzer = new FirstDigitAdjacentNumberAnalyzer(drawResultPosition);
+                List<FirstDigitAdjacentNumberAnalyzer> firstDigitAdjacentNumberAnalyzerList = firstDigitAdjacentNumberAnalyzer.getFirstDigitAdjacentNumberAnalyzerList();
+                positionHitSequenceView.setUpFirstDigitTable( firstDigitAdjacentNumberAnalyzerList );
+                //                List<Integer> spacingBetweenNumberList = getSpacingsBetweenNumbers();
+                positionHitSequenceView.injectValuesToGameOutChart( drawResultPosition.getGameOutHolderList(), drawResultPosition.getDrawPositionIndex());
 
             }
             this.setOnMouseClicked(event -> {
                 positionHitSequenceView.refresh(drawResultPosition);
                 positionHitSequenceView.injectValuesToLotteryNumberChart( drawResultPosition.getLotteryResultPositionList() );
-                List<Integer> spacingBetweenNumberList = getSpacingsBetweenNumbers();
-                positionHitSequenceView.injectValuesToGameOutChart( spacingBetweenNumberList, drawResultPosition.getDrawPositionIndex() );
+                FirstDigitAdjacentNumberAnalyzer firstDigitAdjacentNumberAnalyzer = new FirstDigitAdjacentNumberAnalyzer(drawResultPosition);
+                List<FirstDigitAdjacentNumberAnalyzer> firstDigitAdjacentNumberAnalyzerList = firstDigitAdjacentNumberAnalyzer.getFirstDigitAdjacentNumberAnalyzerList();
+                positionHitSequenceView.setUpFirstDigitTable( firstDigitAdjacentNumberAnalyzerList );
+
+//                List<Integer> spacingBetweenNumberList = getSpacingsBetweenNumbers();
+                positionHitSequenceView.injectValuesToGameOutChart( drawResultPosition.getGameOutHolderList(), drawResultPosition.getDrawPositionIndex());
             });
         }
     }
