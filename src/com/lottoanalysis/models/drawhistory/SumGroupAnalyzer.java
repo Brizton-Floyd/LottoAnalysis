@@ -81,7 +81,7 @@ public class SumGroupAnalyzer {
     public void analyze(Set<Integer> currentValidNumbers, int[] historicalDrawData, Boolean isNumberDivideCheckNeeded, LottoGame lottoGame,
                         AnalyzeMethod analyzeMethod) {
 
-        populateMap(analyzeMethod, false);
+        populateMap(analyzeMethod, (AnalyzeMethod.LAST_DIGIT.equals( analyzeMethod )));
         Map<Integer,List<Integer>> numberMultipleMap = null;
 
         if(isNumberDivideCheckNeeded != null) {

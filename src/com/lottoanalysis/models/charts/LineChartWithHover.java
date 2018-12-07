@@ -89,14 +89,14 @@ public class LineChartWithHover {
             final XYChart.Data<Integer, Integer> data = new XYChart.Data<>(i + 1, y.get(i));
             //final XYChart.Data<Integer, Integer> datatwo = new XYChart.Data<>(i + 1, 15);
 
-            //if( index != 1)
+            if (index != 1) {
                 data.setNode(
-                    new HoveredThresholdNode(
-                            (i == 0) ? 0 : y.get(i -1),
-                            y.get(i), index
-                    )
-                 );
-
+                        new HoveredThresholdNode(
+                                (i == 0) ? 0 : y.get(i - 1),
+                                y.get(i), index
+                        )
+                );
+            }
             dataset.add(data);
             //dataset.add(datatwo);
 
@@ -147,7 +147,7 @@ public class LineChartWithHover {
             if(index == 0)
                 label.setTextFill(Color.BLACK);
             else
-                label.setTextFill(Color.valueOf("#76FF03"));
+                label.setTextFill(Color.BLACK);
             label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
             return label;
         }

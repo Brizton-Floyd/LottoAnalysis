@@ -59,7 +59,7 @@ public class GroupRange extends Range {
     @Override
     protected void computeRangeUpperLowerBound() {
 
-        for (int i = 0; i <= getMaxNumber(); i++) {
+        for (int i = getMinNumber(); i <= getMaxNumber(); i++) {
 
             GroupRange groupRange = new GroupRange();
             groupRange.setLowerBound(i);
@@ -141,7 +141,7 @@ public class GroupRange extends Range {
 
         private void loadLottoNumberGameOutList() {
 
-            for (int i = 0; i <= getMaxNumber(); i++) {
+            for (int i = getMinNumber(); i <= getMaxNumber(); i++) {
                 GameOutComputer gameOutComputer = new GameOutComputer();
                 gameOutComputer.setLottoNumber(i);
 

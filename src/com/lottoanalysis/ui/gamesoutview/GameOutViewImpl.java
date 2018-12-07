@@ -530,8 +530,8 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
         //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
-        dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
-       // dataPoints.add((chartPoints.size() > 20) ? chartPoints.subList(chartPoints.size() - 20, chartPoints.size()) : chartPoints);
+        //dataPoints.add((specialList.size() > 100) ? specialList.subList(specialList.size() - 100, specialList.size()) : specialList);
+        dataPoints.add((chartPoints.size() > 50) ? chartPoints.subList(chartPoints.size() - 50, chartPoints.size()) : chartPoints);
         //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
@@ -618,8 +618,8 @@ public class GameOutViewImpl extends BaseView<GameOutPresenter> implements GameO
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
         //List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
-         dataPoints.add((specialList.size() > 60) ? specialList.subList(specialList.size() - 60, specialList.size()) : specialList);
-        //dataPoints.add((chartPoints.size() > 40) ? chartPoints.subList(chartPoints.size() - 40, chartPoints.size()) : chartPoints);
+        // dataPoints.add((specialList.size() > 60) ? specialList.subList(specialList.size() - 60, specialList.size()) : specialList);
+        dataPoints.add((chartPoints.size() > 60) ? chartPoints.subList(chartPoints.size() - 60, chartPoints.size()) : chartPoints);
         //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,

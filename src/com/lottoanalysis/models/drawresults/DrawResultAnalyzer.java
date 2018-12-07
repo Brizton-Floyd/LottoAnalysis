@@ -72,7 +72,6 @@ public class DrawResultAnalyzer extends DrawModelBase implements GamesInPast {
                     gameOutAndWinningColumnArray[1] = drawPosition.getIndex();
                 }
                 DrawResultPosition drawResultPosition = drawResultPositions.get(drawPosition.getIndex());
-                //drawResultPosition.getCompainonWinningColumnList().add( gameOutAndWinningColumnArray[1]+1);
                 drawResultPosition.increasePositionColumnHit(gameOutAndWinningColumnArray, currentWinningNumberInPosition);
 
                 lotteryResultList.remove(0);
@@ -107,6 +106,8 @@ public class DrawResultAnalyzer extends DrawModelBase implements GamesInPast {
 
         int[][] allPositionHistoricalDrawData = new int[columns][rows];
         NumberPatternAnalyzer.loadUpPositionalNumbers(allPositionHistoricalDrawData, lottoGame.getDrawingData());
+
+        //int[][] allPositionHistoricalDrawData2 = NumberPatternAnalyzer.loadUpPositionalNumbers(allPositionHistoricalDrawData);
 
         for (DrawResultPosition drawResultPosition : drawResultPositions) {
             final int drawPositionIndex = drawResultPosition.getDrawPositionIndex();

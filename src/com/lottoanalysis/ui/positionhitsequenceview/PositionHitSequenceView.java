@@ -6,8 +6,10 @@ import com.lottoanalysis.models.drawhistory.DrawPosition;
 import com.lottoanalysis.models.drawhistory.TotalWinningNumberTracker;
 import com.lottoanalysis.models.drawresults.DrawResultAnalyzer;
 import com.lottoanalysis.models.drawresults.DrawResultPosition;
+import com.lottoanalysis.models.drawresults.FirstDigitAdjacentNumberAnalyzer;
 import com.lottoanalysis.ui.homeview.base.BaseView;
 import com.lottoanalysis.ui.positionhitsequenceview.cell.DrawPositionHItCell;
+import com.lottoanalysis.ui.positionhitsequenceview.cell.FirstDigitCell;
 import com.lottoanalysis.ui.presenters.PositionHitSequencePresenter;
 import com.lottoanalysis.utilities.chartutility.ChartHelperTwo;
 import javafx.beans.property.SimpleStringProperty;
@@ -78,29 +80,42 @@ public class PositionHitSequenceView extends BaseView<PositionHitSequencePresent
     private void buildPositionHitInfoPane(){
         VBox vBox = (VBox)lookup("#4");
 
-        Label label = new Label("");
-        label.setTextFill(Color.valueOf("#EFA747"));
-        label.setPadding(new Insets(30,0,0,0));
-        vBox.getChildren().add(label);
+//        Label label = new Label("");
+//        label.setTextFill(Color.valueOf("#EFA747"));
+//        label.setPadding(new Insets(30,0,0,0));
+//        vBox.getChildren().add(label);
 
-        HBox hBox = new HBox();
-        hBox.setSpacing(10);
-        label.setPadding(new Insets(0,60,0,0));
+        VBox vBox1 = new VBox();
+        vBox1.setSpacing(10);
+        //label.setPadding(new Insets(0,60,0,0));
 
         StackPane stackPane = new StackPane();
         StackPane totalHitStackPane = new StackPane();
         totalHitStackPane.setId("8");
-        totalHitStackPane.setStyle("-fx-background-color: blue");
-        totalHitStackPane.setPrefWidth(500);
+        //totalHitStackPane.setStyle("-fx-background-color: blue");
+        totalHitStackPane.setPrefWidth(400);
         totalHitStackPane.setPrefHeight(200);
 
         stackPane.setId("7");
-        stackPane.setPrefWidth(500);
+        stackPane.setPrefWidth(400);
         stackPane.setPrefHeight(200);
 
-        hBox.getChildren().setAll( stackPane, totalHitStackPane);
+        vBox1.getChildren().setAll( stackPane, totalHitStackPane);
 
+        HBox hBox = new HBox();
+        hBox.setSpacing(10);
 
+        VBox vBox2 = new VBox();
+        vBox2.setSpacing(10);
+
+        StackPane firstDigitStackPane = new StackPane();
+        firstDigitStackPane.setId("9");
+        //firstDigitStackPane.setStyle("-fx-background-color: blue");
+        firstDigitStackPane.setPrefWidth(400);
+        firstDigitStackPane.setPrefHeight(138);
+        vBox2.getChildren().setAll(firstDigitStackPane);
+
+        hBox.getChildren().setAll( vBox1, vBox2 );
         vBox.getChildren().add(hBox);
 
     }
@@ -109,7 +124,7 @@ public class PositionHitSequenceView extends BaseView<PositionHitSequencePresent
         stackPane.setStyle("-fx-background-color: black");
         stackPane.setId("6");
         stackPane.setPrefWidth(600);
-        stackPane.setPrefHeight(200);
+        stackPane.setPrefHeight(300);
 
         return stackPane;
     }
@@ -120,7 +135,7 @@ public class PositionHitSequenceView extends BaseView<PositionHitSequencePresent
         stackPane.setStyle("-fx-background-color: black");
         stackPane.setId("5");
         stackPane.setPrefWidth(600);
-        stackPane.setPrefHeight(200);
+        stackPane.setPrefHeight(300);
 
         return stackPane;
     }
@@ -167,7 +182,7 @@ public class PositionHitSequenceView extends BaseView<PositionHitSequencePresent
         Label pageAndGameTitle = new Label();
         pageAndGameTitle.textProperty().bind(new SimpleStringProperty(
 
-                String.format("Companion Number Hit Chart: %s", gameName)
+                String.format("Position Hit Sequence Chart: %s", gameName)
         ));
         pageAndGameTitle.setFont(Font.font(20.0));
         pageAndGameTitle.setStyle("-fx-text-fill:#dac6ac;");
@@ -421,15 +436,15 @@ public class PositionHitSequenceView extends BaseView<PositionHitSequencePresent
 //                DrawModel.getAllDayDrawResults());
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
-        List<Integer> movingAverages = GroupChartController.calculateMovingAverage(chartPoints);
-        //dataPoints.add((specialList.size() > 200) ? specialList.subList(specialList.size() - 200, specialList.size()) : specialList);
-        dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
-        //dataPoints.add((movingAverages.size() > 100) ? movingAverages.subList(movingAverages.size() - 100, movingAverages.size()) : movingAverages);
+        List<Integer> movingAverages = GroupChartController.calculateMovingAverage(specialList);
+        dataPoints.add((specialList.size() > 120) ? specialList.subList(specialList.size() - 120, specialList.size()) : specialList);
+        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
+        dataPoints.add((movingAverages.size() > 120) ? movingAverages.subList(movingAverages.size() - 120, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Trend Analysis For Draw Position " + drawPositionIndex, 654, 346, 3);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Game Out Trend Analysis For Draw Position " + drawPositionIndex, 654, 346, 6);
 
         pane.getChildren().setAll( lc.getLineChart() );
     }
@@ -462,12 +477,46 @@ public class PositionHitSequenceView extends BaseView<PositionHitSequencePresent
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,
                 minMaxVals.get(0),
-                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lottery Number Hit Trend Chart ", 654, 346, 3);
+                minMaxVals.get(minMaxVals.size() - 1), unique.toString(), "Lottery Number Hit Trend Chart ", 654, 346, 6);
 
         pane.getChildren().setAll( lc.getLineChart() );
     }
 
     public void refresh(DrawResultPosition drawResultPosition) {
         getPresenter().refresh(drawResultPosition);
+    }
+
+    public void setUpFirstDigitTable(List<FirstDigitAdjacentNumberAnalyzer> firstDigitAdjacentNumberAnalyzerList) {
+        StackPane firstDigitStackPane = (StackPane)lookup("#9");
+        ObservableList<FirstDigitAdjacentNumberAnalyzer> firstDigitAdjacentNumberAnalyzers = FXCollections.observableArrayList();
+        firstDigitAdjacentNumberAnalyzers.setAll( firstDigitAdjacentNumberAnalyzerList );
+
+        TableView<FirstDigitAdjacentNumberAnalyzer> firstDigitAdjacentNumberAnalyzerTableView = new TableView<>();
+
+        TableColumn<FirstDigitAdjacentNumberAnalyzer,String> firstDigitCol = new TableColumn<>("First Digit");
+        firstDigitCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFirstDigit()+""));
+        firstDigitCol.setCellFactory(param -> new FirstDigitCell((this)));
+
+        TableColumn<FirstDigitAdjacentNumberAnalyzer,String> firstDigitHits = new TableColumn<>("Hits");
+        firstDigitHits.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getHits()+""));
+        firstDigitHits.setCellFactory(param -> new FirstDigitCell((this)));
+
+        TableColumn<FirstDigitAdjacentNumberAnalyzer,String> firstDigitGamesOut = new TableColumn<>("Games Out");
+        firstDigitGamesOut.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getGamesOut()+""));
+        firstDigitGamesOut.setCellFactory(param -> new FirstDigitCell((this)));
+
+        TableColumn<FirstDigitAdjacentNumberAnalyzer,String> hitsAtGOut = new TableColumn<>("Hits @ Out");
+        hitsAtGOut.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getHitsAtGamesOut()+""));
+        hitsAtGOut.setCellFactory(param -> new FirstDigitCell((this)));
+
+        TableColumn<FirstDigitAdjacentNumberAnalyzer,String> lstSeenCol = new TableColumn<>("Lst Seen");
+        lstSeenCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getLastSeen()+""));
+        lstSeenCol.setCellFactory(param -> new FirstDigitCell((this)));
+
+        firstDigitAdjacentNumberAnalyzerTableView.getColumns().setAll( firstDigitCol, firstDigitHits, firstDigitGamesOut, hitsAtGOut, lstSeenCol );
+
+        firstDigitAdjacentNumberAnalyzerTableView.setItems( firstDigitAdjacentNumberAnalyzers );
+
+        firstDigitStackPane.getChildren().setAll( firstDigitAdjacentNumberAnalyzerTableView );
     }
 }
