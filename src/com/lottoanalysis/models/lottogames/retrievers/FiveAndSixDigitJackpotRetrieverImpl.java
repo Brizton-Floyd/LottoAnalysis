@@ -17,10 +17,10 @@ public class FiveAndSixDigitJackpotRetrieverImpl extends NotifyingThread impleme
     private String url;
 
     static{
-        urlPaths.put("CA: Fantasy Five FantasyFive","http://www.calottery.com/play/draw-games/fantasy-5");
-        urlPaths.put("CA: Powerball","http://www.calottery.com/play/draw-games/powerball");
-        urlPaths.put("CA: Super Lotto Plus SuperLottoPlus","http://www.calottery.com/play/draw-games/superlotto-plus");
-        urlPaths.put("CA: Mega Millions MegaMillions","http://www.calottery.com/play/draw-games/mega-millions");
+//        urlPaths.put("CA: Fantasy Five FantasyFive","http://www.calottery.com/play/draw-games/fantasy-5");
+//        urlPaths.put("CA: Powerball","http://www.calottery.com/play/draw-games/powerball");
+//        urlPaths.put("CA: Super Lotto Plus SuperLottoPlus","http://www.calottery.com/play/draw-games/superlotto-plus");
+//        urlPaths.put("CA: Mega Millions MegaMillions","http://www.calottery.com/play/draw-games/mega-millions");
     }
 
     public FiveAndSixDigitJackpotRetrieverImpl(String game){
@@ -42,14 +42,14 @@ public class FiveAndSixDigitJackpotRetrieverImpl extends NotifyingThread impleme
     @Override
     public void doRun() {
 
-        try {
+       // try {
 
-            Document document = Jsoup.connect(url).get();
-            Element element = document.selectFirst("#heroImage1 > div.heroContentBox.drawGameHero > h2");
-            amount = element.text();
+//            Document document = Jsoup.connect(url).get();
+//            Element element = document.selectFirst("#heroImage1 > div.heroContentBox.drawGameHero > h2");
+            amount = "$ 25,000";
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

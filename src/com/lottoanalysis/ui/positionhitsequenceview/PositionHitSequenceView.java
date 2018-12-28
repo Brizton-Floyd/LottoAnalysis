@@ -437,9 +437,9 @@ public class PositionHitSequenceView extends BaseView<PositionHitSequencePresent
 //        BollingerBand bollingerBand = new BollingerBand(chartPoints,5,100);
 //        List<List<Integer>> bollingerBands = bollingerBand.getBollingerBands();
         List<Integer> movingAverages = GroupChartController.calculateMovingAverage(specialList);
-        dataPoints.add((specialList.size() > 120) ? specialList.subList(specialList.size() - 120, specialList.size()) : specialList);
-        //dataPoints.add((chartPoints.size() > 100) ? chartPoints.subList(chartPoints.size() - 100, chartPoints.size()) : chartPoints);
-        dataPoints.add((movingAverages.size() > 120) ? movingAverages.subList(movingAverages.size() - 120, movingAverages.size()) : movingAverages);
+        //dataPoints.add((specialList.size() > 120) ? specialList.subList(specialList.size() - 120, specialList.size()) : specialList);
+        dataPoints.add((chartPoints.size() > 120) ? chartPoints.subList(chartPoints.size() - 120, chartPoints.size()) : chartPoints);
+        //dataPoints.add((movingAverages.size() > 120) ? movingAverages.subList(movingAverages.size() - 120, movingAverages.size()) : movingAverages);
 
         LineChartWithHover lc = new LineChartWithHover(dataPoints,
                 null,

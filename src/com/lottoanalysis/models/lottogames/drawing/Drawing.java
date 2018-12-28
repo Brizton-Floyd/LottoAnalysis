@@ -6,7 +6,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by briztonfloyd on 8/26/17.
@@ -41,15 +45,29 @@ public class Drawing {
         nums = numbers;
         loadHashMap();
         this.drawNumber = new SimpleStringProperty("" + drawNumber);
-        String[] pp = drawDate.split("\\s");
-        dayOfWeek.add(pp[0]);
+        final String dayOfWeek = getDayOfWeek(drawDate);
+        this.dayOfWeek.add(dayOfWeek);
 
-        this.drawDate = new SimpleStringProperty(String.format(" %1s %2s / %3s / %4s",pp[0], monthNumbers.get(pp[1]),pp[2].substring(0,2),pp[3]));
+        this.drawDate = new SimpleStringProperty(dayOfWeek + " " +drawDate);
         drawSize = numbers.length;
 
         initializeNumberPositions(numbers);
         loadData(numbers);
         loadDrawNumbers();
+    }
+
+    private static String getDayOfWeek(String drawDate) {
+        String drawDay = "";
+        try {
+            Date date = new SimpleDateFormat("MM/dd/yyyy").parse(drawDate);
+            String day = new SimpleDateFormat("EE").format(date);
+            drawDay += day+".";
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return drawDay;
     }
 
     private void loadDrawNumbers() {
@@ -318,7 +336,7 @@ public class Drawing {
 
         for(Drawing drawing : drawingData.subList(drawingData.size()-30,drawingData.size())){
             String[] pp = drawing.getDrawDate().split("\\s");
-            dayOfWeek.add( pp[1] );
+            dayOfWeek.add( pp[0] );
         }
 
         return dayOfWeek;
@@ -350,5 +368,23 @@ public class Drawing {
         initializeNumberPositions(drawNumbers);
         loadData(drawNumbers);
         loadDrawNumbers();
+    }
+
+    public void sortDrawNubersAndStoreInDrawList(Drawing drawing, List<String> strings) {
+        List<Integer> numberStringsAsInts = strings.stream().map(Integer::parseInt).collect(Collectors.toList());
+        Collections.sort(numberStringsAsInts);
+        strings.clear();
+
+        ListIterator<Integer> iterator = numberStringsAsInts.listIterator();
+        while (iterator.hasNext()){
+            Integer val = iterator.next();
+            if(Integer.toString(val).length() == 1){
+                strings.add("0"+val);
+            }
+            else {
+                strings.add(val+"");
+            }
+        }
+        drawing.setDrawNumbers(strings.stream().toArray(String[]::new));
     }
 }
