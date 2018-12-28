@@ -58,12 +58,12 @@ public class LotteryGameConstants {
             "being analyzed";
 
     // URL Paths
-    public static final String FANTASY_FIVE_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=fantasy-5&Order=Yes";
-    public static final String POWERBALL_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=powerball&Order=Yes";
-    public static final String MEGA_MILLIONS_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=mega-millions&Order=Yes";
-    public static final String PICK_4_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=daily-4&Order=Yes";
-    public static final String PICK_3_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=daily-3&Order=Yes";
-    public static final String SUPER_LOTTO_PLUS_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=superlotto-plus&Order=Yes";
+    public static final String CASH_FIVE_URL = "https://txlottery.org/export/sites/lottery/Games/Cash_Five/Winning_Numbers/cashfive.csv";
+//    public static final String POWERBALL_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=powerball&Order=Yes";
+//    public static final String MEGA_MILLIONS_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=mega-millions&Order=Yes";
+//    public static final String PICK_4_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=daily-4&Order=Yes";
+//    public static final String PICK_3_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=daily-3&Order=Yes";
+//    public static final String SUPER_LOTTO_PLUS_URL = "http://www.calottery.com/sitecore/content/Miscellaneous/download-numbers/?GameName=superlotto-plus&Order=Yes";
 
 
 }
